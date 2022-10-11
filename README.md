@@ -29,3 +29,6 @@ What makes Kairos different?
 "The world doesn't stop for anyone"
 ---
 In many strategy games, players get long pauses during which they can strategize and prepare for whatever problem they are facing. We want to give the player a much more high-stakes experience. Rather than allowing the player to pause and think, we want the player to feel the pressure of a real emperor. You can't always be there for every decision, and sometimes you have to rely on your people to defend themselves. The world of Kairos doesn't stop for anyone.
+
+
+This is for the map generator branch test
