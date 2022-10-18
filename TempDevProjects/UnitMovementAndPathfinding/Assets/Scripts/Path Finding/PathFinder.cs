@@ -227,6 +227,7 @@ public class PathFinder
         for(int i = 0; i < steps; i++)
         {
             currentNode = nodes.GetNextNode();
+
             if(currentNode == null)
             {
                 state = State.PATH_DOES_NOT_EXIST;
@@ -247,12 +248,13 @@ public class PathFinder
             {
                 currentNode.state = PathNode.NodeState.RESTRICTED;
                 nodes.UpdateNode(currentNode);
-                if (TrackNodes)
-                {
-                    NewNodes.Add(currentNode);
-                }
+                
             }
 
+            if (TrackNodes)
+            {
+                NewNodes.Add(currentNode);
+            }
         }
 
 
@@ -268,19 +270,30 @@ public class PathFinder
             {
                 if(currentNode.previous == null || newPosition != currentNode.previous.position)
                 {
-                    var n = PathNode.GetNewNode(newPosition, currentNode.g_cost + (dir.magnitude * step), Vector3.Distance(newPosition, end), currentNode, PathNode.NodeState.OPEN);
-                    nodes.AddNode(n);
+                    
 
-                    if (TrackNodes)
+                    if (!nodes.Contains(newPosition))
                     {
-                        NewNodes.Add(n);
+                        var n = PathNode.GetNewNode(newPosition, currentNode.g_cost + (dir.magnitude * step), Vector3.Distance(newPosition, end), currentNode, PathNode.NodeState.OPEN);
+                        nodes.AddNode(n);
+                        if (TrackNodes)
+                        {
+                            NewNodes.Add(n);
+                        }
                     }
+
+
                 }
             }
 
 
         }
 
+    }
+
+    public void RunTest()
+    {
+        nodes.RunTest();
     }
 
 }

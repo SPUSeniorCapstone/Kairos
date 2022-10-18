@@ -26,6 +26,15 @@ public class PathNodeList
     public PathNode GetNextNode()
     {
         var r = openNodes.Dequeue();
+
+        foreach (var item in openNodes.list.values)
+        {
+            if(r.h_cost > item.Key)
+            {
+                Debug.LogError("Didn't recieve the min item");
+            }
+        }
+
         if(r == null)
         {
             return null;
@@ -50,19 +59,16 @@ public class PathNodeList
                 nodes[node.position].g_cost = node.g_cost;
                 if (node.state == PathNode.NodeState.OPEN)
                 {
-                    openNodes.Enqueue(nodes[node.position].Total_Cost, nodes[node.position]);
+                    openNodes.Enqueue(nodes[node.position].h_cost, nodes[node.position]);
                 }
                 return;
             }
-            else
-            {
-                return;
-            }
+            return;
         }
 
         if(node.state == PathNode.NodeState.OPEN)
         {
-            openNodes.Enqueue(node.Total_Cost, node);
+            openNodes.Enqueue(node.h_cost, node);
         }
         nodes.Add(node.position, node);
 
@@ -75,7 +81,7 @@ public class PathNodeList
             AddNode(node);
             if(node.state == PathNode.NodeState.OPEN)
             {
-                openNodes.Enqueue(node.Total_Cost, node);
+                openNodes.Enqueue(node.h_cost, node);
             }
         }
         else
@@ -95,4 +101,8 @@ public class PathNodeList
         openNodes.Clear();
     }
 
+    public void RunTest()
+    {
+        openNodes.RunTest();
+    }
 }

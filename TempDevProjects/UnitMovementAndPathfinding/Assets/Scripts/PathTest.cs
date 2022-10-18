@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
 
 [RequireComponent(typeof(LineRenderer))]
 public class PathTest : MonoBehaviour
@@ -18,10 +19,16 @@ public class PathTest : MonoBehaviour
         return true;
     });
 
+    public Dictionary<Vector3, GameObject> nodes = new Dictionary<Vector3, GameObject>();
+
+    public Material Open, Closed, Path, Blocked, None;
+
     public GameObject startPos, endPos;
     public Vector3 start, end;
     public int ProgressAmount = 1;
     public float step = 1;
+
+    public bool showSteps = false;
 
     LineRenderer lineRenderer;
 
@@ -34,7 +41,30 @@ public class PathTest : MonoBehaviour
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        Debug.Log("Testing MinHeap Functionality");
+
+        MinHeap<float, object> mh = new MinHeap<float, object>();
+        for(float i = 0; i < 1000; i += 3.4f)
+        {
+            mh.Add(i, null);
+        }
+        for(float i = 1000; i > 0; i -= 6.3f)
+        {
+            mh.Add(i, null);
+        }
+
+        for(int i = 0; i < 10; i++)
+        {
+            var val = mh.First();
+            if(i % 3 == 0)
+            {
+                mh.Add(val.Key, val.Value);
+            }
+        }
+        mh.TestMinHeap();
     }
+
+    
 
     bool searching = false;
 
@@ -51,6 +81,38 @@ public class PathTest : MonoBehaviour
                 FindPath();
             }
             moveTowardsTarget = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            showSteps = !showSteps;
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            finder.RunTest();
+        }
+
+        if (showSteps)
+        {
+            if (startPos.transform.position != finder.Start || endPos.transform.position != finder.End)
+            {
+                finder.Start = startPos.transform.position;
+                finder.End = endPos.transform.position;
+            }
+
+            if (finder.state == PathFinder.State.PATH_FOUND)
+            {
+                var path = finder.FindPath(startPos.transform.position, endPos.transform.position);
+                if (path != null)
+                {
+                    lineRenderer.positionCount = path.Length;
+                    lineRenderer.SetPositions(path);
+                }
+            }
+
+            finder.Progress(ProgressAmount);
+            AddUpdatedNodes();
         }
 
         if (moveTowardsTarget)
@@ -110,7 +172,37 @@ public class PathTest : MonoBehaviour
     {
         foreach (var node in finder.NewNodes)
         {
-            Instantiate(nodeObject, node.position, Quaternion.identity, transform);
+            GameObject o;
+
+            if (nodes.ContainsKey(node.position))
+            {
+                o = nodes[node.position];
+            }
+            else
+            {
+                o = Instantiate(nodeObject, node.position, Quaternion.identity, transform);
+                nodes.Add(node.position, o);
+            }
+
+            if (node.state == PathNode.NodeState.OPEN)
+            {
+                o.GetComponent<MeshRenderer>().material = Open;
+            }
+
+            if(node.state == PathNode.NodeState.CLOSED)
+            {
+                o.GetComponent<MeshRenderer>().material = Closed;
+            }
+
+            if (node.state == PathNode.NodeState.PATH)
+            {
+                o.GetComponent<MeshRenderer>().material = Path;
+            }
+
+            if (node.state == PathNode.NodeState.RESTRICTED)
+            {
+                o.GetComponent<MeshRenderer>().material = Blocked;
+            }
         }
     }
 

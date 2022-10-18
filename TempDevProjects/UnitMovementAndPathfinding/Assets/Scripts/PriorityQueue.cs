@@ -13,7 +13,7 @@ using UnityEngine;
 /// <typeparam name="T"></typeparam>
 public class PriorityQueue<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K : IComparable<K>
 {
-    MinHeap<K, List<T>> list;
+    public MinHeap<K, List<T>> list;
 
     public PriorityQueue()
     {
@@ -104,5 +104,10 @@ public class PriorityQueue<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ whe
             }
             return val;
         }
+    }
+
+    public void RunTest()
+    {
+        list.TestMinHeap();
     }
 }
