@@ -11,24 +11,19 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="K"></typeparam>
 /// <typeparam name="T"></typeparam>
-public class PriorityQueue<K, T> : IEnumerable<KeyValuePair<K, List<T>>>
+public class PriorityQueue<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K : IComparable<K>
 {
-    SortedList<K, List<T>> list;
+    MinHeap<K, List<T>> list;
 
     public PriorityQueue()
     {
-        list = new SortedList<K, List<T>>();
-    }
-
-    public PriorityQueue(IComparer<K> comparer)
-    {
-        list = new SortedList<K, List<T>>(comparer);
+        list = new MinHeap<K, List<T>>();
     }
 
     public T Peek()
     {
-        var item = list.Values[0];
-        var ret = item[0];
+        var item = list.Peek();
+        var ret = item.Value[0];
         return ret;
     }
 
@@ -43,13 +38,18 @@ public class PriorityQueue<K, T> : IEnumerable<KeyValuePair<K, List<T>>>
             return default(T);
         }
 
-        var item = list.Values[0];
+        var item = list.First();
 
-        var ret = item[0];
-        item.RemoveAt(0);
-        if (item.Count == 0)
+        if(item.Value == null || item.Value.Count == 0)
         {
-            list.RemoveAt(0);
+            return default(T);
+        }
+
+        var ret = item.Value[0];
+        item.Value.RemoveAt(0);
+        if (item.Value.Count > 0)
+        {
+            list.Add(item.Key, item.Value);
         }
         return ret;
     }
@@ -58,7 +58,7 @@ public class PriorityQueue<K, T> : IEnumerable<KeyValuePair<K, List<T>>>
     {
         if (list.ContainsKey(key))
         {
-            list[key].Add(value);
+            list.GetValue(key).Add(value);
         }
         else
         {
@@ -104,15 +104,5 @@ public class PriorityQueue<K, T> : IEnumerable<KeyValuePair<K, List<T>>>
             }
             return val;
         }
-    }
-
-    public IEnumerator<KeyValuePair<K, List<T>>> GetEnumerator()
-    {
-        return list.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return list.GetEnumerator();
     }
 }

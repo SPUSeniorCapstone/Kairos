@@ -11,7 +11,7 @@ public class PathTest : MonoBehaviour
     PathFinder finder = new PathFinder((pos) =>
     {
         RaycastHit hit;
-        if(Physics.CheckSphere(pos, 1))
+        if (Physics.CheckSphere(pos, 1))
         {
             return false;
         }
@@ -50,37 +50,33 @@ public class PathTest : MonoBehaviour
                 end = endPos.transform.position;
                 FindPath();
             }
-            moveTowardsTarget=true;
+            moveTowardsTarget = true;
         }
 
         if (moveTowardsTarget)
         {
             var path = finder.FindPath(start, end);
-            if (path != null)
+            if (path != null && index < path.Length)
             {
-                if(Vector3.Distance(startPos.transform.position, path[index]) < speed * Time.deltaTime)
+                if (Vector3.Distance(startPos.transform.position, path[index]) < speed * Time.deltaTime)
                 {
                     index++;
                 }
+                var dir = path[index] - startPos.transform.position;
 
-                if(index < path.Length)
-                {
-                    var dir = path[index] - startPos.transform.position;
-
-                    startPos.transform.position += dir.normalized * speed * Time.deltaTime;
-                }
+                startPos.transform.position += dir.normalized * speed * Time.deltaTime;
             }
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(startPos.transform.position != finder.Start || endPos.transform.position != finder.End)
+            if (startPos.transform.position != finder.Start || endPos.transform.position != finder.End)
             {
                 finder.Start = startPos.transform.position;
                 finder.End = endPos.transform.position;
             }
 
-            if(finder.state == PathFinder.State.PATH_FOUND)
+            if (finder.state == PathFinder.State.PATH_FOUND)
             {
                 var path = finder.FindPath(startPos.transform.position, endPos.transform.position);
                 if (path != null)
