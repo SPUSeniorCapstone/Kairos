@@ -108,15 +108,15 @@ public class PathFinder
         nodes = new PathNodeList(PathNode.GetNewNode(start, 0, Vector3.Distance(start, end), null, PathNode.NodeState.OPEN));
 
 
-        //if (nodes == null)
-        //{
-        //    nodes = new PathNodeList(PathNode.GetNewNode(start, 0, Vector3.Distance(start, end), null, PathNode.NodeState.OPEN));
-        //}
-        //else
-        //{
-        //    nodes.Clear();
-        //    nodes.AddNode(PathNode.GetNewNode(start, 0, Vector3.Distance(start, end), null, PathNode.NodeState.OPEN));
-        //}
+        if (nodes == null)
+        {
+            nodes = new PathNodeList(PathNode.GetNewNode(start, 0, Vector3.Distance(start, end), null, PathNode.NodeState.OPEN));
+        }
+        else
+        {
+            nodes.Clear();
+            nodes.AddNode(PathNode.GetNewNode(start, 0, Vector3.Distance(start, end), null, PathNode.NodeState.OPEN));
+        }
         Path = null;
 
         state = State.PATH_NOT_FOUND;

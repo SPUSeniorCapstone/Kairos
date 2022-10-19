@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -294,7 +294,7 @@ Transform:
   m_GameObject: {fileID: 896514373}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -76.5, y: 0, z: -75.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1687706242}
@@ -511,12 +511,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce4d5d1cf1fb7e419a78b1f7a6cb886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Open: {fileID: 2100000, guid: 267bad19b49b5054eb5c60f0454b0bbc, type: 2}
+  Closed: {fileID: 2100000, guid: 757f62e2e3088084e8d267f2a11fd993, type: 2}
+  Path: {fileID: 2100000, guid: bf1d249fae9108d4cbdfff53a9d5ecef, type: 2}
+  Blocked: {fileID: 2100000, guid: dce6fa295e54fc345b2b0cdea0c7f771, type: 2}
+  None: {fileID: 2100000, guid: f45495fd444ed484eada79793bbcc6e8, type: 2}
   startPos: {fileID: 896514373}
   endPos: {fileID: 2000498380}
   start: {x: 0, y: 0, z: 0}
   end: {x: 0, y: 0, z: 0}
   ProgressAmount: 1
-  step: 1
+  step: 11
+  showSteps: 0
   nodeObject: {fileID: 781865584897773103, guid: 79cb34302c957a04d988c175c24e28c6, type: 3}
   speed: 10
 --- !u!120 &1687706241
@@ -710,7 +716,7 @@ Transform:
   m_GameObject: {fileID: 2000498380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -122.4, y: 0, z: 11.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1687706242}
@@ -807,7 +813,7 @@ Transform:
   m_GameObject: {fileID: 2004761211}
   m_LocalRotation: {x: -0, y: -0.3169005, z: -0, w: 0.9484588}
   m_LocalPosition: {x: -141, y: 0, z: -54.6}
-  m_LocalScale: {x: 363.16, y: 1, z: 5.24}
+  m_LocalScale: {x: 363.16, y: 1, z: 17.04}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

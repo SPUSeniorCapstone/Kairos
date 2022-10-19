@@ -43,25 +43,7 @@ public class PathTest : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         Debug.Log("Testing MinHeap Functionality");
 
-        MinHeap<float, object> mh = new MinHeap<float, object>();
-        for(float i = 0; i < 1000; i += 3.4f)
-        {
-            mh.Add(i, null);
-        }
-        for(float i = 1000; i > 0; i -= 6.3f)
-        {
-            mh.Add(i, null);
-        }
-
-        for(int i = 0; i < 10; i++)
-        {
-            var val = mh.First();
-            if(i % 3 == 0)
-            {
-                mh.Add(val.Key, val.Value);
-            }
-        }
-        mh.TestMinHeap();
+        finder.step = step;
     }
 
     
