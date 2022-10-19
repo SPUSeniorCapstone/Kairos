@@ -520,7 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 365512609}
-  terrainData: {fileID: 0}
+  terrainData: {fileID: 15600000, guid: 06a7796713cbd8942b49a5d6c5311b28, type: 2}
   scale: 0.043
   eccentricity: 0.076
   layerDivider: 0.145
