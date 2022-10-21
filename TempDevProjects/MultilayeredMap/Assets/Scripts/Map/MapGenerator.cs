@@ -3,27 +3,29 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 
-public class MapGenerator
+[Serializable]
+public class MapGenerator 
 {
-    int terrainResolution;
-    float cellSize;
+    public int terrainResolution;
+    public float cellSize;
 
-
-    float scale, eccentricity;
-    float layerDivider = 0.5f;
-    int seed;
-
+    [Range(0, 1)]
+    public float scale, eccentricity;
+    [Range(0, 1)]
+    public float layerDivider = 0.5f;
+    public int seed;
 
 
     public TerrainData GenerateTerrainData()
     {
         TerrainData terrainData = new TerrainData();
         terrainData.heightmapResolution = terrainResolution;
+        terrainData.size = new Vector3(terrainData.size.x, 100, terrainData.size.z);
 
 
-
-        int resolution = terrainResolution;
+        int resolution = terrainResolution; 
         int gridSize = (int)(resolution / cellSize) + 1;
         float[,] heightMap = new float[gridSize, gridSize];
         Debug.Log(resolution);
@@ -54,8 +56,8 @@ public class MapGenerator
                 tree[x, y] = heightMap[(int)(x / cellSize), (int)(y / cellSize)];
             }
         }
-        Terrain.activeTerrain.terrainData.SetHeightsDelayLOD(0, 0, tree);
-        Terrain.activeTerrain.terrainData.SyncHeightmap();
+        terrainData.SetHeightsDelayLOD(0, 0, tree);
+        terrainData.SyncHeightmap();
 
         return terrainData;
     }
