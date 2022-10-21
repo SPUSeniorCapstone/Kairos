@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PathNodeList
 {
-
-
-
+    /// <summary>
+    /// Returns all of the nodes in the list
+    /// </summary>
     public PathNode[] Nodes
     {
         get { return nodes.Values.ToArray(); }
@@ -17,12 +17,17 @@ public class PathNodeList
     Dictionary<Vector3, PathNode> nodes = new Dictionary<Vector3, PathNode>();
     PriorityQueue<float, PathNode> openNodes = new PriorityQueue<float, PathNode>();
 
-
+    /// <summary>
+    /// Creates a new PathNodeList with a starting node
+    /// </summary>
     public PathNodeList(PathNode startNode)
     {
         AddNode(startNode);
     }
 
+    /// <summary>
+    /// Returns the next best path node to the user
+    /// </summary>
     public PathNode GetNextNode()
     {
         var r = openNodes.Dequeue();
@@ -43,6 +48,10 @@ public class PathNodeList
         return r;
     }
 
+    /// <summary>
+    /// Adds a new PathNode to the Priority Queue
+    /// </summary>
+    /// <param name="node">The node to be added</param>
     public void AddNode(PathNode node)
     {
         if (nodes.ContainsKey(node.position))
@@ -61,7 +70,6 @@ public class PathNodeList
                 {
                     openNodes.Enqueue(nodes[node.position].h_cost, nodes[node.position]);
                 }
-                return;
             }
             return;
         }
@@ -74,9 +82,19 @@ public class PathNodeList
 
     }
 
-    public void UpdateNode(PathNode node)
+    /// <summary>
+    /// Updates the node that exists at the given position
+    /// </summary>
+    /// <param name="node">The node to be updated</param>
+    public void UpdateNode(Vector3 position, PathNode node)
     {
-        if (!nodes.ContainsKey(node.position))
+        if(position != node.position)
+        {
+            Debug.LogError("position and node.position must match");
+            return;
+        }
+
+        if (!nodes.ContainsKey(position))
         {
             AddNode(node);
             if(node.state == PathNode.NodeState.OPEN)
@@ -90,17 +108,31 @@ public class PathNodeList
         }
     }
 
+
+    /// <summary>
+    /// Checks if a node exists for the existing position
+    /// <para>(must be the exact position)</para>
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
     public bool Contains(Vector3 position)
     {
         return nodes.ContainsKey(position);
     }
 
+    /// <summary>
+    /// Clears the list
+    /// </summary>
     public void Clear()
     {
         nodes.Clear();
         openNodes.Clear();
     }
 
+    /// <summary>
+    /// [TESTING] Checks if that values of the list are properly order
+    /// <para>Do not use except for testing. This is not efficient</para>
+    /// </summary>
     public void RunTest()
     {
         openNodes.RunTest();

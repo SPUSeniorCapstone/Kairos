@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class PathFinder
 {
+    /// <summary>
+    /// Stores the current state of the finder object
+    /// </summary>
     public enum State
     {
         PATH_NOT_FOUND,
@@ -13,9 +16,18 @@ public class PathFinder
         PATH_DOES_NOT_EXIST
     }
 
+    /// <summary>
+    /// Determines whether or nor to track changes on nodes
+    /// </summary>
     public bool TrackNodes = true;
+    /// <summary>
+    /// if TrackNodes is enabled, this stores all the changes made since the last call of Progress()
+    /// </summary>
     public List<PathNode> NewNodes = new List<PathNode>();
 
+    /// <summary>
+    /// Returns all of the current nodes in the PathFinder
+    /// </summary>
     public PathNode[] Nodes
     {
         get
@@ -28,13 +40,28 @@ public class PathFinder
         }
     }
 
+    /// <summary>
+    /// The state of the PathFinder
+    /// </summary>
     public State state = State.PATH_NOT_FOUND;
 
+    /// <summary>
+    /// A function for determining if a move position is valid
+    /// </summary>
     Func<Vector3, bool> IsValidMovePosition;
+    /// <summary>
+    /// Object to keep track of the nodes in the PathFinder
+    /// </summary>
     PathNodeList nodes = null;
 
+    /// <summary>
+    /// The step size the Pathfinder should take when searching for a new path
+    /// </summary>
     public float step = 1;
 
+    /// <summary>
+    /// The start position of the PathFinder
+    /// </summary>
     public Vector3 Start
     {
         get
@@ -50,6 +77,11 @@ public class PathFinder
             }
         }
     }
+    private Vector3 start;
+
+    /// <summary>
+    /// The end position of the Pathfinder
+    /// </summary>
     public Vector3 End
     {
         get
@@ -65,11 +97,16 @@ public class PathFinder
             }
         }
     }
+    private Vector3 end;
 
-    Vector3 start, end;
+    /// <summary>
+    /// The current node of the pathfinder
+    /// </summary>
+    PathNode currentNode = null;
 
-    public PathNode currentNode = null;
-
+    /// <summary>
+    /// The relative position from the center of each node to create new nodes at
+    /// </summary>
     public Vector3[] directions =
     {
         //Adjacent 
@@ -85,15 +122,42 @@ public class PathFinder
         new Vector3(1,0,-1),
     };
 
-    public Vector3[] Path;
+    /// <summary>
+    /// The Path from start to end. <b>null</b> if no path has been found or if path does not exist
+    /// </summary>
+    public Vector3[] Path
+    {
+        get
+        {
+            if(path == null && state == State.PATH_FOUND)
+            {
+                ReconstructPath();
+            }
+            return path;
+        }
+    }
+    Vector3[] path;
 
+    /// <summary>
+    /// The maximum amount of time to search for a path before timeing out
+    /// </summary>
     public float maxRunTime = 5;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="IsValidMovePosition">A function for deterimining if a position on the map can be traversed</param>
     public PathFinder(Func<Vector3, bool> IsValidMovePosition)
     {
         this.IsValidMovePosition = IsValidMovePosition;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <param name="IsValidMovePosition">A function for deterimining if a position on the map can be traversed</param>
     public PathFinder(Vector3 start, Vector3 end, Func<Vector3, bool> IsValidMovePosition)
     {
         this.start = start;
@@ -101,6 +165,10 @@ public class PathFinder
         this.IsValidMovePosition = IsValidMovePosition;
     }
 
+
+    /// <summary>
+    /// Resets the PathFinder
+    /// </summary>
     public void ResetFinder()
     {
         currentNode = null;
@@ -117,11 +185,18 @@ public class PathFinder
             nodes.Clear();
             nodes.AddNode(PathNode.GetNewNode(start, 0, Vector3.Distance(start, end), null, PathNode.NodeState.OPEN));
         }
-        Path = null;
+        path = null;
 
         state = State.PATH_NOT_FOUND;
     }
 
+    /// <summary>
+    /// Returns a valid path from start to end or null if no path exists
+    /// <para>Avoid running this on the main thread. Use Progress() on the main thread instead</para>
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <returns></returns>
     public Vector3[] FindPath(Vector3 start, Vector3 end)
     {
         DateTime startTime = DateTime.UtcNow;
@@ -129,9 +204,9 @@ public class PathFinder
         Start = start;
         End = end;
 
-        if(Path != null)
+        if(path != null)
         {
-            return Path;
+            return path;
         }
 
         while(state == State.PATH_NOT_FOUND)
@@ -153,7 +228,7 @@ public class PathFinder
             ReconstructPath();
         }
 
-        return Path;
+        return path;
     }
 
     private void ReconstructPath()
@@ -192,10 +267,14 @@ public class PathFinder
             return;
         }
 
-        Path = path.ToArray();
+        this.path = path.ToArray();
     }
 
-    public void Progress(int steps)
+    /// <summary>
+    /// Progresses steps number of times to the next node
+    /// </summary>
+    /// <param name="steps"></param>
+    public void Progress(int steps = 1)
     {
         if (TrackNodes)
         {
@@ -247,7 +326,7 @@ public class PathFinder
             else
             {
                 currentNode.state = PathNode.NodeState.RESTRICTED;
-                nodes.UpdateNode(currentNode);
+                nodes.UpdateNode(currentNode.position, currentNode);
                 
             }
 
@@ -260,6 +339,9 @@ public class PathFinder
 
     }
 
+    /// <summary>
+    /// Creates the Adjacent nodes to the current node
+    /// </summary>
     public void CreateAdjacentPathNodes()
     {
         foreach (var dir in directions)
@@ -272,15 +354,15 @@ public class PathFinder
                 {
                     
 
-                    if (!nodes.Contains(newPosition))
-                    {
+                    //if (!nodes.Contains(newPosition))
+                    //{
                         var n = PathNode.GetNewNode(newPosition, currentNode.g_cost + (dir.magnitude * step), Vector3.Distance(newPosition, end), currentNode, PathNode.NodeState.OPEN);
                         nodes.AddNode(n);
                         if (TrackNodes)
                         {
                             NewNodes.Add(n);
                         }
-                    }
+                    //}
 
 
                 }
@@ -291,6 +373,9 @@ public class PathFinder
 
     }
 
+    /// <summary>
+    /// [TESTING]
+    /// </summary>
     public void RunTest()
     {
         nodes.RunTest();

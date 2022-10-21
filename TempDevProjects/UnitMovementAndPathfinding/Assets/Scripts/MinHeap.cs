@@ -6,6 +6,11 @@ using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// Keeps a tree of values with lowest on top and largest on bottom
+/// </summary>
+/// <typeparam name="K">Item key. Used for sorting - Must be of type IComparabele</typeparam>
+/// <typeparam name="T">The value to be stored</typeparam>
 public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K : IComparable<K>
 {
     public int Count { get { return itemCount; } }
@@ -13,6 +18,9 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
     public List<KeyValuePair<K,T>> values = new List<KeyValuePair<K, T>>();
     Dictionary<K, int> index = new Dictionary<K, int>();
 
+    /// <summary>
+    /// Returns a list of all values in the tree - This is not efficient
+    /// </summary>
     public T[] Values
     {
         get
@@ -26,6 +34,11 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         }
     }
 
+    /// <summary>
+    /// Adds an item to the heap
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
     public void Add(K key, T value)
     {
         if (index.ContainsKey(key))
@@ -42,6 +55,11 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         }
     }
 
+    /// <summary>
+    /// Peeks at the item on top of the tree
+    /// O(1)
+    /// </summary>
+    /// <returns></returns>
     public KeyValuePair<K, T> Peek()
     {
         if(itemCount > 0)
@@ -49,6 +67,11 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         return default(KeyValuePair<K, T>);
     }
 
+    /// <summary>
+    /// removes and returns the first item in the tree
+    /// O(log(n))
+    /// </summary>
+    /// <returns></returns>
     public KeyValuePair<K,T> First()
     {
         if(itemCount > 0)
@@ -70,11 +93,23 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         return default(KeyValuePair<K, T>);
     }
 
+    /// <summary>
+    /// Gets the value with the given key 
+    /// O(1)
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
     public T GetValue(K key)
     {
         return values[index[key]].Value;
     }
 
+    /// <summary>
+    /// returns true if the heap contains the given value
+    /// O(n)
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public bool Contains(T value)
     {
         for(int i = 0; i < itemCount; i++)
@@ -87,11 +122,21 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         return false;
     }
 
+    /// <summary>
+    /// Returns true if the heap contains the given key
+    /// O(1)
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
     public bool ContainsKey(K key)
     {
         return index.ContainsKey(key);
     }
 
+    /// <summary>
+    /// Sorts the tree from top to bottem
+    /// </summary>
+    /// <param name="key"></param>
     void SortDown(K key)
     {
         if(itemCount == 0)
@@ -144,6 +189,10 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         }
     }
 
+    /// <summary>
+    /// Sorts the tree from bottm to top
+    /// </summary>
+    /// <param name="key"></param>
     void SortUp(K key)
     {
         if(itemCount == 0)
@@ -169,6 +218,11 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         }
     }
 
+    /// <summary>
+    /// Swaps the keys positions in the tree
+    /// </summary>
+    /// <param name="A"></param>
+    /// <param name="B"></param>
     void Swap(K A, K B)
     {
         if(A.CompareTo(B) == 0)
@@ -194,6 +248,9 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         //Debug.Log("Swapped A:" + index[A] + " " + values[index[A]] + " B:" + index[B] + " " + values[index[B]]);
     }
 
+    /// <summary>
+    /// Clears the tree
+    /// </summary>
     public void Clear()
     {
         values.Clear();
@@ -201,13 +258,10 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
         itemCount = 0;
     }
 
-    public void ClearAll()
-    {
-        values.Clear();
-        index.Clear();
-        itemCount = 0;
-    }
-
+    /// <summary>
+    /// [TESTING]
+    /// </summary>
+    /// <returns></returns>
     public bool TestMinHeap()
     {
         K n = Peek().Key;

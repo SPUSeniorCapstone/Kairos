@@ -5,6 +5,10 @@ using System.Threading;
 using UnityEngine;
 using Unity.Collections.LowLevel.Unsafe;
 
+/// <summary>
+/// Simple component for testing the PathFinder
+/// No Comments needed
+/// </summary>
 [RequireComponent(typeof(LineRenderer))]
 public class PathTest : MonoBehaviour
 {

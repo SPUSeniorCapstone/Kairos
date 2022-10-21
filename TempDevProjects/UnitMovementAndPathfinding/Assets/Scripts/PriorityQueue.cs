@@ -58,7 +58,9 @@ public class PriorityQueue<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ whe
     {
         if (list.ContainsKey(key))
         {
-            list.GetValue(key).Add(value);
+            var l = list.GetValue(key);
+            l.Add(value);
+            list.Add(key, l);
         }
         else
         {
