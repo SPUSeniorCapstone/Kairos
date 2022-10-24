@@ -8,9 +8,29 @@ public class MapData
 {
     public TerrainData terrainData;
 
-    //Path Finder
-
     //Non-Player Structures
 
-    //Factions
+    /// <summary>
+    /// Not Implemented
+    /// </summary>
+    public void Flatten(Vector2Int pos)
+    {
+
+    }
+
+    /// <summary>
+    /// Not Implemented
+    /// </summary>
+    public float SampleHeight(Vector2Int pos)
+    {
+        return 0;
+    }
+
+    /// <summary>
+    /// Not Implemented
+    /// </summary>
+    public float SampleHeight(Vector2 pos)
+    {
+        return 0;
+    }
 }

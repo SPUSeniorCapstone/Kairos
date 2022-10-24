@@ -19,12 +19,31 @@ public class RTSMap : MonoBehaviour
 
     void LoadMap()
     {
-        LoadTerrain();
+        terrain.terrainData = MapController.main.mapData.terrainData;
+
     }
-    void LoadTerrain()
+
+    /// <summary>
+    /// Not Implemented
+    /// </summary>
+    bool IsValidMovePosition(Vector2 pos)
     {
-        terrain.terrainData = MapController.main.mapData.terrainData; 
+        return false;
     }
 
+    /// <summary>
+    /// Not Implemented
+    /// </summary>
+    bool IsValidPlacementPosition(Vector2Int pos)
+    {
+        return false;
+    }
 
+    /// <summary>
+    /// Not Implemented
+    /// </summary>
+    float SampleHeight(Vector2 pos)
+    {
+        return 0;
+    }    
 }

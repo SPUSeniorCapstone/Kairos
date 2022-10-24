@@ -20,7 +20,8 @@ public class MapController : MonoBehaviour
     
     //GameObjects
     public RTSMap map;
-
+    //public MiniMap miniMap
+    //public StrategicMap stratMap;
 
 
     #region UnityMessages
@@ -38,12 +39,11 @@ public class MapController : MonoBehaviour
         map.terrain.terrainData = mapData.terrainData;
     }
 
-    public bool IsValidMovePosition(Vector3 position)
+    /// <summary>
+    /// Not Implemented
+    /// </summary>
+    public Color SampleColor(Vector2 pos)
     {
-        return false;
-    }
-    public bool IsValidBuildPosition(Vector3 position)
-    {
-        return false;
+        return Color.white;
     }
 }
