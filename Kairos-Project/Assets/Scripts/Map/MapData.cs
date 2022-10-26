@@ -8,30 +8,41 @@ using UnityEngine;
 public class MapData
 {
     public TerrainData terrainData;
+    public int width;
+    public int length;
+    public MapTile[,] tiles;
 
     //Non-Player Structures
 
     /// <summary>
-    /// Not Implemented
+    /// Flattens a rectangle to a given height
     /// </summary>
-    public void Flatten(Vector2Int pos)
+    /// <param name="bottemLeft">Bottem left coordinates of rectangle</param>
+    /// <param name="topRight">Top right coordinates of rectangle</param>
+    /// <param name="height">Desired height</param>
+    public void Flatten(Vector2Int bottemLeft, Vector2Int topRight, float height)
     {
+        int width = topRight.x - bottemLeft.x;
+        int length = topRight.y - bottemLeft.y;
+        float[,] newHeights = new float[width, length];
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < length; y++)
+            {
+                height = newHeights[x, y];
 
+            }
+        }
+        terrainData.SetHeightsDelayLOD(bottemLeft.x, bottemLeft.y, newHeights);
     }
 
     /// <summary>
-    /// Not Implemented
+    /// Gets the tile height
     /// </summary>
+    /// <param name="pos">Position of tile</param>
+    /// <returns>Tile height</returns>
     public float SampleHeight(Vector2Int pos)
     {
-        return 0;
-    }
-
-    /// <summary>
-    /// Not Implemented
-    /// </summary>
-    public float SampleHeight(Vector2 pos)
-    {
-        return 0;
+        return tiles[pos.x, pos.y].height;
     }
 }

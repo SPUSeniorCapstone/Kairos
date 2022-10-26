@@ -20,6 +20,7 @@ public class MapController : MonoBehaviour
 
     /// <summary>
     /// Not Implemented
+    /// Implement with 2D map
     /// </summary>
     public Color SampleColor(Vector2 pos)
     {

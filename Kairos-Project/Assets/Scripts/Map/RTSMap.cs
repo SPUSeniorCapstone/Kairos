@@ -20,26 +20,46 @@ public class RTSMap : MonoBehaviour
     }
 
     /// <summary>
-    /// Not Implemented
+    /// Checks weather tiles are passable or not
     /// </summary>
-    bool IsValidMovePosition(Vector2 pos)
+    /// <param name="pos">Position</param>
+    /// <returns>True/False</returns>
+    bool IsValidMovePosition(Vector2Int pos)
     {
-        return false;
+        if (MapController.main.mapData.tiles[pos.x,pos.y].isPassable == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
-    /// Not Implemented
+    /// Checks weather tiles are placeable or not
     /// </summary>
+    /// <param name="pos">Position</param>
+    /// <returns>True/False</returns>
     bool IsValidPlacementPosition(Vector2Int pos)
     {
-        return false;
+        if (MapController.main.mapData.tiles[pos.x, pos.y].isPlaceable == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
-    /// Not Implemented
+    /// Gets the sample height of terrain
     /// </summary>
+    /// <param name="pos">Position of tile</param>
+    /// <returns>Vector3 of terrain height</returns>
     float SampleHeight(Vector2 pos)
     {
-        return 0;
+        return terrain.SampleHeight(new Vector3(pos.x, 0, pos.y));
     }
 }
