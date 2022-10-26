@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// This class demonstrates moving around an object using keys
+/// </summary>
 public class test : MonoBehaviour
 {
     [SerializeField]

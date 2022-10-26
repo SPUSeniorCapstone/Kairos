@@ -4,6 +4,9 @@ using UnityEngine;
 
 // credit to this: https://weeklyhow.com/rts-building-system-with-raycast/
 
+/// <summary>
+/// This class contains our Building System for our Structures in Kairos.
+/// </summary>
 public class BuildingSystem : MonoBehaviour
 {
     [SerializeField]
@@ -22,6 +25,9 @@ public class BuildingSystem : MonoBehaviour
     private float _previousZ;
 
     // Start is called before the first frame update
+    /// <summary>
+    /// This function instiates the building that will be displayed on the cursor
+    /// </summary>
     void Start()
     {
         // instantiate the building
@@ -29,6 +35,9 @@ public class BuildingSystem : MonoBehaviour
     }
 
     // Update is called once per frame
+    /// <summary>
+    /// This function allows the player to place a Structure onto a Grid below the Terrain object
+    /// </summary>
     void Update()
     {
         // get the current mouse position
@@ -38,13 +47,17 @@ public class BuildingSystem : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(_mousePosition);
         RaycastHit hit;
 
+        // if the raycast is present, start placing an structure on the grid
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             float positionX = hit.point.x;
             float positionZ = hit.point.z;
             float positionY = Terrain.activeTerrain.SampleHeight(new Vector3(positionX, 0, positionZ));
+            
+            // declare the vector that will determine the placement of the structure on the grid
             Vector3 newPos = _grid.GetCellCenterWorld(_grid.WorldToCell(new Vector3(positionX, positionY, positionZ)));
 
+            // if there is no overlap between the previous position and current position, get the new position
             if (_previousX != positionX || _previousZ != positionZ)
             {
                 _previousX = newPos.x;
@@ -52,9 +65,11 @@ public class BuildingSystem : MonoBehaviour
                 _previousZ = newPos.z;
 
                 //_placeholder.transform.position = new Vector3(positionX, 0f, positionZ);
+
+                // place the structure to the new position vector
                 _placeholder.transform.position = newPos;
 
-                Debug.Log(_placeholder.transform.position);
+                //Debug.Log(_placeholder.transform.position);
                 //Debug.Log(_previousX + " / "+ _previousZ);
             }
 
