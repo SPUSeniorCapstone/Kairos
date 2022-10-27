@@ -20,7 +20,7 @@ public class RTSMap : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks weather tiles are passable or not
+    /// Checks whether tiles are passable or not
     /// </summary>
     /// <param name="pos">Position</param>
     /// <returns>True/False</returns>
@@ -37,7 +37,7 @@ public class RTSMap : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks weather tiles are placeable or not
+    /// Checks whether tiles are placeable or not
     /// </summary>
     /// <param name="pos">Position</param>
     /// <returns>True/False</returns>

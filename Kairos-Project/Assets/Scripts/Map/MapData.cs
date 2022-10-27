@@ -26,13 +26,12 @@ public class MapData
     {
         int width = topRight.x - bottemLeft.x;
         int length = topRight.y - bottemLeft.y;
-        float[,] newHeights = new float[width, length];
+        float[,] newHeights = new float[length, width];
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < length; y++)
             {
-                height = newHeights[x, y];
-
+                newHeights[y, x] = height;
             }
         }
         terrainData.SetHeightsDelayLOD(bottemLeft.x, bottemLeft.y, newHeights);
