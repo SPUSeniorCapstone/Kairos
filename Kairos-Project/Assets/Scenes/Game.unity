@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833dc2ae6f010e04db6d1288ed2ff742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  terrain: {fileID: 2118313679}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,6 +467,17 @@ MonoBehaviour:
   RTS: {fileID: 0}
   miniMap: {fileID: 0}
   strategic: {fileID: 0}
+  mapData:
+    terrainData: {fileID: 15600000, guid: a1c72c00702cf4e438aec41174a7bd70, type: 2}
+    width: 0
+    length: 0
+  mapGenerator:
+    terrainResolution: 1000
+    cellSize: 4
+    scale: 0.036
+    eccentricity: 0.108
+    layerDivider: 0.681
+    seed: 0
 --- !u!4 &986697472
 Transform:
   m_ObjectHideFlags: 0

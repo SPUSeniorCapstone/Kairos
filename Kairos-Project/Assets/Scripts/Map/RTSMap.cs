@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class RTSMap : MonoBehaviour
 {
-    Terrain terrain;
+    public Terrain terrain;
 
     private void Update()
     {

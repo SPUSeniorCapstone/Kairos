@@ -13,10 +13,22 @@ public class MapController : MonoBehaviour
         main = controller;
     }
 
-    public MapData mapData;
+    //GameObjects
     public RTSMap RTS;
     public MiniMap miniMap;
     public StrategicMap strategic;
+
+    //Other Objects
+    public MapData mapData;
+    public MapGenerator mapGenerator;
+
+
+
+    private void Start()
+    {
+        Init(this);
+        mapGenerator.OLD_GenerateTerrain();
+    }
 
     /// <summary>
     /// Not Implemented
