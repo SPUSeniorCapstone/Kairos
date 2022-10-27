@@ -20,6 +20,10 @@ public class MapGenerator
         return null;
     }
 
+    /// <summary>
+    /// Simple terrain Generation using Perlin noise 
+    /// Automatically updates the active MapData object
+    /// </summary>
     public void OLD_GenerateTerrain()
     {
         if(MapController.main.mapData.terrainData == null)
