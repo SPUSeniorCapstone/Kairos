@@ -6,14 +6,11 @@ using UnityEngine;
 [Serializable]
 public class MapGenerator
 {
-    public int terrainResolution;
-    public float cellSize;
-
     [Range(0, 1)]
     public float scale, eccentricity;
     [Range(0, 1)]
     public float layerDivider = 0.5f;
-    public int seed;
+    public float offsetX, offsetZ;
 
     MapData GenerateMap()
     {
@@ -31,21 +28,26 @@ public class MapGenerator
             return;
         }
 
+        int width = MapController.main.mapData.width;
+        int length = MapController.main.mapData.length;
+        float cellSizeX = MapController.main.grid.cellSize.x;
+        float cellSizeZ = MapController.main.grid.cellSize.z;
+
         TerrainData terrainData = MapController.main.mapData.terrainData;
-        terrainData.heightmapResolution = terrainResolution;
-        terrainData.size = new Vector3(terrainData.size.x, 100, terrainData.size.z);
+        terrainData.heightmapResolution = Mathf.Max(width, length);
+        terrainData.size = new Vector3(width, 100, length);
 
 
-        int resolution = terrainResolution;
-        int gridSize = (int)(resolution / cellSize) + 1;
-        float[,] heightMap = new float[gridSize, gridSize];
-        float[,] tree = new float[resolution, resolution];
+ 
 
-        for (int x = 0; x < gridSize; x++)
+        float[,] heightMap = new float[width, length];
+        float[,] tree = new float[width, length];
+
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < gridSize; y++)
+            for (int z = 0; z < length; z++)
             {
-                float h = Mathf.PerlinNoise((x + seed) * scale, (y + seed) * scale);
+                float h = Mathf.PerlinNoise((x + offsetX) * scale, (z + offsetZ) * scale);
                 if (h > layerDivider)
                 {
                     h = 1f;
@@ -54,20 +56,21 @@ public class MapGenerator
                 {
                     h = 0;
                 }
-                heightMap[x, y] = h * eccentricity;
+                heightMap[x, z] = h * eccentricity;
             }
         }
 
-        for (int x = 0; x < resolution; x++)
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < resolution; y++)
+            for (int z = 0; z < length; z++)
             {
 
-                tree[x, y] = heightMap[(int)(x / cellSize), (int)(y / cellSize)];
+                tree[x, z] = heightMap[(int)(x / cellSizeX), (int)(z / cellSizeZ)];
             }
         }
         terrainData.SetHeightsDelayLOD(0, 0, tree);
         terrainData.SyncHeightmap();
+
     }
 }
 

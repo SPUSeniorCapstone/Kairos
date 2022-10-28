@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 /// <summary>
 /// Not Implemented
@@ -13,6 +14,39 @@ public class MapData
     public int width;
     public int length;
     public MapTile[,] tiles;
+
+
+    public MapData(TerrainData terrainData, MapTile[,] tiles)
+    {
+        this.terrainData = terrainData;
+        this.width = tiles.GetLength(0);
+        this.length = tiles.GetLength(1);
+        this.tiles = tiles;
+    }
+
+    public MapData(MapTile[,] tiles)
+    {
+        this.width = tiles.GetLength(0);
+        this.length = tiles.GetLength(1);
+        this.tiles = tiles;
+    }
+
+    public MapData(int width, int length)
+    {
+        tiles = new MapTile[width, length];
+    }
+
+    public MapData(int width, int length, TerrainData terrainData)
+    {
+        this.width = width;
+        this.length = length;
+        tiles = new MapTile[width, length];
+
+        this.terrainData = terrainData;
+    }
+
+
+
 
     //Non-Player Structures
 

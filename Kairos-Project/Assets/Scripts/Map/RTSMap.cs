@@ -9,9 +9,14 @@ public class RTSMap : MonoBehaviour
 {
     public Terrain terrain;
 
-    private void Update()
+    private void Start()
     {
         LoadMap();
+    }
+
+    private void Update()
+    {
+
     }
 
     void LoadMap()

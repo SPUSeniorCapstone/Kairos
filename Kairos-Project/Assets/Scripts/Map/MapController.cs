@@ -17,16 +17,19 @@ public class MapController : MonoBehaviour
     public RTSMap RTS;
     public MiniMap miniMap;
     public StrategicMap strategic;
+    public Grid grid;
 
     //Other Objects
     public MapData mapData;
     public MapGenerator mapGenerator;
 
-
+    private void Awake()
+    {
+        Init(this);
+    }
 
     private void Start()
     {
-        Init(this);
         mapGenerator.OLD_GenerateTerrain();
     }
 

@@ -22,14 +22,13 @@ public class MapController_Editor : Editor
 
         var map = target as MapController;
 
-        terrainResolution = map.mapGenerator.terrainResolution;
-        cellSize = map.mapGenerator.cellSize;
         scale = map.mapGenerator.scale;
         eccentricity = map.mapGenerator.eccentricity;
         layerDivider = map.mapGenerator.layerDivider;
-        seed = map.mapGenerator.seed;
+        offsetX = map.mapGenerator.offsetX;
+        offsetZ = map.mapGenerator.offsetZ;
 
-        if(CheckChanges != null)
+        if (CheckChanges != null)
         {
             CheckChanges.Dispose();
             CheckChanges = null;
@@ -40,11 +39,9 @@ public class MapController_Editor : Editor
         
     }
 
-    public int terrainResolution;
-    public float cellSize;
     public float scale, eccentricity;
     public float layerDivider;
-    public int seed;
+    public float offsetX, offsetZ;
 
     public async Task CheckForChanges()
     {
@@ -55,20 +52,18 @@ public class MapController_Editor : Editor
             if (GenerateOnUpdate)
             {
                 if (
-                terrainResolution != map.mapGenerator.terrainResolution ||
-                cellSize != map.mapGenerator.cellSize ||
                 scale != map.mapGenerator.scale ||
                 eccentricity != map.mapGenerator.eccentricity ||
                 layerDivider != map.mapGenerator.layerDivider ||
-                seed != map.mapGenerator.seed
+                offsetX != map.mapGenerator.offsetX ||
+                offsetZ != map.mapGenerator.offsetZ
                 )
                 {
-                    terrainResolution = map.mapGenerator.terrainResolution;
-                    cellSize = map.mapGenerator.cellSize;
                     scale = map.mapGenerator.scale;
                     eccentricity = map.mapGenerator.eccentricity;
                     layerDivider = map.mapGenerator.layerDivider;
-                    seed = map.mapGenerator.seed;
+                    offsetX = map.mapGenerator.offsetX;
+                    offsetZ = map.mapGenerator.offsetZ;
 
                     map.mapGenerator.OLD_GenerateTerrain();
                 }
