@@ -30,6 +30,7 @@ public class MapGenerator
 
         int width = MapController.main.mapData.width;
         int length = MapController.main.mapData.length;
+        MapController.main.mapData.tiles = new MapTile[length, width];
         float cellSizeX = MapController.main.grid.cellSize.x;
         float cellSizeZ = MapController.main.grid.cellSize.z;
 
@@ -37,7 +38,7 @@ public class MapGenerator
         terrainData.heightmapResolution = Mathf.Max(width, length);
         terrainData.size = new Vector3(width, 100, length);
 
-
+        var T = terrainData.GetAlphamaps(0, 0, width, length);
  
 
         float[,] heightMap = new float[width, length];
@@ -51,10 +52,16 @@ public class MapGenerator
                 if (h > layerDivider)
                 {
                     h = 1f;
+                    MapController.main.mapData.tiles[z, x].isPassable = false;
                 }
                 else if (h < layerDivider - 0.05f)
                 {
                     h = 0;
+                    MapController.main.mapData.tiles[z, x].isPassable = true;
+                }
+                else
+                {
+                    MapController.main.mapData.tiles[z, x].isPassable = false;
                 }
                 heightMap[x, z] = h * eccentricity;
             }
@@ -64,7 +71,7 @@ public class MapGenerator
         {
             for (int z = 0; z < length; z++)
             {
-
+                
                 tree[x, z] = heightMap[(int)(x / cellSizeX), (int)(z / cellSizeZ)];
             }
         }

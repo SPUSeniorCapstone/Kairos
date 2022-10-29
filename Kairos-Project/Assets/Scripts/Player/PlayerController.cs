@@ -40,133 +40,162 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameController.main.paused)
         {
-
-
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(1))
             {
-                //left mouse
-                //startPosition3D = GetMouseWorldPosition3D();
-                startPosition = Input.mousePosition;
-                selectionAreaTransform.gameObject.SetActive(true);
-                //Debug.Log(startPosition);
+                MoveSelected();
             }
+            
+           Selection();
+        }
+    }
 
-            if (Input.GetMouseButton(0))
+    void MoveSelected()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
+        {
+            foreach (var entity in selectedEntityList)
             {
-                // while mouse held down
-                Vector3 currentMousePosition = Input.mousePosition;
-                float z = currentMousePosition.z;
-                Vector3 lowerLeft = new Vector3(
-                        Mathf.Min(startPosition.x, currentMousePosition.x),
-                        Mathf.Min(startPosition.y, currentMousePosition.y),
-                        z
+                var unit = entity as Unit;
+                if (unit != null)
+                {
+                    var pos = hit.point;
+                    pos.y = 0;
+                    unit.MoveAsync(pos);
+                }
+            }
+        }
+
+    }
+
+    void Selection()
+    {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            //left mouse
+            //startPosition3D = GetMouseWorldPosition3D();
+            startPosition = Input.mousePosition;
+            selectionAreaTransform.gameObject.SetActive(true);
+            //Debug.Log(startPosition);
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            // while mouse held down
+            Vector3 currentMousePosition = Input.mousePosition;
+            float z = currentMousePosition.z;
+            Vector3 lowerLeft = new Vector3(
+                    Mathf.Min(startPosition.x, currentMousePosition.x),
+                    Mathf.Min(startPosition.y, currentMousePosition.y),
+                    z
+            );
+            Vector3 upperRight = new Vector3(
+                 Mathf.Max(startPosition.x, currentMousePosition.x),
+                  Mathf.Max(startPosition.y, currentMousePosition.y),
+                  z
                 );
-                Vector3 upperRight = new Vector3(
-                     Mathf.Max(startPosition.x, currentMousePosition.x),
-                      Mathf.Max(startPosition.y, currentMousePosition.y),
-                      z
-                    );
-                // shouldn't matter
-                Vector3 lowerRight = new Vector3(
-                    upperRight.x,
-                    lowerLeft.y,
-                    z
-                   );
-                Vector3 upperLeft = new Vector3(
-                    lowerLeft.x,
-                    upperRight.y,
-                    z
-                   );
+            // shouldn't matter
+            Vector3 lowerRight = new Vector3(
+                upperRight.x,
+                lowerLeft.y,
+                z
+               );
+            Vector3 upperLeft = new Vector3(
+                lowerLeft.x,
+                upperRight.y,
+                z
+               );
 
-                //================================================================================================================
+            //================================================================================================================
 
-                var line = selectionAreaTransform.GetComponent<LineRenderer>();
-                line.positionCount = 5;
-                List<Vector3> vector3s = new List<Vector3>();
-                vector3s.Add(MouseToWorld(upperLeft));
-                vector3s.Add(MouseToWorld(upperRight));
-                vector3s.Add(MouseToWorld(lowerRight));
-                vector3s.Add(MouseToWorld(lowerLeft));
-                vector3s.Add(MouseToWorld(upperLeft));
-                line.SetPositions(vector3s.ToArray());
+            var line = selectionAreaTransform.GetComponent<LineRenderer>();
+            line.positionCount = 5;
+            List<Vector3> vector3s = new List<Vector3>();
+            vector3s.Add(MouseToWorld(upperLeft));
+            vector3s.Add(MouseToWorld(upperRight));
+            vector3s.Add(MouseToWorld(lowerRight));
+            vector3s.Add(MouseToWorld(lowerLeft));
+            vector3s.Add(MouseToWorld(upperLeft));
+            line.SetPositions(vector3s.ToArray());
 
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            bool click = false;
+            selectionAreaTransform.gameObject.SetActive(false);
+
+
+            foreach (var Entity in selectedEntityList)
+            {
+                Entity.SetSelectedVisible(false);
+            }
+            selectedEntityList.Clear();
+
+            Vector3 currentMousePosition = Input.mousePosition;
+
+            if (currentMousePosition == startPosition)
+            {
+                click = true;
             }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                bool click = false;
-                selectionAreaTransform.gameObject.SetActive(false);
 
 
-                foreach (var Entity in selectedEntityList)
-                {
-                    Entity.SetSelectedVisible(false);
-                }
-                selectedEntityList.Clear();
-
-                Vector3 currentMousePosition = Input.mousePosition;
-
-                if (currentMousePosition == startPosition)
-                {
-                    click = true;
-                }
+            Vector3 lowerLeft = new Vector3(
+                 Mathf.Min(startPosition.x, currentMousePosition.x),
+                 Mathf.Min(startPosition.y, currentMousePosition.y)
+          );
+            Vector3 upperRight = new Vector3(
+                 Mathf.Max(startPosition.x, currentMousePosition.x),
+                 Mathf.Max(startPosition.y, currentMousePosition.y)
 
 
+                );
+            Vector3 lowerRight = new Vector3(
+               upperRight.x,
+                 lowerLeft.y
 
-                Vector3 lowerLeft = new Vector3(
-                     Mathf.Min(startPosition.x, currentMousePosition.x),
-                     Mathf.Min(startPosition.y, currentMousePosition.y)
               );
-                Vector3 upperRight = new Vector3(
-                     Mathf.Max(startPosition.x, currentMousePosition.x),
-                     Mathf.Max(startPosition.y, currentMousePosition.y)
+            Vector3 upperLeft = new Vector3(
+                lowerLeft.x,
+                upperRight.y
 
+               );
 
-                    );
-                Vector3 lowerRight = new Vector3(
-                   upperRight.x,
-                     lowerLeft.y
-
-                  );
-                Vector3 upperLeft = new Vector3(
-                    lowerLeft.x,
-                    upperRight.y
-
-                   );
-
-                if (!click)
+            if (!click)
+            {
+                foreach (var item in playerEntities)
                 {
-                    foreach (var item in playerEntities)
+                    var test = item.GetComponent<Unit>();
+                    if (test != null)
                     {
-                        var test = item.GetComponent<Unit>();
-                        if (test != null)
+                        var tree = Camera.main.WorldToScreenPoint(item.transform.position);
+                        if (tree.x > lowerLeft.x && tree.x < upperRight.x && tree.y > lowerLeft.y && tree.y < upperRight.y)
                         {
-                            var tree = Camera.main.WorldToScreenPoint(item.transform.position);
-                            if (tree.x > lowerLeft.x && tree.x < upperRight.x && tree.y > lowerLeft.y && tree.y < upperRight.y)
-                            {
-                                test.SetSelectedVisible(true);
-                                selectedEntityList.Add(test);
+                            test.SetSelectedVisible(true);
+                            selectedEntityList.Add(test);
 
-                            }
-                            else
-                            {
-                                test.SetSelectedVisible(false);
-                            }
+                        }
+                        else
+                        {
+                            test.SetSelectedVisible(false);
                         }
                     }
                 }
-                else
+            }
+            else
+            {
+                var Entity = GetMouseWorldPosition3D();
+                if (Entity != null)
                 {
-                    var Entity = GetMouseWorldPosition3D();
-                    if (Entity != null)
-                    {
-                        Entity.SetSelectedVisible(true);
-                        selectedEntityList.Add(Entity);
-                    }
+                    Entity.SetSelectedVisible(true);
+                    selectedEntityList.Add(Entity);
                 }
             }
         }
     }
+
     // does this need to run in update?
     private Entity GetMouseWorldPosition3D()
     {
@@ -180,7 +209,7 @@ public class PlayerController : MonoBehaviour
             return hitData.transform.GetComponent<Entity>();
 
         }
-        else Debug.Log("NULL"); return null;
+        else return null;
 
     }
     private Vector3 MouseToWorld(Vector3 vector)

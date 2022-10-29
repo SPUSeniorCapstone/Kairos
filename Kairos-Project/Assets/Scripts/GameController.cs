@@ -11,9 +11,15 @@ public class GameController : MonoBehaviour
     public PlayerController playerController;
     public GameObject pauseMenu;
 
+    public CursorLockMode defaultLockMode = CursorLockMode.None;
+
     private void Awake()
     {
-        main = this; 
+        if (main != null && main != this)
+        {
+            Debug.LogWarning("Cannot have more than one GameController in a scene");
+        }
+        main = this;
     }
 
     private void Update()
@@ -29,7 +35,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.lockState = defaultLockMode;
                 Time.timeScale = 0;
                 pauseMenu.SetActive(true);
                 paused = true;

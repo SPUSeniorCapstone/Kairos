@@ -63,7 +63,7 @@ public class RTSMap : MonoBehaviour
     /// </summary>
     /// <param name="pos">Position of tile</param>
     /// <returns>Vector3 of terrain height</returns>
-    float SampleHeight(Vector2 pos)
+    public float SampleHeight(Vector2 pos)
     {
         return terrain.SampleHeight(new Vector3(pos.x, 0, pos.y));
     }

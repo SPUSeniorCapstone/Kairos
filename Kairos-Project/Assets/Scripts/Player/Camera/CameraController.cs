@@ -50,7 +50,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-                Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = GameController.main.defaultLockMode;
         }
     }
 }

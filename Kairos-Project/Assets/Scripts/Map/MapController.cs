@@ -11,6 +11,7 @@ public class MapController : MonoBehaviour
     public static void Init(MapController controller)
     {
         main = controller;
+        PathManager.Init(new PathManager(MapController.main.grid.cellSize.x));
     }
 
     //GameObjects
@@ -26,6 +27,7 @@ public class MapController : MonoBehaviour
     private void Awake()
     {
         Init(this);
+        //mapData.tiles = new MapTile[mapData.width, mapData.length];
     }
 
     private void Start()
