@@ -9,17 +9,17 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Vector3 startPosition;
     private Vector3 startPosition3D;
-    //[SerializeField] private Camera cameraMain;
-    [SerializeField] private Entity cameraMain;
+    
     private Vector3 endPosition;
     TerrainCollider terrainCollider;
 
-    [SerializeField] private Transform selectionAreaTransform;
+    [SerializeField] private Entity selectionAreaTransform;
     public Mesh mesh;
 
-    private List<Entity> selectedEntityList;
+    // okay to be public?
+    public List<Entity> selectedEntityList;
     // Replace Entity with selectable entity
-    public List<GameObject> playerEntities;
+    [SerializeField] public List<GameObject> playerEntities;
 
     private void Awake()
     {
@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Entity");
-        playerEntities = temp.ToList();
+        //GameObject[] temp = GameObject.FindGameObjectsWithTag("Entity");
+        //playerEntities = temp.ToList();
         terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
 
     }
@@ -125,13 +125,14 @@ public class PlayerController : MonoBehaviour
         {
             bool click = false;
             selectionAreaTransform.gameObject.SetActive(false);
-
-
-            foreach (var Entity in selectedEntityList)
+            if (!Input.GetKeyDown(KeyCode.LeftShift))
             {
-                Entity.SetSelectedVisible(false);
+                foreach (var Entity in selectedEntityList)
+                {
+                    Entity.SetSelectedVisible(false);
+                }
+                selectedEntityList.Clear();
             }
-            selectedEntityList.Clear();
 
             Vector3 currentMousePosition = Input.mousePosition;
 
@@ -189,8 +190,15 @@ public class PlayerController : MonoBehaviour
                 var Entity = GetMouseWorldPosition3D();
                 if (Entity != null)
                 {
-                    Entity.SetSelectedVisible(true);
-                    selectedEntityList.Add(Entity);
+                    if (Entity.GetComponentInParent<Battalion>())
+                    {
+                        Entity.GetComponentInParent<Battalion>().OnSelect();
+                    }
+                    else
+                    {
+                        Entity.SetSelectedVisible(true);
+                        selectedEntityList.Add(Entity);
+                    }  
                 }
             }
         }
@@ -203,13 +211,14 @@ public class PlayerController : MonoBehaviour
         Ray ray;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitData;
-        if (Physics.Raycast(ray, out hitData, 1000) && hitData.transform.GetComponent<Entity>())
+        if (Physics.Raycast(ray, out hitData, 1000) && (hitData.transform.GetComponentInParent<Entity>() || hitData.transform.GetComponent<Entity>())) // <- will this be problematic?
         {
-            Debug.Log("Entity hit");
-            return hitData.transform.GetComponent<Entity>();
-
+            Debug.Log(hitData.transform.name);
+            return hitData.transform.GetComponentInParent<Entity>();
         }
-        else return null;
+        else Debug.Log(hitData.transform.name); return null; 
+        
+        
 
     }
     private Vector3 MouseToWorld(Vector3 vector)
