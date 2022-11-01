@@ -2343,6 +2343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   units: []
+  selected: 0
   playerController: {fileID: 1995013914}
 --- !u!1 &1995013912
 GameObject:

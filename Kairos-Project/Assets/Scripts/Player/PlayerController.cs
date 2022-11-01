@@ -5,7 +5,7 @@ using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public Dictionary<KeyCode, List<Entity>> hotKeys = new Dictionary<KeyCode, List<Entity>>();
 
     [SerializeField] private Vector3 startPosition;
     private Vector3 startPosition3D;
@@ -20,6 +20,18 @@ public class PlayerController : MonoBehaviour
     public List<Entity> selectedEntityList;
     // Replace Entity with selectable entity
     [SerializeField] public List<GameObject> playerEntities;
+
+    private KeyCode[] keyCodes = {
+         KeyCode.Alpha1,
+         KeyCode.Alpha2,
+         KeyCode.Alpha3,
+         KeyCode.Alpha4,
+         KeyCode.Alpha5,
+         KeyCode.Alpha6,
+         KeyCode.Alpha7,
+         KeyCode.Alpha8,
+         KeyCode.Alpha9,
+     };
 
     private void Awake()
     {
@@ -46,6 +58,51 @@ public class PlayerController : MonoBehaviour
             }
             
            Selection();
+        }
+
+        // logic for hot keying units (needs add buildings and prioritizing units over buildings in selection)
+        // as of right now, allows for a unit to be hot keyed to multiple keys, allowing for "sub hot keys" 
+        // i.e. '2' is your swordsman hot key, but perhaps '3' is for your two handed swords and '4' is for your shield and swords men, whil '2' selects both of them
+        if (Input.GetKey(KeyCode.LeftControl) )/*&&
+            Input.GetKeyDown(KeyCode.Alpha2))*/
+        {
+            /*
+            foreach (Entity entity in selectedEntityList)           //<- is it faster to do a massive OR statment than iterate through the key array?
+                    {
+                        entity.hoykey = KeyCode.Alpha2;
+                    }*/
+            foreach (KeyCode keyCode in keyCodes)
+            {
+                if (Input.GetKeyDown(keyCode))
+                {
+                    hotKeys.Remove(keyCode);
+                    List<Entity> list = new List<Entity>(selectedEntityList);
+                    foreach (Entity entity in selectedEntityList)
+                    {
+                        entity.hoykey = keyCode;                  
+                    }
+                    hotKeys.Add(keyCode, list);
+                }
+            }
+        }
+        foreach (KeyCode keyCode in keyCodes)
+        {
+            if (Input.GetKeyDown(keyCode))
+            {
+                if (hotKeys[keyCode] == null)
+                {
+                    Debug.Log("HELPME");
+
+                }
+                foreach(Entity entity in hotKeys[keyCode])
+                {
+                   if (entity != null)
+                    {
+                        entity.SetSelectedVisible(true);
+                        selectedEntityList.Add(entity);
+                    }
+                }
+            }
         }
     }
 
