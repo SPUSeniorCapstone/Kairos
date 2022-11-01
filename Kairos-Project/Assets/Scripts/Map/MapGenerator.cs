@@ -54,7 +54,7 @@ public class MapGenerator
                     h = 1f;
                     MapController.main.mapData.tiles[z, x].isPassable = false;
                 }
-                else if (h < layerDivider - 0.05f)
+                else if (h < layerDivider)
                 {
                     h = 0;
                     MapController.main.mapData.tiles[z, x].isPassable = true;

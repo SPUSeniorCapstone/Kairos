@@ -26,7 +26,7 @@ public class PathManager
         {
             IsValidMove = IsValidMovePosition;
         }
-        if(!IsValidMove(start) || !IsValidMove(end))
+        if (!IsValidMove(start) || !IsValidMove(end))
         {
             return null;
         }
@@ -39,7 +39,7 @@ public class PathManager
 
     public Task<Vector2Int[]> RequestPathAsync(Vector2Int start, Vector2Int end, Func<Vector2Int, bool> IsValidMove = null)
     {
-        if(IsValidMove == null)
+        if (IsValidMove == null)
         {
             IsValidMove = IsValidMovePosition;
         }
@@ -58,6 +58,11 @@ public class PathManager
         //{
         //    return false;
         //}
+        int x = MapController.main.mapData.tiles.GetLength(0);
+        int y = MapController.main.mapData.tiles.GetLength(1);
+
+        if (position.x >= x || position.x < 0 || position.y >= y || position.y < 0) return false;
+
         if (MapController.main.mapData.tiles[position.x, position.y].isPassable)
         {
             return true;

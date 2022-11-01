@@ -30,7 +30,7 @@ public class Unit : Entity
 
         Debug.Log(end);
 
-        var path = PathManager.main.RequestPath((Vector2Int)start, (Vector2Int)end);
+        var path = PathManager.main.RequestPath(new Vector2Int(start.x, start.z), new Vector2Int(end.x, end.y));
         if (path == null)
         {
             Debug.Log("Path could not be found");
@@ -42,7 +42,7 @@ public class Unit : Entity
         for (int i = 0; i < path.Length; i++)
         {
             //Vector3Int p = new Vector3Int(path[i].x, 0, path[i].y);
-            positions[i] = MapController.main.grid.GetCellCenterWorld((Vector3Int)path[i]);
+            positions[i] = MapController.main.grid.GetCellCenterWorld(new Vector3Int(path[i].x, 0, path[i].y));
         }
         this.path = positions;
         index = 0;
@@ -97,6 +97,7 @@ public class Unit : Entity
             else if (path != null && index < path.Length)
             {
                 Vector3 target = path[index];
+                target.y = transform.position.y;
                 while (Vector3.Distance(transform.position, target) > MapController.main.grid.cellSize.x / 2)
                 {
                     if(index < 0)
@@ -110,8 +111,9 @@ public class Unit : Entity
 
                     Vector3 neo = transform.position;
                     neo += dir * moveSpeed * Time.deltaTime;
-                    neo.y = MapController.main.RTS.SampleHeight(transform.position) + 0.1f;
+                    neo.y = MapController.main.RTS.SampleHeight(neo) + 0.1f;
                     transform.position = neo;
+                    target.y = transform.position.y;
                     yield return null;
                 }
                 if(index >= 0) index++;
