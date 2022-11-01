@@ -123,22 +123,34 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            bool click = false;
+            bool singleClick = false;
             selectionAreaTransform.gameObject.SetActive(false);
-            if (!Input.GetKeyDown(KeyCode.LeftShift))
-            {
+
+            // this takes care of deselection, with left shift allowance
+            //=============================================
+            if (!Input.GetKey(KeyCode.LeftShift)) {
                 foreach (var Entity in selectedEntityList)
                 {
                     Entity.SetSelectedVisible(false);
+                    Unit unit = Entity.GetComponent<Unit>();
+                    if (unit != null)                      
+                    {
+                        Battalion battalian = unit.GetComponentInParent<Battalion>();
+                        if (battalian != null && battalian.selected)
+                        {
+                            //battalian.Deselect();
+                            battalian.selected = false;
+                        }
+                    }                 
                 }
                 selectedEntityList.Clear();
             }
-
+            //===========================================================
             Vector3 currentMousePosition = Input.mousePosition;
 
             if (currentMousePosition == startPosition)
             {
-                click = true;
+                singleClick = true;
             }
 
 
@@ -164,41 +176,59 @@ public class PlayerController : MonoBehaviour
 
                );
 
-            if (!click)
+            if (!singleClick)
             {
+                List<Battalion> battalions = new List<Battalion>();
                 foreach (var item in playerEntities)
                 {
                     var test = item.GetComponent<Unit>();
+                    var battalion = item.GetComponentInParent<Battalion>();
                     if (test != null)
                     {
                         var tree = Camera.main.WorldToScreenPoint(item.transform.position);
                         if (tree.x > lowerLeft.x && tree.x < upperRight.x && tree.y > lowerLeft.y && tree.y < upperRight.y)
                         {
-                            test.SetSelectedVisible(true);
-                            selectedEntityList.Add(test);
-
-                        }
-                        else
-                        {
-                            test.SetSelectedVisible(false);
-                        }
-                    }
+                            // remove this to allow selecting individuals from a battalian
+                            if (battalion != null)
+                            {
+                                if (!battalion.selected)
+                                {
+                                    battalion.selected = true;
+                                    battalions.Add(battalion);
+                                }
+                            }
+                            else
+                            {
+                                test.SetSelectedVisible(true);
+                                selectedEntityList.Add(test);
+                            }
+                        }        
+                    }  
+                }
+                foreach (Battalion battalion in battalions)
+                {
+                    battalion.Select();
                 }
             }
             else
             {
-                var Entity = GetMouseWorldPosition3D();
+                Entity Entity = GetMouseWorldPosition3D();
+                
                 if (Entity != null)
                 {
-                    if (Entity.GetComponentInParent<Battalion>())
-                    {
-                        Entity.GetComponentInParent<Battalion>().OnSelect();
-                    }
-                    else
-                    {
-                        Entity.SetSelectedVisible(true);
-                        selectedEntityList.Add(Entity);
-                    }  
+                    Unit unit = Entity.GetComponent<Unit>();
+                    if (unit != null){
+                        var battalion = unit.GetComponentInParent<Battalion>();
+                        if (battalion != null)
+                        {
+                            battalion.Select();
+                        }
+                        else
+                        {
+                            Entity.SetSelectedVisible(true);
+                            selectedEntityList.Add(Entity);
+                        }
+                    }                       
                 }
             }
         }

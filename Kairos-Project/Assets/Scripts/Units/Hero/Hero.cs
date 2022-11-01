@@ -78,7 +78,6 @@ public class Hero : HeroEntity
             }
             else
             {
-                Debug.Log("HELPME!");
                 state = EntityAnimator.AnimatorState.RUN_FORWARD;
             }
         }

@@ -58,7 +58,7 @@ public class PathManager
         //{
         //    return false;
         //}
-        if (MapController.main.mapData.tiles[position.x, position.y].isPassable)
+        if (MapController.main.mapData.tiles[position.x, position.y].isPassable) // <- error here: "index was outside the bounds of the array
         {
             return true;
         }
