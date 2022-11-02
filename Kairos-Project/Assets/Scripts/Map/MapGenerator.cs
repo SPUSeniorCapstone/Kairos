@@ -28,6 +28,7 @@ public class MapGenerator
             return;
         }
 
+
         int width = MapController.main.mapData.width;
         int length = MapController.main.mapData.length;
         MapController.main.mapData.tiles = new MapTile[length, width];
@@ -49,22 +50,38 @@ public class MapGenerator
             for (int z = 0; z < length; z++)
             {
                 float h = Mathf.PerlinNoise((x + offsetX) * scale, (z + offsetZ) * scale);
-                if (h > layerDivider)
+
+                
+                if( h > layerDivider)
                 {
-                    h = 1f;
                     MapController.main.mapData.tiles[z, x].isPassable = false;
+                    MapController.main.mapData.tiles[z, x].weight = 0;
+                    h = 1f;
+                    MapController.main.mapData.tiles[z, x].height = h;
+
                 }
-                else if (h < layerDivider)
+                else if(h < layerDivider && h > layerDivider - 0.1f)
                 {
-                    h = 0;
                     MapController.main.mapData.tiles[z, x].isPassable = true;
+                    MapController.main.mapData.tiles[z, x].weight = 0.01f;
+                    MapController.main.mapData.tiles[z, x].height = h;
+
+                    h = 0f;
+
                 }
                 else
                 {
-                    MapController.main.mapData.tiles[z, x].isPassable = false;
+                    MapController.main.mapData.tiles[z, x].isPassable = true;
+                    MapController.main.mapData.tiles[z, x].weight = 1;
+                    h = 0;
+                    MapController.main.mapData.tiles[z, x].height = h;
+
                 }
+
                 heightMap[x, z] = h * eccentricity;
             }
+
+
         }
 
         for (int x = 0; x < width; x++)
@@ -77,6 +94,9 @@ public class MapGenerator
         }
         terrainData.SetHeightsDelayLOD(0, 0, tree);
         terrainData.SyncHeightmap();
+
+        var display = GameObject.FindObjectOfType<MapDisplay>();
+        if(display != null) display.DrawTerrainMap();
 
     }
 }

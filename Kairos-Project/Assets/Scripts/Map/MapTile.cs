@@ -8,4 +8,5 @@ public struct MapTile
     public bool isPlaceable;
     public float movementBuff;
     public float height;
+    public float weight;
 }
