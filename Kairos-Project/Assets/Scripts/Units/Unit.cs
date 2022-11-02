@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -114,9 +115,29 @@ public class Unit : Entity
                     neo.y = MapController.main.RTS.SampleHeight(neo) + 0.1f;
                     transform.position = neo;
                     target.y = transform.position.y;
+
+                    Debug.DrawRay(transform.position, path.Last() - transform.position, Color.black);
+
                     yield return null;
                 }
-                if(index >= 0) index++;
+                if (index >= 0) {
+                    index++;
+
+                    var currPos = transform.position;
+                    var t = path.Last();
+                    var direction = t - currPos;
+                    if (Physics.Raycast(currPos, direction, Vector3.Distance(currPos, t)))
+                    {
+                        Debug.Log("Hit Terrain");
+                    }
+                    else
+                    {
+                        index = path.Length - 1;
+                    }
+                }
+
+
+
             }
             yield return null;
         }

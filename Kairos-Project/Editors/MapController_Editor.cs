@@ -127,6 +127,10 @@ public class MapController_Editor : Editor
 
         GenerateOnUpdate = EditorGUILayout.Toggle(GenerateOnUpdate);
 
+        if (GUILayout.Button("Generate Debug Map"))
+        {
+            FindObjectOfType<MapDisplay>().DrawTerrainMap();
+        }
     }
 
     private void OnSceneGUI()
