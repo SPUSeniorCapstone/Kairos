@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 endPosition;
     TerrainCollider terrainCollider;
 
+    [SerializeField] public PositionMarker positionMarker;
+
     [SerializeField] private Entity selectionAreaTransform;
     public Mesh mesh;
 
@@ -111,6 +113,9 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
         {
+            positionMarker.point = hit.point;
+            positionMarker.point.y = .1f;
+            positionMarker.PlaceMarker();
             foreach (var entity in selectedEntityList)
             {
                 var unit = entity as Unit;
