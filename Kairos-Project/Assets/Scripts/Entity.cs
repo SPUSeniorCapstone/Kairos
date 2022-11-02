@@ -9,12 +9,16 @@ public abstract class Entity : MonoBehaviour
 {
     [SerializeField]
     GameObject selectedHighlight;
+    public bool select = false;
+    public KeyCode hoykey;
+   
 
     public void SetSelectedVisible(bool selected)
     {
         if(selectedHighlight != null)
         {
             selectedHighlight.SetActive(selected);
+            select = selected;
         }
     }
 

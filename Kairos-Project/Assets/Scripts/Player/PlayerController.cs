@@ -5,21 +5,33 @@ using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public Dictionary<KeyCode, List<Entity>> hotKeys = new Dictionary<KeyCode, List<Entity>>();
 
     [SerializeField] private Vector3 startPosition;
     private Vector3 startPosition3D;
-    //[SerializeField] private Camera cameraMain;
-    [SerializeField] private Entity cameraMain;
+    
     private Vector3 endPosition;
     TerrainCollider terrainCollider;
 
-    [SerializeField] private Transform selectionAreaTransform;
+    [SerializeField] private Entity selectionAreaTransform;
     public Mesh mesh;
 
-    private List<Entity> selectedEntityList;
+    // okay to be public?
+    public List<Entity> selectedEntityList;
     // Replace Entity with selectable entity
-    public List<GameObject> playerEntities;
+    [SerializeField] public List<GameObject> playerEntities;
+
+    private KeyCode[] keyCodes = {
+         KeyCode.Alpha1,
+         KeyCode.Alpha2,
+         KeyCode.Alpha3,
+         KeyCode.Alpha4,
+         KeyCode.Alpha5,
+         KeyCode.Alpha6,
+         KeyCode.Alpha7,
+         KeyCode.Alpha8,
+         KeyCode.Alpha9,
+     };
 
     private void Awake()
     {
@@ -30,8 +42,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Entity");
-        playerEntities = temp.ToList();
+        //GameObject[] temp = GameObject.FindGameObjectsWithTag("Entity");
+        //playerEntities = temp.ToList();
         terrainCollider = Terrain.activeTerrain.GetComponent<TerrainCollider>();
 
     }
@@ -46,6 +58,51 @@ public class PlayerController : MonoBehaviour
             }
             
            Selection();
+        }
+
+        // logic for hot keying units (needs add buildings and prioritizing units over buildings in selection)
+        // as of right now, allows for a unit to be hot keyed to multiple keys, allowing for "sub hot keys" 
+        // i.e. '2' is your swordsman hot key, but perhaps '3' is for your two handed swords and '4' is for your shield and swords men, whil '2' selects both of them
+        if (Input.GetKey(KeyCode.LeftControl) )/*&&
+            Input.GetKeyDown(KeyCode.Alpha2))*/
+        {
+            /*
+            foreach (Entity entity in selectedEntityList)           //<- is it faster to do a massive OR statment than iterate through the key array?
+                    {
+                        entity.hoykey = KeyCode.Alpha2;
+                    }*/
+            foreach (KeyCode keyCode in keyCodes)
+            {
+                if (Input.GetKeyDown(keyCode))
+                {
+                    hotKeys.Remove(keyCode);
+                    List<Entity> list = new List<Entity>(selectedEntityList);
+                    foreach (Entity entity in selectedEntityList)
+                    {
+                        entity.hoykey = keyCode;                  
+                    }
+                    hotKeys.Add(keyCode, list);
+                }
+            }
+        }
+        foreach (KeyCode keyCode in keyCodes)
+        {
+            if (Input.GetKeyDown(keyCode))
+            {
+                if (hotKeys[keyCode] == null)
+                {
+                    Debug.Log("HELPME");
+
+                }
+                foreach(Entity entity in hotKeys[keyCode])
+                {
+                   if (entity != null)
+                    {
+                        entity.SetSelectedVisible(true);
+                        selectedEntityList.Add(entity);
+                    }
+                }
+            }
         }
     }
 
@@ -123,21 +180,34 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            bool click = false;
+            bool singleClick = false;
             selectionAreaTransform.gameObject.SetActive(false);
 
-
-            foreach (var Entity in selectedEntityList)
-            {
-                Entity.SetSelectedVisible(false);
+            // this takes care of deselection, with left shift allowance
+            //=============================================
+            if (!Input.GetKey(KeyCode.LeftShift)) {
+                foreach (var Entity in selectedEntityList)
+                {
+                    Entity.SetSelectedVisible(false);
+                    Unit unit = Entity.GetComponent<Unit>();
+                    if (unit != null)                      
+                    {
+                        Battalion battalian = unit.GetComponentInParent<Battalion>();
+                        if (battalian != null && battalian.selected)
+                        {
+                            //battalian.Deselect();
+                            battalian.selected = false;
+                        }
+                    }                 
+                }
+                selectedEntityList.Clear();
             }
-            selectedEntityList.Clear();
-
+            //===========================================================
             Vector3 currentMousePosition = Input.mousePosition;
 
             if (currentMousePosition == startPosition)
             {
-                click = true;
+                singleClick = true;
             }
 
 
@@ -163,34 +233,59 @@ public class PlayerController : MonoBehaviour
 
                );
 
-            if (!click)
+            if (!singleClick)
             {
+                List<Battalion> battalions = new List<Battalion>();
                 foreach (var item in playerEntities)
                 {
                     var test = item.GetComponent<Unit>();
+                    var battalion = item.GetComponentInParent<Battalion>();
                     if (test != null)
                     {
                         var tree = Camera.main.WorldToScreenPoint(item.transform.position);
                         if (tree.x > lowerLeft.x && tree.x < upperRight.x && tree.y > lowerLeft.y && tree.y < upperRight.y)
                         {
-                            test.SetSelectedVisible(true);
-                            selectedEntityList.Add(test);
-
-                        }
-                        else
-                        {
-                            test.SetSelectedVisible(false);
-                        }
-                    }
+                            // remove this to allow selecting individuals from a battalian
+                            if (battalion != null)
+                            {
+                                if (!battalion.selected)
+                                {
+                                    battalion.selected = true;
+                                    battalions.Add(battalion);
+                                }
+                            }
+                            else
+                            {
+                                test.SetSelectedVisible(true);
+                                selectedEntityList.Add(test);
+                            }
+                        }        
+                    }  
+                }
+                foreach (Battalion battalion in battalions)
+                {
+                    battalion.Select();
                 }
             }
             else
             {
-                var Entity = GetMouseWorldPosition3D();
+                Entity Entity = GetMouseWorldPosition3D();
+                
                 if (Entity != null)
                 {
-                    Entity.SetSelectedVisible(true);
-                    selectedEntityList.Add(Entity);
+                    Unit unit = Entity.GetComponent<Unit>();
+                    if (unit != null){
+                        var battalion = unit.GetComponentInParent<Battalion>();
+                        if (battalion != null)
+                        {
+                            battalion.Select();
+                        }
+                        else
+                        {
+                            Entity.SetSelectedVisible(true);
+                            selectedEntityList.Add(Entity);
+                        }
+                    }                       
                 }
             }
         }
@@ -203,13 +298,14 @@ public class PlayerController : MonoBehaviour
         Ray ray;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitData;
-        if (Physics.Raycast(ray, out hitData, 1000) && hitData.transform.GetComponent<Entity>())
+        if (Physics.Raycast(ray, out hitData, 1000) && (hitData.transform.GetComponentInParent<Entity>() || hitData.transform.GetComponent<Entity>())) // <- will this be problematic?
         {
-            Debug.Log("Entity hit");
-            return hitData.transform.GetComponent<Entity>();
-
+            Debug.Log(hitData.transform.name);
+            return hitData.transform.GetComponentInParent<Entity>();
         }
-        else return null;
+        else Debug.Log(hitData.transform.name); return null; 
+        
+        
 
     }
     private Vector3 MouseToWorld(Vector3 vector)
