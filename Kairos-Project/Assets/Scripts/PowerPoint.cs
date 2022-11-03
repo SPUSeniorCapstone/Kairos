@@ -32,7 +32,7 @@ public class PowerPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        if (Input.GetKeyDown(KeyCode.RightBracket))
         {
             if (index == count - 1)
             {
@@ -45,7 +45,7 @@ public class PowerPoint : MonoBehaviour
                 textMesh.text = slides[index];
             }
         } 
-        else if (Input.GetKeyDown(KeyCode.RightBracket))
+        else if (Input.GetKeyDown(KeyCode.LeftBracket))
         {
             if (index == 0)
             {
