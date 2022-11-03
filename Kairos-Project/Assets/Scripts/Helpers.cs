@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System; // <- used for delegation
 
 public static class Helpers
 {
@@ -19,5 +20,10 @@ public static class Helpers
         ret.y = y;
         ret.z = vec.y;
         return ret;
+    }
+
+    public static void Timer(Coroutine callBack, float delay) //<- coroutine or delegate?
+    {
+       
     }
 }

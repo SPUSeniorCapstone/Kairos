@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(keyCode))
             {
-                if (hotKeys[keyCode] == null)
+                if (hotKeys[keyCode] == null) //<- try catch instead?
                 {
                     Debug.Log("HELPME");
 
@@ -308,7 +308,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log(hitData.transform.name);
             return hitData.transform.GetComponentInParent<Entity>();
         }
-        else Debug.Log(hitData.transform.name); return null; 
+        else if (hitData.transform != null) { Debug.Log(hitData.transform.name); } return null; 
         
         
 
