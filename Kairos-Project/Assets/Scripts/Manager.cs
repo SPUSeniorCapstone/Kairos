@@ -23,6 +23,15 @@ public class Manager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        GetComponentInChildren<Canvas>().enabled = false;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GetComponentInChildren<Canvas>().enabled = !GetComponentInChildren<Canvas>().enabled;
+        }
     }
 
     public void NextScene()
@@ -37,6 +46,7 @@ public class Manager : MonoBehaviour
             index++;
             SceneManager.LoadScene(index);
         }
+        GetComponentInChildren<Canvas>().enabled = false;
     }
 
     public void PreviousScene()
@@ -51,5 +61,6 @@ public class Manager : MonoBehaviour
             index--;
             SceneManager.LoadScene(index);
         }
+        GetComponentInChildren<Canvas>().enabled = false;
     }
 }
