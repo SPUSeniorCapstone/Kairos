@@ -252,7 +252,7 @@ public class PathFinder
         {
             if((DateTime.UtcNow - startTime).Seconds > maxRunTime)
             {
-                Debug.LogError("Pathfinder timed out");
+                //Debug.LogError("Pathfinder timed out");
                 return null;
             }
             Progress(1);
@@ -414,10 +414,10 @@ public class PathFinder
 
     float GetG_Cost(float prev, Vector2Int position, Vector2Int dir)
     {
-        float ret = prev + dir.magnitude;
+        float ret = prev;
         if (useWeights)
         {
-            ret -= MovePositionWeight(position);
+            ret += dir.magnitude / MovePositionWeight(position);
         }
         return ret;
     }
@@ -427,7 +427,7 @@ public class PathFinder
         float ret = Vector2Int.Distance(position, end);
         if (useWeights)
         {
-            ret -= MovePositionWeight(position);
+            ret /= MovePositionWeight(position);
         }
         return ret;
     }

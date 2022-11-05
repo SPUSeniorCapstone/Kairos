@@ -89,7 +89,7 @@ public class PathManager
         return false;
     }
 
-    private float MovePositionWeight(Vector2Int position)
+    public float MovePositionWeight(Vector2Int position)
     {
         int x = MapController.main.mapData.tiles.GetLength(0);
         int y = MapController.main.mapData.tiles.GetLength(1);

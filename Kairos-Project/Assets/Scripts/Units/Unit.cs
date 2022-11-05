@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -77,22 +78,30 @@ public class Unit : Entity
                 if (PathRequest != null && PathRequest.IsCompleted)
                 {
                     var intPath = PathRequest.Result;
-                    Vector3[] positions = new Vector3[intPath.Length];
-                    for (int i = 0; i < intPath.Length; i++)
+                    if(intPath != null)
                     {
-                        //Vector3Int p = new Vector3Int(path[i].x, 0, path[i].y);
-                        positions[i] = MapController.main.grid.GetCellCenterWorld((Vector3Int)intPath[i]);
+                        Vector3[] positions = new Vector3[intPath.Length];
+                        for (int i = 0; i < intPath.Length; i++)
+                        {
+                            //Vector3Int p = new Vector3Int(path[i].x, 0, path[i].y);
+                            positions[i] = MapController.main.grid.GetCellCenterWorld((Vector3Int)intPath[i]);
+                        }
+                        path = positions;
+                        index = 0;
+
+
+                        if (lineRenderer != null && drawPath)
+                        {
+                            lineRenderer.positionCount = path.Length;
+
+                            lineRenderer.SetPositions(positions);
+                        }
                     }
-                    path = positions;
-                    index = 0;
-
-
-                    if (lineRenderer != null && drawPath)
+                    else
                     {
-                        lineRenderer.positionCount = path.Length;
-
-                        lineRenderer.SetPositions(positions);
+                        Debug.Log("No Path Found");
                     }
+
                 }
             }
             else if (path != null && index < path.Length)
@@ -116,23 +125,40 @@ public class Unit : Entity
                     transform.position = neo;
                     target.y = transform.position.y;
 
-                    Debug.DrawRay(transform.position, path.Last() - transform.position, Color.black);
-
                     yield return null;
                 }
                 if (index >= 0) {
                     index++;
 
-                    var currPos = transform.position;
-                    var t = path.Last();
-                    var direction = t - currPos;
-                    if (Physics.Raycast(currPos, direction, Vector3.Distance(currPos, t)))
+                    if (index != path.Length)
                     {
-                        Debug.Log("Hit Terrain");
-                    }
-                    else
-                    {
-                        index = path.Length - 1;
+                        for (int i = index; i < path.Length; i++)
+                        {
+
+                            var currPos = transform.position;
+
+
+                            if (i < path.Length - 1)
+                            {
+                                Vector2Int currGridPos = Helpers.ToVector2Int(MapController.main.grid.WorldToCell(currPos));
+                                Vector2Int gridPos = Helpers.ToVector2Int(MapController.main.grid.WorldToCell(path[i + 1]));
+                                float targetWeight = PathManager.main.MovePositionWeight(gridPos);
+                                float currWeight = PathManager.main.MovePositionWeight(currGridPos);
+
+                                if (targetWeight < currWeight)
+                                {
+                                    index = i;
+                                    break;
+                                }
+                            }
+
+                            var tar = path[i];
+                            var direction = tar - currPos;
+                            if (!Physics.Raycast(currPos, direction, Vector3.Distance(currPos, tar)))
+                            {
+                                index = i;
+                            }
+                        }
                     }
                 }
 

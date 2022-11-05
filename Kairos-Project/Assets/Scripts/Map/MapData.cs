@@ -13,6 +13,7 @@ public class MapData
     public TerrainData terrainData;
     public int width;
     public int length;
+    public float cellSizeX, cellSizeZ;
     public MapTile[,] tiles;
 
 

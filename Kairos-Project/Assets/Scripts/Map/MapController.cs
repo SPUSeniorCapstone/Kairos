@@ -11,8 +11,11 @@ public class MapController : MonoBehaviour
     public static void Init(MapController controller)
     {
         main = controller;
-        PathManager.Init(new PathManager(MapController.main.grid.cellSize.x));
+        PathManager.Init(new PathManager(main.mapData.cellSizeX));
+        main.grid.cellSize = new Vector3(main.mapData.cellSizeX, 1, main.mapData.cellSizeZ);
     }
+
+    public bool showDebugTerrainTexture;
 
     //GameObjects
     public RTSMap RTS;
@@ -20,9 +23,12 @@ public class MapController : MonoBehaviour
     public StrategicMap strategic;
     public Grid grid;
 
+    public Renderer debugDisplayObject;
+
     //Other Objects
     public MapData mapData;
     public MapGenerator mapGenerator;
+
 
     private void Awake()
     {

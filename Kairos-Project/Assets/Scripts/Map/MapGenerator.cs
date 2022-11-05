@@ -28,12 +28,14 @@ public class MapGenerator
             return;
         }
 
+        float cellSizeX = MapController.main.mapData.cellSizeX;
+        float cellSizeZ = MapController.main.mapData.cellSizeZ;
 
-        int width = MapController.main.mapData.width;
-        int length = MapController.main.mapData.length;
+        MapController.main.grid.cellSize = new Vector3(cellSizeX, 1, cellSizeZ);
+
+        int width = MapController.main.mapData.width * (int)cellSizeX;
+        int length = MapController.main.mapData.length * (int)cellSizeZ;
         MapController.main.mapData.tiles = new MapTile[length, width];
-        float cellSizeX = MapController.main.grid.cellSize.x;
-        float cellSizeZ = MapController.main.grid.cellSize.z;
 
         TerrainData terrainData = MapController.main.mapData.terrainData;
         terrainData.heightmapResolution = Mathf.Max(width, length);
@@ -54,28 +56,35 @@ public class MapGenerator
                 
                 if( h > layerDivider)
                 {
-                    MapController.main.mapData.tiles[z, x].isPassable = false;
-                    MapController.main.mapData.tiles[z, x].weight = 0;
+                    //MapController.main.mapData.tiles[z, x].isPassable = false;
+
+                    //int steps = (int)(0.1f / scale);
+                    //if(steps > 5)
+                    //{
+                    //    steps = 5;
+                    //}
+                    BlockOffNode(new Vector2Int(x, z), 5, false, true);
+
+                    //MapController.main.mapData.tiles[z, x].weight = 0;
                     h = 1f;
                     MapController.main.mapData.tiles[z, x].height = h;
-
                 }
-                else if(h < layerDivider && h > layerDivider - 0.1f)
-                {
-                    MapController.main.mapData.tiles[z, x].isPassable = true;
-                    MapController.main.mapData.tiles[z, x].weight = 0.01f;
-                    MapController.main.mapData.tiles[z, x].height = h;
-
-                    h = 0f;
-
-                }
+                //else if(h < layerDivider && h > layerDivider - 0.1f)
+                //{
+                //    MapController.main.mapData.tiles[z, x].isPassable = true;
+                //    MapController.main.mapData.tiles[z, x].weight = 0.01f;
+                //    MapController.main.mapData.tiles[z, x].height = h;
+                //    h = 0.5f;
+                //}
                 else
                 {
-                    MapController.main.mapData.tiles[z, x].isPassable = true;
+                    if(!MapController.main.mapData.tiles[z, x].isAdjacentToUnpassable)
+                    {
+                        MapController.main.mapData.tiles[z, x].isPassable = true;
+                    }
                     MapController.main.mapData.tiles[z, x].weight = 1;
                     h = 0;
                     MapController.main.mapData.tiles[z, x].height = h;
-
                 }
 
                 heightMap[x, z] = h * eccentricity;
@@ -88,15 +97,73 @@ public class MapGenerator
         {
             for (int z = 0; z < length; z++)
             {
-                
                 tree[x, z] = heightMap[(int)(x / cellSizeX), (int)(z / cellSizeZ)];
             }
         }
         terrainData.SetHeightsDelayLOD(0, 0, tree);
         terrainData.SyncHeightmap();
 
-        var display = GameObject.FindObjectOfType<MapDisplay>();
-        if(display != null) display.DrawTerrainMap();
+        var display = MapController.main.debugDisplayObject;
+        if (MapController.main.showDebugTerrainTexture)
+        {
+            display.gameObject.SetActive(true);
+            display.GetComponent<MapDisplay>().DrawTerrainMap();
+        }
+        else
+        {
+            display.gameObject.SetActive(false);
+        }
+
+
+    }
+
+    void BlockOffNode(Vector2Int pos, int dist = 0, bool full = false, bool disable = false)
+    {
+        int width = MapController.main.mapData.width;
+        int length = MapController.main.mapData.length;
+
+        if(pos.y > length - 1 || pos.y < 0 || pos.x > width - 1|| pos.x < 0)
+        {
+            return;
+        }
+        if (disable)
+        {
+            MapController.main.mapData.tiles[pos.y, pos.x].isPassable = false;
+            MapController.main.mapData.tiles[pos.y, pos.x].weight = -1;
+            MapController.main.mapData.tiles[pos.y, pos.x].isAdjacentToUnpassable = false;
+        }
+        else
+        {
+            if(MapController.main.mapData.tiles[pos.y, pos.x].weight >= 0)
+            {
+                MapController.main.mapData.tiles[pos.y, pos.x].isPassable = true;
+                MapController.main.mapData.tiles[pos.y, pos.x].weight = 0.01f;
+                MapController.main.mapData.tiles[pos.y, pos.x].isAdjacentToUnpassable = true;
+            }
+            else
+            {
+                return;
+            }
+        }
+        if (dist == 0)
+        {
+            return;
+        }
+
+
+
+        BlockOffNode(pos + Vector2Int.up, dist - 1, full);
+        BlockOffNode(pos + Vector2Int.down, dist - 1, full);
+        BlockOffNode(pos + Vector2Int.left, dist - 1, full);
+        BlockOffNode(pos + Vector2Int.right, dist - 1, full);
+
+        if (full)
+        {
+            BlockOffNode(pos + Vector2Int.one, dist - 1, full);
+            BlockOffNode(pos - Vector2Int.one, dist - 1, full);
+            BlockOffNode(pos + Vector2Int.left + Vector2Int.up, dist - 1, full);
+            BlockOffNode(pos + Vector2Int.right + Vector2Int.down, dist - 1, full);
+        }
 
     }
 }

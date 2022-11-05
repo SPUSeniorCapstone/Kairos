@@ -12,6 +12,14 @@ public static class Helpers
         return ret;
     }
 
+    public static Vector2Int ToVector2Int(Vector3Int vec)
+    {
+        Vector2Int ret = new Vector2Int();
+        ret.x = vec.x;
+        ret.y = vec.z;
+        return ret;
+    }
+
     public static Vector3 Vector2IntToVector3(Vector2Int vec, float y = 0)
     {
         Vector3 ret = new Vector3();
