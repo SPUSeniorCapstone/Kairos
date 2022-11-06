@@ -9,7 +9,7 @@ public class RTSMap : MonoBehaviour
 {
     public Terrain terrain;
 
-    private void Start()
+    private void Awake()
     {
         LoadMap();
     }
@@ -21,7 +21,7 @@ public class RTSMap : MonoBehaviour
 
     void LoadMap()
     {
-        terrain.terrainData = MapController.main.mapData.terrainData;
+        terrain.terrainData = MapController.main.mapData.TerrainData;
     }
 
     /// <summary>

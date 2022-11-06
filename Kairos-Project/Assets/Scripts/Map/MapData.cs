@@ -8,12 +8,21 @@ using System.Linq;
 /// Not Implemented
 /// </summary>
 [Serializable]
-public class MapData
+public class MapData : ScriptableObject 
 {
-    public TerrainData terrainData;
-    public int width;
-    public int length;
-    public float cellSizeX, cellSizeZ;
+    public TerrainData TerrainData
+    {
+        get
+        {
+            return terrainData;
+        }
+    }
+
+    TerrainData terrainData;
+    public int width = 128;
+    public int length = 128;
+    public int height = 100;
+    public int cellSizeX = 1, cellSizeZ = 1;
     public MapTile[,] tiles;
 
 
@@ -34,6 +43,8 @@ public class MapData
 
     public MapData(int width, int length)
     {
+        this.width = width;
+        this.length = length;
         tiles = new MapTile[width, length];
     }
 
@@ -47,7 +58,34 @@ public class MapData
     }
 
 
+    public void ReloadTerrainData()
+    {
+        float[,] heightMap = GetHeightMap();
 
+
+        int terrainWidth = heightMap.GetLength(0), terrainLength = heightMap.GetLength(1);
+        
+        
+        terrainData.heightmapResolution = Mathf.Max(terrainWidth, terrainLength);
+        terrainData.size = new Vector3(terrainWidth, height, terrainLength);
+        terrainData.SetHeightsDelayLOD(0, 0, heightMap);
+        terrainData.SyncHeightmap();
+    }
+
+    public float[,] GetHeightMap()
+    {
+        int terrainWidth = width * cellSizeX, terrainLength = length * cellSizeZ;
+
+        float[,] heightMap = new float[terrainWidth, terrainLength];
+        for (int x = 0; x < terrainWidth; x++)
+        {
+            for (int z = 0; z < terrainLength; z++)
+            {
+                heightMap[x, z] = tiles[x / cellSizeX, z / cellSizeZ].height;
+            }
+        }
+        return heightMap;
+    }
 
     //Non-Player Structures
 

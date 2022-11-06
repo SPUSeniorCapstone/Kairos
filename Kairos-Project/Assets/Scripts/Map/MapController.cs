@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 /// <summary>
 /// Not Implemented
@@ -14,6 +15,8 @@ public class MapController : MonoBehaviour
         PathManager.Init(new PathManager(main.mapData.cellSizeX));
         main.grid.cellSize = new Vector3(main.mapData.cellSizeX, 1, main.mapData.cellSizeZ);
     }
+
+
 
     public bool showDebugTerrainTexture;
 
@@ -38,7 +41,7 @@ public class MapController : MonoBehaviour
 
     private void Start()
     {
-        mapGenerator.OLD_GenerateTerrain();
+        //mapGenerator.OLD_GenerateTerrain();
     }
 
     /// <summary>
@@ -48,5 +51,17 @@ public class MapController : MonoBehaviour
     public Color SampleColor(Vector2 pos)
     {
         return Color.white;
+    }
+
+    public void SaveMapData()
+    {
+        if(mapData == null)
+        {
+            AssetDatabase.CreateAsset(mapData, "Assets/mapdata.asset");
+        }
+        else
+        {
+            AssetDatabase.SaveAssets();
+        }
     }
 }

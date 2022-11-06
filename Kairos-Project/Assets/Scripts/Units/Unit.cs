@@ -132,33 +132,33 @@ public class Unit : Entity
 
                     if (index != path.Length)
                     {
-                        for (int i = index; i < path.Length; i++)
-                        {
+                        //for (int i = index; i < path.Length; i++)
+                        //{
 
-                            var currPos = transform.position;
+                        //    var currPos = transform.position;
 
 
-                            if (i < path.Length - 1)
-                            {
-                                Vector2Int currGridPos = Helpers.ToVector2Int(MapController.main.grid.WorldToCell(currPos));
-                                Vector2Int gridPos = Helpers.ToVector2Int(MapController.main.grid.WorldToCell(path[i + 1]));
-                                float targetWeight = PathManager.main.MovePositionWeight(gridPos);
-                                float currWeight = PathManager.main.MovePositionWeight(currGridPos);
+                        //    if (i < path.Length - 1)
+                        //    {
+                        //        Vector2Int currGridPos = Helpers.ToVector2Int(MapController.main.grid.WorldToCell(currPos));
+                        //        Vector2Int gridPos = Helpers.ToVector2Int(MapController.main.grid.WorldToCell(path[i + 1]));
+                        //        float targetWeight = PathManager.main.MovePositionWeight(gridPos);
+                        //        float currWeight = PathManager.main.MovePositionWeight(currGridPos);
 
-                                if (targetWeight < currWeight)
-                                {
-                                    index = i;
-                                    break;
-                                }
-                            }
+                        //        if (targetWeight < currWeight)
+                        //        {
+                        //            index = i;
+                        //            break;
+                        //        }
+                        //    }
 
-                            var tar = path[i];
-                            var direction = tar - currPos;
-                            if (!Physics.Raycast(currPos, direction, Vector3.Distance(currPos, tar)))
-                            {
-                                index = i;
-                            }
-                        }
+                        //    var tar = path[i];
+                        //    var direction = tar - currPos;
+                        //    if (!Physics.Raycast(currPos, direction, Vector3.Distance(currPos, tar)))
+                        //    {
+                        //        index = i;
+                        //    }
+                        //}
                     }
                 }
 

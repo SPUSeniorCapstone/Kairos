@@ -101,6 +101,10 @@ public class MapController_Editor : Editor
 
         if (GUILayout.Button("Generate Map"))
         {
+            if(map.mapData == null)
+            {
+                map.mapData = new MapData(0,0);
+            }
             map.mapGenerator.OLD_GenerateTerrain();
         }
         else if (GenerateOnUpdate)
@@ -130,6 +134,11 @@ public class MapController_Editor : Editor
         if (GUILayout.Button("Generate Debug Map"))
         {
             FindObjectOfType<MapDisplay>().DrawTerrainMap();
+        }
+
+        if (GUILayout.Button("Save Map"))
+        {
+            map.SaveMapData();
         }
     }
 
