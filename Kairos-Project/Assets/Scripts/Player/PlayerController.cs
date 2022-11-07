@@ -18,8 +18,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] public PositionMarker positionMarker;
 
-    [SerializeField] private Entity selectionAreaTransform;
-    public Mesh mesh;
+    [SerializeField] private GameObject selectionAreaTransform;
+
 
     // okay to be public?
     public List<Entity> selectedEntityList;
@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
                     List<Entity> list = new List<Entity>(selectedEntityList);
                     foreach (Entity entity in selectedEntityList)
                     {
-                        entity.hoykey = keyCode;                  
+                        entity.hotkey = keyCode;                  
                     }
                     hotKeys.Add(keyCode, list);
                 }
@@ -121,6 +121,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
         {
+            Debug.Log(MapController.main.grid.WorldToCell(hit.point));
             if (!heroFollow)
             {
                 positionMarker.point = hit.point;

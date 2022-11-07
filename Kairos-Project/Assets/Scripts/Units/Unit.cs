@@ -108,7 +108,8 @@ public class Unit : Entity
 
                 if (index < 0)
                 {
-                    if (PathRequest != null && PathRequest.IsCompleted)
+                    isMoving = false;
+                    if (PathRequest != null && PathRequest.IsCompleted && PathRequest.Result != null)
                     {
                         var intPath = PathRequest.Result;
                         Vector3[] positions = new Vector3[intPath.Length];

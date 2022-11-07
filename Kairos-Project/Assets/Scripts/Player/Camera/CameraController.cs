@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
     public float moveSpeed = 1;
     public float rotateSpeed = 1;
+    public float verticalSpeed = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +48,8 @@ public class CameraController : MonoBehaviour
 
 
 
-        transform.position += (up + forward + right) * Time.deltaTime * moveSpeed;
+        transform.position += (forward + right) * Time.deltaTime * moveSpeed;
+        transform.position += up * Time.deltaTime * verticalSpeed;
     }
 
     void RotateCamera()

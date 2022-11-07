@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 4833758557178949846}
   - component: {fileID: 6972076544871312599}
   m_Layer: 0
-  m_Name: Unit
+  m_Name: Unit 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedHighlight: {fileID: 4049041571656824759}
   select: 0
-  hoykey: 0
+  hotkey: 0
   rotateSpeed: 10
   lineRenderer: {fileID: 7747976913040602150}
   drawPath: 0
@@ -293,8 +293,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4049041571656824759}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
+  m_LocalScale: {x: 0.22828, y: 1.1414, z: 0.22828}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1570338101713554983}
