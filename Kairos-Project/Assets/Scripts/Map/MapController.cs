@@ -20,28 +20,32 @@ public class MapController : MonoBehaviour
 
     public bool showDebugTerrainTexture;
 
+    [Header("Game Objects")]
     //GameObjects
     public RTSMap RTS;
     public MiniMap miniMap;
     public StrategicMap strategic;
     public Grid grid;
-
+    public MapGenerator mapGenerator;
     public Renderer debugDisplayObject;
 
+
+    [Header("Scriptable Objects")]
     //Other Objects
     public MapData mapData;
-    public MapGenerator mapGenerator;
+
+    
 
 
     private void Awake()
     {
         Init(this);
-        //mapData.tiles = new MapTile[mapData.width, mapData.length];
+        ReloadTerrain();
     }
 
     private void Start()
     {
-        //mapGenerator.OLD_GenerateTerrain();
+        //ReloadTerrain();
     }
 
     /// <summary>
@@ -55,13 +59,24 @@ public class MapController : MonoBehaviour
 
     public void SaveMapData()
     {
-        if(mapData == null)
+        EditorUtility.SetDirty(mapData);
+    }
+
+    [SerializeField]
+    [Button(nameof(ReloadTerrain))]
+    bool ReloadTerrainButton;
+    public void ReloadTerrain()
+    {
+        RTS.LoadMap(mapData);
+        var display = debugDisplayObject;
+        if (showDebugTerrainTexture)
         {
-            AssetDatabase.CreateAsset(mapData, "Assets/mapdata.asset");
+            display.gameObject.SetActive(true);
+            display.GetComponent<MapDisplay>().DrawTerrainMap();
         }
         else
         {
-            AssetDatabase.SaveAssets();
+            display.gameObject.SetActive(false);
         }
     }
 }

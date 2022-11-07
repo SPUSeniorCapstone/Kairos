@@ -69,20 +69,14 @@ public class PathManager
         return task;
     }
 
-    private bool IsValidMovePosition(Vector2Int position)
+    public bool IsValidMovePosition(Vector2Int position)
     {
-        //Vector3 pos = MapController.main.grid.CellToWorld((Vector3Int)position);
-        ////pos = new Vector3(pos.x, 0, pos.y);
-        //if (Physics.CheckSphere(pos, 1))
-        //{
-        //    return false;
-        //}
-        int x = MapController.main.mapData.tiles.GetLength(0);
-        int y = MapController.main.mapData.tiles.GetLength(1);
+        int x = MapController.main.mapData.width;
+        int y = MapController.main.mapData.height;
 
         if (position.x >= x || position.x < 0 || position.y >= y || position.y < 0) return false;
 
-        if (MapController.main.mapData.tiles[position.x, position.y].isPassable)
+        if (MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(position.x, position.y)].isPassable)
         {
             return true;
         }
@@ -91,15 +85,15 @@ public class PathManager
 
     public float MovePositionWeight(Vector2Int position)
     {
-        int x = MapController.main.mapData.tiles.GetLength(0);
-        int y = MapController.main.mapData.tiles.GetLength(1);
+        int x = MapController.main.mapData.width;
+        int y = MapController.main.mapData.length;
 
         if (position.x >= x || position.x < 0 || position.y >= y || position.y < 0) return 0;
 
-        if (!MapController.main.mapData.tiles[position.x, position.y].isPassable)
+        if (!MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(position.y, position.x)].isPassable)
         {
             return 0;
         }
-        return MapController.main.mapData.tiles[position.x, position.y].weight;
+        return MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(position.y, position.x)].weight;
     }
 }

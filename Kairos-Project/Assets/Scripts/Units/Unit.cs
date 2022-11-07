@@ -100,6 +100,7 @@ public class Unit : Entity
                     else
                     {
                         Debug.Log("No Path Found");
+                        PathRequest = null;
                     }
 
                 }

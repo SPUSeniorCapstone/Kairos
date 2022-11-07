@@ -18,13 +18,13 @@ public class MapDisplay : MonoBehaviour
         {
             for(int x = 0; x < width * MapController.main.mapData.cellSizeX; x++)
             {
-                int index = (int)(y / MapController.main.mapData.cellSizeZ) * width + (int)(x / MapController.main.mapData.cellSizeX);
+                int index = (int)(x / MapController.main.mapData.cellSizeZ) * width + (int)(y / MapController.main.mapData.cellSizeX);
                 int X = (int)(x / MapController.main.mapData.cellSizeX);
                 int Y = (int)(y / MapController.main.mapData.cellSizeZ);
 
-                if (MapController.main.mapData.tiles[X,Y].isPassable)
+                if (MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(X,Y)].isPassable)
                 {
-                    colorMap[index] = Color.Lerp(Color.black, Color.grey, MapController.main.mapData.tiles[X, Y].weight);
+                    colorMap[index] = Color.Lerp(Color.black, Color.grey, MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(X, Y)].weight);
                 }
                 else
                 {

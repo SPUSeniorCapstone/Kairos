@@ -21,11 +21,11 @@ public class MapController_Editor : Editor
 
         var map = target as MapController;
 
-        scale = map.mapGenerator.scale;
-        eccentricity = map.mapGenerator.eccentricity;
-        layerDivider = map.mapGenerator.layerDivider;
-        offsetX = map.mapGenerator.offsetX;
-        offsetZ = map.mapGenerator.offsetZ;
+        scale = map.mapGenerator.settings.scale;
+        eccentricity = map.mapGenerator.settings.eccentricity;
+        layerDivider = map.mapGenerator.settings.layerDivider;
+        offsetX = map.mapGenerator.settings.offsetX;
+        offsetZ = map.mapGenerator.settings.offsetZ;
 
         if (CheckChanges != null)
         {
@@ -51,18 +51,18 @@ public class MapController_Editor : Editor
             if (GenerateOnUpdate)
             {
                 if (
-                scale != map.mapGenerator.scale ||
-                eccentricity != map.mapGenerator.eccentricity ||
-                layerDivider != map.mapGenerator.layerDivider ||
-                offsetX != map.mapGenerator.offsetX ||
-                offsetZ != map.mapGenerator.offsetZ
+                scale != map.mapGenerator.settings.scale ||
+                eccentricity != map.mapGenerator.settings.eccentricity ||
+                layerDivider != map.mapGenerator.settings.layerDivider ||
+                offsetX != map.mapGenerator.settings.offsetX ||
+                offsetZ != map.mapGenerator.settings.offsetZ
                 )
                 {
-                    scale = map.mapGenerator.scale;
-                    eccentricity = map.mapGenerator.eccentricity;
-                    layerDivider = map.mapGenerator.layerDivider;
-                    offsetX = map.mapGenerator.offsetX;
-                    offsetZ = map.mapGenerator.offsetZ;
+                    scale = map.mapGenerator.settings.scale;
+                    eccentricity = map.mapGenerator.settings.eccentricity;
+                    layerDivider = map.mapGenerator.settings.layerDivider;
+                    offsetX = map.mapGenerator.settings.offsetX;
+                    offsetZ = map.mapGenerator.settings.offsetZ;
 
                     map.mapGenerator.OLD_GenerateTerrain();
                 }
@@ -103,30 +103,12 @@ public class MapController_Editor : Editor
         {
             if(map.mapData == null)
             {
-                map.mapData = new MapData(0,0);
+                Debug.LogError("missing mapdata");
             }
-            map.mapGenerator.OLD_GenerateTerrain();
-        }
-        else if (GenerateOnUpdate)
-        {
-            //if (
-            //    terrainResolution != map.mapGenerator.terrainResolution ||
-            //    cellSize != map.mapGenerator.cellSize ||
-            //    scale != map.mapGenerator.scale ||
-            //    eccentricity != map.mapGenerator.eccentricity ||
-            //    layerDivider != map.mapGenerator.layerDivider ||
-            //    seed != map.mapGenerator.seed
-            //    )
-            //{
-            //    terrainResolution = map.mapGenerator.terrainResolution;
-            //    cellSize = map.mapGenerator.cellSize;
-            //    scale = map.mapGenerator.scale;
-            //    eccentricity = map.mapGenerator.eccentricity;
-            //    layerDivider = map.mapGenerator.layerDivider;
-            //    seed = map.mapGenerator.seed;
-
-            //    map.mapGenerator.OLD_GenerateTerrain();
-            //}
+            else
+            {
+                map.mapGenerator.OLD_GenerateTerrain();
+            }
         }
 
         GenerateOnUpdate = EditorGUILayout.Toggle(GenerateOnUpdate);
