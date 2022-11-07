@@ -8,11 +8,15 @@ public class Unit : Entity
 {
     public LineRenderer lineRenderer;
     public bool drawPath;
+    bool isMoving = false;
 
     public float moveSpeed = 5;
 
     Vector3[] path = null;
+    Vector3 formationPoint; //<- store this in battalion?
     int index;
+
+    EntityAnimator animator;
 
     Coroutine followPath;
 
@@ -20,6 +24,7 @@ public class Unit : Entity
 
     protected void Start()
     {
+        animator = GetComponent<EntityAnimator>();
         base.Start();
         StartCoroutine(FollowPath());
     }
@@ -68,76 +73,117 @@ public class Unit : Entity
         PathRequest = PathManager.main.RequestPathAsync((Vector2Int)start, (Vector2Int)end);
     }
 
+    void RotateTowardsMovement(Vector3 move)
+    {
+        Vector3 test = move;
+        test.y = 0;
+        if (test != Vector3.zero)
+        {
+            RotateTowards(transform.position + move);
+        }
+    }
+
+    private void Update()
+    {
+        if(animator != null)
+        {
+            if (isMoving)
+            {
+                animator.SetState(EntityAnimator.AnimatorState.RUN_FORWARD);
+            }
+            else
+            {
+                animator.SetState(EntityAnimator.AnimatorState.IDLE);
+            }
+        }
+    }
+
     protected IEnumerator FollowPath()
     {
         while (true)
         {
-            if (index < 0)
+            if (enabled)
             {
-                if (PathRequest != null && PathRequest.IsCompleted)
+               
+
+                if (index < 0)
                 {
-                    var intPath = PathRequest.Result;
-                    Vector3[] positions = new Vector3[intPath.Length];
-                    for (int i = 0; i < intPath.Length; i++)
+                    if (PathRequest != null && PathRequest.IsCompleted)
                     {
-                        //Vector3Int p = new Vector3Int(path[i].x, 0, path[i].y);
-                        positions[i] = MapController.main.grid.GetCellCenterWorld((Vector3Int)intPath[i]);
-                    }
-                    path = positions;
-                    index = 0;
+                        var intPath = PathRequest.Result;
+                        Vector3[] positions = new Vector3[intPath.Length];
+                        for (int i = 0; i < intPath.Length; i++)
+                        {
+                            //Vector3Int p = new Vector3Int(path[i].x, 0, path[i].y);
+                            positions[i] = MapController.main.grid.GetCellCenterWorld((Vector3Int)intPath[i]);
+                        }
+                        path = positions;
+                        index = 0;
 
 
-                    if (lineRenderer != null && drawPath)
-                    {
-                        lineRenderer.positionCount = path.Length;
+                        if (lineRenderer != null && drawPath)
+                        {
+                            lineRenderer.positionCount = path.Length;
 
-                        lineRenderer.SetPositions(positions);
+                            lineRenderer.SetPositions(positions);
+                        }
                     }
                 }
-            }
-            else if (path != null && index < path.Length)
-            {
-                Vector3 target = path[index];
-                target.y = transform.position.y;
-                while (Vector3.Distance(transform.position, target) > MapController.main.grid.cellSize.x / 2)
+                else if (path != null && index < path.Length)
                 {
-                    if(index < 0)
+                    if (animator != null)
                     {
-                        break;
+                       // animator.SetState(EntityAnimator.AnimatorState.RUN_FORWARD);
                     }
-
-                    Vector3 dir = target - transform.position;
-                    dir.y = 0;
-                    dir = dir.normalized;
-
-                    Vector3 neo = transform.position;
-                    neo += dir * moveSpeed * Time.deltaTime;
-                    neo.y = MapController.main.RTS.SampleHeight(neo) + 0.1f;
-                    transform.position = neo;
+                    Vector3 target = path[index];
                     target.y = transform.position.y;
-
-                    Debug.DrawRay(transform.position, path.Last() - transform.position, Color.black);
-
-                    yield return null;
-                }
-                if (index >= 0) {
-                    index++;
-
-                    var currPos = transform.position;
-                    var t = path.Last();
-                    var direction = t - currPos;
-                    if (Physics.Raycast(currPos, direction, Vector3.Distance(currPos, t)))
+                    while (Vector3.Distance(transform.position, target) > MapController.main.grid.cellSize.x / 2)
                     {
-                        Debug.Log("Hit Terrain");
+                        isMoving = true;
+                        if (index < 0)
+                        {
+                            break;
+                        }
+
+                        Vector3 dir = target - transform.position;
+                        dir.y = 0;
+                        dir = dir.normalized;
+
+                        Vector3 neo = transform.position;
+                        neo += dir * moveSpeed * Time.deltaTime;
+                        neo.y = MapController.main.RTS.SampleHeight(neo) + 0.1f;
+                        transform.position = neo;
+                        RotateTowardsMovement(dir);
+                        target.y = transform.position.y;
+
+                        Debug.DrawRay(transform.position, path.Last() - transform.position, Color.black);
+
+                        yield return null;
                     }
-                    else
+                    if (index >= 0)
                     {
-                        index = path.Length - 1;
+                        index++;
+
+                        var currPos = transform.position;
+                        var t = path.Last();
+                        var direction = t - currPos;
+                        if (Physics.Raycast(currPos, direction, Vector3.Distance(currPos, t)))
+                        {
+                            Debug.Log("Hit Terrain");
+                        }
+                        else
+                        {
+                            index = path.Length - 1;
+                        }
+                        // idle
+                        // this fixed a bug when they would stutter
+                        if (index >= path.Length - 1)
+                        {
+                            isMoving = false;
+                            // animator.SetState(EntityAnimator.AnimatorState.IDLE);
+                        }
                     }
-                }
-
-
-
+                }            
             }
             yield return null;
         }

@@ -15,6 +15,7 @@ public class PositionMarker : MonoBehaviour
     {
         transform.position = point;
         gameObject.SetActive(true);
+        //Debug.Log(transform.position + "Coords");
     }
     // Update is called once per frame
     void Update()

@@ -25,20 +25,29 @@ public class CameraController : MonoBehaviour
 
     void MoveCamera()
     {
-        float inputX = Input.GetAxis("Horizontal") * moveSpeed;
-        float inputZ = Input.GetAxis("Vertical") * moveSpeed;
+        float inputX = Input.GetAxis("Vertical") * moveSpeed;
+        float inputZ = Input.GetAxis("Horizontal") * moveSpeed;
         float inputY = 0.0f;
 
         if (Input.GetKey(KeyCode.Q))
         {
-            inputY = -moveSpeed;
+            inputY = -moveSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.E))
         {
-            inputY = moveSpeed;
+            inputY = moveSpeed * Time.deltaTime;
         }
+        Vector3 up = inputY * Vector3.up;
+        Vector3 forward = inputX * transform.forward;
+        Vector3 right = inputZ * transform.right;
+        forward.y = 0;
+        forward = forward.normalized;
+        right.y = 0;
+        right = right.normalized;
 
-        transform.position += new Vector3(inputX, inputY, inputZ) * Time.deltaTime;
+
+
+        transform.position += (up + forward + right) * Time.deltaTime * moveSpeed;
     }
 
     void RotateCamera()

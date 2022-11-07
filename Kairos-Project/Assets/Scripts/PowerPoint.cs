@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class PowerPoint : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textMesh;
+    [SerializeField]
+    [TextArea(15,20)]
     private List<string> slides = new List<string>();
     private int index = 0;
     private int count = 0;
@@ -15,16 +17,16 @@ public class PowerPoint : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string slide1 = "Feature: Single Selection\n\nLeft click on an entity to select.\n\nAn entity can be a unit or a building";
-        string slide2 = "Feature: Multi Selection\n\nLeft click and drag to form a box.\n\nAny entities within the box will be selected, but if both units and buildings are within, only the units will be selected.";
-        string slide3 = "Feature: Shift Selection\n\nPressing left shift and selecting a unit will add the unit to the selected entity list without removing entities already in the list.\n\nThis works with single selection as well.";
-        string slide4 = "Feature: Hot Keys\n\nWhile any amount of entities are selected, press left control and a number to assign a hot key.\n\nWhen this number is pressed, it will select the group of entities assigned to the hot key."; //<- include buildings?
-        string slide5 = "Feature: Hero Unit View\n\nPress 'f' when a hero unit is selected.\n\nWe are still debating whether to include this feature.";
-        slides.Add(slide1);
-        slides.Add(slide2);
-        slides.Add(slide3);
-        slides.Add(slide4);
-        slides.Add(slide5);
+        //string slide1 = "Feature: Single Selection\n\nLeft click on an entity to select.\n\nAn entity can be a unit or a building";
+        //string slide2 = "Feature: Multi Selection\n\nLeft click and drag to form a box.\n\nAny entities within the box will be selected, but if both units and buildings are within, only the units will be selected.";
+        //string slide3 = "Feature: Shift Selection\n\nPressing left shift and selecting a unit will add the unit to the selected entity list without removing entities already in the list.\n\nThis works with single selection as well.";
+        //string slide4 = "Feature: Hot Keys\n\nWhile any amount of entities are selected, press left control and a number to assign a hot key.\n\nWhen this number is pressed, it will select the group of entities assigned to the hot key."; //<- include buildings?
+        //string slide5 = "Feature: Hero Unit View\n\nPress 'f' when a hero unit is selected.\n\nWe are still debating whether to include this feature.";
+        //slides.Add(slide1);
+        //slides.Add(slide2);
+        //slides.Add(slide3);
+        //slides.Add(slide4);
+        //slides.Add(slide5);
         count = slides.Count;
         textMesh.text = slides[index];
     }

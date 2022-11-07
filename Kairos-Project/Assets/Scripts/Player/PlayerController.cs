@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class PlayerController : MonoBehaviour
 {
+    // brute force
+    public bool heroFollow = false;
     public Dictionary<KeyCode, List<Entity>> hotKeys = new Dictionary<KeyCode, List<Entity>>();
 
     [SerializeField] private Vector3 startPosition;
@@ -102,27 +105,58 @@ public class PlayerController : MonoBehaviour
                     {
                         entity.SetSelectedVisible(true);
                         selectedEntityList.Add(entity);
+                        var battalion = entity as Battalion;
+                        if (battalion != null)
+                        {
+                            battalion.Select();
+                        }
                     }
                 }
             }
         }
     }
 
-    void MoveSelected()
+    public void MoveSelected()
     {
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
         {
-            positionMarker.point = hit.point;
-            positionMarker.point.y = .1f;
-            positionMarker.PlaceMarker();
+            if (!heroFollow)
+            {
+                positionMarker.point = hit.point;
+                positionMarker.point.y = .1f;
+                positionMarker.PlaceMarker();
+            }
+            
             foreach (var entity in selectedEntityList)
             {
                 var unit = entity as Unit;
+                var battalion = entity as Battalion;            
+                if (battalion != null)
+                {
+                    var pos = hit.point;
+                    pos.y = 0;
+                    if (heroFollow){
+                        pos = GameObject.Find("Hero").transform.position;
+                    }
+                    if (selectedEntityList.Count != 1)
+                    {
+                        pos += Random.insideUnitSphere * 6;
+                    }               
+                    battalion.Move(pos);
+                }
                 if (unit != null)
                 {
                     var pos = hit.point;
                     pos.y = 0;
+                    if (heroFollow)
+                    {
+                        pos = GameObject.Find("Hero").transform.position;
+                    }
+                    if (selectedEntityList.Count != 1)
+                    {
+                        pos += Random.insideUnitSphere * 6;
+                    }
                     unit.MoveAsync(pos);
                 }
             }
@@ -191,18 +225,13 @@ public class PlayerController : MonoBehaviour
             // this takes care of deselection, with left shift allowance
             //=============================================
             if (!Input.GetKey(KeyCode.LeftShift)) {
-                foreach (var Entity in selectedEntityList)
+                foreach (var entity in selectedEntityList)
                 {
-                    Entity.SetSelectedVisible(false);
-                    Unit unit = Entity.GetComponent<Unit>();
-                    if (unit != null)                      
+                    entity.SetSelectedVisible(false);
+                    var battalion = entity as Battalion;
+                    if (battalion != null)                      
                     {
-                        Battalion battalian = unit.GetComponentInParent<Battalion>();
-                        if (battalian != null && battalian.selected)
-                        {
-                            //battalian.Deselect();
-                            battalian.selected = false;
-                        }
+                        battalion.Deselect();                   
                     }                 
                 }
                 selectedEntityList.Clear();
@@ -269,6 +298,7 @@ public class PlayerController : MonoBehaviour
                 }
                 foreach (Battalion battalion in battalions)
                 {
+                    selectedEntityList.Add(battalion);
                     battalion.Select();
                 }
             }
@@ -283,7 +313,9 @@ public class PlayerController : MonoBehaviour
                         var battalion = unit.GetComponentInParent<Battalion>();
                         if (battalion != null)
                         {
+                            Debug.Log("Battalion");
                             battalion.Select();
+                            selectedEntityList.Add(battalion);
                         }
                         else
                         {

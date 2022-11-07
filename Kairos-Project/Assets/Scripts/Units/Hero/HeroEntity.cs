@@ -16,6 +16,8 @@ public class HeroEntity : MonoBehaviour
     public EntityAnimator.AnimatorState state;
     public bool dead = false;
 
+    [SerializeField] PlayerController playerController;
+
     //public Transform weapons;
     //protected Weapon weapon;
     //public int weaponIndex = 0;
@@ -80,6 +82,13 @@ public class HeroEntity : MonoBehaviour
         }
 
         move = Vector3.zero;
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            playerController.heroFollow = true;
+            playerController.MoveSelected();
+            playerController.heroFollow = false;
+        }
     }
 
     public void DamageEntity(float damage, Vector3 knockback)

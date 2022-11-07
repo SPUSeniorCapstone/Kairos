@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7604314672875517768}
   m_Layer: 0
   m_Name: Unit
-  m_TagString: Entity
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,8 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedHighlight: {fileID: 1699843345726004456}
+  select: 0
+  hoykey: 0
+  rotateSpeed: 10
   lineRenderer: {fileID: 5973394181249612538}
-  drawPath: 1
+  drawPath: 0
   moveSpeed: 5
 --- !u!1 &1699843345726004456
 GameObject:

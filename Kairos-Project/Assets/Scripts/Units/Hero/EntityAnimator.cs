@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(HeroEntity), typeof(Animator))]
+
 public class EntityAnimator : MonoBehaviour
 {
     Animator animator;
     HeroEntity entity;
     Hero hero;
+    Unit unit;
 
     public AnimatorState animatorState
     {
@@ -25,13 +26,17 @@ public class EntityAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
         entity = GetComponent<HeroEntity>();
         hero = GetComponent<Hero>();
+        unit = GetComponent<Unit>();
 
         animatorState = AnimatorState.IDLE;
     }
 
     private void Update()
     {
-        animatorState = entity.state;
+        if (entity != null)
+        {
+            animatorState = entity.state;
+        }
         if (Input.GetKeyDown(KeyCode.F) && GetComponentInChildren<Unit>().select)
         {
             GetComponentInChildren<Unit>().enabled = !GetComponentInChildren<Unit>().enabled;

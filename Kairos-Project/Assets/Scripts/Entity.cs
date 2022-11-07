@@ -11,7 +11,7 @@ public abstract class Entity : MonoBehaviour
     GameObject selectedHighlight;
     public bool select = false;
     public KeyCode hoykey;
-   
+    public float rotateSpeed = 10f;
 
     public void SetSelectedVisible(bool selected)
     {
@@ -31,5 +31,24 @@ public abstract class Entity : MonoBehaviour
     private void OnDestroy()
     {
         GameController.main.playerController.playerEntities.Remove(gameObject);
+    }
+
+    protected void RotateTowards(Vector3 pos)
+    {
+        /*
+        if (lockHorizontalRotation)
+        {
+            pos.y = transform.position.y;
+        }*/
+
+        pos.y = transform.position.y;
+        Quaternion rotation = transform.rotation;
+
+        Vector3 direction = pos - transform.position;
+        var lookRotation = Quaternion.LookRotation(direction);
+
+
+        rotation = Quaternion.Slerp(rotation, lookRotation, Time.deltaTime * rotateSpeed);
+        transform.rotation = rotation;
     }
 }
