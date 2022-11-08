@@ -8,10 +8,15 @@ public class CameraController : MonoBehaviour
     public float rotateSpeed = 1;
     public float verticalSpeed = 1;
 
+    public Vector3 defaultRotation = Vector3.zero;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(defaultRotation == Vector3.zero)
+        {
+            defaultRotation = transform.rotation.eulerAngles;
+        }
     }
 
     // Update is called once per frame
@@ -19,6 +24,12 @@ public class CameraController : MonoBehaviour
     {
         if (!GameController.main.paused)
         {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+
+                transform.rotation = Quaternion.Euler(defaultRotation);
+            }
+
             MoveCamera();
             RotateCamera();
         }
