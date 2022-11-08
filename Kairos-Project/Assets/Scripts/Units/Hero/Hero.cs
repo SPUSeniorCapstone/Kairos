@@ -46,7 +46,11 @@ public class Hero : HeroEntity
     {
         base.Update();
         HandleInput();
-        //if (Input.GetKeyDown(KeyCode.F)) GenerateTerrain();
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+
+            transform.position.Set(25, 20, 25);
+        }
     }
 
     void HandleInput()

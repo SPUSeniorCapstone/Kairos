@@ -33,7 +33,7 @@ public class MapController : MonoBehaviour
     [SerializeField] Slider scale;
     [SerializeField] Slider eccentricity;
     [SerializeField] Slider layer_divisor;
-
+    public bool realTime = false;
 
     [Header("Scriptable Objects")]
     //Other Objects
@@ -43,18 +43,30 @@ public class MapController : MonoBehaviour
     {
         mapGenerator.settings.scale = scale.value;
         scale.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = scale.value.ToString();
+        if (realTime)
+        {
+            mapGenerator.OLD_GenerateTerrain();
+        }
     }
 
     public void EccentricityChange()
     {
         mapGenerator.settings.eccentricity = eccentricity.value;
         eccentricity.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = eccentricity.value.ToString();
+        if (realTime)
+        {
+            mapGenerator.OLD_GenerateTerrain();
+        }
     }
 
     public void LayerChange()
     {
         mapGenerator.settings.layerDivider = layer_divisor.value;
         layer_divisor.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = layer_divisor.value.ToString();
+        if (realTime)
+        {
+            mapGenerator.OLD_GenerateTerrain();
+        }
     }
 
     public void GenerateMap()
@@ -62,6 +74,14 @@ public class MapController : MonoBehaviour
         mapGenerator.OLD_GenerateTerrain();
     }
 
+    public void SetRealTime()
+    {
+        if (!realTime)
+        {
+            mapGenerator.OLD_GenerateTerrain();
+        }
+        realTime = !realTime;
+    }
 
 
 
@@ -69,6 +89,13 @@ public class MapController : MonoBehaviour
     {
         Init(this);
         ReloadTerrain();
+        layer_divisor.value = mapGenerator.settings.layerDivider;
+        layer_divisor.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = layer_divisor.value.ToString();
+        eccentricity.value = mapGenerator.settings.eccentricity;
+        eccentricity.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = eccentricity.value.ToString();
+        scale.value = mapGenerator.settings.scale;
+        scale.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = scale.value.ToString();
+
     }
 
     private void Start()

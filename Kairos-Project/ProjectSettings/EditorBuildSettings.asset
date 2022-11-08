@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Unit Demo Isaiah.unity
-    guid: e129404d4ca620e469659478d59afd17
+    path: Assets/Scenes/TerrainDemo.unity
+    guid: 228b26fab23d0bd4aa3b480aefd65aae
+  - enabled: 1
+    path: Assets/Scenes/Unit Demo.unity
+    guid: fceef9c1db933bd458af7824fad9c589
   m_configObjects: {}

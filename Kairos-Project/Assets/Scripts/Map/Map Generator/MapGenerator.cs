@@ -41,7 +41,7 @@ public class MapGenerator : MonoBehaviour
 
                 if (h > settings.layerDivider)
                 {
-                    BlockOffNode(tiles, new Vector2Int(x, z), 5, false, true);
+                    BlockOffNode(tiles, new Vector2Int(x, z), settings.blockOffDepth, false, true);
                     h = 1f;
                 }
                 else

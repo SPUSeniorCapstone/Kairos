@@ -11,5 +11,5 @@ public class GeneratorSettings : ScriptableObject
     [Range(0, 1)]
     public float layerDivider = 0.5f;
     public float offsetX, offsetZ;
-
+    public int blockOffDepth = 5;
 }
