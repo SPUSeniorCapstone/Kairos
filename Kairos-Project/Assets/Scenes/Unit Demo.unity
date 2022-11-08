@@ -1241,6 +1241,7 @@ MonoBehaviour:
   moveSpeed: 40
   rotateSpeed: 1000
   verticalSpeed: 400
+  defaultRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &986697470
 GameObject:
   m_ObjectHideFlags: 0
@@ -2371,7 +2372,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!154 &2118313678
 TerrainCollider:
@@ -2382,7 +2383,7 @@ TerrainCollider:
   m_GameObject: {fileID: 2118313677}
   m_Material: {fileID: 0}
   m_Enabled: 1
-  m_TerrainData: {fileID: 15600000, guid: e7168475287b6cc4582b098dc57f7087, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 814b00ed693042d4f82158edf1716fed, type: 2}
   m_EnableTreeColliders: 1
 --- !u!218 &2118313679
 Terrain:

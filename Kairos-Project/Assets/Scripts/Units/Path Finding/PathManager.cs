@@ -71,12 +71,12 @@ public class PathManager
 
     public bool IsValidMovePosition(Vector2Int position)
     {
-        int x = MapController.main.mapData.width;
-        int y = MapController.main.mapData.height;
+        int y = MapController.main.mapData.width;
+        int x = MapController.main.mapData.length;
 
         if (position.x >= x || position.x < 0 || position.y >= y || position.y < 0) return false;
 
-        if (MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(position.x, position.y)].isPassable)
+        if (MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(position.y, position.x)].isPassable)
         {
             return true;
         }
@@ -85,8 +85,8 @@ public class PathManager
 
     public float MovePositionWeight(Vector2Int position)
     {
-        int x = MapController.main.mapData.width;
-        int y = MapController.main.mapData.length;
+        int y = MapController.main.mapData.width;
+        int x = MapController.main.mapData.length;
 
         if (position.x >= x || position.x < 0 || position.y >= y || position.y < 0) return 0;
 
