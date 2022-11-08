@@ -61,4 +61,10 @@ public class GameController : MonoBehaviour
             hero.GetComponent<CharacterController>().enabled = !hero.GetComponent<CharacterController>().enabled;
         }
     }
+
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

@@ -19,3 +19,4 @@ MonoBehaviour:
   layerDivider: 0.583
   offsetX: 93.01
   offsetZ: 0
+  blockOffDepth: 5

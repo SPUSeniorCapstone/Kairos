@@ -19,6 +19,8 @@ public class MapGenerator : MonoBehaviour
     /// Simple terrain Generation using Perlin noise 
     /// Automatically updates the active MapData object
     /// </summary>
+    [Button(nameof(OLD_GenerateTerrain))]
+    [SerializeField] bool _OLD_GenerateTerrain;
     public void OLD_GenerateTerrain()
     {
 

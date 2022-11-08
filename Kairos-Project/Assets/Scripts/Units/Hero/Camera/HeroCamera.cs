@@ -82,7 +82,7 @@ public class HeroCamera : MonoBehaviour
     {
         float rotateAmount = (Input.GetAxis("Mouse X") * rotateSpeed * Time.deltaTime);
         transform.RotateAround(player.transform.position, Vector3.up, rotateAmount);
-        float rotateY = (Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime);
+        float rotateY = -(Input.GetAxis("Mouse Y") * rotateSpeed * Time.deltaTime);
         transform.RotateAround(transform.position, transform.right, rotateY);
     }
 

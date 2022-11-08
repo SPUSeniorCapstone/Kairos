@@ -171,9 +171,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -1561,10 +1559,12 @@ MonoBehaviour:
   health: 10
   state: 0
   dead: 0
+  playerController: {fileID: 0}
   speed: 10
   sprintModifier: 1.5
   jumpHeight: 1.7
   on: 0
+  controlled: 0
   attackCooldown: 0.5
   RTSCamera: {fileID: 0}
   smallCamera: {fileID: 0}
@@ -1582,7 +1582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedHighlight: {fileID: 1782708910879141149}
   select: 0
-  hoykey: 0
+  hotkey: 0
   rotateSpeed: 10
   lineRenderer: {fileID: 8296475271189377802}
   drawPath: 1
