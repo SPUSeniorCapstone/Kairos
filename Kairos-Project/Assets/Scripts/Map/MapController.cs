@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Slider = UnityEngine.UI.Slider;
+using TMPro;
 
 /// <summary>
 /// Not Implemented
@@ -28,13 +30,39 @@ public class MapController : MonoBehaviour
     public Grid grid;
     public MapGenerator mapGenerator;
     public Renderer debugDisplayObject;
+    [SerializeField] Slider scale;
+    [SerializeField] Slider eccentricity;
+    [SerializeField] Slider layer_divisor;
 
 
     [Header("Scriptable Objects")]
     //Other Objects
     public MapData mapData;
 
-    
+    public void ScaleChange()
+    {
+        mapGenerator.settings.scale = scale.value;
+        scale.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = scale.value.ToString();
+    }
+
+    public void EccentricityChange()
+    {
+        mapGenerator.settings.eccentricity = eccentricity.value;
+        eccentricity.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = eccentricity.value.ToString();
+    }
+
+    public void LayerChange()
+    {
+        mapGenerator.settings.layerDivider = layer_divisor.value;
+        layer_divisor.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = layer_divisor.value.ToString();
+    }
+
+    public void GenerateMap()
+    {
+        mapGenerator.OLD_GenerateTerrain();
+    }
+
+
 
 
     private void Awake()
