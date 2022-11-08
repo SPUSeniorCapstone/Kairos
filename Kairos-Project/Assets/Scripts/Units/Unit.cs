@@ -65,6 +65,7 @@ public class Unit : Entity
 
     public void MoveAsync(Vector3 mapPosition)
     {
+        Debug.Log("async called");
         Vector3Int start = MapController.main.grid.WorldToCell(transform.position);
         Vector3Int end = MapController.main.grid.WorldToCell(mapPosition);
 

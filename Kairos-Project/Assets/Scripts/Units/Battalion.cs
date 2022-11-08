@@ -40,6 +40,7 @@ public class Battalion : Entity
 
     public void Move(Vector3 point)
     {
+        Debug.Log("Battlaion move called");
         center.Set(avgX, avgY, avgZ);
         int unitNum = 0;
         // List<Vector3> positions = new List<Vector3>();
@@ -64,7 +65,7 @@ public class Battalion : Entity
                 }
                 else
                 {
-                    Debug.Log(units[j + i * (count)] + "");
+                    //Debug.Log(units[j + i * (count)] + "");
                     newPos.y -= i + 1;// * 1.5f;
                 }
 
