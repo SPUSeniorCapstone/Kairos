@@ -37,18 +37,10 @@ public class CameraController : MonoBehaviour
 
     void MoveCamera()
     {
-        float inputX = Input.GetAxis("Vertical") * moveSpeed;
-        float inputZ = Input.GetAxis("Horizontal") * moveSpeed;
-        float inputY = 0.0f;
+        float inputX = Input.GetAxis("Vertical");
+        float inputZ = Input.GetAxis("Horizontal");
+        float inputY = Input.GetAxis("Jump");
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            inputY = -moveSpeed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            inputY = moveSpeed * Time.deltaTime;
-        }
         Vector3 up = inputY * Vector3.up;
         Vector3 forward = inputX * transform.forward;
         Vector3 right = inputZ * transform.right;
