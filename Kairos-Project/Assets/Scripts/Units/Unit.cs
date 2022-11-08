@@ -65,9 +65,16 @@ public class Unit : Entity
 
     public void MoveAsync(Vector3 mapPosition)
     {
-        Debug.Log("async called");
+        if (!GetClosestValidPosition(mapPosition, out mapPosition))
+        {
+            return;
+        }
+
+
+        //Debug.Log("async called");
         Vector3Int start = MapController.main.grid.WorldToCell(transform.position);
         Vector3Int end = MapController.main.grid.WorldToCell(mapPosition);
+        
 
         PathRequest = null;
         index = -2;
@@ -189,5 +196,41 @@ public class Unit : Entity
             }
             yield return null;
         }
+    }
+
+    bool GetClosestValidPosition(Vector3 pos, out Vector3 newPos)
+    {
+        if (PathManager.main.IsValidMovePosition(Helpers.ToVector2Int(new Vector2(pos.x, pos.z))))
+        {
+            newPos = pos;
+            return true;
+        }
+
+        Vector3[] directions =
+        {
+            Vector3.forward,
+            -Vector3.forward,
+            Vector3.right,
+            -Vector3.right
+        };
+
+
+        for (int i = 0; i < 20; i++)
+        {
+            foreach (var dir in directions)
+            {
+                Vector3 test = pos + dir * i;
+                if (PathManager.main.IsValidMovePosition(Helpers.ToVector2Int(new Vector2(test.x, test.z))))
+                {
+                    newPos = test;
+                    return true;
+                }
+            }
+        }
+
+        Debug.Log("Could not find valid position");
+
+        newPos = Vector3.zero;
+        return false;
     }
 }

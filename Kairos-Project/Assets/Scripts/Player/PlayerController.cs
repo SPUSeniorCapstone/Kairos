@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
         {
-            Debug.Log(MapController.main.grid.WorldToCell(hit.point));
+            //Debug.Log(MapController.main.grid.WorldToCell(hit.point));
             if (!heroFollow)
             {
                 positionMarker.point = hit.point;
