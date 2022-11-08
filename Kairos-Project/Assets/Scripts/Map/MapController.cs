@@ -35,6 +35,7 @@ public class MapController : MonoBehaviour
     [SerializeField] Slider eccentricity;
     [SerializeField] Slider layer_divisor;
     public bool realTime = false;
+    public bool OldGeneration = false;
 
     [Header("Scriptable Objects")]
     //Other Objects
@@ -46,7 +47,7 @@ public class MapController : MonoBehaviour
         scale.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = scale.value.ToString();
         if (realTime)
         {
-            mapGenerator.OLD_GenerateTerrain();
+            GenerateMap();
         }
     }
 
@@ -56,7 +57,7 @@ public class MapController : MonoBehaviour
         eccentricity.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = eccentricity.value.ToString();
         if (realTime)
         {
-            mapGenerator.OLD_GenerateTerrain();
+            GenerateMap();
         }
     }
 
@@ -66,22 +67,49 @@ public class MapController : MonoBehaviour
         layer_divisor.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = layer_divisor.value.ToString();
         if (realTime)
         {
-            mapGenerator.OLD_GenerateTerrain();
+            GenerateMap();
         }
     }
 
     public void GenerateMap()
     {
-        mapGenerator.OLD_GenerateTerrain();
+        if (OldGeneration)
+        {
+            mapGenerator.OLD_GenerateTerrain();
+        }
+        else
+        {
+            mapGenerator.GenerateTerrain();
+        }
     }
 
     public void SetRealTime()
     {
         if (!realTime)
         {
-            mapGenerator.OLD_GenerateTerrain();
+            GenerateMap();
         }
         realTime = !realTime;
+    }
+
+    float oldEcc;
+    public void SetOldGeneration()
+    {
+
+        OldGeneration = !OldGeneration;
+        if(!OldGeneration)
+        {
+            if(mapGenerator.settings.eccentricity > 0.1)
+            {
+                oldEcc = mapGenerator.settings.eccentricity;
+                mapGenerator.settings.eccentricity = 0.1f;
+            }
+        }
+        else
+        {
+            mapGenerator.settings.eccentricity = oldEcc;
+        }
+        GenerateMap();
     }
 
 
@@ -105,7 +133,8 @@ public class MapController : MonoBehaviour
 
     private void Start()
     {
-        //ReloadTerrain();
+        GenerateMap();
+        ReloadTerrain();
     }
 
     /// <summary>
@@ -117,6 +146,9 @@ public class MapController : MonoBehaviour
         return Color.white;
     }
 
+
+    [Button(nameof(SaveMapData))]
+    [SerializeField] bool _SaveMapDataButton;
     public void SaveMapData()
     {
         // comment out when editors moved

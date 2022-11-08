@@ -19,9 +19,9 @@ public class MapGenerator : MonoBehaviour
     /// Simple terrain Generation using Perlin noise 
     /// Automatically updates the active MapData object
     /// </summary>
-    [Button(nameof(OLD_GenerateTerrain))]
+    [Button(nameof(GenerateTerrain))]
     [SerializeField] bool _OLD_GenerateTerrain;
-    public void OLD_GenerateTerrain()
+    public void GenerateTerrain()
     {
 
         MapController.main.mapData.width = settings.width;
@@ -118,6 +118,35 @@ public class MapGenerator : MonoBehaviour
             BlockOffNode(tiles, pos + Vector2Int.right + Vector2Int.down, dist - 1, full);
         }
 
+    }
+
+    public void OLD_GenerateTerrain()
+    {
+        MapController.main.mapData.width = settings.width;
+        MapController.main.mapData.length = settings.length;
+        MapController.main.mapData.tiles = new MapTile[settings.width * settings.length];
+
+        float cellSizeX = MapController.main.mapData.cellSizeX;
+        float cellSizeZ = MapController.main.mapData.cellSizeZ;
+        MapController.main.grid.cellSize = new Vector3(cellSizeX, 1, cellSizeZ);
+
+        MapTile[] tiles = new MapTile[settings.width * settings.length];
+
+        for (int x = 0; x < settings.width; x++)
+        {
+            for (int z = 0; z < settings.length; z++)
+            {
+                float h = Mathf.PerlinNoise((x + settings.offsetX) * settings.scale, (z + settings.offsetZ) * settings.scale);
+
+                tiles[MapController.main.mapData.GetIndex(x, z)].height = h * settings.eccentricity;
+            }
+
+
+        }
+
+        MapController.main.mapData.tiles = tiles;
+        MapController.main.ReloadTerrain();
+        MapController.main.SaveMapData();
     }
 }
 

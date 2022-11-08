@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Unit : Entity
@@ -28,6 +29,7 @@ public class Unit : Entity
         base.Start();
         StartCoroutine(FollowPath());
     }
+
 
     public void Move(Vector3 mapPosition)
     {
@@ -56,9 +58,14 @@ public class Unit : Entity
 
         if (lineRenderer != null && drawPath)
         {
+            lineRenderer.enabled = true;
             lineRenderer.positionCount = path.Length;
 
             lineRenderer.SetPositions(positions);
+        }
+        else
+        {
+            lineRenderer.enabled = false;
         }
 
     }
@@ -104,6 +111,19 @@ public class Unit : Entity
                 animator.SetState(EntityAnimator.AnimatorState.IDLE);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            drawPath = !drawPath;
+            if (drawPath)
+            {
+                lineRenderer.enabled = true;
+            }
+            else
+            {
+                lineRenderer.enabled = false;
+            }
+        }
     }
 
     protected IEnumerator FollowPath()
@@ -130,7 +150,7 @@ public class Unit : Entity
                         index = 0;
 
 
-                        if (lineRenderer != null && drawPath)
+                        if (lineRenderer != null)
                         {
                             lineRenderer.positionCount = path.Length;
 
