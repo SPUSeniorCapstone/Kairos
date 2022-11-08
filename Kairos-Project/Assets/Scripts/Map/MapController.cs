@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using Slider = UnityEngine.UI.Slider;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Not Implemented
@@ -89,12 +90,16 @@ public class MapController : MonoBehaviour
     {
         Init(this);
         ReloadTerrain();
-        layer_divisor.value = mapGenerator.settings.layerDivider;
-        layer_divisor.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = layer_divisor.value.ToString();
-        eccentricity.value = mapGenerator.settings.eccentricity;
-        eccentricity.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = eccentricity.value.ToString();
-        scale.value = mapGenerator.settings.scale;
-        scale.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = scale.value.ToString();
+        // brute force
+        if (SceneManager.GetActiveScene().name == "Terrain Demo")
+        {
+            layer_divisor.value = mapGenerator.settings.layerDivider;
+            layer_divisor.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = layer_divisor.value.ToString();
+            eccentricity.value = mapGenerator.settings.eccentricity;
+            eccentricity.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = eccentricity.value.ToString();
+            scale.value = mapGenerator.settings.scale;
+            scale.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = scale.value.ToString();
+        }
 
     }
 
@@ -114,7 +119,8 @@ public class MapController : MonoBehaviour
 
     public void SaveMapData()
     {
-        EditorUtility.SetDirty(mapData);
+        // comment out when editors moved
+        //EditorUtility.SetDirty(mapData);
     }
 
     [SerializeField]

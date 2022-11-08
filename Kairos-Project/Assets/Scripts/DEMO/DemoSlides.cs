@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DemoSlides : MonoBehaviour
 {
@@ -26,8 +27,10 @@ public class DemoSlides : MonoBehaviour
         {
             if (index == count - 1)
             {
-                index = 0;
-                textMesh.text = slides[index];
+                //index = 0;
+                //textMesh.text = slides[index];
+                GetComponent<Image>().enabled = false;
+                GetComponentInChildren<TextMeshProUGUI>().enabled = false;
             }
             else
             {
@@ -39,11 +42,13 @@ public class DemoSlides : MonoBehaviour
         {
             if (index == 0)
             {
-                index = count - 1;
-                textMesh.text = slides[index];
+                //index = count - 1;
+                //textMesh.text = slides[index];
             }
             else
             {
+                GetComponent<Image>().enabled = true;
+                GetComponentInChildren<TextMeshProUGUI>().enabled = true;
                 index--;
                 textMesh.text = slides[index];
             }

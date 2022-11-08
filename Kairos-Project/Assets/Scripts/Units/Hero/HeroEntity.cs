@@ -83,12 +83,12 @@ public class HeroEntity : MonoBehaviour
 
         move = Vector3.zero;
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             playerController.heroFollow = true;
             playerController.MoveSelected();
             playerController.heroFollow = false;
-        }
+        }     
     }
 
     public void DamageEntity(float damage, Vector3 knockback)

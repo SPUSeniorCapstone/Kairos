@@ -210,7 +210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1010,7 +1010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1409,7 +1409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1506,7 +1506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1837,7 +1837,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 40
   rotateSpeed: 1000
-  verticalSpeed: 400
+  verticalSpeed: 75
   defaultRotation: {x: 0, y: 0, z: 0}
 --- !u!1001 &983494400
 PrefabInstance:
@@ -1937,6 +1937,10 @@ MonoBehaviour:
   grid: {fileID: 2001166568}
   mapGenerator: {fileID: 1755850555}
   debugDisplayObject: {fileID: 2139116891}
+  scale: {fileID: 0}
+  eccentricity: {fileID: 0}
+  layer_divisor: {fileID: 0}
+  realTime: 0
   mapData: {fileID: 11400000, guid: efa5929a67725864d8d1ac5bb6d55610, type: 2}
   ReloadTerrainButton: 0
 --- !u!4 &986697472
@@ -1999,7 +2003,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2483,6 +2487,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6656942368103172356, guid: f3e506ebeeb2b2a49ac4f7365338e2b5, type: 3}
   m_PrefabInstance: {fileID: 52936132}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1506159989 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2479492966260627788, guid: f3e506ebeeb2b2a49ac4f7365338e2b5, type: 3}
+  m_PrefabInstance: {fileID: 52936132}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506159987}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fbb0d4d5638944f9f2c6147496c8d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1509626385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2620,7 +2635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2967,7 +2982,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1570338101713554983, guid: cff74f2d5df02d246bd54b04c1a32850, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3126,6 +3141,7 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0, z: 0}
   positionMarker: {fileID: 1281993168}
   selectionAreaTransform: {fileID: 1416157437}
+  hero: {fileID: 1506159989}
   selectedEntityList: []
   playerEntities: []
 --- !u!1 &2001166566

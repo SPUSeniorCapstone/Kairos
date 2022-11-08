@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
 
     public PlayerController playerController;
     public GameObject pauseMenu;
+    [SerializeField] public Hero hero;
 
     public CursorLockMode defaultLockMode = CursorLockMode.None;
 
@@ -41,6 +42,23 @@ public class GameController : MonoBehaviour
                 paused = true;
 
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F)) // removed need for hero to be selected
+        {
+            Debug.Log("F");
+            if (hero.GetComponentInChildren<Unit>() != null)
+            {
+                hero.GetComponentInChildren<Unit>().enabled = !hero.GetComponentInChildren<Unit>().enabled;
+            }
+            hero.smallCamera.GetComponent<Camera>().enabled = !hero.smallCamera.GetComponent<Camera>().enabled;
+            hero.smallCamera.GetComponent<HeroCamera>().enabled = !hero.smallCamera.GetComponent<HeroCamera>().enabled;
+            hero.RTSCamera.GetComponent<Camera>().enabled = !hero.RTSCamera.GetComponent<Camera>().enabled;
+            hero.RTSCamera.GetComponent<CameraController>().enabled = !hero.RTSCamera.GetComponent<CameraController>().enabled;
+
+            hero.controlled = !hero.controlled;
+            hero.enabled = !hero.enabled;
+            hero.GetComponent<CharacterController>().enabled = !hero.GetComponent<CharacterController>().enabled;
         }
     }
 }

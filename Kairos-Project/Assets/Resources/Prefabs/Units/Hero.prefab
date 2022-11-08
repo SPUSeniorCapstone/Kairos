@@ -978,7 +978,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6656942368103172356}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 35.56, y: 0.01, z: 23.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1065,6 +1065,7 @@ MonoBehaviour:
   sprintModifier: 1.5
   jumpHeight: 1.7
   on: 0
+  controlled: 0
   attackCooldown: 0.5
   RTSCamera: {fileID: 0}
   smallCamera: {fileID: 0}
@@ -1082,7 +1083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedHighlight: {fileID: 1297391274959538767}
   select: 0
-  hoykey: 0
+  hotkey: 0
   rotateSpeed: 10
   lineRenderer: {fileID: 8763783322321441880}
   drawPath: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -50,7 +51,10 @@ public class DemoSceneManager : MonoBehaviour
             index++;
             SceneManager.LoadScene(index);
         }
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 1;
         GetComponentInChildren<Canvas>().enabled = false;
+      
     }
 
     public void PreviousScene()
@@ -65,6 +69,9 @@ public class DemoSceneManager : MonoBehaviour
             index--;
             SceneManager.LoadScene(index);
         }
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 1;
         GetComponentInChildren<Canvas>().enabled = false;
+        
     }
 }

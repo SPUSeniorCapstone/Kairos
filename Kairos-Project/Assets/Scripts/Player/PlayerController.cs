@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject selectionAreaTransform;
 
 
+
     // okay to be public?
     public List<Entity> selectedEntityList;
     // Replace Entity with selectable entity
@@ -99,6 +100,17 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("HELPME");
 
                 }
+                // don't add hot key to total list (does this cancel shift?) <-yes
+                foreach(Entity entity in selectedEntityList)
+                {
+                    entity.SetSelectedVisible(false);
+                    var battalion = entity as Battalion;
+                    if (battalion != null)
+                    {
+                        battalion.Deselect();
+                    }
+                }
+                selectedEntityList.Clear();
                 foreach(Entity entity in hotKeys[keyCode])
                 {
                    if (entity != null)
@@ -332,7 +344,6 @@ public class PlayerController : MonoBehaviour
     // does this need to run in update?
     private Entity GetMouseWorldPosition3D()
     {
-        Vector3 temp = new Vector3();
         Ray ray;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitData;

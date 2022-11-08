@@ -9,12 +9,13 @@ public class Hero : HeroEntity
     public float sprintModifier = 1.5f;
     public float jumpHeight = 3;
     public bool on = false;
+    public bool controlled = false;
 
     public float attackCooldown = 0.5f;
     float lockAttackTill = 0;
 
-    bool focusOnEnemy = false;
-    bool hasCanvas = false;
+    //bool focusOnEnemy = false;
+    //bool hasCanvas = false;
 
     [SerializeField] public GameObject RTSCamera;
     [SerializeField] public GameObject smallCamera;
@@ -35,7 +36,7 @@ public class Hero : HeroEntity
         base.Start();
         if (GetComponentInChildren<Canvas>() != null)
         {
-            hasCanvas = true;
+            //hasCanvas = true;
         }
         characterController.enabled = true;
 
@@ -48,8 +49,14 @@ public class Hero : HeroEntity
         HandleInput();
         if (Input.GetKeyDown(KeyCode.H))
         {
-
-            transform.position.Set(25, 20, 25);
+            Debug.Log("set down");
+            Vector3 start;
+            start.x = MapController.main.mapData.length / 2;
+            start.y = 50;
+            start.z = MapController.main.mapData.width / 2;
+            GetComponent<CharacterController>().enabled = false;
+            transform.position = start;
+            GetComponent<CharacterController>().enabled = true;
         }
     }
 

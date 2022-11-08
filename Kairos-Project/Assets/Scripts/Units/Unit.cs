@@ -162,7 +162,10 @@ public class Unit : Entity
                         neo += dir * moveSpeed * Time.deltaTime;
                         neo.y = MapController.main.RTS.SampleHeight(neo) + 0.1f;
                         transform.position = neo;
-                        RotateTowardsMovement(dir);
+                        if(GetComponent<Hero>() == null || (GetComponent<Hero>() != null && !GetComponent<Hero>().controlled))
+                        {
+                            RotateTowardsMovement(dir);
+                        }                      
                         target.y = transform.position.y;
 
                         Debug.DrawRay(transform.position, path.Last() - transform.position, Color.black);

@@ -42,7 +42,6 @@ public class Battalion : Entity
     {
         Debug.Log("Battlaion move called");
         center.Set(avgX, avgY, avgZ);
-        int unitNum = 0;
         // List<Vector3> positions = new List<Vector3>();
         int count = units.Count / 2;
         for (int i = 0; i < 2; i++)

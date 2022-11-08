@@ -8,7 +8,7 @@ public class EntityAnimator : MonoBehaviour
 {
     Animator animator;
     HeroEntity entity;
-    Hero hero;
+    
     Unit unit;
 
     public AnimatorState animatorState
@@ -25,7 +25,7 @@ public class EntityAnimator : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         entity = GetComponent<HeroEntity>();
-        hero = GetComponent<Hero>();
+     
         unit = GetComponent<Unit>();
 
         animatorState = AnimatorState.IDLE;
@@ -36,21 +36,6 @@ public class EntityAnimator : MonoBehaviour
         if (entity != null)
         {
             animatorState = entity.state;
-        }
-        if (Input.GetKeyDown(KeyCode.F)) // removed need for hero to be selected
-        {
-            if (GetComponentInChildren<Unit>() != null)
-            {
-                GetComponentInChildren<Unit>().enabled = !GetComponentInChildren<Unit>().enabled;
-            }
-            hero.smallCamera.GetComponent<Camera>().enabled = !hero.smallCamera.GetComponent<Camera>().enabled;
-            hero.smallCamera.GetComponent<HeroCamera>().enabled = !hero.smallCamera.GetComponent<HeroCamera>().enabled;
-            hero.RTSCamera.GetComponent<Camera>().enabled = !hero.RTSCamera.GetComponent<Camera>().enabled;
-            hero.RTSCamera.GetComponent<CameraController>().enabled = !hero.RTSCamera.GetComponent<CameraController>().enabled;
-          
-
-            hero.enabled = !hero.enabled;
-            GetComponent<CharacterController>().enabled = !GetComponent<CharacterController>().enabled;
         }
     }
 

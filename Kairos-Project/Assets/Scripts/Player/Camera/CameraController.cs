@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float moveSpeed = 1;
+    private float oldSpeed = 1;
     public float rotateSpeed = 1;
     public float verticalSpeed = 1;
 
@@ -13,6 +14,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        oldSpeed = moveSpeed;
         if(defaultRotation == Vector3.zero)
         {
             defaultRotation = transform.rotation.eulerAngles;
@@ -32,6 +34,14 @@ public class CameraController : MonoBehaviour
 
             MoveCamera();
             RotateCamera();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            moveSpeed = moveSpeed * 2;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            moveSpeed = oldSpeed;
         }
     }
 
