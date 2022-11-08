@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Slider = UnityEngine.UI.Slider;
+using TMPro;
 
 /// <summary>
 /// Not Implemented
@@ -19,11 +21,38 @@ public class MapController : MonoBehaviour
     public MiniMap miniMap;
     public StrategicMap strategic;
     public Grid grid;
+    [SerializeField] Slider scale;
+    [SerializeField] Slider eccentricity;
+    [SerializeField] Slider layer_divisor;
+
 
     //Other Objects
     public MapData mapData;
     public MapGenerator mapGenerator;
 
+
+    public void ScaleChange()
+    {
+        mapGenerator.scale = scale.value;
+        scale.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = scale.value.ToString();
+    }
+
+    public void EccentricityChange()
+    {
+        mapGenerator.eccentricity = eccentricity.value;
+        eccentricity.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = eccentricity.value.ToString();
+    }
+
+    public void LayerChange()
+    {
+        mapGenerator.layerDivider = layer_divisor.value;
+        layer_divisor.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = layer_divisor.value.ToString();
+    }
+
+    public void GenerateMap()
+    {
+        mapGenerator.OLD_GenerateTerrain();
+    }
     private void Awake()
     {
         Init(this);
