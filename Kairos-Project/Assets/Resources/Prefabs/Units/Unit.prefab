@@ -48,8 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedHighlight: {fileID: 1699843345726004456}
+  select: 0
+  hotkey: 0
+  rotateSpeed: 10
   lineRenderer: {fileID: 5973394181249612538}
-  drawPath: 1
+  drawPath: 0
   moveSpeed: 5
 --- !u!1 &1699843345726004456
 GameObject:
@@ -263,7 +266,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4143137440593923580
 Transform:
   m_ObjectHideFlags: 0
@@ -320,9 +323,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1

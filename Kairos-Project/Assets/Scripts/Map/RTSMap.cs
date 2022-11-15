@@ -9,9 +9,9 @@ public class RTSMap : MonoBehaviour
 {
     public Terrain terrain;
 
-    private void Start()
+    private void Awake()
     {
-        LoadMap();
+        //LoadMap(MapController.main.mapData);
     }
 
     private void Update()
@@ -19,9 +19,17 @@ public class RTSMap : MonoBehaviour
 
     }
 
-    void LoadMap()
+    public void LoadMap(MapData map)
     {
-        terrain.terrainData = MapController.main.mapData.terrainData;
+        float[,] heightMap = map.GetHeightMap();
+
+
+        int terrainWidth = heightMap.GetLength(0), terrainLength = heightMap.GetLength(1);
+
+        terrain.terrainData.heightmapResolution = Mathf.Max(terrainWidth, terrainLength);
+        terrain.terrainData.size = new Vector3(terrainWidth, map.height, terrainLength);
+        terrain.terrainData.SetHeightsDelayLOD(0, 0, heightMap);
+        terrain.terrainData.SyncHeightmap();
     }
 
     /// <summary>
@@ -31,7 +39,7 @@ public class RTSMap : MonoBehaviour
     /// <returns>True/False</returns>
     bool IsValidMovePosition(Vector2Int pos)
     {
-        if (MapController.main.mapData.tiles[pos.x,pos.y].isPassable == true)
+        if (MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(pos.x,pos.y)].isPassable == true)
         {
             return true;
         }
@@ -48,7 +56,7 @@ public class RTSMap : MonoBehaviour
     /// <returns>True/False</returns>
     bool IsValidPlacementPosition(Vector2Int pos)
     {
-        if (MapController.main.mapData.tiles[pos.x, pos.y].isPlaceable == true)
+        if (MapController.main.mapData.tiles[MapController.main.mapData.GetIndex(pos.x, pos.y)].isPlaceable == true)
         {
             return true;
         }
@@ -63,8 +71,9 @@ public class RTSMap : MonoBehaviour
     /// </summary>
     /// <param name="pos">Position of tile</param>
     /// <returns>Vector3 of terrain height</returns>
-    public float SampleHeight(Vector2 pos)
+    public float SampleHeight(Vector3 pos)
     {
-        return terrain.SampleHeight(new Vector3(pos.x, 0, pos.y));
+        return terrain.SampleHeight(pos);
+        //return terrain.SampleHeight(new Vector3(pos.x, 0, pos.y));
     }
 }

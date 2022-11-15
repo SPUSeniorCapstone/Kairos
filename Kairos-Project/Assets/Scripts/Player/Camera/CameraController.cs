@@ -5,12 +5,20 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float moveSpeed = 1;
+    private float oldSpeed = 1;
     public float rotateSpeed = 1;
+    public float verticalSpeed = 1;
+
+    public Vector3 defaultRotation = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        oldSpeed = moveSpeed;
+        if(defaultRotation == Vector3.zero)
+        {
+            defaultRotation = transform.rotation.eulerAngles;
+        }
     }
 
     // Update is called once per frame
@@ -18,27 +26,43 @@ public class CameraController : MonoBehaviour
     {
         if (!GameController.main.paused)
         {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+
+                transform.rotation = Quaternion.Euler(defaultRotation);
+            }
+
             MoveCamera();
             RotateCamera();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            moveSpeed = moveSpeed * 2;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            moveSpeed = oldSpeed;
         }
     }
 
     void MoveCamera()
     {
-        float inputX = Input.GetAxis("Horizontal") * moveSpeed;
-        float inputZ = Input.GetAxis("Vertical") * moveSpeed;
-        float inputY = 0.0f;
+        float inputX = Input.GetAxis("Vertical");
+        float inputZ = Input.GetAxis("Horizontal");
+        float inputY = Input.GetAxis("Jump");
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            inputY = -moveSpeed;
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            inputY = moveSpeed;
-        }
+        Vector3 up = inputY * Vector3.up;
+        Vector3 forward = inputX * transform.forward;
+        Vector3 right = inputZ * transform.right;
+        forward.y = 0;
+        forward = forward.normalized;
+        right.y = 0;
+        right = right.normalized;
 
-        transform.position += new Vector3(inputX, inputY, inputZ) * Time.deltaTime;
+
+
+        transform.position += (forward + right) * Time.deltaTime * moveSpeed;
+        transform.position += up * Time.deltaTime * verticalSpeed;
     }
 
     void RotateCamera()

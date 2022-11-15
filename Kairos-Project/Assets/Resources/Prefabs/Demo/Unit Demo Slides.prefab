@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5316855515269252761
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3733665877839988891, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665877839988891, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665877839988891, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665877839988891, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665877839988891, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665877839988891, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226248, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: slides.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226248, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: slides.Array.data[0]
+      value: 'Feature: Single Selection
+
+
+        Left click on an entity to select.
+
+
+        An
+        entity can be a unit or a building'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226248, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: slides.Array.data[1]
+      value: 'Feature: Multi Selection
+
+
+        Left click and drag to form a box.
+
+
+        Any
+        entities within the box will be selected, but if both units and buildings
+        are within, only the units will be selected.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226248, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: slides.Array.data[2]
+      value: "Feature: Shift Selection\n\nPressing left shift and selecting a unit
+        will add the unit to the selected entity list without removing entities already
+        in the list. \n\nThis works with single selection as well."
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226248, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: slides.Array.data[3]
+      value: 'Feature: Hot Keys
+
+
+        While any amount of entities are selected,
+        press left control and a number to assign a hot key.
+
+
+        When this
+        number is pressed, it will select the group of entities assigned to the hot
+        key.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226248, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: slides.Array.data[4]
+      value: 'Feature: Hero Unit View
+
+
+        Press ''f'' when a hero unit is selected.
+
+
+        We
+        are still debating whether to include this feature.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 354
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 182
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226251, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226252, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_Name
+      value: Demo Slides Default
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733665879051226252, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 54380a042e50fc94c981c0054ea3b10c, type: 3}

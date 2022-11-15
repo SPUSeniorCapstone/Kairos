@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -172,6 +170,7 @@ public class MinHeap<K, T> /*: IEnumerable<KeyValuePair<K, List<T>>>*/ where K :
                 }
                 if (key.CompareTo(values[swapIndex].Key) > 0)
                 {
+                    if(index.ContainsKey(key) && index.ContainsKey(values[swapIndex].Key))
                     Swap(key, values[swapIndex].Key);
                 }
                 else

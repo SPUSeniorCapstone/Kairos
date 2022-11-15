@@ -18,6 +18,8 @@ public class PathFinder
         PATH_DOES_NOT_EXIST
     }
 
+    public bool useWeights = false;
+
     /// <summary>
     /// Determines whether or nor to track changes on nodes
     /// </summary>
@@ -51,6 +53,12 @@ public class PathFinder
     /// A function for determining if a move position is valid
     /// </summary>
     Func<Vector2Int, bool> IsValidMovePosition;
+
+    /// <summary>
+    /// A function for getting the move weight of a specified position
+    /// </summary>
+    Func<Vector2Int, float> MovePositionWeight;
+
     /// <summary>
     /// Object to keep track of the nodes in the PathFinder
     /// </summary>
@@ -152,6 +160,14 @@ public class PathFinder
     public PathFinder(Func<Vector2Int, bool> IsValidMovePosition)
     {
         this.IsValidMovePosition = IsValidMovePosition;
+        useWeights = false;
+    }
+
+    public PathFinder(Func<Vector2Int, bool> IsValidMovePosition, Func<Vector2Int, float> MovePositionWeight)
+    {
+        this.IsValidMovePosition = IsValidMovePosition;
+        this.MovePositionWeight = MovePositionWeight;
+        useWeights = true;
     }
 
     /// <summary>
@@ -165,8 +181,23 @@ public class PathFinder
         this.start = start;
         this.end = end;
         this.IsValidMovePosition = IsValidMovePosition;
+        useWeights = false;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <param name="MovePositionWeight">A function that returns the weight of a given positon. A weight of 0 means not passable</param>
+    public PathFinder(Vector2Int start, Vector2Int end, Func<Vector2Int, bool> IsValidMovePosition, Func<Vector2Int, float> MovePositionWeight)
+    {
+        this.start = start;
+        this.end = end;
+        this.IsValidMovePosition = IsValidMovePosition;
+        this.MovePositionWeight = MovePositionWeight;
+        useWeights = true;
+    }
 
     /// <summary>
     /// Resets the PathFinder
@@ -221,7 +252,7 @@ public class PathFinder
         {
             if((DateTime.UtcNow - startTime).Seconds > maxRunTime)
             {
-                Debug.LogError("Pathfinder timed out");
+                //Debug.LogError("Pathfinder timed out");
                 return null;
             }
             Progress(1);
@@ -364,7 +395,7 @@ public class PathFinder
 
                     //if (!nodes.Contains(newPosition))
                     //{
-                        var n = PathNode.GetNewNode(newPosition, currentNode.g_cost + (dir.magnitude), Vector2Int.Distance(newPosition, end), currentNode, PathNode.NodeState.OPEN);
+                        var n = PathNode.GetNewNode(newPosition, (GetG_Cost(currentNode.g_cost, newPosition, dir)) , GetH_Cost(newPosition), currentNode, PathNode.NodeState.OPEN);
                         nodes.AddNode(n);
                         if (TrackNodes)
                         {
@@ -379,6 +410,26 @@ public class PathFinder
 
         }
 
+    }
+
+    float GetG_Cost(float prev, Vector2Int position, Vector2Int dir)
+    {
+        float ret = prev;
+        if (useWeights)
+        {
+            ret += dir.magnitude / MovePositionWeight(position);
+        }
+        return ret;
+    }
+
+    float GetH_Cost(Vector2Int position)
+    {
+        float ret = Vector2Int.Distance(position, end);
+        if (useWeights)
+        {
+            ret /= MovePositionWeight(position);
+        }
+        return ret;
     }
 
     /// <summary>
