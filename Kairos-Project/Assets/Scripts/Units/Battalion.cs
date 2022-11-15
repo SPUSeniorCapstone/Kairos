@@ -17,6 +17,8 @@ public class Battalion : Entity
     private float yTotal;
     private float zTotal;
 
+    public Vector3 testNormal = Vector3.right;
+
     public void Select()
     {
         selected = true;
@@ -40,6 +42,10 @@ public class Battalion : Entity
 
     public void Move(Vector3 point)
     {
+        center = GetCenter();
+        testNormal = (point - center).normalized;
+
+
         Debug.Log("Battlaion move called");
         center.Set(avgX, avgY, avgZ);
         // List<Vector3> positions = new List<Vector3>();
@@ -48,27 +54,32 @@ public class Battalion : Entity
         {
             for (int j = 0; j < count; j++)
             {
-                Vector3Int newPos = MapController.main.grid.WorldToCell(point);
-                    //new Vector3Int((int)point.x,(int)point.y, (int)point.z);
+                Vector3 offset = Vector3.zero;
+                //new Vector3Int((int)point.x,(int)point.y, (int)point.z);
                 if (j % 2 == 0)
                 {
-                    newPos.x += j / 2;//  * 2;
+                    offset.x += j / 2;//  * 2;
                 }
                 else
                 {
-                    newPos.x -= (j / 2) + 1;//  * 2;
+                    offset.x -= (j / 2) + 1;//  * 2;
                 }
                 if(i % 2 == 0)
                 {
-                    newPos.y += i ;//  * 1.5f;
+                    offset.z += i ;//  * 1.5f;
                 }
                 else
                 {
                     //Debug.Log(units[j + i * (count)] + "");
-                    newPos.y -= i + 1;// * 1.5f;
+                    offset.z -= i + 1;// * 1.5f;
                 }
 
-                units[j+i * (count)].MoveAsync(MapController.main.grid.GetCellCenterWorld(newPos));
+                float sign = (Vector3.forward.z > testNormal.z && testNormal.x < 0 ) ? -1.0f : 1.0f;
+                Vector3 newPos = point + Quaternion.Euler(0, Vector3.Angle(Vector3.forward, testNormal) * sign, 0) * offset;
+
+
+
+                units[j+i * (count)].MoveAsync(newPos);
             }
             
         }
@@ -84,19 +95,12 @@ public class Battalion : Entity
     //}
     private void Awake()
     {
-        // all of this to get all units in scene
         Unit[] unitsArray = GetComponentsInChildren<Unit>();
         foreach (Unit unit in unitsArray)
         {
             units.Add(unit);
-            xTotal += unit.transform.position.x;
-            yTotal += unit.transform.position.y;
-            zTotal += unit.transform.position.z;
         }
-        //GameController.main.playerController.playerEntities.Add(gameObject);
-        avgX = xTotal / units.Count;
-        avgY = yTotal / units.Count;
-        avgZ = zTotal / units.Count;
+        center = GetCenter();
 
 
     }
@@ -114,5 +118,22 @@ public class Battalion : Entity
     void Update()
     {
         
+    }
+
+    public Vector3 GetCenter()
+    {
+        Vector3 avg = Vector3.zero;
+
+        // all of this to get all units in scene
+        foreach (Unit unit in units)
+        {
+            avg.x += unit.transform.position.x;
+            avg.y += unit.transform.position.y;
+            avg.z += unit.transform.position.z;
+        }
+        //GameController.main.playerController.playerEntities.Add(gameObject);
+        avg /= units.Count;
+
+        return avg; 
     }
 }

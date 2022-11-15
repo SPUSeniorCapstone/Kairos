@@ -14,6 +14,7 @@ public class Unit : Entity
     public float moveSpeed = 5;
 
     Vector3[] path = null;
+    Vector3 target;
     Vector3 formationPoint; //<- store this in battalion?
     int index;
 
@@ -33,6 +34,7 @@ public class Unit : Entity
 
     public void Move(Vector3 mapPosition)
     {
+
         Vector3Int start = MapController.main.grid.WorldToCell(transform.position);
         Vector3Int end = MapController.main.grid.WorldToCell(mapPosition);
 
@@ -77,6 +79,7 @@ public class Unit : Entity
             return;
         }
 
+        target = mapPosition;
 
         //Debug.Log("async called");
         Vector3Int start = MapController.main.grid.WorldToCell(transform.position);
@@ -146,6 +149,7 @@ public class Unit : Entity
                             //Vector3Int p = new Vector3Int(path[i].x, 0, path[i].y);
                             positions[i] = MapController.main.grid.GetCellCenterWorld((Vector3Int)intPath[i]);
                         }
+                        positions[positions.Length - 1] = target;
                         path = positions;
                         index = 0;
 
