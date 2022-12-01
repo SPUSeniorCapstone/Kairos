@@ -11,9 +11,6 @@ using JetBrains.Annotations;
 [CreateAssetMenu(fileName = "mapdata", menuName = "ScriptableObjects/MapData", order = 1)]
 public class MapData : ScriptableObject 
 {
-
-
-
     public int width = 128;
     public int length = 128;
     public int height = 100;
