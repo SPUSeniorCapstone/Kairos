@@ -12,6 +12,8 @@ public abstract class Entity : MonoBehaviour
     public bool select = false;
     public KeyCode hotkey;
     public float rotateSpeed = 10f;
+    public bool isEnemy;
+   
 
     public void SetSelectedVisible(bool selected)
     {
@@ -31,6 +33,29 @@ public abstract class Entity : MonoBehaviour
     private void OnDestroy()
     {
         GameController.main.playerController.playerEntities.Remove(gameObject);
+    }
+
+    private void OnMouseOver()
+    {
+        if (GameController.main.capture == null)
+        {
+            Debug.Log("Unsuccesful");
+        }
+        if (isEnemy)
+        {
+            GameController.main.playerController.onEnemy = true;
+            Debug.Log("True enemy");
+        }
+        Cursor.SetCursor(GameController.main.capture, Vector2.zero, CursorMode.Auto);
+        Debug.Log("The mouse sees me");
+        Debug.Log(GameController.main.capture);
+      
+    }
+    private void OnMouseExit()
+    {
+        GameController.main.playerController.onEnemy = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        Debug.Log("off");
     }
 
     protected void RotateTowards(Vector3 pos)

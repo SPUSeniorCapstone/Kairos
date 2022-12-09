@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -14,13 +15,19 @@ public class GameController : MonoBehaviour
 
     public CursorLockMode defaultLockMode = CursorLockMode.None;
 
+    public Texture2D capture;
+
     private void Awake()
     {
         if (main != null && main != this)
         {
             Debug.LogWarning("Cannot have more than one GameController in a scene");
         }
+        capture = (Texture2D)Resources.Load("Textures/Cursors/Capture_Cursor");
+        Debug.Log("First check is " + capture);
         main = this;
+        main.capture = capture;
+        Debug.Log("Second check is " + main.capture);
     }
 
     private void Update()

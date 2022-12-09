@@ -31,7 +31,6 @@ public class Unit : Entity
         StartCoroutine(FollowPath());
     }
 
-
     public void Move(Vector3 mapPosition)
     {
 

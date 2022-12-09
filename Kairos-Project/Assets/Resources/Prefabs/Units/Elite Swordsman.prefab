@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2051950961129977089
 Transform:
   m_ObjectHideFlags: 0
@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 2101781530036567246}
   - component: {fileID: 5473286182108056485}
   - component: {fileID: 7503062576366753700}
+  - component: {fileID: 1003445683069011703}
   m_Layer: 0
   m_Name: Elite Swordsman
   m_TagString: Player
@@ -264,6 +265,19 @@ MonoBehaviour:
   lineRenderer: {fileID: 7162877312705974101}
   drawPath: 1
   moveSpeed: 5
+--- !u!65 &1003445683069011703
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101781530045970486}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 2, z: 0.5}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3517562958682639556
 GameObject:
   m_ObjectHideFlags: 0
