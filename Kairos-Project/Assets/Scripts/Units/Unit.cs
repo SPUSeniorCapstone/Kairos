@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -113,6 +114,9 @@ public class Unit : Entity
                 animator.SetState(EntityAnimator.AnimatorState.IDLE);
             }
         }
+
+        //GetComponentInChildren<TextMeshProUGUI>().transform.LookAt(Camera.main.transform);
+       
 
         if (Input.GetKeyDown(KeyCode.P))
         {

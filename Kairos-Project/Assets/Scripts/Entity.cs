@@ -28,6 +28,10 @@ public abstract class Entity : MonoBehaviour
     {
         //!DELETE
         GameController.main.playerController.playerEntities.Add(gameObject);
+        if (GetComponentInParent<Battalion>().isEnemy)
+        {
+            isEnemy = true;
+        }
     }
 
     private void OnDestroy()
@@ -45,10 +49,15 @@ public abstract class Entity : MonoBehaviour
         {
             GameController.main.playerController.onEnemy = true;
             Debug.Log("True enemy");
+            Cursor.SetCursor(GameController.main.enemy, Vector2.zero, CursorMode.Auto);
         }
-        Cursor.SetCursor(GameController.main.capture, Vector2.zero, CursorMode.Auto);
-        Debug.Log("The mouse sees me");
-        Debug.Log(GameController.main.capture);
+        else
+        {
+            Cursor.SetCursor(GameController.main.capture, Vector2.zero, CursorMode.Auto);
+            Debug.Log("The mouse sees me");
+            Debug.Log(GameController.main.capture);
+        }
+      
       
     }
     private void OnMouseExit()

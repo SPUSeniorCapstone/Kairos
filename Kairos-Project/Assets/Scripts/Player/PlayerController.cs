@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (onEnemy)
                 {
-
+                    Debug.Log("ATTACK!");
                 }
                 MoveSelected();
             }

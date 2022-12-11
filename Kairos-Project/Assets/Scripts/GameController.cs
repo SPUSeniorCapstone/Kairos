@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public CursorLockMode defaultLockMode = CursorLockMode.None;
 
     public Texture2D capture;
+    public Texture2D enemy;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class GameController : MonoBehaviour
             Debug.LogWarning("Cannot have more than one GameController in a scene");
         }
         capture = (Texture2D)Resources.Load("Textures/Cursors/Capture_Cursor");
+        enemy = (Texture2D)Resources.Load("Textures/Cursors/Attack_CursorAjusted");
         Debug.Log("First check is " + capture);
         main = this;
         main.capture = capture;

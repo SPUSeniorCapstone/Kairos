@@ -217,6 +217,7 @@ MonoBehaviour:
   select: 0
   hotkey: 0
   rotateSpeed: 10
+  isEnemy: 0
   lineRenderer: {fileID: 3634442020045177051}
   drawPath: 0
   moveSpeed: 5
