@@ -205,7 +205,7 @@ public class Unit : Entity
                         var direction = t - currPos;
                         if (Physics.Raycast(currPos, direction, Vector3.Distance(currPos, t), LayerMask.GetMask("Terrain", "Structure")))
                         {
-                            Debug.Log("Hit Terrain");
+                            //Debug.Log("Hit Terrain");
                         }
                         else
                         {

@@ -12,6 +12,13 @@ public abstract class Entity : MonoBehaviour
     public bool select = false;
     public KeyCode hotkey;
     public float rotateSpeed = 10f;
+    public Vector3 HealthBarPosition;
+
+    //Health
+    [field:SerializeField] public float MaxHealth { get; private set; }
+    [field:SerializeField] public float Health { get; private set; }
+    public float HealthRatio { get { return Mathf.Clamp(Health / MaxHealth, 0, 1); } }
+    [field: SerializeField] public bool Invulnerable { get; private set; }
 
     public void SetSelectedVisible(bool selected)
     {
@@ -26,6 +33,8 @@ public abstract class Entity : MonoBehaviour
     {
         //!DELETE
         GameController.main.playerController.playerEntities.Add(gameObject);
+
+        EntityController.main.RegisterEntity(this);
     }
 
     private void OnDestroy()
@@ -33,13 +42,19 @@ public abstract class Entity : MonoBehaviour
         GameController.main.playerController.playerEntities.Remove(gameObject);
     }
 
+    /// <summary>
+    /// Damages the entity. Pass this function the raw damage value, and it will determine how much health to subtract from the entity
+    /// <para>**Currently just removes the raw damage amount from health**</para> 
+    /// </summary>
+    /// <param name="damage">The raw damage value</param>
+    public void DamageEntity(float damage)
+    {
+        if(!Invulnerable)
+            Health -= damage;
+    }
+
     protected void RotateTowards(Vector3 pos)
     {
-        /*
-        if (lockHorizontalRotation)
-        {
-            pos.y = transform.position.y;
-        }*/
 
         pos.y = transform.position.y;
         Quaternion rotation = transform.rotation;
