@@ -203,7 +203,7 @@ public class Unit : Entity
                         var currPos = transform.position;
                         var t = path.Last();
                         var direction = t - currPos;
-                        if (Physics.Raycast(currPos, direction, Vector3.Distance(currPos, t)))
+                        if (Physics.Raycast(currPos, direction, Vector3.Distance(currPos, t), LayerMask.GetMask("Terrain", "Structure")))
                         {
                             Debug.Log("Hit Terrain");
                         }
