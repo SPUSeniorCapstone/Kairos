@@ -12,4 +12,5 @@ public struct MapTile
     public float movementBuff;
     public float height;
     public float weight;
+    public Color mapColor;
 }
