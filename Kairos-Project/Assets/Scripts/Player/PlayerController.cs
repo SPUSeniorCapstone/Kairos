@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl) )/*&&
             Input.GetKeyDown(KeyCode.Alpha2))*/
         {
+
             /*
             foreach (Entity entity in selectedEntityList)           //<- is it faster to do a massive OR statment than iterate through the key array?
                     {

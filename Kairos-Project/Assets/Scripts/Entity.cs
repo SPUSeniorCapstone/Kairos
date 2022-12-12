@@ -12,6 +12,7 @@ public abstract class Entity : MonoBehaviour
     public bool select = false;
     public KeyCode hotkey;
     public float rotateSpeed = 10f;
+    public Vector3 HealthBarPosition;
 
     //Health
     [field:SerializeField] public float MaxHealth { get; private set; }
@@ -32,6 +33,8 @@ public abstract class Entity : MonoBehaviour
     {
         //!DELETE
         GameController.main.playerController.playerEntities.Add(gameObject);
+
+        EntityController.main.RegisterEntity(this);
     }
 
     private void OnDestroy()

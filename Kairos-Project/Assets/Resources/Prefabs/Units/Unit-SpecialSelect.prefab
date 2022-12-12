@@ -132,6 +132,10 @@ MonoBehaviour:
   select: 0
   hotkey: 0
   rotateSpeed: 10
+  HealthBarPosition: {x: 0, y: 2.5, z: 0}
+  <MaxHealth>k__BackingField: 100
+  <Health>k__BackingField: 100
+  <Invulnerable>k__BackingField: 0
   lineRenderer: {fileID: 7747976913040602150}
   drawPath: 0
   moveSpeed: 5
