@@ -10,20 +10,15 @@ using UnityEngine;
 public class StructurePlacementController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _placeholderBuilding;
-
-    private GameObject _placeholder;
-
+    private GameObject placeholderBuildingPrefab;
     [SerializeField]
-    private Grid _grid;
+    private Structure buildingPrefab;
 
-    [SerializeField]
-    private GameObject _building;
+    private GameObject tempBuilding;
+
 
     private Vector3 _mousePosition;
-    private float _previousX;
-    private float _previousY;
-    private float _previousZ;
+    private Vector3 previousPosition;
 
     /// <summary>
     /// This function allows the player to place a Structure onto a Grid below the Terrain object
@@ -33,29 +28,21 @@ public class StructurePlacementController : MonoBehaviour
         if (Input.GetKey(KeyCode.B))
         {
             HandleBuidlingPlacement();
-        }else if (_placeholder != null)
+        }
+        else if (tempBuilding != null)
         {
-            Destroy(_placeholder.gameObject);
-            _placeholder = null;
+            Destroy(tempBuilding.gameObject);
+            tempBuilding = null;
         }
     }
 
     void HandleBuidlingPlacement()
     {
-        if(_building == null)
-        {
-            Debug.Log("No Building Given");
-            return;
-        }
-        else if (_placeholderBuilding == null)
-        {
-            _placeholderBuilding = _building;
-        }
 
-        if (_placeholder == null)
+        if (tempBuilding == null)
         {
             // instantiate the building
-            _placeholder = Instantiate(_placeholderBuilding);
+            tempBuilding = Instantiate(placeholderBuildingPrefab);
         }
 
         // get the current mouse position
@@ -66,36 +53,56 @@ public class StructurePlacementController : MonoBehaviour
         RaycastHit hit;
 
         // if the raycast is present, start placing an structure on the grid
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Terrain")))
         {
-            float positionX = hit.point.x;
-            float positionZ = hit.point.z;
-            float positionY = Terrain.activeTerrain.SampleHeight(new Vector3(positionX, 0, positionZ));
+            Vector3 mouseMapPos = new Vector3(hit.point.x, hit.point.y, hit.point.z);
 
             // declare the vector that will determine the placement of the structure on the grid
-            Vector3 newPos = _grid.GetCellCenterWorld(_grid.WorldToCell(new Vector3(positionX, positionY, positionZ)));
+            Vector3Int newPos = MapController.main.grid.WorldToCell(new Vector3(hit.point.x, hit.point.z, 0));
+            Vector2Int mapPos = new Vector2Int(newPos.x, newPos.z);
+
+            Vector3 tempPos = MapController.main.grid.CellToWorld(new Vector3Int(mapPos.x, mapPos.y, 0));
+            tempPos.y = MapController.main.RTS.SampleHeight(new Vector3(tempPos.x, 0, tempPos.z));
 
             // if there is no overlap between the previous position and current position, get the new position
-            if (_previousX != positionX || _previousZ != positionZ)
+            if (previousPosition.x != mouseMapPos.x || previousPosition.z != mouseMapPos.z)
             {
-                _previousX = newPos.x;
-                _previousY = newPos.y;
-                _previousZ = newPos.z;
-
-                //_placeholder.transform.position = new Vector3(positionX, 0f, positionZ);
-
-                // place the structure to the new position vector
-                _placeholder.transform.position = newPos;
-
-                //Debug.Log(_placeholder.transform.position);
-                //Debug.Log(_previousX + " / "+ _previousZ);
+                previousPosition = tempPos;
+                tempBuilding.transform.position = tempPos;
             }
 
             // use the left mouse button to place any structure onto the scene
             if (Input.GetMouseButtonUp(0))
             {
-                Instantiate(_building, _placeholder.transform.position, Quaternion.identity, transform);
+                PlaceBuilding(buildingPrefab, mapPos);
             }
+        }
+    }
+
+    void PlaceBuilding(Structure building, Vector2Int mapPos)
+    {
+        Vector3 placePos = MapController.main.grid.CellToWorld(new Vector3Int(mapPos.x, mapPos.y, 0));
+
+        MapController.main.mapData.MarkOffPassability(mapPos, building.width, building.length, false);
+        StartCoroutine(DropBuilding(placePos, -5, 0.5f));
+
+
+
+        IEnumerator DropBuilding(Vector3 placePosition, float h, float t)
+        {
+            Vector3 p = placePosition;
+            p.y += h;
+            Structure b = Instantiate(buildingPrefab, p, Quaternion.identity, transform);
+            float terrainHeight = MapController.main.RTS.SampleHeight(p);
+
+            float stopTime = Time.time + t;
+            while (stopTime > Time.time)
+            {
+                float le = Mathf.Clamp((stopTime - Time.time) / t, 0, 1);
+                b.transform.position = Vector3.Lerp(placePosition, p, le);
+                yield return null;
+            }
+            b.transform.position = placePosition;
         }
     }
 }

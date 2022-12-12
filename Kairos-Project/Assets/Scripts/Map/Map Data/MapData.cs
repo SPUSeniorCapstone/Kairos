@@ -11,9 +11,6 @@ using JetBrains.Annotations;
 [CreateAssetMenu(fileName = "mapdata", menuName = "ScriptableObjects/MapData", order = 1)]
 public class MapData : ScriptableObject 
 {
-
-
-
     public int width = 128;
     public int length = 128;
     public int height = 100;
@@ -38,6 +35,17 @@ public class MapData : ScriptableObject
             }
         }
         return heightMap;
+    }
+
+    public void MarkOffPassability(Vector2Int pos, int width, int length, bool isPassable)
+    {
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < length; y++)
+            {
+                tiles[GetIndex(pos.y + y, pos.x + x)].isPassable = isPassable;
+            }
+        }
     }
 
     //Non-Player Structures
