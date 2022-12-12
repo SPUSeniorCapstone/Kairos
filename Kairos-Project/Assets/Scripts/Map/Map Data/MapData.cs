@@ -37,6 +37,17 @@ public class MapData : ScriptableObject
         return heightMap;
     }
 
+    public void MarkOffPassability(Vector2Int pos, int width, int length, bool isPassable)
+    {
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < length; y++)
+            {
+                tiles[GetIndex(pos.y + y, pos.x + x)].isPassable = isPassable;
+            }
+        }
+    }
+
     //Non-Player Structures
 
     /// <summary>
