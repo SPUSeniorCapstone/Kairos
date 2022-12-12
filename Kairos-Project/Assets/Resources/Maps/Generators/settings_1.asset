@@ -17,6 +17,6 @@ MonoBehaviour:
   scale: 0.018
   eccentricity: 0.056
   layerDivider: 0.609
-  offsetX: 129.31
-  offsetZ: -129.75
+  offsetX: 70
+  offsetZ: 0
   blockOffDepth: 5
