@@ -11,6 +11,9 @@ using JetBrains.Annotations;
 [CreateAssetMenu(fileName = "mapdata", menuName = "ScriptableObjects/MapData", order = 1)]
 public class MapData : ScriptableObject 
 {
+
+
+
     public int width = 128;
     public int length = 128;
     public int height = 100;
@@ -45,7 +48,7 @@ public class MapData : ScriptableObject
     /// <param name="bottemLeft">Bottem left coordinates of rectangle</param>
     /// <param name="topRight">Top right coordinates of rectangle</param>
     /// <param name="height">Desired height</param>
-    public void flatten(Vector2Int bottemLeft, Vector2Int topRight, float height)
+    public void Flatten(Vector2Int bottemLeft, Vector2Int topRight, float height)
     {
         int width = topRight.x - bottemLeft.x;
         int length = topRight.y - bottemLeft.y;
