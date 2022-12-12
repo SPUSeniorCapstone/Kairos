@@ -161,6 +161,7 @@ public class MapController : MonoBehaviour
     public void ReloadTerrain()
     {
         RTS.LoadMap(mapData);
+        miniMap.DrawTerrainMap();
         var display = debugDisplayObject;
         if (showDebugTerrainTexture)
         {

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8023caed35f7446a984a786388d5d3, type: 3}
   m_Name: settings_1
   m_EditorClassIdentifier: 
-  width: 256
-  length: 256
-  scale: 0.015
+  width: 512
+  length: 512
+  scale: 0.018
   eccentricity: 0.056
-  layerDivider: 0.551
-  offsetX: 100
+  layerDivider: 0.609
+  offsetX: 70
   offsetZ: 0
   blockOffDepth: 5

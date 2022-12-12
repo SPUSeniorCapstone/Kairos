@@ -44,6 +44,7 @@ public class MapGenerator : MonoBehaviour
                 if (h > settings.layerDivider)
                 {
                     BlockOffNode(tiles, new Vector2Int(x, z), settings.blockOffDepth, false, true);
+                    tiles[MapController.main.mapData.GetIndex(x, z)].mapColor = new Color(0, 0.5f, 0, 1);
                     h = 1f;
                 }
                 else
@@ -57,6 +58,7 @@ public class MapGenerator : MonoBehaviour
                         tiles[MapController.main.mapData.GetIndex(x, z)].weight = 0.5f;
                     }
                     tiles[MapController.main.mapData.GetIndex(x, z)].isPassable = true;
+                    tiles[MapController.main.mapData.GetIndex(x, z)].mapColor = Color.green;
                     h = 0;
                 }
 
