@@ -19,6 +19,8 @@ public abstract class Entity : MonoBehaviour
     [field:SerializeField] public float Health { get; private set; }
     public float HealthRatio { get { return Mathf.Clamp(Health / MaxHealth, 0, 1); } }
     [field: SerializeField] public bool Invulnerable { get; private set; }
+    public bool isEnemy;
+   
 
     public void SetSelectedVisible(bool selected)
     {
@@ -35,6 +37,10 @@ public abstract class Entity : MonoBehaviour
         GameController.main.playerController.playerEntities.Add(gameObject);
 
         EntityController.main.RegisterEntity(this);
+        if (GetComponentInParent<Battalion>().isEnemy)
+        {
+            isEnemy = true;
+        }
     }
 
     private void OnDestroy()
@@ -51,6 +57,32 @@ public abstract class Entity : MonoBehaviour
     {
         if(!Invulnerable)
             Health -= damage;
+    private void OnMouseOver()
+    {
+        if (GameController.main.capture == null)
+        {
+            Debug.Log("Unsuccesful");
+        }
+        if (isEnemy)
+        {
+            GameController.main.playerController.onEnemy = true;
+            Debug.Log("True enemy");
+            Cursor.SetCursor(GameController.main.enemy, Vector2.zero, CursorMode.Auto);
+        }
+        else
+        {
+            Cursor.SetCursor(GameController.main.capture, Vector2.zero, CursorMode.Auto);
+            Debug.Log("The mouse sees me");
+            Debug.Log(GameController.main.capture);
+        }
+      
+      
+    }
+    private void OnMouseExit()
+    {
+        GameController.main.playerController.onEnemy = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        Debug.Log("off");
     }
 
     protected void RotateTowards(Vector3 pos)

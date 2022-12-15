@@ -8,7 +8,6 @@ public class Battalion : Entity
 {
     public List<Unit> units = new List<Unit>();
     public bool selected = false;
-    [SerializeField] PlayerController playerController;
     public Vector3 center;
     private float avgX;
     private float avgY;

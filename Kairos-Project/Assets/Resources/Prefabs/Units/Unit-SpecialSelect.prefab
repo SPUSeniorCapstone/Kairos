@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1483953134858489458
 Transform:
   m_ObjectHideFlags: 0
@@ -57,6 +57,7 @@ GameObject:
   - component: {fileID: 1570338101706049469}
   - component: {fileID: 4833758557178949846}
   - component: {fileID: 6972076544871312599}
+  - component: {fileID: 1941487083375041351}
   m_Layer: 0
   m_Name: Unit-SpecialSelect
   m_TagString: Player
@@ -139,6 +140,19 @@ MonoBehaviour:
   lineRenderer: {fileID: 7747976913040602150}
   drawPath: 0
   moveSpeed: 5
+--- !u!65 &1941487083375041351
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570338101713224517}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &2246939288576008429
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,7 +410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100018, guid: b69174d668ba02d44b14a084b217670a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100020, guid: b69174d668ba02d44b14a084b217670a, type: 3}
       propertyPath: m_IsActive
@@ -412,7 +426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100026, guid: b69174d668ba02d44b14a084b217670a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100028, guid: b69174d668ba02d44b14a084b217670a, type: 3}
       propertyPath: m_IsActive
@@ -441,6 +455,14 @@ PrefabInstance:
     - target: {fileID: 100040, guid: b69174d668ba02d44b14a084b217670a, type: 3}
       propertyPath: m_Name
       value: Characters
+      objectReference: {fileID: 0}
+    - target: {fileID: 100126, guid: b69174d668ba02d44b14a084b217670a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100128, guid: b69174d668ba02d44b14a084b217670a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100130, guid: b69174d668ba02d44b14a084b217670a, type: 3}
       propertyPath: m_IsActive
@@ -475,6 +497,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 100146, guid: b69174d668ba02d44b14a084b217670a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100148, guid: b69174d668ba02d44b14a084b217670a, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}

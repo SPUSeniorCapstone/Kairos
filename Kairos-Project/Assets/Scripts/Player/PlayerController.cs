@@ -6,6 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool onEnemy;
     // brute force
     public bool heroFollow = false;
     public Dictionary<KeyCode, List<Entity>> hotKeys = new Dictionary<KeyCode, List<Entity>>();
@@ -60,6 +61,10 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
+                if (onEnemy)
+                {
+                    Debug.Log("ATTACK!");
+                }
                 MoveSelected();
             }
             
