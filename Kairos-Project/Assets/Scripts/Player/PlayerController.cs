@@ -96,12 +96,11 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(keyCode))
             {
-                if (hotKeys[keyCode] == null) //<- try catch instead?
+                if (!hotKeys.ContainsKey(keyCode)) //<- Answer: use dictionary.ContainsKey(key);
                 {
-                    Debug.Log("HELPME");
-
+                    Debug.Log("Cannot use that key for unit selection");
                 }
-                // don't add hot key to total list (does this cancel shift?) <-yes
+                // don't add hot key to total list (does this cancel shift?) <- yes
                 foreach(Entity entity in selectedEntityList)
                 {
                     entity.SetSelectedVisible(false);
