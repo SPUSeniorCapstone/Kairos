@@ -4,77 +4,62 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float moveSpeed = 1;
-    private float oldSpeed = 1;
-    public float rotateSpeed = 1;
-    public float verticalSpeed = 1;
-
-    public Vector3 defaultRotation = Vector3.zero;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        oldSpeed = moveSpeed;
-        if(defaultRotation == Vector3.zero)
-        {
-            defaultRotation = transform.rotation.eulerAngles;
-        }
+    public enum CameraMode {
+        /// <summary>
+        /// Free Roam Isometric Camera
+        /// </summary>
+        FREE,
+        /// <summary>
+        /// Hero First Person Camera **Not implimented**
+        /// </summary>
+        HERO_FIRST_PERSON,
+        /// <summary>
+        /// Hero Third Person Camera
+        /// </summary>
+        HERO_THIRD_PERSON
     }
 
-    // Update is called once per frame
-    void Update()
+    public HeroCamera heroCam;
+    public FreeCamera freeCam;
+
+    [Disable]
+    public CameraMode cameraMode = CameraMode.FREE;
+
+    private void Start()
     {
-        if (!GameController.main.paused)
-        {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-
-                transform.rotation = Quaternion.Euler(defaultRotation);
-            }
-
-            MoveCamera();
-            RotateCamera();
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            moveSpeed = moveSpeed * 2;
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            moveSpeed = oldSpeed;
-        }
+        SwapCamera(cameraMode);
     }
 
-    void MoveCamera()
+    private void Update()
     {
-        float inputX = Input.GetAxis("Vertical");
-        float inputZ = Input.GetAxis("Horizontal");
-        float inputY = Input.GetAxis("Jump");
-
-        Vector3 up = inputY * Vector3.up;
-        Vector3 forward = inputX * transform.forward;
-        Vector3 right = inputZ * transform.right;
-        forward.y = 0;
-        forward = forward.normalized;
-        right.y = 0;
-        right = right.normalized;
-
-
-
-        transform.position += (forward + right) * Time.deltaTime * moveSpeed;
-        transform.position += up * Time.deltaTime * verticalSpeed;
+        
     }
 
-    void RotateCamera()
+    public void SwapCamera(CameraMode cameraMode)
     {
-        if (Input.GetMouseButton(2))
+        switch (cameraMode)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            transform.eulerAngles += rotateSpeed * new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * Time.deltaTime;
+            case CameraMode.FREE:
+                heroCam.gameObject.SetActive(false);
+                freeCam.gameObject.SetActive(true);
+                break;
+            case CameraMode.HERO_FIRST_PERSON:
+                //heroCam.gameObject.SetActive(false);
+                //freeCam.gameObject.SetActive(false);
+                Debug.Log("Not Yet Implimented");
+                return;
+                //break;
+            case CameraMode.HERO_THIRD_PERSON:
+                heroCam.gameObject.SetActive(true);
+                freeCam.gameObject.SetActive(false);
+                cameraMode = CameraMode.HERO_THIRD_PERSON;
+                break;
+            default:
+                Debug.LogError("Invalid State");
+                return;
         }
-        else
-        {
-            Cursor.lockState = GameController.main.defaultLockMode;
-        }
+
+        this.cameraMode = cameraMode;
     }
+
 }

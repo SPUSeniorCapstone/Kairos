@@ -7,10 +7,13 @@ public class GameController : MonoBehaviour
     public static GameController main;
 
     public bool paused;
+    [DisableOnPlay(true)]
+    public bool heroMode;
 
     public PlayerController playerController;
     public GameObject pauseMenu;
     [SerializeField] public Hero hero;
+    public CameraController cameraController;
 
     public CursorLockMode defaultLockMode = CursorLockMode.None;
 
@@ -21,6 +24,16 @@ public class GameController : MonoBehaviour
             Debug.LogWarning("Cannot have more than one GameController in a scene");
         }
         main = this;
+    }
+
+    private void Start()
+    {
+        //Inital mode is always non-hero - This will swap it if the initial state should be hero mode
+        if (heroMode)
+        {
+            heroMode = false;
+            SwapMode(true);
+        }
     }
 
     private void Update()
@@ -44,22 +57,40 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F)) // removed need for hero to be selected
+        if (Input.GetKeyDown(KeyCode.F)) 
         {
-            Debug.Log("F");
-            if (hero.GetComponentInChildren<Unit>() != null)
-            {
-                hero.GetComponentInChildren<Unit>().enabled = !hero.GetComponentInChildren<Unit>().enabled;
-            }
-            hero.smallCamera.GetComponent<Camera>().enabled = !hero.smallCamera.GetComponent<Camera>().enabled;
-            hero.smallCamera.GetComponent<HeroCamera>().enabled = !hero.smallCamera.GetComponent<HeroCamera>().enabled;
-            hero.RTSCamera.GetComponent<Camera>().enabled = !hero.RTSCamera.GetComponent<Camera>().enabled;
-            hero.RTSCamera.GetComponent<CameraController>().enabled = !hero.RTSCamera.GetComponent<CameraController>().enabled;
-
-            hero.controlled = !hero.controlled;
-            hero.enabled = !hero.enabled;
-            hero.GetComponent<CharacterController>().enabled = !hero.GetComponent<CharacterController>().enabled;
+            SwapMode(!heroMode);
         }
+
+    }
+
+    public void SwapMode(bool useHero)
+    {
+        if(useHero == heroMode)
+        {
+            return;
+        }
+
+        if (hero.GetComponentInChildren<Unit>() != null)
+        {
+            hero.GetComponentInChildren<Unit>().enabled = !hero.GetComponentInChildren<Unit>().enabled;
+        }
+
+        hero.controlled = !hero.controlled;
+        hero.enabled = !hero.enabled;
+        hero.GetComponent<CharacterController>().enabled = !hero.GetComponent<CharacterController>().enabled;
+
+        // Moved Camera swapping to Camera Controller
+        if (hero.controlled == true)
+        {
+            cameraController.SwapCamera(CameraController.CameraMode.HERO_THIRD_PERSON);
+        }
+        else
+        {
+            cameraController.SwapCamera(CameraController.CameraMode.FREE);
+        }
+
+        heroMode = useHero;
     }
 
 
