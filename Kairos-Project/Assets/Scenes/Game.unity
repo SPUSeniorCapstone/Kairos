@@ -791,9 +791,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
+  heroMode: 1
   playerController: {fileID: 1995013914}
   pauseMenu: {fileID: 1000402707}
   hero: {fileID: 46723426}
+  cameraController: {fileID: 1506888217}
   defaultLockMode: 0
 --- !u!1 &705507993
 GameObject:
@@ -2041,6 +2043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heroCam: {fileID: 468515878}
   freeCam: {fileID: 963194229}
+  cameraMode: 0
 --- !u!1 &1589274501
 GameObject:
   m_ObjectHideFlags: 0
