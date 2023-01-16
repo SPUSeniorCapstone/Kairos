@@ -13,6 +13,9 @@ public class Unit : Entity
 
     public float moveSpeed = 5;
 
+    public override float MaxHealth { get; protected set; }
+    public override float Health { get; protected set; }
+
     Vector3[] path = null;
     Vector3 target;
     Vector3 formationPoint; //<- store this in battalion?

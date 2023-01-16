@@ -15,8 +15,8 @@ public abstract class Entity : MonoBehaviour
     public Vector3 HealthBarPosition;
 
     //Health
-    [field:SerializeField] public float MaxHealth { get; private set; }
-    [field:SerializeField] public float Health { get; private set; }
+    [field:SerializeField] public abstract float MaxHealth { get; protected set; }
+    [field:SerializeField] public abstract float Health { get; protected set; }
     public float HealthRatio { get { return Mathf.Clamp(Health / MaxHealth, 0, 1); } }
     [field: SerializeField] public bool Invulnerable { get; private set; }
 

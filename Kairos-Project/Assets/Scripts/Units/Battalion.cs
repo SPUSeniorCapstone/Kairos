@@ -17,6 +17,9 @@ public class Battalion : Entity
     private float yTotal;
     private float zTotal;
 
+    public override float MaxHealth { get { return units.Sum(u => u.MaxHealth); } protected set { } }
+    public override float Health { get { return units.Sum(u => u.Health); } protected set { } }
+
     public Vector3 testNormal = Vector3.right;
 
     public void Select()
