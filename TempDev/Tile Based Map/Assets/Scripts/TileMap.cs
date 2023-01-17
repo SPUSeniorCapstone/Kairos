@@ -30,7 +30,7 @@ public class TileMap : MonoBehaviour, IEnumerable<Tile>
                 vertices[2] = new Vector3(x, height, z + 1);
                 vertices[3] = new Vector3(x + 1, height, z + 1);
 
-                tiles[x, z] = Tile.CreateTile(transform, new TileInfo(new Vector3Int(x, 0, z), height), vertices);
+                ///tiles[x, z] = Tile.CreateTile(transform, new TileInfo(new Vector3Int(x, 0, z), height), vertices);
             }
         }
     }
