@@ -7,6 +7,7 @@ public class MenuController : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
+    public GameObject optionsMenuUI;
 
     // Update is called once per frame
     void Update()
@@ -31,9 +32,10 @@ public class MenuController : MonoBehaviour
         GameIsPaused = false;
     }
 
-    void Pause()
+    public void Pause()
     {
         pauseMenuUI.SetActive(true);
+        optionsMenuUI.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
@@ -66,5 +68,23 @@ public class MenuController : MonoBehaviour
     public void SetQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
+    }
+
+    public void InGameSettings()
+    {
+        optionsMenuUI.SetActive(true);
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
+
+    public void SetVolume (float volume)
+    {
+        Debug.Log(volume);
+    }
+
+    public void SetBrightness (float brightness)
+    {
+        Debug.Log(brightness);
     }
 }
