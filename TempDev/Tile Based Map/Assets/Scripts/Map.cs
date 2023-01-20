@@ -6,11 +6,9 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     public static Map main;
-
-
     public Tile defaultTile;
 
-    [Range(10, 10000)]
+    [Range(0, 10000)]
     public int width, length; //width=x, length=z 
 
     public Grid Grid

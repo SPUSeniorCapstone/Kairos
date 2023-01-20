@@ -47,7 +47,7 @@ public class TileMap : MonoBehaviour, IEnumerable<Tile>
         {
             if(tile != null)
             {
-                DestroyImmediate(tile.gameObject);
+                //DestroyImmediate(tile.gameObject);
             }
         }
         tiles = new Tile[width,length];

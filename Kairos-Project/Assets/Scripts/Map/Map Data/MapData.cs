@@ -78,6 +78,11 @@ public class MapData : ScriptableObject
     /// <returns>Tile height</returns>
     public float SampleHeight(Vector2Int pos)
     {
+        if(GetIndex(pos.x, pos.y) >= tiles.Length)
+        {
+            Debug.LogError("Invalid map index: " + pos);
+            return 0;
+        }
         return tiles[GetIndex(pos.x, pos.y)].height;
     }
 }

@@ -28,4 +28,13 @@ public static class Helpers
         ret.z = vec.y;
         return ret;
     }
+
+    public static void DeleteAllChildren(GameObject obj)
+    {
+        foreach(var c in obj.GetComponentsInChildren<Transform>())
+        {
+            if(c.gameObject != obj)
+                GameObject.DestroyImmediate(c.gameObject);
+        }
+    }
 }
