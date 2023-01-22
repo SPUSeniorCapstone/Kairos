@@ -59,14 +59,22 @@ public class HealthBarManager : MonoBehaviour
 
     public void CreateHealthBar(Entity entity)
     {
-        var h = Instantiate(HealthBar, this.transform).GetComponent<HealthBar>();
-        h.entity = entity;
-        healthBars.Add(entity, h);
+        if (!(entity is Battalion))
+        {
+            var h = Instantiate(HealthBar, this.transform).GetComponent<HealthBar>();
+            h.entity = entity;
+            healthBars.Add(entity, h);
+        }   
     }
 
     public void RemoveHealthBar(Entity entity)
     {
-        Destroy(healthBars[entity]);
-        healthBars.Remove(entity);
+        if (healthBars.ContainsKey(entity))
+        {
+            var bar = healthBars[entity];
+            healthBars.Remove(entity);
+            if (bar != null)
+            Destroy(bar.gameObject);
+        } 
     }
 }

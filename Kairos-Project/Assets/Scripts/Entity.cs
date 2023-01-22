@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 /// <summary>
 /// The base class from which all units and structures inherit
@@ -19,7 +21,13 @@ public abstract class Entity : MonoBehaviour
     [field:SerializeField] public float Health { get; private set; }
     public float HealthRatio { get { return Mathf.Clamp(Health / MaxHealth, 0, 1); } }
     [field: SerializeField] public bool Invulnerable { get; private set; }
+
     public bool isEnemy;
+    public bool isPlayer;
+    public bool isNeutral;
+    public bool autoAttack;
+    public bool deathReel;
+    public Entity target;
    
 
     public void SetSelectedVisible(bool selected)
@@ -33,19 +41,33 @@ public abstract class Entity : MonoBehaviour
 
     protected void Start()
     {
-        //!DELETE
-        GameController.main.playerController.playerEntities.Add(gameObject);
 
-        EntityController.main.RegisterEntity(this);
-        if (GetComponentInParent<Battalion>().isEnemy)
+        if (GetComponentInParent<Battalion>() && GetComponentInParent<Battalion>().isEnemy)
         {
             isEnemy = true;
         }
+        if (GetComponentInParent<Battalion>() && GetComponentInParent<Battalion>().autoAttack)
+        {
+            autoAttack = true;
+        }
+        if (GetComponentInParent<Battalion>() && GetComponentInParent<Battalion>().isPlayer)
+        {
+            isPlayer = true;
+        }
+        //!DELETE
+        GameController.main.playerController.playerEntities.Add(this);
+
+        EntityController.main.RegisterEntity(this);
+      
     }
 
     private void OnDestroy()
     {
-        GameController.main.playerController.playerEntities.Remove(gameObject);
+        Debug.Log("I'm called!");
+        GameController.main.playerController.playerEntities.Remove(this);
+        GameController.main.playerController.selectedEntityList.Remove(this);
+        EntityController.main.UnregisterEntity(this);
+        
     }
 
     /// <summary>
@@ -55,8 +77,30 @@ public abstract class Entity : MonoBehaviour
     /// <param name="damage">The raw damage value</param>
     public void DamageEntity(float damage)
     {
-        if(!Invulnerable)
+        if (!Invulnerable)
             Health -= damage;
+    }
+
+    public void Update()
+    {
+        if (deathReel)
+        {
+            transform.position -= Vector3.up * 1f * Time.deltaTime;
+        }
+        if (transform.position.y == -5)
+        {
+            Destroy(this);
+        }
+    }
+
+    public void DestroyEntity()
+    {
+        deathReel = true;
+        //GameController.main.playerController.playerEntities.Remove(this);
+        //EntityController.main.UnregisterEntity(this);
+        Destroy(gameObject);
+    }
+
     private void OnMouseOver()
     {
         if (GameController.main.capture == null)
@@ -66,14 +110,22 @@ public abstract class Entity : MonoBehaviour
         if (isEnemy)
         {
             GameController.main.playerController.onEnemy = true;
-            Debug.Log("True enemy");
+            if (GetComponentInParent<Battalion>())
+            {
+                GameController.main.playerController.enemyPos = GetComponentInParent<Battalion>().GetCenter();
+            }
+            else
+            {
+                GameController.main.playerController.enemyPos = transform.position;
+            }
+            //Debug.Log("True enemy, pos" + GameController.main.playerController.enemyPos);
             Cursor.SetCursor(GameController.main.enemy, Vector2.zero, CursorMode.Auto);
         }
         else
         {
             Cursor.SetCursor(GameController.main.capture, Vector2.zero, CursorMode.Auto);
-            Debug.Log("The mouse sees me");
-            Debug.Log(GameController.main.capture);
+            //Debug.Log("The mouse sees me");
+            //Debug.Log(GameController.main.capture);
         }
       
       
@@ -82,7 +134,7 @@ public abstract class Entity : MonoBehaviour
     {
         GameController.main.playerController.onEnemy = false;
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
-        Debug.Log("off");
+       // Debug.Log("off");
     }
 
     protected void RotateTowards(Vector3 pos)

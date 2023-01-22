@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 {
     public bool onEnemy;
     // brute force
+    public Vector3 enemyPos;
+    // brute force
     public bool heroFollow = false;
     public Dictionary<KeyCode, List<Entity>> hotKeys = new Dictionary<KeyCode, List<Entity>>();
 
@@ -21,12 +23,14 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject selectionAreaTransform;
 
+    [SerializeField] private GameObject wayPoint;
+
 
 
     // okay to be public?
     public List<Entity> selectedEntityList;
     // Replace Entity with selectable entity
-    [SerializeField] public List<GameObject> playerEntities;
+    [SerializeField] public List<Entity> playerEntities;
 
     private KeyCode[] keyCodes = {
          KeyCode.Alpha1,
@@ -64,7 +68,22 @@ public class PlayerController : MonoBehaviour
                 if (onEnemy)
                 {
                     Debug.Log("ATTACK!");
+                    int count = 1;
+                    foreach (Entity entity in selectedEntityList)
+                    {
+                        var tree = entity.GetComponentInParent<Battalion>();
+                       if (tree != null && tree.pseudoAttacking == false)
+                        {
+                            tree.pseudoAttacking = true;
+                            tree.Attack();
+                        }
+                       //Debug.Log(entity.name + "CALLME " + count);
+                      // entity.GetComponent<Battalion>().Attack();
+                       count++;
+                        
+                    }
                 }
+                else
                 MoveSelected();
             }
             
@@ -110,7 +129,7 @@ public class PlayerController : MonoBehaviour
                 foreach(Entity entity in selectedEntityList)
                 {
                     entity.SetSelectedVisible(false);
-                    var battalion = entity as Battalion;
+                    var battalion = entity.GetComponentInParent<Battalion>();
                     if (battalion != null)
                     {
                         battalion.Deselect();
@@ -123,7 +142,7 @@ public class PlayerController : MonoBehaviour
                     {
                         entity.SetSelectedVisible(true);
                         selectedEntityList.Add(entity);
-                        var battalion = entity as Battalion;
+                        var battalion = entity.GetComponentInParent<Battalion>();
                         if (battalion != null)
                         {
                             battalion.Select();
@@ -134,8 +153,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void AttackSelected()
+    {
+        // need code to check if selected entity can attack or not
+        foreach (var entity in selectedEntityList)
+        {
+
+        }
+    }
+
     public void MoveSelected()
     {
+        Manager manager = GameObject.Find("Archer").GetComponent<Manager>();
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
         {
@@ -146,23 +175,37 @@ public class PlayerController : MonoBehaviour
                 positionMarker.point.y = .1f;
                 positionMarker.PlaceMarker();
             }
+
+            List<Battalion> helperList = new List<Battalion>();
             
             foreach (var entity in selectedEntityList)
             {
                 var unit = entity as Unit;
-                var battalion = entity as Battalion;            
+                // this might make the call several times
+                var battalion = entity.GetComponentInParent<Battalion>();
+                var boid = entity as Boid;
+                if (boid != null)
+                { 
+                        manager.goeth = true;
+                        Vector3Int start = MapController.main.grid.WorldToCell(manager.transform.position);
+                        Vector3Int end = MapController.main.grid.WorldToCell(GameObject.Find("PositionMarker").transform.position);
+                        Vector2Int[] list = PathManager.main.RequestPath((Vector2Int)start, (Vector2Int)end);
+                        foreach (var go in list)
+                        {
+                        Vector3 jon = Helpers.Vector2IntToVector3(go);
+                        manager.path.Enqueue(jon);
+
+
+                        //Debug.Log((Vector3)(Vector3Int)go);
+                        Instantiate(wayPoint, jon, Quaternion.Euler(0f, 0f, 0f));
+                        }
+                    manager.pos = manager.path.Dequeue();
+                    
+                   
+                }
                 if (battalion != null)
                 {
-                    var pos = hit.point;
-                    pos.y = 0;
-                    if (heroFollow){
-                        pos = GameObject.Find("Hero").transform.position;
-                    }
-                    if (selectedEntityList.Count != 1)
-                    {
-                        pos += Random.insideUnitSphere * 6;
-                    }               
-                    battalion.Move(pos);
+                    helperList.Add(battalion);
                 }
                 if (unit != null)
                 {
@@ -179,6 +222,22 @@ public class PlayerController : MonoBehaviour
                     unit.MoveAsync(pos);
                 }
             }
+            // from the extracted battalion list
+            foreach (var battalion in helperList)
+            {
+                var pos = hit.point;
+                pos.y = 0;
+                if (heroFollow)
+                {
+                    pos = GameObject.Find("Hero").transform.position;
+                }
+                if (selectedEntityList.Count != 1)
+                {
+                    pos += Random.insideUnitSphere * 6;
+                }
+                battalion.Move(pos);
+            }
+            //====================================
         }
 
     }
@@ -247,11 +306,16 @@ public class PlayerController : MonoBehaviour
                 foreach (var entity in selectedEntityList)
                 {
                     entity.SetSelectedVisible(false);
-                    var battalion = entity as Battalion;
+                    var battalion = entity.GetComponentInParent<Battalion>();
+                    var boid = entity.GetComponentInParent<Manager>();
                     if (battalion != null)                      
                     {
                         battalion.Deselect();                   
                     }                 
+                    if (boid != null)
+                    {
+                        boid.Deselect();
+                    }
                 }
                 selectedEntityList.Clear();
             }
@@ -304,7 +368,16 @@ public class PlayerController : MonoBehaviour
                                 if (!battalion.selected)
                                 {
                                     battalion.selected = true;
-                                    battalions.Add(battalion);
+                                    foreach (Unit unit in battalion.units)
+                                    {
+                                        unit.SetSelectedVisible(true);
+                                        selectedEntityList.Add(unit);
+                                    }
+                                    //battalions.Add(battalion);
+                                }
+                                if (battalion.selected)
+                                {
+                                    continue;
                                 }
                             }
                             else
@@ -315,11 +388,11 @@ public class PlayerController : MonoBehaviour
                         }        
                     }  
                 }
-                foreach (Battalion battalion in battalions)
-                {
-                    selectedEntityList.Add(battalion);
-                    battalion.Select();
-                }
+                //foreach (Battalion battalion in battalions)
+                //{
+                //    selectedEntityList.Add(battalion);
+                //    battalion.Select();
+                //}
             }
             else
             {
@@ -332,9 +405,15 @@ public class PlayerController : MonoBehaviour
                         var battalion = unit.GetComponentInParent<Battalion>();
                         if (battalion != null)
                         {
+                            battalion.selected = true;
+                            foreach (Unit tree in battalion.units)
+                            {
+                                tree.SetSelectedVisible(true);
+                                selectedEntityList.Add(tree);
+                            }
                             Debug.Log("Battalion");
-                            battalion.Select();
-                            selectedEntityList.Add(battalion);
+                            //battalion.Select();
+                            //selectedEntityList.Add(battalion);
                         }
                         else
                         {

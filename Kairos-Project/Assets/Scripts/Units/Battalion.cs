@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
-public class Battalion : Entity
+public class Battalion : MonoBehaviour
 {
     public List<Unit> units = new List<Unit>();
     public bool selected = false;
@@ -15,8 +18,19 @@ public class Battalion : Entity
     private float xTotal;
     private float yTotal;
     private float zTotal;
+    public Vector3 destination = Vector3.zero;
 
     public Vector3 testNormal = Vector3.right;
+    public bool attacking = false;
+    public bool pseudoAttacking = false;
+    public bool isMoving = false;
+
+    public bool isEnemy;
+    public bool isPlayer;
+    public bool isNeutral;
+    public bool autoAttack;
+    public bool deathReel;
+    public Battalion targetBattalion;
 
     public void Select()
     {
@@ -45,8 +59,9 @@ public class Battalion : Entity
         testNormal = (point - center).normalized;
 
 
-        Debug.Log("Battlaion move called");
-        center.Set(avgX, avgY, avgZ);
+        //Debug.Log("Battlaion move called");
+        // is this broken?
+         center.Set(avgX, avgY, avgZ);
         // List<Vector3> positions = new List<Vector3>();
         int count = units.Count / 2;
         for (int i = 0; i < 2; i++)
@@ -80,27 +95,131 @@ public class Battalion : Entity
 
                 units[j+i * (count)].MoveAsync(newPos);
             }
-            
+            isMoving = false;
+        }
+        //center = GetCenter();
+    }
+    public void Attack()
+    {
+        // looking for enemies to attack
+
+
+        if (autoAttack && isPlayer)
+        {
+        
+            foreach (Entity entity in GameController.main.playerController.playerEntities)
+            {
+               
+                if (entity.isEnemy)
+                {
+                    if (entity.GetComponentInParent<Battalion>() != null)
+                    {
+                        targetBattalion = entity.GetComponentInParent<Battalion>();
+                        break;
+                    }
+                    else
+                    {
+                        //targetBattalion = entity;
+                        //break;
+                    }
+
+                }
+            }
+        }
+        else if (autoAttack && isEnemy)
+        {
+          
+            foreach (Entity entity in GameController.main.playerController.playerEntities)
+            {
+                // Debug.Log(entity);
+                if (entity.isPlayer)
+                {
+                    Debug.Log("Good found");
+                  if (entity.GetComponentInParent<Battalion>() != null)
+                  {
+                      targetBattalion = entity.GetComponentInParent<Battalion>();
+                      Debug.Log("Good found");
+                      break;
+                  }
+                  else
+                  {
+                      //targetBattalion = entity;
+                      //Debug.Log("Good found");
+                      //break;
+                  }
+
+                }
+            }
+        }
+
+        if (targetBattalion != null)
+        {
+            attacking = true;
+            if (targetBattalion != null)
+            {
+                Move(targetBattalion.center);
+                Debug.Log("target.GetComponent");
+            }
+            else {
+                Debug.Log("HELPME");
+           // Move(targetBattalion.transform.position);
+        }
         }
     }
-
 
 
     // Start is called before the first frame update
     //void Start()
     //{
-       
+
 
     //}
-    private void Awake()
+    int count = 0;
+    private void Update()
     {
-        Unit[] unitsArray = GetComponentsInChildren<Unit>();
+        count++;
+        center = GetCenter();
+        //if (target != null && attacking == true)
+        //{
+        //    center = GetCenter();
+        //    var oldCenter = target.GetComponent<Battalion>().center;
+        //    if ( oldCenter != target.GetComponent<Battalion>().center)
+        //    {
+        //        Move(target.GetComponent<Battalion>().center);
+        //    }
+        //    count = 0;
+        //}
+        if (targetBattalion != null && attacking == true) {
+
+            foreach (Unit unit in targetBattalion.units) {
+                if (unit.isMoving)
+                {
+                    Move(targetBattalion.center);
+                    count = 0;
+                    break;
+                }
+            }
+
+
+            if (center == targetBattalion.center)
+            {
+                attacking = false;
+            }
+        }
+    }
+
+  
+    private void Start()
+    {
+        //base.Start();
+
+        Unit[] unitsArray = this.GetComponentsInChildren<Unit>();
         foreach (Unit unit in unitsArray)
         {
             units.Add(unit);
         }
         center = GetCenter();
-
+        //Move(destination);
 
     }
     private void OnDestroy()
@@ -108,16 +227,12 @@ public class Battalion : Entity
         foreach (Unit unit in units)
         {
 
-            GameController.main.playerController.playerEntities.Remove(unit.gameObject);
+            GameController.main.playerController.playerEntities.Remove(unit);
         }
        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 
     public Vector3 GetCenter()
     {

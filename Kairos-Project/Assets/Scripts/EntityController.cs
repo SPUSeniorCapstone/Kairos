@@ -15,9 +15,9 @@ public class EntityController : MonoBehaviour
         main = this;
     }
 
-    List<Entity> entities = new List<Entity>();
+    [SerializeField]  List<Entity> entities = new List<Entity>();
     
-    public List<Entity> Entities { get { return entities; } }
+   public List<Entity> Entities { get { return entities; } }
 
     public void RegisterEntity(Entity entity)
     {

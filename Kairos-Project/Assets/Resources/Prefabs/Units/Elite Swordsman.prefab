@@ -262,6 +262,15 @@ MonoBehaviour:
   select: 0
   hotkey: 0
   rotateSpeed: 10
+  HealthBarPosition: {x: 0, y: 0, z: 0}
+  <MaxHealth>k__BackingField: 100
+  <Health>k__BackingField: 100
+  <Invulnerable>k__BackingField: 0
+  isEnemy: 0
+  isPlayer: 1
+  isNeutral: 0
+  autoAttack: 0
+  target: {fileID: 0}
   lineRenderer: {fileID: 7162877312705974101}
   drawPath: 1
   moveSpeed: 5

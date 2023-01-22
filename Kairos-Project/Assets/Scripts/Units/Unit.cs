@@ -10,14 +10,16 @@ public class Unit : Entity
 {
     public LineRenderer lineRenderer;
     public bool drawPath;
-    bool isMoving = false;
+    public bool isMoving = false;
 
     public float moveSpeed = 5;
 
     Vector3[] path = null;
-    Vector3 target;
+    Vector3 destination;
     Vector3 formationPoint; //<- store this in battalion?
     int index;
+
+    Entity closestEnemy;
 
     EntityAnimator animator;
 
@@ -31,8 +33,12 @@ public class Unit : Entity
         base.Start();
         StartCoroutine(FollowPath());
     }
+    protected void boidStart()
+    {
+        base.Start();
+    }
 
-    public void Move(Vector3 mapPosition)
+    public void  Move(Vector3 mapPosition)
     {
 
         Vector3Int start = MapController.main.grid.WorldToCell(transform.position);
@@ -79,7 +85,7 @@ public class Unit : Entity
             return;
         }
 
-        target = mapPosition;
+        destination = mapPosition;
 
         //Debug.Log("async called");
         Vector3Int start = MapController.main.grid.WorldToCell(transform.position);
@@ -103,6 +109,10 @@ public class Unit : Entity
 
     private void Update()
     {
+        if(Health <= 0)
+        {
+            OnDeath();
+        }
         if(animator != null)
         {
             if (isMoving)
@@ -113,10 +123,77 @@ public class Unit : Entity
             {
                 animator.SetState(EntityAnimator.AnimatorState.IDLE);
             }
+            //=========================================================================== brute force
+            // player units
+            foreach (Entity entity in EntityController.main.Entities)
+            {
+                if (entity.isEnemy && !(entity is Battalion) && isEnemy == false)
+                {        
+                    if (Vector3.Distance(transform.position, entity.transform.position) <= 2)
+                    {
+                        closestEnemy = entity;
+                        animator.SetState(EntityAnimator.AnimatorState.MINING_LOOP);
+                        if (Vector3.Distance(transform.position, entity.transform.position) < Vector3.Distance(transform.position, closestEnemy.transform.position))
+                        {
+                            closestEnemy = entity;
+                        }
+                        // Determine which direction to rotate towards
+                        Vector3 targetDirection = closestEnemy.transform.position - transform.position;
+
+                        // The step size is equal to speed times frame time.
+                        float singleStep = 1.0f * Time.deltaTime;
+
+                        // Rotate the forward vector towards the target direction by one step
+                        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+
+                        // Draw a ray pointing at our target in
+                        Debug.DrawRay(transform.position, newDirection, Color.red);
+
+                        // Calculate a rotation a step closer to the target and applies rotation to this object
+                        transform.rotation = Quaternion.LookRotation(newDirection);
+                        Vector3 eulerRotation = transform.rotation.eulerAngles;
+                        transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
+                        //RotateTowards(closestEnemy.transform.position);
+                    }
+                }
+                // enemy units
+                else if (entity.isPlayer && !(entity is Battalion) && isEnemy == true)
+                {
+                    if (Vector3.Distance(transform.position, entity.transform.position) <= 1.5f)
+                    {
+                        closestEnemy = entity;
+                        animator.SetState(EntityAnimator.AnimatorState.MINING_LOOP);
+                        if (Vector3.Distance(transform.position, entity.transform.position) < Vector3.Distance(transform.position, closestEnemy.transform.position))
+                        {
+                            closestEnemy = entity;
+                        }
+                        // Determine which direction to rotate towards
+                        Vector3 targetDirection = closestEnemy.transform.position - transform.position;
+
+                        // The step size is equal to speed times frame time.
+                        float singleStep = 1.0f * Time.deltaTime;
+
+                        // Rotate the forward vector towards the target direction by one step
+                        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+
+                        // Draw a ray pointing at our target in
+                        Debug.DrawRay(transform.position, newDirection, Color.red);
+
+                        // Calculate a rotation a step closer to the target and applies rotation to this object
+                        transform.rotation = Quaternion.LookRotation(newDirection);
+                        Vector3 eulerRotation = transform.rotation.eulerAngles;
+                        transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
+                        //RotateTowards(closestEnemy.transform.position);
+                    }
+                }
+                if (closestEnemy != null && animator.animatorState == EntityAnimator.AnimatorState.IDLE)
+                {
+                    closestEnemy.DamageEntity(5);
+                }        
+            }
         }
 
         //GetComponentInChildren<TextMeshProUGUI>().transform.LookAt(Camera.main.transform);
-       
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -152,7 +229,7 @@ public class Unit : Entity
                             //Vector3Int p = new Vector3Int(path[i].x, 0, path[i].y);
                             positions[i] = MapController.main.grid.GetCellCenterWorld((Vector3Int)intPath[i]);
                         }
-                        positions[positions.Length - 1] = target;
+                        positions[positions.Length - 1] = destination;
                         path = positions;
                         index = 0;
 
@@ -262,5 +339,18 @@ public class Unit : Entity
 
         newPos = Vector3.zero;
         return false;
+    }
+
+    public void OnDeath()
+    {
+        animator.SetState(EntityAnimator.AnimatorState.T_POSE);
+        
+
+        DestroyEntity();
+        if (GetComponentInParent<Battalion>() != null)
+        {
+            GetComponentInParent<Battalion>().units.Remove(this);
+        }
+        //Destroy(this);
     }
 }
