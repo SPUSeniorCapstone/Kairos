@@ -25,6 +25,7 @@ public class Manager : Entity
     public bool selected;
     public Queue<Vector3> path;
     public bool drawPath;
+    public bool thinking = false;
 
     public bool twoD = false;
 
@@ -219,7 +220,9 @@ public class Manager : Entity
             if (path.Count != 0)
             {
                 pos = path.Dequeue();
+                thinking = false;
             }
+           
         }
         else
         {

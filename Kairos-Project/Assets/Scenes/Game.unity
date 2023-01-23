@@ -3074,11 +3074,15 @@ PrefabInstance:
       objectReference: {fileID: 444251126}
     - target: {fileID: 746161220066956048, guid: 03a42105470445d45acf6f9e3d33b0ed, type: 3}
       propertyPath: followStr
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 746161220066956048, guid: 03a42105470445d45acf6f9e3d33b0ed, type: 3}
       propertyPath: targetObj
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 746161220066956048, guid: 03a42105470445d45acf6f9e3d33b0ed, type: 3}
+      propertyPath: speedLimit
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 746161220066956048, guid: 03a42105470445d45acf6f9e3d33b0ed, type: 3}
       propertyPath: boundFactor
@@ -3086,15 +3090,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 746161220066956048, guid: 03a42105470445d45acf6f9e3d33b0ed, type: 3}
       propertyPath: followSpeed
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 746161220066956048, guid: 03a42105470445d45acf6f9e3d33b0ed, type: 3}
       propertyPath: repulseValue
-      value: 50
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 746161220066956048, guid: 03a42105470445d45acf6f9e3d33b0ed, type: 3}
       propertyPath: cohesionFactor
-      value: 0.071
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 746161220070056400, guid: 03a42105470445d45acf6f9e3d33b0ed, type: 3}
       propertyPath: selectedHighlight

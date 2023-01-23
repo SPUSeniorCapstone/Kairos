@@ -185,21 +185,26 @@ public class PlayerController : MonoBehaviour
                 var battalion = entity.GetComponentInParent<Battalion>();
                 var boid = entity as Boid;
                 if (boid != null)
-                { 
+                {
+                    if (manager.thinking == false)
+                    {
                         manager.goeth = true;
                         Vector3Int start = MapController.main.grid.WorldToCell(manager.transform.position);
                         Vector3Int end = MapController.main.grid.WorldToCell(GameObject.Find("PositionMarker").transform.position);
                         Vector2Int[] list = PathManager.main.RequestPath((Vector2Int)start, (Vector2Int)end);
                         foreach (var go in list)
                         {
-                        Vector3 jon = Helpers.Vector2IntToVector3(go);
-                        manager.path.Enqueue(jon);
+                            Vector3 jon = Helpers.Vector2IntToVector3(go);
+                            manager.path.Enqueue(jon);
 
 
-                        //Debug.Log((Vector3)(Vector3Int)go);
-                        Instantiate(wayPoint, jon, Quaternion.Euler(0f, 0f, 0f));
+                            //Debug.Log((Vector3)(Vector3Int)go);
+                            Instantiate(wayPoint, jon, Quaternion.Euler(0f, 0f, 0f));
                         }
-                    manager.pos = manager.path.Dequeue();
+                        manager.pos = manager.path.Dequeue();
+                        Debug.Log(manager.path);
+                        manager.thinking = true;
+                    }
                     
                    
                 }
