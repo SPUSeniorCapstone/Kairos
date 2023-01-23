@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class Chunk : MonoBehaviour
 {
-    public static readonly int width = 16, length = 16;
+    public static readonly int width = 64, length = 64;
     public static Chunk CreateChunk(Vector3Int position, Tile[,] tiles, Transform parent, Material material)
     {
         Chunk chunk = Instantiate(WorldController.main.defaultChunk, parent);
