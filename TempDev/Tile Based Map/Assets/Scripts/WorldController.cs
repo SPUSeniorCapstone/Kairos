@@ -16,6 +16,7 @@ public class WorldController : MonoBehaviour
     static WorldController instance;
 
     public Chunk defaultChunk;
+    public VoxelChunk defaultVoxel;
 
     #region Cached Object Managers
     public BiomeManager BiomeManager
@@ -57,6 +58,19 @@ public class WorldController : MonoBehaviour
     }
     World world;
 
+    //public VoxelWorld VoxelWorld
+    //{
+    //    get
+    //    {
+    //        if (voxelWorld == null)
+    //        {
+    //            voxelWorld = FindObjectOfType<VoxelWorld>();
+    //        }
+    //        return voxelWorld;
+    //    }
+    //}
+    public VoxelWorld voxelWorld;
+
     public WorldGenerator WorldGenerator
     {
         get
@@ -74,14 +88,7 @@ public class WorldController : MonoBehaviour
 
     private void Start()
     {
-        string filename = "TextureAtlas.png";
-
-        TileManager.GenerateTextureAtlas();
-        TileManager.SaveTextureAtlasToFile(filename);
-        Texture tex = Resources.Load<Texture>(filename);
-        Debug.Log(tex);
-        World.material.SetTexture("_MainTex", tex);
-        GenerateWorld();
+        
     }
 
     [SerializeField]
@@ -89,6 +96,7 @@ public class WorldController : MonoBehaviour
     bool Button_GenerateWorld = false;
     public void GenerateWorld()
     {
-        WorldGenerator.GenerateWorld(World);
+        //Debug.Log(VoxelWorld);
+        WorldGenerator.GenerateVoxelWorld(voxelWorld);
     }
 }

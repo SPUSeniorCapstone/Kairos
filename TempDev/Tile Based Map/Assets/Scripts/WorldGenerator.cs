@@ -52,6 +52,36 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
+    public void GenerateVoxelWorld(VoxelWorld world)
+    {
+        world.seed = seed;
+        InitWorldGen(seed);
+
+        for (int x = 0; x < world.width; x++)
+        {
+            for (int z = 0; z < world.length; z++)
+            {
+                var pos = new Vector3Int(x, 0, z);
+                if (world.Chunks[x, z] == null)
+                {
+                    world.Chunks[x, z] = VoxelChunk.CreateChunk(pos, GenerateVoxelChunk(pos), world.transform, world.worldMaterial);
+                }
+                else
+                {
+                    world.Chunks[x, z].SetChunk(pos, GenerateVoxelChunk(pos), world.worldMaterial);
+                }
+            }
+        }
+
+        for (int x = 0; x < world.width; x++)
+        {
+            for (int z = 0; z < world.length; z++)
+            {
+                world.Chunks[x, z].ReloadMesh();
+            }
+        }
+    }
+
     public Tile[,] GenerateChunk(Vector3Int position)
     {
         int terrainOffsetX = terrainOffset.x + (position.x * Chunk.width);
@@ -91,6 +121,58 @@ public class WorldGenerator : MonoBehaviour
 
     }
 
+    public Voxel[,,] GenerateVoxelChunk(Vector3Int position)
+    {
+        int terrainOffsetX = terrainOffset.x + (position.x * VoxelChunk.width);
+        int terrainOffsetZ = terrainOffset.z + (position.z * VoxelChunk.length);
 
+        int tempOffsetX = tempOffset.x + (position.x * VoxelChunk.width);
+        int tempOffsetZ = tempOffset.z + (position.z * VoxelChunk.length);
+
+        int humidityOffsetX = humidityOffset.x + (position.x * VoxelChunk.width);
+        int humidityOffsetZ = humidityOffset.z + (position.z * VoxelChunk.length);
+
+        Voxel[,,] voxels = new Voxel[VoxelChunk.width, VoxelChunk.height, VoxelChunk.length];
+
+        for (int x = 0; x < VoxelChunk.width; x++)
+        {
+            for (int z = 0; z < VoxelChunk.length; z++)
+            {
+                var h = (Mathf.PerlinNoise((x + terrainOffsetX) * scale, (z + terrainOffsetZ) * scale));
+                float temp = Mathf.PerlinNoise((x + tempOffsetX) * scale, (z + tempOffsetZ) * scale);
+                float humidity = Mathf.PerlinNoise((x + humidityOffsetX) * scale, (z + humidityOffsetZ) * scale);
+
+                if(h > seaLevel)
+                {
+                    h = 1;
+                }
+
+                int height = (int)(h * terrainEccentricity);
+
+                //int height = (int)(h * (terrainEccentricity) * (temp) * humidity);
+
+                if (height > VoxelChunk.height)
+                {
+                    height = VoxelChunk.height;
+                }
+
+                voxels[x,0,z] = new Voxel(1, new Vector3Int(x,0,z));
+
+                for(int y = 1; y < height; y++)
+                {
+                    if(y < height)
+                    {
+                        voxels[x, y, z] = new Voxel(2, new Vector3Int(x, y, z));
+                    }
+                    else
+                    {
+                        voxels[x, y, z] = new Voxel(0, new Vector3Int(x,y,z));
+                    }
+                }
+            }
+        }
+
+        return voxels;
+    }
 
 }
