@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class StructureController : MonoBehaviour
 {
-    [SerializeField] private Vector3 mousePosition;
-
-    // Start is called before the first frame update
-    void Start()
+    public GameObject structureMenuUI;
+    
+    public void OnMouseDown()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        structureMenuUI.SetActive(true);
     }
 }
