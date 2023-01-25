@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
 
     public PlayerController playerController;
     public GameObject pauseMenu;
+    public StructureController structureController;
     [SerializeField] public Hero hero;
 
     public CursorLockMode defaultLockMode = CursorLockMode.None;
