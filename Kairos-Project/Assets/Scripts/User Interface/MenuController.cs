@@ -48,12 +48,13 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    //Loads Option Scene
     public void LoadOptions()
     {
         SceneManager.LoadScene("OptionsMenu");
     }
 
-    public void LoadMainMenu() 
+    public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
