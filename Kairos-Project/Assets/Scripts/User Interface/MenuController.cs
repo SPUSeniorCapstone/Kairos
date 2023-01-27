@@ -8,6 +8,7 @@ public class MenuController : MonoBehaviour
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
     public GameObject optionsMenuUI;
+    public GameObject structureMenuUI;
 
     // Update is called once per frame
     void Update()
@@ -28,6 +29,8 @@ public class MenuController : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
+        optionsMenuUI.SetActive(false);
+        structureMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
@@ -40,12 +43,12 @@ public class MenuController : MonoBehaviour
         GameIsPaused = true;
     }
 
-    public void PlayGame ()
+    public void PlayGame()
     {
         SceneManager.LoadScene("Game");
     }
 
-    public void LoadOptions ()
+    public void LoadOptions()
     {
         SceneManager.LoadScene("OptionsMenu");
     }
@@ -78,13 +81,20 @@ public class MenuController : MonoBehaviour
         GameIsPaused = true;
     }
 
-    public void SetVolume (float volume)
+    public void SetVolume(float volume)
     {
         Debug.Log(volume);
     }
 
-    public void SetBrightness (float brightness)
+    public void SetBrightness(float brightness)
     {
         Debug.Log(brightness);
+    }
+
+    public void StructureMenu()
+    {
+        structureMenuUI.SetActive(true);
+        GameIsPaused = true;
+        Time.timeScale = 0f;
     }
 }
