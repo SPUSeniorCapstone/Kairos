@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Selectable : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public bool selected;
     void Start()
     {
-        
+        // write function to handles this or modify public list directly?
+        GameController.main.selectionController.masterSelect.Add(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

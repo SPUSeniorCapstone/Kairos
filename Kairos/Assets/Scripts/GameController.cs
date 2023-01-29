@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
 
     public InputController inputController;
 
+    public SelectionController selectionController;
+
     public bool paused;
 
     // awake or start?
