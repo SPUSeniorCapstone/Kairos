@@ -10,6 +10,9 @@ public class InputController
     public InputType MoveBack = new InputType(KeyCode.S, KeyCode.DownArrow);
     public InputType MoveRight = new InputType(KeyCode.D, KeyCode.RightArrow);
     public InputType MoveLeft = new InputType(KeyCode.A, KeyCode.LeftArrow);
+    // proper syntax?
+    public InputType Select = new InputType(KeyCode.Mouse0, KeyCode.None);
+    public InputType Command = new InputType(KeyCode.Mouse1, KeyCode.None);
 
 
     [Serializable]
