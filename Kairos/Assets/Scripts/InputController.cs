@@ -13,6 +13,9 @@ public class InputController
     // proper syntax?
     public InputType Select = new InputType(KeyCode.Mouse0, KeyCode.None);
     public InputType Command = new InputType(KeyCode.Mouse1, KeyCode.None);
+    // camera
+    public InputType ZoomIn = new InputType(KeyCode.E, KeyCode.None);
+    public InputType ZoomOut = new InputType(KeyCode.Q, KeyCode.None);
 
 
     [Serializable]

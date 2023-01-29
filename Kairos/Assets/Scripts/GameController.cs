@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     public SelectionController selectionController;
 
     public bool paused;
+    public CursorLockMode defaultLockMode = CursorLockMode.None;
 
     // awake or start?
     private void Awake()
