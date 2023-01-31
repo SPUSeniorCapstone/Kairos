@@ -47,10 +47,6 @@ public class RTSCamera : MonoBehaviour
 
     void MoveCamera()
     {
-        //float inputX = Input.GetAxis("Vertical");
-        //float inputZ = Input.GetAxis("Horizontal");
-        //float inputY = Input.GetAxis("Jump");
-
         Vector3 horz = new Vector3();
         if (GameController.Main.inputController.ZoomIn.Pressed())
         {
@@ -85,8 +81,6 @@ public class RTSCamera : MonoBehaviour
         forward = forward.normalized;
         right.y = 0;
         right = right.normalized;
-
-
 
         transform.position += (forward + right) * Time.deltaTime * moveSpeed;
         transform.position += horz * Time.deltaTime * verticalSpeed;

@@ -14,6 +14,7 @@ public class EntityManager : MonoBehaviour
     public float followSpeed;
     public GameObject centerObj;
     public GameObject groupTargetObj;
+    public bool selected;
 
     public bool flock;
 
@@ -33,6 +34,7 @@ public class EntityManager : MonoBehaviour
 
     [Range(0, 100f)]
     public float distanceFromTarget;
+
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +77,15 @@ public class EntityManager : MonoBehaviour
         centerObj.transform.position = centerVector;
         //centerObj.transform.LookAt(pos, transform.up);
 
+    }
+    public void SetGroupTarget(GameObject gameObject)
+    {
+        groupTargetObj = gameObject;
+        foreach (Entity entity in boids)
+        {
+            entity.targetObject = groupTargetObj;
+            entity.idle = false;
+        }
     }
 
 }
