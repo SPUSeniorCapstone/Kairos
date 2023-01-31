@@ -55,6 +55,11 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
+
     public void QuitGame()
     {
         Application.Quit();
