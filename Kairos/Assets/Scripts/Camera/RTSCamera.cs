@@ -48,31 +48,31 @@ public class RTSCamera : MonoBehaviour
     void MoveCamera()
     {
         Vector3 horz = new Vector3();
-        if (GameController.Main.inputController.ZoomIn.Pressed())
+        if (GameController.Main.InputController.ZoomIn.Pressed())
         {
             horz = Vector3.down;
         }
-        if (GameController.Main.inputController.ZoomOut.Pressed())
+        if (GameController.Main.InputController.ZoomOut.Pressed())
         {
             horz = Vector3.up;
         }
 
         Vector3 forward = new Vector3();
-        if (GameController.Main.inputController.MoveForward.Pressed())
+        if (GameController.Main.InputController.MoveForward.Pressed())
         {
             forward = transform.forward;
         }
-        if (GameController.Main.inputController.MoveBack.Pressed())
+        if (GameController.Main.InputController.MoveBack.Pressed())
         {
             forward = transform.forward * -1;
         }
 
         Vector3 right = new Vector3();
-        if (GameController.Main.inputController.MoveRight.Pressed())
+        if (GameController.Main.InputController.MoveRight.Pressed())
         {
             right = transform.right;
         }
-        if (GameController.Main.inputController.MoveLeft.Pressed())
+        if (GameController.Main.InputController.MoveLeft.Pressed())
         {
             right = transform.right * -1;
         }

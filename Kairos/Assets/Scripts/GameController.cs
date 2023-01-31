@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            if(main = null)
+            if(main == null)
             {
                 main = FindObjectOfType<GameController>();
             }
@@ -17,17 +17,45 @@ public class GameController : MonoBehaviour
     }
     static GameController main;
 
-    public InputController inputController;
+    public InputController InputController
+    {
+        get
+        {
+            if(inputController == null)
+            {
+                inputController = new InputController();
+            }
+            return inputController;
+        }
+    }
+    [SerializeField] public InputController inputController;
 
-    public SelectionController selectionController;
+    public SelectionController SelectionController
+    {
+        get
+        {
+            if(selectionController == null)
+            {
+                selectionController = FindObjectOfType<SelectionController>();
+            }
+            return selectionController;
+        }
+    }
+    SelectionController selectionController;
+
+    public WorldController WorldController
+    {
+        get
+        {
+            if(worldController == null)
+            {
+                worldController = FindObjectOfType<WorldController>();
+            }
+            return worldController;
+        }
+    }
+    WorldController worldController;
 
     public bool paused;
     public CursorLockMode defaultLockMode = CursorLockMode.None;
-
-    // awake or start?
-    private void Awake()
-    {
-        Main = this;
-        inputController = new InputController();
-    }
 }

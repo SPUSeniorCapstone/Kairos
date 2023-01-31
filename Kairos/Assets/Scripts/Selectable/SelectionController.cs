@@ -30,7 +30,7 @@ public class SelectionController : MonoBehaviour
         if (!GameController.Main.paused)
         {
             // on mouse 2, attack enemy or path find to location
-            if (GameController.Main.inputController.Command.Down())
+            if (GameController.Main.InputController.Command.Down())
             {
                 Debug.Log("Mouse1 down");
                 if (onEnemy)
@@ -43,7 +43,7 @@ public class SelectionController : MonoBehaviour
                 }
             }
             // single click select, or click and drag let go
-            if (GameController.Main.inputController.Select.KeyUp())
+            if (GameController.Main.InputController.Select.KeyUp())
             {
                 Debug.Log("Mouse0 up");
                 selectionAreaTransform.gameObject.SetActive(false);
@@ -71,9 +71,9 @@ public class SelectionController : MonoBehaviour
                 }
             }
             // click and drag box
-            if (GameController.Main.inputController.Select.Pressed())
+            if (GameController.Main.InputController.Select.Pressed())
             {
-                if (GameController.Main.inputController.Select.Down())
+                if (GameController.Main.InputController.Select.Down())
                 {
                     startPosition = Input.mousePosition;
                     selectionAreaTransform.gameObject.SetActive(true);
