@@ -11,10 +11,12 @@ public class Entity : MonoBehaviour
     public Vector3 v3;
     public GameObject targetObject;
     public bool perch = false;
+    public bool idle = true;
     //public List<GameObject> boids;
     // Start is called before the first frame update
     void Start()
     {
+        entityManager = GetComponentInParent<EntityManager>();
         //bolusManager = GetComponentInParent<BolusManager>();
         //var arry = FindObjectsOfType<Boid>();
         // foreach (var go in arry)
@@ -27,7 +29,7 @@ public class Entity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!perch)
+        if (!perch && !idle)
         {
             v1 = Alignment();
             v2 = Seperation();
@@ -43,7 +45,7 @@ public class Entity : MonoBehaviour
 
             if (entityManager.flock)
             {
-
+                idle = false;
                 velocity = velocity + v1 + v2 + v3 + BoundPosition();
             }
 
@@ -152,7 +154,7 @@ public class Entity : MonoBehaviour
 
     public void Perching()
     {
-        if (Vector3.Distance(entityManager.centerVector, targetObject.transform.position) <= entityManager.distanceFromTarget)
+        if (targetObject != null && Vector3.Distance(entityManager.centerVector, targetObject.transform.position) <= entityManager.distanceFromTarget)
         {
             velocity = Vector3.zero;
             perch = true;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using static UnityEditor.Progress;
@@ -9,11 +10,12 @@ public class SelectionController : MonoBehaviour
     public bool onEnemy;
     private Vector3 startPosition;
     public List<Selectable> masterSelect = new List<Selectable>();
-    public List<Selectable> currentlSelect = new List<Selectable>();
-    // is this neccessary
+    public List<Selectable> currentSelect = new List<Selectable>();
 
     [SerializeField] private GameObject selectionAreaTransform;
+    [SerializeField] private GameObject wayPoint;
 
+    // are there any bugs from these vectors being used globally?
     Vector3 lowerLeft;
     Vector3 upperRight;
     Vector3 lowerRight;
@@ -29,7 +31,7 @@ public class SelectionController : MonoBehaviour
     {
         if (!GameController.main.paused)
         {
-            // on mouse 2, attack enemy or path find to location
+            // on mouse 2, attack enemy or pathfind to location
             if (GameController.main.inputController.Command.Down())
             {
                 Debug.Log("Mouse1 down");
@@ -40,6 +42,21 @@ public class SelectionController : MonoBehaviour
                 else
                 {
                     //MoveSelected();
+                    RaycastHit hit;
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
+                    {
+                        Vector3 point = hit.point;
+                        point.y = .1f;
+                        wayPoint.transform.position = point;
+                    }
+                    foreach (Selectable selectable in currentSelect)
+                    {
+                        var manager = selectable.GetComponentInParent<EntityManager>();
+                        if (manager != null && !manager.selected)
+                        {
+                            manager.SetGroupTarget(wayPoint);
+                        }
+                    }
                 }
             }
             // single click select, or click and drag let go
@@ -49,14 +66,20 @@ public class SelectionController : MonoBehaviour
                 selectionAreaTransform.gameObject.SetActive(false);
                 foreach(Selectable selectable in masterSelect)
                 {
+                    if (selectable.GetComponentInParent<EntityManager>().selected)
+                    {
+                        selectable.GetComponentInParent<EntityManager>().selected = false;
+                    }
                     selectable.selected = false;
-                    currentlSelect.Remove(selectable);
+                    selectable.Deactivate();
+                    currentSelect.Remove(selectable);
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
                     // will this work? will it remember these "global" vectors?
                     if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y)
                     {
                         selectable.selected = true;
-                        currentlSelect.Add(selectable);
+                        selectable.Activate();
+                        currentSelect.Add(selectable);
                     }
                     // this will check if the mouse click ray hit a selectable
                     else
@@ -65,7 +88,8 @@ public class SelectionController : MonoBehaviour
                         if (oneClick != null)
                         {
                             selectable.selected = true;
-                            currentlSelect.Add(oneClick);
+                            selectable.Activate();
+                            currentSelect.Add(oneClick);
                         }
                     }
                 }
