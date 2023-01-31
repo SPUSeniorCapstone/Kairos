@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class InputController
 {
 
@@ -26,7 +27,10 @@ public class InputController
 
         }
 
+        [SerializeField]
         KeyCode key1;
+
+        [SerializeField]
         KeyCode key2;
 
         

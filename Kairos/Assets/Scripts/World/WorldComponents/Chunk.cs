@@ -12,7 +12,7 @@ public class Chunk : MonoBehaviour
     /// <summary>
     /// The width, height, and length of the chunk in blocks
     /// </summary>
-    public const int width = 16, height = 32, length = 16;
+    public const int width = 32, height = 32, length = 32;
 
     /// <summary>
     /// Instantiates and Initializes a new Chunk Object
