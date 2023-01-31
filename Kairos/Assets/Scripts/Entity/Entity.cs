@@ -103,7 +103,7 @@ public class Entity : MonoBehaviour
         {
             if (boid != this)
             {
-                pv += velocity;
+                pv += boid.velocity;
             }
         }
         pv /= (entityManager.boids.Count - 1);
