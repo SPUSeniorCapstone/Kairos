@@ -24,7 +24,7 @@ public class RTSCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameController.main.paused)
+        if (!GameController.Main.paused)
         {
             if (Input.GetKeyDown(KeyCode.C))
             {
@@ -52,31 +52,31 @@ public class RTSCamera : MonoBehaviour
         //float inputY = Input.GetAxis("Jump");
 
         Vector3 horz = new Vector3();
-        if (GameController.main.inputController.ZoomIn.Pressed())
+        if (GameController.Main.inputController.ZoomIn.Pressed())
         {
             horz = Vector3.down;
         }
-        if (GameController.main.inputController.ZoomOut.Pressed())
+        if (GameController.Main.inputController.ZoomOut.Pressed())
         {
             horz = Vector3.up;
         }
 
         Vector3 forward = new Vector3();
-        if (GameController.main.inputController.MoveForward.Pressed())
+        if (GameController.Main.inputController.MoveForward.Pressed())
         {
             forward = transform.forward;
         }
-        if (GameController.main.inputController.MoveBack.Pressed())
+        if (GameController.Main.inputController.MoveBack.Pressed())
         {
             forward = transform.forward * -1;
         }
 
         Vector3 right = new Vector3();
-        if (GameController.main.inputController.MoveRight.Pressed())
+        if (GameController.Main.inputController.MoveRight.Pressed())
         {
             right = transform.right;
         }
-        if (GameController.main.inputController.MoveLeft.Pressed())
+        if (GameController.Main.inputController.MoveLeft.Pressed())
         {
             right = transform.right * -1;
         }
@@ -101,7 +101,7 @@ public class RTSCamera : MonoBehaviour
         }
         else
         {
-            Cursor.lockState = GameController.main.defaultLockMode;
+            Cursor.lockState = GameController.Main.defaultLockMode;
         }
     }
 }

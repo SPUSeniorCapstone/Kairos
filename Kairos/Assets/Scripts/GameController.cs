@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public static GameController main;
+    public static GameController Main
+    {
+        get
+        {
+            if(main = null)
+            {
+                main = FindObjectOfType<GameController>();
+            }
+            return main;
+        }
+    }
+    static GameController main;
 
     public InputController inputController;
 
@@ -16,7 +27,7 @@ public class GameController : MonoBehaviour
     // awake or start?
     private void Awake()
     {
-        main = this;
+        Main = this;
         inputController = new InputController();
     }
 }

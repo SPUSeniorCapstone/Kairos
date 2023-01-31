@@ -27,10 +27,10 @@ public class SelectionController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameController.main.paused)
+        if (!GameController.Main.paused)
         {
             // on mouse 2, attack enemy or path find to location
-            if (GameController.main.inputController.Command.Down())
+            if (GameController.Main.inputController.Command.Down())
             {
                 Debug.Log("Mouse1 down");
                 if (onEnemy)
@@ -43,7 +43,7 @@ public class SelectionController : MonoBehaviour
                 }
             }
             // single click select, or click and drag let go
-            if (GameController.main.inputController.Select.KeyUp())
+            if (GameController.Main.inputController.Select.KeyUp())
             {
                 Debug.Log("Mouse0 up");
                 selectionAreaTransform.gameObject.SetActive(false);
@@ -71,9 +71,9 @@ public class SelectionController : MonoBehaviour
                 }
             }
             // click and drag box
-            if (GameController.main.inputController.Select.Pressed())
+            if (GameController.Main.inputController.Select.Pressed())
             {
-                if (GameController.main.inputController.Select.Down())
+                if (GameController.Main.inputController.Select.Down())
                 {
                     startPosition = Input.mousePosition;
                     selectionAreaTransform.gameObject.SetActive(true);

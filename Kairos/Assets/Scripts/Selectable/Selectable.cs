@@ -8,7 +8,7 @@ public class Selectable : MonoBehaviour
     void Start()
     {
         // write function to handles this or modify public list directly?
-        GameController.main.selectionController.masterSelect.Add(this);
+        GameController.Main.selectionController.masterSelect.Add(this);
     }
 
 }
