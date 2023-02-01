@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    public EntityManager entityManager;
+    public CommandGroup CommandGroup;
     public Vector3 velocity = Vector3.zero;
     public Vector3 v1;
     public Vector3 v2;
@@ -12,18 +12,18 @@ public class Entity : MonoBehaviour
     public GameObject targetObject;
     public bool perch = false;
     public bool idle = true;
-    //public List<GameObject> boids;
+    //public List<GameObject> entities;
     // Start is called before the first frame update
     void Start()
     {
-        entityManager = GetComponentInParent<EntityManager>();
+        CommandGroup = GetComponentInParent<CommandGroup>();
         //bolusManager = GetComponentInParent<BolusManager>();
         //var arry = FindObjectsOfType<Boid>();
         // foreach (var go in arry)
         // {
-        //     boids.Add(go.gameObject);
+        //     entities.Add(go.gameObject);
         // }
-        // boids.Remove(this.gameObject);
+        // entities.Remove(this.gameObject);
     }
 
     // Update is called once per frame
@@ -34,23 +34,23 @@ public class Entity : MonoBehaviour
             v1 = Alignment();
             v2 = Seperation();
             v3 = Cohesion();
-            Vector3 pc = (targetObject.transform.position - entityManager.centerVector).normalized * entityManager.followStr;
+            Vector3 pc = (targetObject.transform.position - CommandGroup.centerVector).normalized * CommandGroup.followStr;
 
-            if (!entityManager.flock)
+            if (!CommandGroup.flock)
             {
                 velocity = Vector3.zero;
 
                 velocity = velocity + v1 + v2 + v3 + pc;
             }
 
-            if (entityManager.flock)
+            if (CommandGroup.flock)
             {
                 idle = false;
                 velocity = velocity + v1 + v2 + v3 + BoundPosition();
             }
 
             LimitVelocity();
-            if (entityManager.twoD)
+            if (CommandGroup.twoD)
             {
                 float X = transform.position.x;
                 float Z = transform.position.z;
@@ -58,38 +58,38 @@ public class Entity : MonoBehaviour
                 velocity.y = 0;
             }
 
-            gameObject.transform.position += (velocity.normalized * entityManager.followSpeed * Time.deltaTime);
+            gameObject.transform.position += (velocity.normalized * CommandGroup.followSpeed * Time.deltaTime);
             //go.gameObject.transform.position += BoundPosition(go);
         }
     }
     public Vector3 Alignment()
     {
         //Vector3 perceivedCenter = (GameObject.Find("Center").transform.position - trueCenter).normalized * followStr;
-        Vector3 perceivedCenter = entityManager.centerVector.normalized * entityManager.followStr;
+        Vector3 perceivedCenter = CommandGroup.centerVector.normalized * CommandGroup.followStr;
 
-        if (!entityManager.flock)
+        if (!CommandGroup.flock)
         {
             perceivedCenter = Vector3.zero;
         }
-        foreach (Entity boid in entityManager.boids)
+        foreach (Entity boid in CommandGroup.entities)
         {
             if (boid != this)
             {
                 perceivedCenter += boid.transform.position;
             }
         }
-        perceivedCenter = perceivedCenter / (entityManager.boids.Count - 1);
-        return (perceivedCenter - transform.position) * entityManager.alignmentFactor;
+        perceivedCenter = perceivedCenter / (CommandGroup.entities.Count - 1);
+        return (perceivedCenter - transform.position) * CommandGroup.alignmentFactor;
     }
     public Vector3 Seperation()
     {
         // vector c is the displacement of each boid which is near by
         Vector3 c = Vector3.zero;
-        foreach (Entity boid in entityManager.boids)
+        foreach (Entity boid in CommandGroup.entities)
         {
             if (boid != this)
             {
-                if (Vector3.Distance(boid.transform.position, transform.position) < entityManager.effectiveDistance)
+                if (Vector3.Distance(boid.transform.position, transform.position) < CommandGroup.effectiveDistance)
                 {
                     c = c - (boid.transform.position - transform.position);
                 }
@@ -101,60 +101,60 @@ public class Entity : MonoBehaviour
     {
         //percieved velocity
         Vector3 pv = Vector3.zero;
-        foreach (Entity boid in entityManager.boids)
+        foreach (Entity boid in CommandGroup.entities)
         {
             if (boid != this)
             {
                 pv += boid.velocity;
             }
         }
-        pv /= (entityManager.boids.Count - 1);
-        return (pv - velocity) * entityManager.cohesionFactor;
+        pv /= (CommandGroup.entities.Count - 1);
+        return (pv - velocity) * CommandGroup.cohesionFactor;
     }
 
     public void LimitVelocity()
     {
-        if (velocity.magnitude > entityManager.speedLimit)
+        if (velocity.magnitude > CommandGroup.speedLimit)
         {
-            velocity = (velocity / velocity.magnitude) * entityManager.speedLimit;
+            velocity = (velocity / velocity.magnitude) * CommandGroup.speedLimit;
         }
     }
 
     public Vector3 BoundPosition()
     {
         Vector3 adjustedPath = Vector3.zero;
-        if (transform.position.x < entityManager.min.x)
+        if (transform.position.x < CommandGroup.min.x)
         {
-            adjustedPath.x = (entityManager.min.x - transform.position.x);
+            adjustedPath.x = (CommandGroup.min.x - transform.position.x);
         }
-        else if (gameObject.transform.position.x > entityManager.max.x)
+        else if (gameObject.transform.position.x > CommandGroup.max.x)
         {
-            adjustedPath.x = (entityManager.max.x - transform.position.x);
-        }
-
-        if (gameObject.transform.position.y < entityManager.min.y)
-        {
-            adjustedPath.y = (entityManager.min.y - transform.position.y);
-        }
-        else if (gameObject.transform.position.y > entityManager.max.y)
-        {
-            adjustedPath.y = (entityManager.max.y - transform.position.y);
+            adjustedPath.x = (CommandGroup.max.x - transform.position.x);
         }
 
-        if (gameObject.transform.position.z < entityManager.min.z)
+        if (gameObject.transform.position.y < CommandGroup.min.y)
         {
-            adjustedPath.z = (entityManager.min.z - transform.position.z);
+            adjustedPath.y = (CommandGroup.min.y - transform.position.y);
         }
-        else if (gameObject.transform.position.z > entityManager.max.z)
+        else if (gameObject.transform.position.y > CommandGroup.max.y)
         {
-            adjustedPath.z = (entityManager.max.z - transform.position.z);
+            adjustedPath.y = (CommandGroup.max.y - transform.position.y);
         }
-        return adjustedPath * entityManager.boundFactor;
+
+        if (gameObject.transform.position.z < CommandGroup.min.z)
+        {
+            adjustedPath.z = (CommandGroup.min.z - transform.position.z);
+        }
+        else if (gameObject.transform.position.z > CommandGroup.max.z)
+        {
+            adjustedPath.z = (CommandGroup.max.z - transform.position.z);
+        }
+        return adjustedPath * CommandGroup.boundFactor;
     }
 
     public void Perching()
     {
-        if (targetObject != null && Vector3.Distance(entityManager.centerVector, targetObject.transform.position) <= entityManager.distanceFromTarget)
+        if (targetObject != null && Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position) <= CommandGroup.distanceFromTarget)
         {
             velocity = Vector3.zero;
             perch = true;

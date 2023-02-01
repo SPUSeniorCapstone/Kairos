@@ -50,22 +50,27 @@ public class SelectionController : MonoBehaviour
                 foreach(Selectable selectable in masterSelect)
                 {
                     selectable.selected = false;
+                    selectable.Deactivate();
                     currentlSelect.Remove(selectable);
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
                     // will this work? will it remember these "global" vectors?
                     if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y)
                     {
+                        //Debug.Log("Within bounds");
                         selectable.selected = true;
+                        selectable.Activate();
                         currentlSelect.Add(selectable);
                     }
                     // this will check if the mouse click ray hit a selectable
                     else
                     {
                         Selectable oneClick = GetMouseWorldPosition3D();
-                        if (oneClick != null)
+                        if (oneClick != null && !oneClick.selected)
                         {
-                            selectable.selected = true;
+                            oneClick.selected = true;
+                            oneClick.Activate();
                             currentlSelect.Add(oneClick);
+                            Debug.Log(oneClick);
                         }
                     }
                 }

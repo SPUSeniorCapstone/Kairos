@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8379107950405959472}
-  - component: {fileID: 1344805208890762026}
+  - component: {fileID: 27639770161473015}
   m_Layer: 0
   m_Name: Battalion
   m_TagString: Untagged
@@ -74,7 +74,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1344805208890762026
+--- !u!114 &27639770161473015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,18 +83,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 8379107950405959475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beacc08539cb6ab4790510fb5db2dd65, type: 3}
+  m_Script: {fileID: 11500000, guid: bfb29edfdc2eac745b8f051e989135ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boids: []
+  entities: []
   speedLimit: 20
   max: {x: 0, y: 0, z: 0}
   min: {x: 0, y: 0, z: 0}
   centerVector: {x: 0, y: 0, z: 0}
   followStr: 1
-  followSpeed: 8
+  followSpeed: 0
   centerObj: {fileID: 3719083724017451147}
   groupTargetObj: {fileID: 0}
+  selected: 0
   flock: 0
   twoD: 1
   alignmentFactor: 0.125
