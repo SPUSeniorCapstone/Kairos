@@ -12,9 +12,10 @@ public class CommandGroup : MonoBehaviour
     public Vector3 centerVector;
     public float followStr;
     public float followSpeed;
-    public GameObject centerObj;
+    //public GameObject centerObj;
     public GameObject groupTargetObj;
     public bool selected;
+    public bool lesser = true;
 
     public bool flock;
 
@@ -39,12 +40,23 @@ public class CommandGroup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var arry = GetComponentsInChildren<Entity>();
-        foreach (var go in arry)
-        {
-            entities.Add(go);
-            go.targetObject = groupTargetObj;
-        }
+        //var arry = GetComponentsInChildren<Entity>();
+        //if (arry.Length != 0)
+        //{
+        //    foreach (var go in arry)
+        //    {
+        //        entities.Add(go);
+        //        go.targetObject = groupTargetObj;
+        //    }
+        //}
+        //var joe = GetComponent<Entity>();
+        //if (joe != null && arry.Length == 0)
+        //{
+        //    Debug.Log("REEEEE");
+        //    entities.Add(joe);
+        //    joe.targetObject = groupTargetObj;
+        //}
+    
 
     }
 
@@ -52,6 +64,27 @@ public class CommandGroup : MonoBehaviour
     void Update()
     {
         CalculateCenter();
+        // is there a better way?
+        if (lesser)
+        {
+            CheckIfEmpty();
+        }
+        else if (!lesser)
+        {
+            foreach (CommandGroup group in GameController.Main.CommandController.commandGroups)
+            {
+                if (group != this)
+                {
+                    group.effectiveDistance = effectiveDistance;
+                    group.distanceFromTarget = distanceFromTarget;
+                    group.boundFactor = boundFactor;
+                    group.cohesionFactor = cohesionFactor;
+                    group.alignmentFactor = alignmentFactor;
+                    group.followSpeed = followSpeed;
+                    group.followStr = followStr;
+                }
+            }
+        }
     }
 
     public void CalculateCenter()
@@ -74,7 +107,10 @@ public class CommandGroup : MonoBehaviour
         y = 0f;
         z /= entities.Count;
         centerVector = new Vector3(x, y, z);
-        centerObj.transform.position = centerVector;
+        if (entities.Count == 0){
+            centerVector = Vector3.zero;
+        }
+        transform.position = centerVector;
         //centerObj.transform.LookAt(pos, transform.up);
 
     }
@@ -84,8 +120,16 @@ public class CommandGroup : MonoBehaviour
         foreach (Entity entity in entities)
         {
             entity.targetObject = groupTargetObj;
+            entity.SetTargetPos();
             entity.idle = false;
         }
     }
-
+    public void CheckIfEmpty()
+    {
+        if (entities.Count == 0)
+        {
+            GameController.Main.CommandController.commandGroups.Remove(this);
+            Destroy(gameObject);
+        }
+    }
 }

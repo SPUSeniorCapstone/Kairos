@@ -10,31 +10,85 @@ public class Entity : MonoBehaviour
     public Vector3 v2;
     public Vector3 v3;
     public GameObject targetObject;
+    public Vector3 targetPos;
     public bool perch = false;
     public bool idle = true;
     //public List<GameObject> entities;
+
+    //===
+
+    //public int speedLimit;
+    //public Vector3 max, min;
+    //int Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
+    //public Vector3 centerVector;
+    //public float followStr;
+    //public float followSpeed;
+    //public GameObject centerObj;
+
+    //public bool selected;
+
+    //public bool flock;
+
+    //public bool twoD = false;
+    //// old max 0.25f
+    //[Range(0, 1f)]
+    //public float alignmentFactor;
+
+    [Range(0, 50f)]
+    public float effectiveDistance;
+
+    //[Range(0, 1f)]
+    //public float cohesionFactor;
+
+    //[Range(0, 1f)]
+    //public float boundFactor;
+
+    //[Range(0, 100f)]
+    //public float distanceFromTarget;
+    //==
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        CommandGroup = GetComponentInParent<CommandGroup>();
-        //bolusManager = GetComponentInParent<BolusManager>();
-        //var arry = FindObjectsOfType<Boid>();
-        // foreach (var go in arry)
-        // {
-        //     entities.Add(go.gameObject);
-        // }
-        // entities.Remove(this.gameObject);
+        // delete this later
+        //CommandGroup = GetComponentInParent<CommandGroup>();
+        //if (CommandGroup == null)
+        //{
+        //    CommandGroup = GetComponent<CommandGroup>();
+        //}
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!perch && !idle)
+        if (!perch && !idle && CommandGroup != null)
         {
             v1 = Alignment();
             v2 = Seperation();
             v3 = Cohesion();
-            Vector3 pc = (targetObject.transform.position - CommandGroup.centerVector).normalized * CommandGroup.followStr;
+            Vector3 pc = (targetPos - CommandGroup.centerVector).normalized * CommandGroup.followStr;
+            Debug.Log(pc);
 
             if (!CommandGroup.flock)
             {
@@ -45,7 +99,7 @@ public class Entity : MonoBehaviour
 
             if (CommandGroup.flock)
             {
-                idle = false;
+                //idle = false;
                 velocity = velocity + v1 + v2 + v3 + BoundPosition();
             }
 
@@ -85,7 +139,9 @@ public class Entity : MonoBehaviour
     {
         // vector c is the displacement of each boid which is near by
         Vector3 c = Vector3.zero;
-        foreach (Entity boid in CommandGroup.entities)
+        //GameController.Main.EntityController.masterEntitiy
+        // may be better to only boids when moving, so if idle then dont move
+        foreach (Entity boid in GameController.Main.EntityController.masterEntitiy)
         {
             if (boid != this)
             {
@@ -158,10 +214,15 @@ public class Entity : MonoBehaviour
         {
             velocity = Vector3.zero;
             perch = true;
+            idle = true;
         }
         else
         {
             perch = false;
         }
+    }
+    public void SetTargetPos()
+    {
+        targetPos = targetObject.transform.position;
     }
 }

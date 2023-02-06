@@ -9,7 +9,7 @@ public class SelectionController : MonoBehaviour
     public bool onEnemy;
     private Vector3 startPosition;
     public List<Selectable> masterSelect = new List<Selectable>();
-    public List<Selectable> currentlSelect = new List<Selectable>();
+    public List<Selectable> currentlySelect = new List<Selectable>();
     // is this neccessary
 
     [SerializeField] private GameObject selectionAreaTransform;
@@ -30,18 +30,18 @@ public class SelectionController : MonoBehaviour
         if (!GameController.Main.paused)
         {
             // on mouse 2, attack enemy or path find to location
-            if (GameController.Main.InputController.Command.Down())
-            {
-                Debug.Log("Mouse1 down");
-                if (onEnemy)
-                {
-                    //-----------------------------
-                }
-                else
-                {
-                    //MoveSelected();
-                }
-            }
+            //if (GameController.Main.InputController.Command.Down())
+            //{
+            //    Debug.Log("Mouse1 down");
+            //    if (onEnemy)
+            //    {
+            //        //-----------------------------
+            //    }
+            //    else
+            //    {
+            //        GameController.Main.CommandController.MoveSelected(currentlySelect);
+            //    }
+            //}
             // single click select, or click and drag let go
             if (GameController.Main.InputController.Select.KeyUp())
             {
@@ -51,7 +51,7 @@ public class SelectionController : MonoBehaviour
                 {
                     selectable.selected = false;
                     selectable.Deactivate();
-                    currentlSelect.Remove(selectable);
+                    currentlySelect.Remove(selectable);
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
                     // will this work? will it remember these "global" vectors?
                     if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y)
@@ -59,7 +59,7 @@ public class SelectionController : MonoBehaviour
                         //Debug.Log("Within bounds");
                         selectable.selected = true;
                         selectable.Activate();
-                        currentlSelect.Add(selectable);
+                        currentlySelect.Add(selectable);
                     }
                     // this will check if the mouse click ray hit a selectable
                     else
@@ -69,7 +69,7 @@ public class SelectionController : MonoBehaviour
                         {
                             oneClick.selected = true;
                             oneClick.Activate();
-                            currentlSelect.Add(oneClick);
+                            currentlySelect.Add(oneClick);
                             Debug.Log(oneClick);
                         }
                     }
