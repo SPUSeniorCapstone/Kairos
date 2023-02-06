@@ -13,91 +13,91 @@ public class PathFinder
     public bool allowDiagonals = true;
     public float runTime = 10;
 
-    public async Task<List<Vector3>> FindPath(Vector3 start, Vector3 end, bool useWorldCoords = true)
+    //public async Task<List<Vector3>> FindPath(Vector3 start, Vector3 end, bool useWorldCoords = true)
+    //{
+    //    return await Task.Run(() =>
+    //    {
+    //        return FindPathSyncronous(start, end, useWorldCoords);
+    //    });
+
+    //}
+
+    private void FindPathSyncronous(Vector3 start, Vector3 end, bool useWorldCoords = true)
     {
-        return await Task.Run(() =>
-        {
-            return FindPathSyncronous(start, end, useWorldCoords);
-        });
+        //Vector3Int Start, End;
 
-    }
-
-    private List<Vector3> FindPathSyncronous(Vector3 start, Vector3 end, bool useWorldCoords = true)
-    {
-        Vector3Int Start, End;
-
-        if (useWorldCoords)
-        {
-            Start = WorldController.Main.WorldToBlockPosition(start);
-            End = WorldController.Main.WorldToBlockPosition(end);
-        }
-        else
-        {
-            Start = new Vector3Int((int)start.x, 0, (int)start.z);
-            End = new Vector3Int((int)end.x, 0, (int)end.z);
-        }
+        //if (useWorldCoords)
+        //{
+        //    Start = WorldController.Main.WorldToBlockPosition(start);
+        //    End = WorldController.Main.WorldToBlockPosition(end);
+        //}
+        //else
+        //{
+        //    Start = new Vector3Int((int)start.x, 0, (int)start.z);
+        //    End = new Vector3Int((int)end.x, 0, (int)end.z);
+        //}
         
 
-        var open = new NodeList();
-        var closed = new HashSet<Vector3Int>();
+        //var open = new NodeList();
+        //var closed = new HashSet<Vector3Int>();
 
-        var startNode = new PathNode(Start, 0, Heuristic(Start, End));
+        //var startNode = new PathNode(Start, 0, Heuristic(Start, End));
 
-        open.Enqueue(startNode);
+        //open.Enqueue(startNode);
 
-        var startTime = DateTime.Now;
-        while (open.Count > 0)
-        {
-            if((DateTime.Now - startTime).Seconds > runTime)
-            {
-                Debug.LogError("PATHFINDING EXCEEDED RUNTIME");
-                return null;
-            }
+        //var startTime = DateTime.Now;
+        //while (open.Count > 0)
+        //{
+        //    if((DateTime.Now - startTime).Seconds > runTime)
+        //    {
+        //        Debug.LogError("PATHFINDING EXCEEDED RUNTIME");
+        //        return null;
+        //    }
 
-            var current = open.Dequeue();
+        //    var current = open.Dequeue();
 
-            if (current.position == End)
-            {
-                return GetPath(current);
-            }
+        //    if (current.position == End)
+        //    {
+        //        return GetPath(current);
+        //    }
 
-            closed.Add(current.position);
+        //    closed.Add(current.position);
 
-            foreach (var n in GetNeighbors(current))
-            {
-                var neighbor = n;
-                if (closed.Contains(neighbor.position))
-                {
-                    continue;
-                }
+        //    foreach (var n in GetNeighbors(current))
+        //    {
+        //        var neighbor = n;
+        //        if (closed.Contains(neighbor.position))
+        //        {
+        //            continue;
+        //        }
 
-                int g = current.g + 1;
-                bool bestG = false;
+        //        int g = current.g + 1;
+        //        bool bestG = false;
 
-                if (!open.Contains(neighbor))
-                {
-                    bestG = true;
-                    neighbor.h = Heuristic(neighbor.position, End);
-                    open.Enqueue(neighbor);
-                }
-                else
-                {
-                    neighbor = open.GetNode(neighbor.position);
-                    if(g < neighbor.g)
-                    {
-                        bestG = true;
-                    }
-                }
+        //        if (!open.Contains(neighbor))
+        //        {
+        //            bestG = true;
+        //            neighbor.h = Heuristic(neighbor.position, End);
+        //            open.Enqueue(neighbor);
+        //        }
+        //        else
+        //        {
+        //            neighbor = open.GetNode(neighbor.position);
+        //            if(g < neighbor.g)
+        //            {
+        //                bestG = true;
+        //            }
+        //        }
 
-                if (bestG)
-                {
-                    neighbor.parent = current;
-                    neighbor.g = g;
-                }
+        //        if (bestG)
+        //        {
+        //            neighbor.parent = current;
+        //            neighbor.g = g;
+        //        }
 
-            }
-        }
-        return null;
+        //    }
+        //}
+        //return null;
     }
 
     int Heuristic(Vector3Int node, Vector3Int end)
@@ -193,42 +193,42 @@ public class PathFinder
 
     public class NodeList
     {
-        PriorityQueue<PathNode> priorityQueue = new PriorityQueue<PathNode>();
-        Dictionary<Vector3Int, PathNode> hash = new Dictionary<Vector3Int, PathNode>();
+    //    PriorityQueue<PathNode> priorityQueue = new PriorityQueue<PathNode>();
+    //    Dictionary<Vector3Int, PathNode> hash = new Dictionary<Vector3Int, PathNode>();
 
 
-        public void Enqueue(PathNode node)
-        {
-            priorityQueue.Enqueue(node);
-            hash.Add(node.position, node);
-        }
+    //    public void Enqueue(PathNode node)
+    //    {
+    //        priorityQueue.Enqueue(node);
+    //        hash.Add(node.position, node);
+    //    }
 
-        public PathNode Dequeue()
-        {
-            var ret = priorityQueue.Dequeue();
-            hash.Remove(ret.position);
-            return ret;
-        }
+    //    public PathNode Dequeue()
+    //    {
+    //        var ret = priorityQueue.Dequeue();
+    //        hash.Remove(ret.position);
+    //        return ret;
+    //    }
 
-        public PathNode Peek()
-        {
-            return priorityQueue.Peek();
-        }
+    //    public PathNode Peek()
+    //    {
+    //        return priorityQueue.Peek();
+    //    }
 
-        public bool Contains(PathNode node)
-        {
-            return hash.ContainsKey(node.position);
-        }
+    //    public bool Contains(PathNode node)
+    //    {
+    //        return hash.ContainsKey(node.position);
+    //    }
 
-        public PathNode GetNode(Vector3Int pos)
-        {
-            return hash[pos];
-        }
+    //    public PathNode GetNode(Vector3Int pos)
+    //    {
+    //        return hash[pos];
+    //    }
 
-        public int Count
-        {
-            get { return priorityQueue.Count; }
-        }
+    //    public int Count
+    //    {
+    //        get { return priorityQueue.Count; }
+    //    }
     }
 }
 

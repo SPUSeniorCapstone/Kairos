@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 2701632545085257852}
   - component: {fileID: 8328249844979736684}
   - component: {fileID: 2162347507621088085}
-  - component: {fileID: 1769428212815273251}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Player
@@ -153,8 +152,11 @@ MonoBehaviour:
   v2: {x: 0, y: 0, z: 0}
   v3: {x: 0, y: 0, z: 0}
   targetObject: {fileID: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+  distance: 0
   perch: 0
   idle: 1
+  effectiveDistance: 1.5
 --- !u!114 &2162347507621088085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,35 +172,6 @@ MonoBehaviour:
   selected: 0
   unSelectedMaterial: {fileID: 2100000, guid: e7dde06afd271494f8a4e1439b8cd7fe, type: 2}
   selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
---- !u!114 &1769428212815273251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2701632545085584670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfb29edfdc2eac745b8f051e989135ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  entities: []
-  speedLimit: 0
-  max: {x: 0, y: 0, z: 0}
-  min: {x: 0, y: 0, z: 0}
-  centerVector: {x: 0, y: 0, z: 0}
-  followStr: 0
-  followSpeed: 0
-  centerObj: {fileID: 0}
-  groupTargetObj: {fileID: 0}
-  selected: 0
-  flock: 0
-  twoD: 0
-  alignmentFactor: 0
-  effectiveDistance: 0
-  cohesionFactor: 0
-  boundFactor: 0
-  distanceFromTarget: 0
 --- !u!1 &3430174129152857782
 GameObject:
   m_ObjectHideFlags: 0

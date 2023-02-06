@@ -11,6 +11,7 @@ public class Entity : MonoBehaviour
     public Vector3 v3;
     public GameObject targetObject;
     public Vector3 targetPos;
+    public float distance;
     public bool perch = false;
     public bool idle = true;
     //public List<GameObject> entities;
@@ -84,9 +85,13 @@ public class Entity : MonoBehaviour
     {
         if (!perch && !idle && CommandGroup != null)
         {
-            v1 = Alignment();
-            v2 = Seperation();
-            v3 = Cohesion();
+            distance = Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position);
+            if (CommandGroup.entities.Count > 1)
+            {
+                v1 = Alignment();
+                v2 = Seperation();
+                v3 = Cohesion();
+            }
             Vector3 pc = (targetPos - CommandGroup.centerVector).normalized * CommandGroup.followStr;
             Debug.Log(pc);
 
@@ -114,6 +119,12 @@ public class Entity : MonoBehaviour
 
             gameObject.transform.position += (velocity.normalized * CommandGroup.followSpeed * Time.deltaTime);
             //go.gameObject.transform.position += BoundPosition(go);
+        }
+        else
+        {
+            Vector3 tree = Seperation();
+            tree.y = 0;
+            gameObject.transform.position += (tree * Time.deltaTime);
         }
     }
     public Vector3 Alignment()
@@ -145,7 +156,7 @@ public class Entity : MonoBehaviour
         {
             if (boid != this)
             {
-                if (Vector3.Distance(boid.transform.position, transform.position) < CommandGroup.effectiveDistance)
+                if (Vector3.Distance(boid.transform.position, transform.position) < effectiveDistance)
                 {
                     c = c - (boid.transform.position - transform.position);
                 }
@@ -210,7 +221,7 @@ public class Entity : MonoBehaviour
 
     public void Perching()
     {
-        if (targetObject != null && Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position) <= CommandGroup.distanceFromTarget)
+        if (targetObject != null && Vector3.Distance(transform.position, targetObject.transform.position) <= CommandGroup.distanceFromTarget)
         {
             velocity = Vector3.zero;
             perch = true;

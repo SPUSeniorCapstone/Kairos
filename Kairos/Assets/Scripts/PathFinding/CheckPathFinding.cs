@@ -34,7 +34,7 @@ public class CheckPathFinding : MonoBehaviour
     public bool Button_GeneratePath;
     public void GeneratePath()
     {
-        task = GameController.Main.PathFinder.FindPath(start.transform.position, end.transform.position);
+        //task = GameController.Main.PathFinder.FindPath(start.transform.position, end.transform.position);
 
     }
 
