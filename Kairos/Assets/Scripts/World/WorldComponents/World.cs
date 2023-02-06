@@ -61,6 +61,33 @@ public class World : MonoBehaviour
         return Chunks[chunkX, chunkZ].GetSurfaceBlock(voxelX, voxelZ);
     }
 
+    public int GetHeight(int x, int z)
+    {
+        int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        if (chunkX >= width || chunkZ >= length || voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+           chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
+        {
+            return Chunk.height;
+        }
+
+        return Chunks[chunkX, chunkZ].GetHeight(voxelX, voxelZ);
+    }
+
+    public bool IsPassable(int x, int z)
+    {
+        //int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        //int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        //if (chunkX >= width || chunkZ >= length || voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+        //   chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
+        //{
+        //    return Chunk.height;
+        //}
+
+        //return Chunks[chunkX, chunkZ].GetHeight(voxelX, voxelZ);
+        return true;
+    }
+
     /// <summary>
     /// Returns the Block at the given (x,y,z) position
     /// </summary>
