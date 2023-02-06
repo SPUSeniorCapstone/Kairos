@@ -93,8 +93,6 @@ public class Entity : MonoBehaviour
                 v3 = Cohesion();
             }
             Vector3 pc = (targetPos - CommandGroup.centerVector).normalized * CommandGroup.followStr;
-            Debug.Log(pc);
-
             if (!CommandGroup.flock)
             {
                 velocity = Vector3.zero;

@@ -26,6 +26,8 @@ public class CommandController : MonoBehaviour
                 if (GameController.Main.SelectionController.onEnemy)
                 {
                     //-----------------------------
+                    // less ugly way to get this, change later
+                    MoveSelected(GameController.Main.SelectionController.enemy);
                 }
                 else
                 {
@@ -35,21 +37,25 @@ public class CommandController : MonoBehaviour
                         Vector3 point = hit.point;
                         point.y = 0;
                         wayPoint.transform.position = point;
-                        MoveSelected();
+                        MoveSelected(wayPoint);
                     }
                 }
             }
         }
     }
-    public void MoveSelected()
+    public void MoveSelected(GameObject target)
     {
         var cg = Instantiate<CommandGroup>(commandGroup,playerFaction.transform);
   
         commandGroups.Add(cg);
-        cg.groupTargetObj = wayPoint;
+        //cg.groupTargetObj = target;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
         {
             Entity entity = selectable.GetComponent<Entity>();
+            if (entity == null)
+            {
+                entity = selectable.GetComponentInParent<Entity>();
+            }
             if (entity != null)
             {
                 CommandGroup old = entity.CommandGroup;
@@ -71,7 +77,7 @@ public class CommandController : MonoBehaviour
             //go.SetGroupTarget(wayPoint);
             //cg.
         }
-        cg.SetGroupTarget(wayPoint);
+        cg.SetGroupTarget(target);
         
         // this doesn't work, changes length while in the loop
         //int count = commandGroups.Count;

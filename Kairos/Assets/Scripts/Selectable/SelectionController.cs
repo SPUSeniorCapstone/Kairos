@@ -7,6 +7,7 @@ using static UnityEditor.Progress;
 public class SelectionController : MonoBehaviour
 {
     public bool onEnemy;
+    public GameObject enemy;
     private Vector3 startPosition;
     public List<Selectable> masterSelect = new List<Selectable>();
     public List<Selectable> currentlySelect = new List<Selectable>();
