@@ -30,6 +30,19 @@ public class GameController : MonoBehaviour
     }
     [SerializeField] public InputController inputController;
 
+    public PathFinder PathFinder
+    {
+        get
+        {
+            if (pathFinder == null)
+            {
+                pathFinder = new PathFinder();
+            }
+            return pathFinder;
+        }
+    }
+    [SerializeField] PathFinder pathFinder;
+
     public SelectionController SelectionController
     {
         get

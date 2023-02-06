@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class WorldController : MonoBehaviour
 {
+    [DisableOnPlay]
+    public float blockScale = 1;
+
     /// <summary>
     /// The Main WorldController Instance
     /// </summary>
@@ -22,6 +25,12 @@ public class WorldController : MonoBehaviour
         }
     }
     static WorldController main;
+
+    private void Start()
+    {
+        main = this;
+        world = FindObjectOfType<World>();
+    }
 
     public Chunk defaultChunk;
 
@@ -69,5 +78,11 @@ public class WorldController : MonoBehaviour
     public void GenerateWorld()
     {
         WorldGenerator.GenerateWorld();
+    }
+
+    public Vector3Int WorldToBlockPosition(Vector3 pos)
+    {
+        Vector3 position = (pos / blockScale);
+        return new Vector3Int((int)position.x, (int)position.y, (int)position.z);
     }
 }

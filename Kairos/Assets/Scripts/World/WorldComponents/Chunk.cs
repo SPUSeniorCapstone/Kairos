@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,6 +48,8 @@ public class Chunk : MonoBehaviour
     /// </summary>
     public Block[,,] blocks = new Block[width, height, length];
 
+    public int[,] heights = new int[width, length];
+
     //Methods
 
     /// <summary>
@@ -67,6 +70,11 @@ public class Chunk : MonoBehaviour
         return block;
     }
 
+    public int GetHeight(int x, int z)
+    {
+        return heights[x, z];
+    }
+
     /// <summary>
     /// Initializes the chunk with the given data
     /// </summary>
@@ -81,6 +89,35 @@ public class Chunk : MonoBehaviour
         this.position = position;
         this.blocks = voxels;
         GetComponent<MeshRenderer>().material = material;
+    }
+
+    /// <summary>
+    /// Call this anytime a chunk is updated
+    /// </summary>
+    public void UpdateChunk()
+    {
+        ReloadMesh();
+        ReloadHeights();
+    }
+
+    /// <summary>
+    /// Reloads chunks heightmap
+    /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
+    private void ReloadHeights()
+    {
+        for(int x = 0; x < width; x++)
+        {
+            for(int z = 0; z < length; z++)
+            {
+                int y = 0;
+                while (y < height && blocks[x,y,z].blockID != 0)
+                {
+                    y++;
+                }
+                heights[x, z] = y - 1;
+            }
+        }
     }
 
     /// <summary>

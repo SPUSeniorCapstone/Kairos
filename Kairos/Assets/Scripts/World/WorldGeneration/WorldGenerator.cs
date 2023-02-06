@@ -74,7 +74,7 @@ public class WorldGenerator : MonoBehaviour
         {
             for (int z = 0; z < world.length; z++)
             {
-                world.Chunks[x, z].ReloadMesh();
+                world.Chunks[x, z].UpdateChunk();
             }
         }
     }
