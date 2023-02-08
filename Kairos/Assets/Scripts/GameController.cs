@@ -69,6 +69,34 @@ public class GameController : MonoBehaviour
     }
     WorldController worldController;
 
+    public CommandController CommandController 
+
+    {
+        get
+        {
+            if (commandController == null)
+            {
+                commandController = FindObjectOfType<CommandController>();
+            }
+            return commandController;
+        }
+    }
+    CommandController commandController;
+
+    public EntityController EntityController
+
+    {
+        get
+        {
+            if (entityController == null)
+            {
+                entityController = FindObjectOfType<EntityController>();
+            }
+            return entityController;
+        }
+    }
+    EntityController entityController;
+
     public bool paused;
     public CursorLockMode defaultLockMode = CursorLockMode.None;
 }
