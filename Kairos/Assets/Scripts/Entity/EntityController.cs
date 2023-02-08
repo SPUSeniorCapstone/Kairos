@@ -1,20 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EntityController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public List<Entity> masterEntitiy;
-    void Start()
+
+    public List<Entity> Entities
     {
-        masterEntitiy = FindObjectsOfType<Entity>().ToList();
+        get { return masterEntityList; }
+    }
+    [SerializeField] List<Entity> masterEntityList = new List<Entity>();
+    HashSet<Entity> entityHash = new HashSet<Entity>();
+
+    public void AddEntity(Entity entity)
+    {
+        if (entityHash.Contains(entity))
+        {
+            Debug.LogError("Cannot insert same entity twice");
+            return;
+        }
+        entityHash.Add(entity);
+        masterEntityList.Add(entity);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RemoveEntity(Entity entity)
     {
-        
+        if (entityHash.Contains(entity))
+        {
+            Debug.Log("Entity Controller does not contain: " + entity);
+            return;
+        }
+        entityHash.Remove(entity);
+        masterEntityList.Remove(entity);
     }
 }

@@ -6,34 +6,12 @@ public class Entity : MonoBehaviour
 {
     public CommandGroup CommandGroup;
     public Vector3 velocity = Vector3.zero;
-    public Vector3 v1;
-    public Vector3 v2;
-    public Vector3 v3;
+
     public GameObject targetObject;
     public Vector3 targetPos;
     public float distance;
     public bool perch = false;
     public bool idle = true;
-    //public List<GameObject> entities;
-
-    //===
-
-    //public int speedLimit;
-    //public Vector3 max, min;
-    //int Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
-    //public Vector3 centerVector;
-    //public float followStr;
-    //public float followSpeed;
-    //public GameObject centerObj;
-
-    //public bool selected;
-
-    //public bool flock;
-
-    //public bool twoD = false;
-    //// old max 0.25f
-    //[Range(0, 1f)]
-    //public float alignmentFactor;
 
     [Range(0, 50f)]
     public float effectiveDistance;
@@ -72,6 +50,8 @@ public class Entity : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameController.Main.EntityController.AddEntity(this);
+
         // delete this later
         //CommandGroup = GetComponentInParent<CommandGroup>();
         //if (CommandGroup == null)
@@ -80,12 +60,22 @@ public class Entity : MonoBehaviour
         //}
     }
 
+    private void OnDestroy()
+    {
+        GameController.Main.EntityController.RemoveEntity(this);
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (!perch && !idle && CommandGroup != null)
         {
+            Vector3 v1 = Vector3.zero;
+            Vector3 v2 = Vector3.zero;
+            Vector3 v3 = Vector3.zero;
+
             distance = Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position);
+            
             if (CommandGroup.entities.Count > 1)
             {
                 v1 = Alignment();
@@ -125,15 +115,28 @@ public class Entity : MonoBehaviour
             gameObject.transform.position += (tree * Time.deltaTime);
         }
     }
+
+    /// <summary>
+    /// boid alignment function
+    /// </summary>
     public Vector3 Alignment()
     {
-        //Vector3 perceivedCenter = (GameObject.Find("Center").transform.position - trueCenter).normalized * followStr;
-        Vector3 perceivedCenter = CommandGroup.centerVector.normalized * CommandGroup.followStr;
+        if (CommandGroup.entities.Count <= 1)
+        {
+            return Vector3.zero;
+        }
+
+        Vector3 perceivedCenter;
 
         if (!CommandGroup.flock)
         {
             perceivedCenter = Vector3.zero;
         }
+        else
+        {
+            perceivedCenter = CommandGroup.centerVector.normalized* CommandGroup.followStr;
+        }
+
         foreach (Entity boid in CommandGroup.entities)
         {
             if (boid != this)
@@ -144,13 +147,19 @@ public class Entity : MonoBehaviour
         perceivedCenter = perceivedCenter / (CommandGroup.entities.Count - 1);
         return (perceivedCenter - transform.position) * CommandGroup.alignmentFactor;
     }
+
+    /// <summary>
+    /// Boid seperation Function
+    /// </summary>
     public Vector3 Seperation()
     {
-        // vector c is the displacement of each boid which is near by
+        if (CommandGroup.entities.Count <= 1)
+        {
+            return Vector3.zero;
+        }
+
         Vector3 c = Vector3.zero;
-        //GameController.Main.EntityController.masterEntitiy
-        // may be better to only boids when moving, so if idle then dont move
-        foreach (Entity boid in GameController.Main.EntityController.masterEntitiy)
+        foreach (Entity boid in GameController.Main.EntityController.Entities)
         {
             if (boid != this)
             {
@@ -162,8 +171,17 @@ public class Entity : MonoBehaviour
         }
         return c;
     }
+
+    /// <summary>
+    /// Boid cohesion function
+    /// </summary>
     public Vector3 Cohesion()
     {
+        if (CommandGroup.entities.Count <= 1)
+        {
+            return Vector3.zero;
+        }
+
         //percieved velocity
         Vector3 pv = Vector3.zero;
         foreach (Entity boid in CommandGroup.entities)
@@ -177,16 +195,27 @@ public class Entity : MonoBehaviour
         return (pv - velocity) * CommandGroup.cohesionFactor;
     }
 
+    /// <summary>
+    /// Limits the velocity to the max possible velocity
+    /// </summary>
     public void LimitVelocity()
     {
         if (velocity.magnitude > CommandGroup.speedLimit)
         {
-            velocity = (velocity / velocity.magnitude) * CommandGroup.speedLimit;
+            velocity = velocity.normalized * CommandGroup.speedLimit;
         }
     }
 
+    /// <summary>
+    /// Keeps units within bound (Only works when flocking)
+    /// </summary>
     public Vector3 BoundPosition()
     {
+        if (CommandGroup.flock)
+        {
+            return Vector3.zero;
+        }
+
         Vector3 adjustedPath = Vector3.zero;
         if (transform.position.x < CommandGroup.min.x)
         {

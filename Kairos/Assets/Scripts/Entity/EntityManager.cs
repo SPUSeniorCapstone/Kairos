@@ -8,14 +8,12 @@ public class EntityManager : MonoBehaviour
 
     public int speedLimit;
     public Vector3 max, min;
-    int Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
     public Vector3 centerVector;
     public float followStr;
     public float followSpeed;
     public GameObject centerObj;
     public GameObject groupTargetObj;
     public bool selected;
-
     public bool flock;
 
     public bool twoD = false;
@@ -36,7 +34,6 @@ public class EntityManager : MonoBehaviour
     public float distanceFromTarget;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         var arry = GetComponentsInChildren<Entity>();
