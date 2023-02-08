@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class TESTPriorityQueue : MonoBehaviour
 {
-    public bool min;
+    public bool min = false;
 
     [Button(nameof(TestPriorityQueue))]
     public bool Button_TestPriorityQueue;
     public void TestPriorityQueue()
     {
-        PriorityQueue<float> pq = new PriorityQueue<float>();
+        PriorityQueue<float> pq = new PriorityQueue<float>(PriorityQueueMode.MAX);
 
         if (min)
         {
             pq.Mode = PriorityQueueMode.MIN;
+        }
+        else
+        {
+            pq.Mode = PriorityQueueMode.MAX;
         }
 
         for (int i = 0; i < 10; i++)
@@ -29,7 +33,7 @@ public class TESTPriorityQueue : MonoBehaviour
             var curr = pq.Dequeue();
             if (min)
             {
-                if (curr > last)
+                if (curr < last)
                 {
                     Debug.Log("Priority Queue Failed");
                     return;
@@ -37,7 +41,7 @@ public class TESTPriorityQueue : MonoBehaviour
             }
             else
             {
-                if (curr < last)
+                if (curr > last)
                 {
                     Debug.Log("Priority Queue Failed");
                     return;

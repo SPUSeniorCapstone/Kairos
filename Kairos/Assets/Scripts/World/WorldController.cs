@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -30,6 +31,7 @@ public class WorldController : MonoBehaviour
     {
         main = this;
         world = FindObjectOfType<World>();
+        GenerateWorld();
     }
 
     public Chunk defaultChunk;
@@ -68,6 +70,7 @@ public class WorldController : MonoBehaviour
     WorldGenerator worldGenerator;
 
     #endregion
+
 
     [SerializeField]
     [Button("GenerateWorld")]

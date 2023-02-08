@@ -56,11 +56,11 @@ public class PriorityQueue<T> where T : IComparable<T>
         while (i > 0)
         {
             int j = (i - 1) / 2;
-            if (mode == PriorityQueueMode.MAX && elements[i].CompareTo(elements[j]) >= 0)
+            if (mode == PriorityQueueMode.MAX && elements[i].CompareTo(elements[j]) <= 0)
             {
                 break;
             }
-            else if (mode == PriorityQueueMode.MIN && elements[i].CompareTo(elements[j]) <= 0)
+            else if (mode == PriorityQueueMode.MIN && elements[i].CompareTo(elements[j]) >= 0)
             {
                 break;
             }
@@ -91,7 +91,7 @@ public class PriorityQueue<T> where T : IComparable<T>
             }
             int rc = j + 1;
             
-            if(mode == PriorityQueueMode.MAX)
+            if(mode == PriorityQueueMode.MIN)
             {
                 if (rc < elements.Count && elements[rc].CompareTo(elements[j]) < 0)
                 {

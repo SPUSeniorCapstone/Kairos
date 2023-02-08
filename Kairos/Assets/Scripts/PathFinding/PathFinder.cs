@@ -38,7 +38,7 @@ public class PathFinder
         }
         
 
-        var open = new NodeList();
+        var open = new NodeQueue();
         var closed = new HashSet<Vector3Int>();
 
         var startNode = new PathNode(Start, 0, Heuristic(Start, End));
@@ -48,11 +48,11 @@ public class PathFinder
         var startTime = DateTime.Now;
         while (open.Count > 0)
         {
-            if((DateTime.Now - startTime).Seconds > runTime)
-            {
-                Debug.LogError("PATHFINDING EXCEEDED RUNTIME");
-                return null;
-            }
+            //if((DateTime.Now - startTime).Seconds > runTime)
+            //{
+            //    Debug.LogError("PATHFINDING EXCEEDED RUNTIME");
+            //    return null;
+            //}
 
             var current = open.Dequeue();
 
@@ -71,13 +71,19 @@ public class PathFinder
                     continue;
                 }
 
-                int g = current.g + 1;
-                bool bestG = false;
+                Vector3Int diff = neighbor.position - current.position;
+
+                float g = current.g + 1;
+                if (diff.x != 0 && diff.z != 0)
+                {
+                    g = current.g + 2f;
+                }
 
                 if (!open.Contains(neighbor))
                 {
-                    bestG = true;
                     neighbor.h = Heuristic(neighbor.position, End);
+                    neighbor.parent = current;
+                    neighbor.g = g;
                     open.Enqueue(neighbor);
                 }
                 else
@@ -85,16 +91,10 @@ public class PathFinder
                     neighbor = open.GetNode(neighbor.position);
                     if(g < neighbor.g)
                     {
-                        bestG = true;
+                        neighbor.parent = current;
+                        neighbor.g = g;
                     }
                 }
-
-                if (bestG)
-                {
-                    neighbor.parent = current;
-                    neighbor.g = g;
-                }
-
             }
         }
         return null;
@@ -108,9 +108,9 @@ public class PathFinder
     List<PathNode> GetNeighbors(PathNode node)
     {
         List<PathNode> neighbors = new List<PathNode>();
-        for (int x = -1; x < 1; x++)
+        for (int x = -1; x <= 1; x++)
         {
-            for (int z = -1; z < 1; z++)
+            for (int z = -1; z <= 1; z++)
             {
                 if (x == 0 && z == 0)
                 {
@@ -142,7 +142,7 @@ public class PathFinder
 
         while(current != null)
         {
-            path.Add(current.position);
+            path.Add(current.position + new Vector3(0.5f, 0, 0.5f) * WorldController.Main.blockScale);
             current = current.parent;
         }
 
@@ -152,10 +152,15 @@ public class PathFinder
 
     bool CheckMove(Vector3Int A, Vector3Int B)
     {
-        if(Mathf.Abs(A.x - B.x) > 1 || Mathf.Abs(A.z - B.z) > 1)
+        Vector3Int diff = B - A;
+        if (Mathf.Abs(diff.x) > 1 || Mathf.Abs(diff.z) > 1)
         {
             return false;
         }
+
+
+
+
         int hA = WorldController.Main.World.GetHeight(A.x, A.z);
         int hB = WorldController.Main.World.GetHeight(B.x, B.z);
 
@@ -163,13 +168,33 @@ public class PathFinder
         {
             return false;
         }
+
+
+        // Checks if diagonals work. Doesn't seem to work properly, but doesn't matter since unit 
+        // Pathfinding shouldn't use diagonals
+        if (diff.x != 0 && diff.z != 0)
+        {
+            Vector3Int diag = new Vector3Int(A.x + diff.x, 0, A.z);
+            int h = WorldController.Main.World.GetHeight(diag.x, diag.z);
+            if (MathF.Abs(hA - h) > stepHeight || !WorldController.Main.World.IsPassable(diag.x, diag.z))
+            {
+                return false;
+            }
+
+            diag = new Vector3Int(A.x, 0, A.z + diff.z);
+            h = WorldController.Main.World.GetHeight(diag.x, diag.z);
+            if (MathF.Abs(hA - h) > stepHeight || !WorldController.Main.World.IsPassable(diag.x, diag.z))
+            {
+                return false;
+            }
+        }
         return true;
     }
 
     public class PathNode : IComparable<PathNode>
     {
         public Vector3Int position;
-        public int g = -1;
+        public float g = -1;
         public int h = -1;
         public PathNode parent = null;
 
@@ -178,7 +203,7 @@ public class PathFinder
             this.position = position;
         }
 
-        public PathNode(Vector3Int position, int g, int h)
+        public PathNode(Vector3Int position, float g, int h)
         {
             this.position = position;
             this.g = g;
@@ -191,9 +216,9 @@ public class PathFinder
         }
     }
 
-    public class NodeList
+    public class NodeQueue
     {
-        PriorityQueue<PathNode> priorityQueue = new PriorityQueue<PathNode>();
+        PriorityQueue<PathNode> priorityQueue = new PriorityQueue<PathNode>(PriorityQueueMode.MIN);
         Dictionary<Vector3Int, PathNode> hash = new Dictionary<Vector3Int, PathNode>();
 
 
