@@ -7,6 +7,10 @@ using UnityEngine;
 public class EntityController : MonoBehaviour
 {
 
+    /// <summary>
+    /// Entity Master List
+    /// <para>All entities in use should appear in this list</para>
+    /// </summary>
     public List<Entity> Entities
     {
         get { return masterEntityList; }
@@ -14,6 +18,10 @@ public class EntityController : MonoBehaviour
     [SerializeField] List<Entity> masterEntityList = new List<Entity>();
     HashSet<Entity> entityHash = new HashSet<Entity>();
 
+    /// <summary>
+    /// Adds an entity to the master list of Entities
+    /// <para>Should be called in the start method of any entity</para>
+    /// </summary>
     public void AddEntity(Entity entity)
     {
         if (entityHash.Contains(entity))
@@ -25,6 +33,10 @@ public class EntityController : MonoBehaviour
         masterEntityList.Add(entity);
     }
 
+    /// <summary>
+    /// Adds an entity to the master list of Entities
+    /// <para>Should be called whenever an entity is destroyed</para>
+    /// </summary>
     public void RemoveEntity(Entity entity)
     {
         if (entityHash.Contains(entity))

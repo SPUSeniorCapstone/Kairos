@@ -1,63 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class Entity : MonoBehaviour
 {
-    public CommandGroup CommandGroup;
-    public Vector3 velocity = Vector3.zero;
-
-    public GameObject targetObject;
-    public Vector3 targetPos;
-    public float distance;
-    public bool perch = false;
-    public bool idle = true;
 
     [Range(0, 50f)]
     public float effectiveDistance;
 
-    //[Range(0, 1f)]
-    //public float cohesionFactor;
+    public bool viewDebugInfo = false;
+    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    public CommandGroup CommandGroup;
 
-    //[Range(0, 1f)]
-    //public float boundFactor;
+    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    public GameObject targetObject;
 
-    //[Range(0, 100f)]
-    //public float distanceFromTarget;
-    //==
+    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    public Vector3 velocity = Vector3.zero;
 
+    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    public Vector3 targetPos;
 
+    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    public float distance;
 
+    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    public bool perch = false;
 
-
-
-
-
-
-
-
-
-
-
-
+    
+    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    public bool idle = true;
 
 
 
 
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
         GameController.Main.EntityController.AddEntity(this);
-
-        // delete this later
-        //CommandGroup = GetComponentInParent<CommandGroup>();
-        //if (CommandGroup == null)
-        //{
-        //    CommandGroup = GetComponent<CommandGroup>();
-        //}
     }
 
     private void OnDestroy()
@@ -68,32 +48,21 @@ public class Entity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CalculateVelocity();
+        transform.position += (velocity.normalized * CommandGroup.followSpeed * Time.deltaTime);
+    }
+
+    void CalculateVelocity()
+    {
         if (!perch && !idle && CommandGroup != null)
         {
-            Vector3 v1 = Vector3.zero;
-            Vector3 v2 = Vector3.zero;
-            Vector3 v3 = Vector3.zero;
-
             distance = Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position);
-            
-            if (CommandGroup.entities.Count > 1)
-            {
-                v1 = Alignment();
-                v2 = Seperation();
-                v3 = Cohesion();
-            }
-            Vector3 pc = (targetPos - CommandGroup.centerVector).normalized * CommandGroup.followStr;
-            if (!CommandGroup.flock)
-            {
-                velocity = Vector3.zero;
 
-                velocity = velocity + v1 + v2 + v3 + pc;
-            }
-
+            velocity = Alignment() + Seperation() + Cohesion();
+            velocity += (targetPos - CommandGroup.centerVector).normalized * CommandGroup.followStr;
             if (CommandGroup.flock)
             {
-                //idle = false;
-                velocity = velocity + v1 + v2 + v3 + BoundPosition();
+                velocity += BoundPosition();
             }
 
             LimitVelocity();
@@ -102,18 +71,15 @@ public class Entity : MonoBehaviour
                 float X = transform.position.x;
                 float Z = transform.position.z;
                 transform.position = new Vector3(X, 0, Z);
-                velocity.y = 0;
             }
 
-            gameObject.transform.position += (velocity.normalized * CommandGroup.followSpeed * Time.deltaTime);
-            //go.gameObject.transform.position += BoundPosition(go);
         }
         else
         {
-            Vector3 tree = Seperation();
-            tree.y = 0;
-            gameObject.transform.position += (tree * Time.deltaTime);
+            velocity = Seperation();
         }
+
+        velocity.y = 0;
     }
 
     /// <summary>
@@ -211,7 +177,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     public Vector3 BoundPosition()
     {
-        if (CommandGroup.flock)
+        if (!CommandGroup.flock)
         {
             return Vector3.zero;
         }
