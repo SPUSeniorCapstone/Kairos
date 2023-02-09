@@ -22,6 +22,7 @@ public class WorldGenerator : MonoBehaviour
     public float lacunarity;
 
     public bool useFalloff = false;
+    public bool flatten = true;
 
     float[,] falloff;
     float[,] terrainMap;
@@ -113,7 +114,14 @@ public class WorldGenerator : MonoBehaviour
                 {
                     if (layer.height <= h * eccentricity)
                     {
-                        height = layer.blockHeight;
+                        if (flatten)
+                        {
+                            height = layer.blockHeight;
+                        }
+                        else
+                        {
+                            height = (int) (h * eccentricity);
+                        }
                         blockID = layer.BlockID;
                     }
                     else

@@ -37,6 +37,7 @@ public class RTSCamera : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            oldSpeed = moveSpeed;
             moveSpeed = moveSpeed * 2;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
