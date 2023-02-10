@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CommandGroup : MonoBehaviour
@@ -8,11 +9,9 @@ public class CommandGroup : MonoBehaviour
 
     public int speedLimit;
     public Vector3 max, min;
-    int Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
-    public Vector3 centerVector;
+    public Vector3 centerVector => transform.position;
     public float followStr;
     public float followSpeed;
-    //public GameObject centerObj;
     public GameObject groupTargetObj;
     public bool selected;
     public bool lesser = true;
@@ -20,47 +19,18 @@ public class CommandGroup : MonoBehaviour
     public bool flock;
 
     public bool twoD = false;
-    // old max 0.25f
+
     [Range(0, 1f)]
     public float alignmentFactor;
-
     [Range(0, 50f)]
     public float effectiveDistance;
-
     [Range(0, 1f)]
     public float cohesionFactor;
-
     [Range(0, 1f)]
     public float boundFactor;
-
     [Range(0, 100f)]
     public float distanceFromTarget;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //var arry = GetComponentsInChildren<Entity>();
-        //if (arry.Length != 0)
-        //{
-        //    foreach (var go in arry)
-        //    {
-        //        entities.Add(go);
-        //        go.targetObject = groupTargetObj;
-        //    }
-        //}
-        //var joe = GetComponent<Entity>();
-        //if (joe != null && arry.Length == 0)
-        //{
-        //    Debug.Log("REEEEE");
-        //    entities.Add(joe);
-        //    joe.targetObject = groupTargetObj;
-        //}
-    
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         CalculateCenter();
@@ -69,9 +39,9 @@ public class CommandGroup : MonoBehaviour
         {
             CheckIfEmpty();
         }
-        else if (!lesser)
+        else 
         {
-            foreach (CommandGroup group in GameController.Main.CommandController.commandGroups)
+            foreach (CommandGroup group in GameController.Main.CommandController.CommandGroups)
             {
                 if (group != this)
                 {
@@ -89,30 +59,32 @@ public class CommandGroup : MonoBehaviour
 
     public void CalculateCenter()
     {
-        float x = 0;
-        float y = 0;
-        float z = 0;
-        foreach (Entity entity in entities)
+        if (entities.Count == 0)
         {
-            entity.Perching();
-            x += entity.transform.position.x;
-            y += entity.transform.position.y;
-            z += entity.transform.position.z;
-            //avgAlignment += Alignment(tree);
-
+            transform.position = Vector3.zero;
         }
-        //avgAlignment = avgAlignment.normalized;
-        x /= entities.Count;
-        //y /= boids.Count;
-        y = 0f;
-        z /= entities.Count;
-        centerVector = new Vector3(x, y, z);
-        if (entities.Count == 0){
-            centerVector = Vector3.zero;
-        }
-        transform.position = centerVector;
-        //centerObj.transform.LookAt(pos, transform.up);
 
+        Vector3 center = Vector3.zero;
+        for(int i = 0; i < entities.Count; i++)
+        {
+            var entity = entities[i];
+            if (entity.Perching())
+            {
+                entity.CommandGroup = null;
+                entities.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                center += entity.transform.position;
+            }
+        }
+        if(entities.Count > 0)
+        {
+            center /= entities.Count;
+            center.y = 0;
+        }
+        transform.position = center;
     }
     public void SetGroupTarget(GameObject gameObject)
     {
@@ -128,7 +100,7 @@ public class CommandGroup : MonoBehaviour
     {
         if (entities.Count == 0)
         {
-            GameController.Main.CommandController.commandGroups.Remove(this);
+            GameController.Main.CommandController.CommandGroups.Remove(this);
             Destroy(gameObject);
         }
     }

@@ -6,16 +6,20 @@ using UnityEngine;
 public class CommandController : MonoBehaviour
 {
     public GameObject wayPoint;
-    public List<CommandGroup> commandGroups = new List<CommandGroup>();
+
+    /// <summary>
+    /// Command Group Master List
+    /// </summary>
+    public List<CommandGroup> CommandGroups
+    {
+        get { return commandGroups; }
+    }
+    List<CommandGroup> commandGroups = new List<CommandGroup>();
+
+
     [SerializeField] CommandGroup commandGroup;
     [SerializeField] GameObject playerFaction;
-    // Start is called before the first frame update
-    void Start()
-    {
-        commandGroups = FindObjectsOfType<CommandGroup>().ToList();
-    }
 
-    // Update is called once per frame
     void Update()
     {
         if (!GameController.Main.paused)

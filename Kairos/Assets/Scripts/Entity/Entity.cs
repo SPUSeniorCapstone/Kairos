@@ -9,6 +9,9 @@ public class Entity : MonoBehaviour
     [Range(0, 50f)]
     public float effectiveDistance;
 
+    public float moveSpeed = 10;
+    public float avoidSpeed = 10;
+
     public bool viewDebugInfo = false;
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public CommandGroup CommandGroup;
@@ -45,11 +48,17 @@ public class Entity : MonoBehaviour
         GameController.Main.EntityController.RemoveEntity(this);
     }
 
-    // Update is called once per frame
     void Update()
     {
         CalculateVelocity();
-        transform.position += (velocity.normalized * CommandGroup.followSpeed * Time.deltaTime);
+        if(CommandGroup != null)
+        {
+            transform.position += (velocity.normalized * CommandGroup.followSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.position += (velocity * Time.deltaTime * avoidSpeed);
+        }
     }
 
     void CalculateVelocity()
@@ -59,7 +68,7 @@ public class Entity : MonoBehaviour
             distance = Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position);
 
             velocity = Alignment() + Seperation() + Cohesion();
-            velocity += (targetPos - CommandGroup.centerVector).normalized * CommandGroup.followStr;
+            velocity += (targetPos - transform.position).normalized * CommandGroup.followStr;
             if (CommandGroup.flock)
             {
                 velocity += BoundPosition();
@@ -119,11 +128,6 @@ public class Entity : MonoBehaviour
     /// </summary>
     public Vector3 Seperation()
     {
-        if (CommandGroup.entities.Count <= 1)
-        {
-            return Vector3.zero;
-        }
-
         Vector3 c = Vector3.zero;
         foreach (Entity boid in GameController.Main.EntityController.Entities)
         {
@@ -212,17 +216,19 @@ public class Entity : MonoBehaviour
         return adjustedPath * CommandGroup.boundFactor;
     }
 
-    public void Perching()
+    public bool Perching()
     {
-        if (targetObject != null && Vector3.Distance(transform.position, targetObject.transform.position) <= CommandGroup.distanceFromTarget)
+        if (targetObject != null && Vector3.Distance(transform.position, targetPos) <= CommandGroup.distanceFromTarget)
         {
             velocity = Vector3.zero;
             perch = true;
             idle = true;
+            return true;
         }
         else
         {
             perch = false;
+            return false;
         }
     }
     public void SetTargetPos()
