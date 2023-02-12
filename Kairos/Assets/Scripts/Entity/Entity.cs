@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Timeline;
+using Debug = UnityEngine.Debug;
 
 public class Entity : MonoBehaviour
 {
+    public float debugY;
+    public int pathindex = 0;
+    public bool pathing;
 
     [Range(0, 50f)]
     public float effectiveDistance;
+
+    public float personalDistance;
 
     public float moveSpeed = 10;
     public float avoidSpeed = 10;
@@ -59,13 +67,18 @@ public class Entity : MonoBehaviour
         {
             transform.position += (velocity * Time.deltaTime * avoidSpeed);
         }
+        if (targetPos != null)
+        {
+            personalDistance = Vector3.Distance(transform.position, targetPos);
+        }
     }
 
     void CalculateVelocity()
     {
         if (!perch && !idle && CommandGroup != null)
         {
-            distance = Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position);
+            //distance = Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position);
+            distance = Vector3.Distance(CommandGroup.centerVector, targetPos);
 
             velocity = Alignment() + Seperation() + Cohesion();
             velocity += (targetPos - transform.position).normalized * CommandGroup.followStr;
@@ -79,7 +92,7 @@ public class Entity : MonoBehaviour
             {
                 float X = transform.position.x;
                 float Z = transform.position.z;
-                transform.position = new Vector3(X, 0, Z);
+                transform.position = new Vector3(X, debugY, Z);
             }
 
         }
@@ -218,8 +231,16 @@ public class Entity : MonoBehaviour
 
     public bool Perching()
     {
-        if (targetObject != null && Vector3.Distance(transform.position, targetPos) <= CommandGroup.distanceFromTarget)
+        //Debug.Log(personalDistance + " <= " + CommandGroup.distanceFromTarget);
+        //Debug.Log(Vector3.Distance(transform.position, targetPos) <= CommandGroup.distanceFromTarget);
+        if (Vector3.Distance(transform.position, targetPos) <= CommandGroup.distanceFromTarget)
         {
+            if (pathing && pathindex < CommandGroup.path.Count - 1) {
+                Debug.Log("YEAHG!");
+                pathindex++;
+                NextPoint();
+                return false;
+            }
             velocity = Vector3.zero;
             perch = true;
             idle = true;
@@ -227,6 +248,7 @@ public class Entity : MonoBehaviour
         }
         else
         {
+            Debug.Log("NOPE");
             perch = false;
             return false;
         }
@@ -234,5 +256,18 @@ public class Entity : MonoBehaviour
     public void SetTargetPos()
     {
         targetPos = targetObject.transform.position;
+    }
+    public void NextPoint()
+    {
+        if (CommandGroup.path.Count != 0 && CommandGroup.path != null)
+        {
+            //UnityEngine.Debug.Log("Next Point count:" + CommandGroup.path.Count);
+            //UnityEngine.Debug.Log("Next Point List:" + CommandGroup.path);
+            targetPos = CommandGroup.path[pathindex];
+        }
+        else
+        {
+            Debug.Log("path null or 0 count");
+        }
     }
 }
