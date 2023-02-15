@@ -67,6 +67,7 @@ public class CommandController : MonoBehaviour
             }
             if (entity != null)
             {
+                Debug.Log("entity does not = null (MOVESELECTED)");
                 entity.pathindex = 0;
                 CommandGroup old = entity.CommandGroup;
                 if (old != null)
@@ -81,6 +82,7 @@ public class CommandController : MonoBehaviour
         }
 
         cg.CalculateCenter();
+        Debug.Log("AFTER LOOP: cg.entites = " + cg.entities[0].name);
         cg.pathTask = GameController.Main.PathFinder.FindPath(cg.transform.position, target.transform.position);
 
         commandGroups.Add(cg);

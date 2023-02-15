@@ -96,9 +96,9 @@ public class CommandGroup : MonoBehaviour
             var entity = entities[i];
             if (entity.Perching())
             {
-                entity.CommandGroup = null;
-                entities.RemoveAt(i);
-                i--;
+                //entity.CommandGroup = null;
+                //entities.RemoveAt(i);
+                //i--;
             }
             else
             {
@@ -121,7 +121,8 @@ public class CommandGroup : MonoBehaviour
             if (gameObject == GameController.Main.CommandController.wayPoint)
             {
                 Debug.Log("GAMEOBJECT WAYPOINT");
-                //entity.NextPoint();
+                entity.pathing = true;
+                entity.NextPoint();
                 //entity.SetTargetPos();
             }
             else
