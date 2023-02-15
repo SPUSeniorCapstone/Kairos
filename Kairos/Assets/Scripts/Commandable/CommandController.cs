@@ -56,9 +56,7 @@ public class CommandController : MonoBehaviour
     public void MoveSelected(GameObject target)
     {
         var cg = Instantiate<CommandGroup>(commandGroup,playerFaction.transform);
-        cg.pathTask = GameController.Main.PathFinder.FindPath(cg.centerVector, target.transform.position, false);
-
-        commandGroups.Add(cg);
+        
         //cg.groupTargetObj = target;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
         {
@@ -73,7 +71,7 @@ public class CommandController : MonoBehaviour
                 CommandGroup old = entity.CommandGroup;
                 if (old != null)
                 {
-                    entity.CommandGroup.entities.Remove(entity);
+                    old.entities.Remove(entity);
                 }
                 //entity.CommandGroup.entities.Remove(entity);
                 entity.CommandGroup = cg;
@@ -82,6 +80,10 @@ public class CommandController : MonoBehaviour
             }      
         }
 
+        cg.CalculateCenter();
+        cg.pathTask = GameController.Main.PathFinder.FindPath(cg.transform.position, target.transform.position);
+
+        commandGroups.Add(cg);
 
         cg.SetGroupTarget(target);
         

@@ -28,13 +28,13 @@ public class PathFinder
 
         if (useWorldCoords)
         {
-            Start = WorldController.Main.WorldToBlockPosition(start);
-            End = WorldController.Main.WorldToBlockPosition(end);
+            Start = WorldController.Main.WorldToBlockPosition(start).Flat();
+            End = WorldController.Main.WorldToBlockPosition(end).Flat();
         }
         else
         {
-            Start = new Vector3Int((int)start.x, 0, (int)start.z);
-            End = new Vector3Int((int)end.x, 0, (int)end.z);
+            Start = start.ToVector3Int().Flat(); ;
+            End = end.ToVector3Int().Flat();
         }
         
 
