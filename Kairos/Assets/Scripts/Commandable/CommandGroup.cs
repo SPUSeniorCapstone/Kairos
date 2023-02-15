@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class CommandGroup : MonoBehaviour
 {
     public List<Entity> entities;
+    public List<Vector3> path;
+    public Task<List<Vector3>> pathTask;
 
     public int speedLimit;
     public Vector3 max, min;
@@ -15,6 +19,7 @@ public class CommandGroup : MonoBehaviour
     public GameObject groupTargetObj;
     public bool selected;
     public bool lesser = true;
+    public bool needsPath = true;
 
     public bool flock;
 
@@ -34,6 +39,27 @@ public class CommandGroup : MonoBehaviour
     void Update()
     {
         CalculateCenter();
+        if (pathTask != null && pathTask.IsCompleted && needsPath)
+        {
+            path = pathTask.Result;
+            if (path == null)
+            {
+                Debug.Log("null path");
+            }
+            else
+            {
+                Debug.Log("path = " + pathTask.Result);
+                needsPath = false;
+
+                foreach (Entity entity in entities)
+                {
+                    entity.NextPoint();
+                    entity.idle = false;
+                }
+            }
+        
+            // if null no path
+        }
         // is there a better way?
         if (lesser)
         {
@@ -92,8 +118,21 @@ public class CommandGroup : MonoBehaviour
         foreach (Entity entity in entities)
         {
             entity.targetObject = groupTargetObj;
-            entity.SetTargetPos();
-            entity.idle = false;
+            if (gameObject == GameController.Main.CommandController.wayPoint)
+            {
+                Debug.Log("GAMEOBJECT WAYPOINT");
+                //entity.NextPoint();
+                //entity.SetTargetPos();
+            }
+            else
+            {
+                Debug.Log("NOT WAYPOINT");
+                entity.SetTargetPos();
+                entity.idle = false;
+            }
+            //entity.SetTargetPos();
+            //entity.idle = false;
+
         }
     }
     public void CheckIfEmpty()
@@ -104,4 +143,6 @@ public class CommandGroup : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
 }

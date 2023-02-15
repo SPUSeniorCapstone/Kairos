@@ -158,6 +158,8 @@ public class Chunk : MonoBehaviour
         GetComponent<MeshCollider>().convex = false;
         GetComponent<MeshCollider>().sharedMesh = mesh;
 
+        GetComponent<MeshCollider>().sharedMesh = mesh;
+
         transform.position = new Vector3(position.x * width, 0, position.z * length);
 
         void DrawVoxel(Vector3Int pos, int blockID)

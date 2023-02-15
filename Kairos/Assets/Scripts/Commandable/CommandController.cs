@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class CommandController : MonoBehaviour
 {
     public GameObject wayPoint;
+    public float debugY;
 
     /// <summary>
     /// Command Group Master List
@@ -38,10 +40,14 @@ public class CommandController : MonoBehaviour
                     RaycastHit hit;
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
                     {
+                        Debug.Log(hit);
                         Vector3 point = hit.point;
-                        point.y = 0;
+                        point.y = debugY;
                         wayPoint.transform.position = point;
-                        MoveSelected(wayPoint);
+                        if (GameController.Main.SelectionController.currentlySelect.Count > 0)
+                        {
+                            MoveSelected(wayPoint);
+                        }
                     }
                 }
             }
@@ -50,7 +56,8 @@ public class CommandController : MonoBehaviour
     public void MoveSelected(GameObject target)
     {
         var cg = Instantiate<CommandGroup>(commandGroup,playerFaction.transform);
-  
+        cg.pathTask = GameController.Main.PathFinder.FindPath(cg.centerVector, target.transform.position, false);
+
         commandGroups.Add(cg);
         //cg.groupTargetObj = target;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
@@ -62,6 +69,7 @@ public class CommandController : MonoBehaviour
             }
             if (entity != null)
             {
+                entity.pathindex = 0;
                 CommandGroup old = entity.CommandGroup;
                 if (old != null)
                 {
@@ -70,17 +78,11 @@ public class CommandController : MonoBehaviour
                 //entity.CommandGroup.entities.Remove(entity);
                 entity.CommandGroup = cg;
                 cg.entities.Add(entity);
-                entity.idle = false;
+                //entity.idle = false;
             }      
-
-            //var go = selectable.GetComponentInParent<CommandGroup>();
-            //if (go == null)
-            //{
-            //    go = selectable.GetComponent<CommandGroup>();
-            //}
-            //go.SetGroupTarget(wayPoint);
-            //cg.
         }
+
+
         cg.SetGroupTarget(target);
         
         // this doesn't work, changes length while in the loop
