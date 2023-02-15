@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 2701632545085257852}
   - component: {fileID: 8328249844979736684}
   - component: {fileID: 4516272432036144583}
+  - component: {fileID: 547667637956704709}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Player
@@ -146,17 +147,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4726a27ddfe48ae429868c3cacbfa2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectiveDistance: 1.5
+  moveSpeed: 10
+  avoidSpeed: 10
+  viewDebugInfo: 0
   CommandGroup: {fileID: 0}
-  velocity: {x: 0, y: 0, z: 0}
-  v1: {x: 0, y: 0, z: 0}
-  v2: {x: 0, y: 0, z: 0}
-  v3: {x: 0, y: 0, z: 0}
   targetObject: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   distance: 0
   perch: 0
   idle: 1
-  effectiveDistance: 1.5
 --- !u!114 &4516272432036144583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +174,22 @@ MonoBehaviour:
   isEnemy: 0
   unSelectedMaterial: {fileID: 2100000, guid: e7dde06afd271494f8a4e1439b8cd7fe, type: 2}
   selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
+--- !u!114 &547667637956704709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701632545085584670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a3fbe181f4a4944eb17e7828ed0e0a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MaxHealth>k__BackingField: 100
+  <Health>k__BackingField: 100
+  <Invulnerable>k__BackingField: 0
+  healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!1 &3430174129152857782
 GameObject:
   m_ObjectHideFlags: 0

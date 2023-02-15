@@ -45,7 +45,8 @@ public class Entity : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameController.Main.EntityController.RemoveEntity(this);
+        if(GameController.Main != null && GameController.Main.EntityController != null)
+            GameController.Main.EntityController.RemoveEntity(this);
     }
 
     void Update()

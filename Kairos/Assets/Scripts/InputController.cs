@@ -18,6 +18,9 @@ public class InputController
     public InputType ZoomIn = new InputType(KeyCode.E, KeyCode.None);
     public InputType ZoomOut = new InputType(KeyCode.Q, KeyCode.None);
 
+    //HealthBars
+    public InputType ToggleHealthBars = new InputType(KeyCode.H, KeyCode.None);
+
 
     [Serializable]
     public struct InputType

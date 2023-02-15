@@ -97,6 +97,19 @@ public class GameController : MonoBehaviour
     }
     EntityController entityController;
 
+    public UIController UIController
+    {
+        get
+        {
+            if (uiController == null)
+            {
+                uiController = FindObjectOfType<UIController>();
+            }
+            return uiController;
+        }
+    }
+    [SerializeField] UIController uiController;
+
     public bool paused;
     public CursorLockMode defaultLockMode = CursorLockMode.None;
 }

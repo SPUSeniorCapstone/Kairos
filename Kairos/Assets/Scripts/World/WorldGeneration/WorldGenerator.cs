@@ -109,11 +109,14 @@ public class WorldGenerator : MonoBehaviour
 
                 int blockID = 0;
                 int height = 0;
-                foreach (var layer in layers)
+                int currBlockHeight = 0;
+                for(int i = 0; i < layers.Length; i++)
                 {
+                    var layer = layers[i];
                     if (layer.height <= h * eccentricity)
                     {
-                        height = layer.blockHeight;
+                        height = currBlockHeight + layer.thickness;
+                        currBlockHeight = height;
                         blockID = layer.BlockID;
                     }
                     else
@@ -149,5 +152,5 @@ public struct WorldLayer
     [Range(0, Chunk.height)]
     public int height;
     [Range(1, Chunk.height)]
-    public int blockHeight;
+    public int thickness;
 }
