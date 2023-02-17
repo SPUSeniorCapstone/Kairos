@@ -119,7 +119,7 @@ public class Entity : MonoBehaviour
         }
         else if (GetComponent<Damageable>().isAttacking && !perch)
         {
-            transform.position += (velocity.normalized * moveSpeed * Time.deltaTime);
+            transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
         }
         else if (idle)
         {
@@ -146,33 +146,18 @@ public class Entity : MonoBehaviour
         if (targetObject != null)
         {
             targetPos = targetObject.transform.position;
-            
-            //else
-            //{
-            //    idle = false;
-            //    GetComponent<Damageable>().isAttacking = false;
-            //}
         }
         if (!perch && !idle && CommandGroup != null)
         {
             movementDirection = Alignment() + EntityAvoidance() + Cohesion() + WallAvoidance();
-            Vector3 currPos = transform.position.Flat();
-            movementDirection += (targetPos.Flat() - currPos).normalized * CommandGroup.followStr;
-            Debug.Log(targetPos);
+            movementDirection += (targetPos.Flat() - transform.position.Flat()).normalized * CommandGroup.followStr;
         }
         else if (GetComponent<Damageable>().isAttacking)
         {
             if (!idle && !perch)
             {
-                velocity = Alignment() + Seperation() + Cohesion();
-                velocity += (targetPos - transform.position).normalized;
-
-
-                LimitVelocity();
-
-                float X = transform.position.x;
-                float Z = transform.position.z;
-                transform.position = new Vector3(X, debugY, Z);
+                movementDirection = Alignment() + EntityAvoidance() + Cohesion();
+                movementDirection += (targetPos - transform.position).normalized;
             }
            
             // bootleg perch
