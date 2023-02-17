@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Timeline;
 using Debug = UnityEngine.Debug;
@@ -16,9 +17,14 @@ public class Entity : MonoBehaviour
     public float effectiveDistance;
 
     public float personalDistance;
+    public float attackDistance;
 
     public float moveSpeed = 10;
     public float avoidSpeed = 10;
+    public float targetHealth;
+    public float lastAttackTime;
+    public float AttackCoolDown;
+
 
     public bool viewDebugInfo = false;
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
@@ -36,11 +42,11 @@ public class Entity : MonoBehaviour
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public float distance;
 
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool perch = false;
 
     
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool idle = true;
 
 
@@ -59,27 +65,64 @@ public class Entity : MonoBehaviour
 
     void Update()
     {
+        if (targetObject == null)
+        {
+            idle = true;
+            GetComponent<Damageable>().isAttacking = false;
+        }
+        if (targetObject != null)
+        {
+            var dam = targetObject.GetComponent<Damageable>();
+            if (dam != null && dam.Dead)
+            {
+                Debug.Log("not null but dead");
+                targetObject = null;
+                GetComponent<Damageable>().isAttacking = false;
+                idle = true;
+                perch = false;
+            }
+            else if (targetObject == null && GetComponent<Damageable>().isAttacking == true)
+            {
+                Debug.Log("hefnafnje");
+                GetComponent<Damageable>().isAttacking = false;
+            }
+        }
         CalculateVelocity();
         if(CommandGroup != null)
         {
             transform.position += (velocity.normalized * CommandGroup.followSpeed * Time.deltaTime);
         }
-        else
+        else if (GetComponent<Damageable>().isAttacking && !perch)
+        {
+            transform.position += (velocity.normalized * moveSpeed * Time.deltaTime);
+        }
+        else if (idle)
         {
             transform.position += (velocity * Time.deltaTime * avoidSpeed);
         }
         if (targetPos != null)
         {
             personalDistance = Vector3.Distance(transform.position, targetPos);
+           
         }
     }
 
     void CalculateVelocity()
     {
+        if (targetObject != null)
+        {
+            targetPos = targetObject.transform.position;
+            
+            //else
+            //{
+            //    idle = false;
+            //    GetComponent<Damageable>().isAttacking = false;
+            //}
+        }
         if (!perch && !idle && CommandGroup != null)
         {
             //distance = Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position);
-            distance = Vector3.Distance(CommandGroup.centerVector, targetPos);
+            // distance = Vector3.Distance(CommandGroup.centerVector, targetPos);
 
             velocity = Alignment() + Seperation() + Cohesion();
             velocity += (targetPos - transform.position).normalized * CommandGroup.followStr;
@@ -97,6 +140,48 @@ public class Entity : MonoBehaviour
             }
 
         }
+        else if (GetComponent<Damageable>().isAttacking)
+        {
+            if (!idle && !perch)
+            {
+                velocity = Alignment() + Seperation() + Cohesion();
+                velocity += (targetPos - transform.position).normalized;
+
+
+                LimitVelocity();
+
+                float X = transform.position.x;
+                float Z = transform.position.z;
+                transform.position = new Vector3(X, debugY, Z);
+            }
+           
+            // bootleg perch
+            if (personalDistance <= attackDistance)
+            {
+                perch = true;
+                if (targetObject != null)
+                {
+                    var dam = targetObject.GetComponent<Damageable>();
+                    if (dam != null && (Time.time - lastAttackTime > AttackCoolDown))
+                    {
+                        targetHealth = targetObject.GetComponent<Damageable>().Damage(10f);
+                        lastAttackTime = Time.time;
+                        if (targetHealth <= 0)
+                        {
+                            targetObject = null;
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                Debug.Log("FALSE PERCH");
+                perch = false;
+            }
+
+
+        }
         else
         {
             velocity = Seperation();
@@ -110,7 +195,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     public Vector3 Alignment()
     {
-        if (CommandGroup.entities.Count <= 1)
+        if (CommandGroup == null || CommandGroup.entities.Count <= 1)
         {
             return Vector3.zero;
         }
@@ -161,7 +246,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     public Vector3 Cohesion()
     {
-        if (CommandGroup.entities.Count <= 1)
+        if (CommandGroup == null || CommandGroup.entities.Count <= 1)
         {
             return Vector3.zero;
         }
@@ -184,7 +269,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     public void LimitVelocity()
     {
-        if (velocity.magnitude > CommandGroup.speedLimit)
+        if (CommandGroup != null && velocity.magnitude > CommandGroup.speedLimit)
         {
             velocity = velocity.normalized * CommandGroup.speedLimit;
         }
@@ -195,7 +280,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     public Vector3 BoundPosition()
     {
-        if (!CommandGroup.flock)
+        if (CommandGroup == null || !CommandGroup.flock)
         {
             return Vector3.zero;
         }

@@ -55,7 +55,7 @@ public class SelectionController : MonoBehaviour
                     currentlySelect.Remove(selectable);
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
                     // will this work? will it remember these "global" vectors?
-                    if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y)
+                    if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.isEnemy)
                     {
                         //Debug.Log("Within bounds");
                         selectable.selected = true;
@@ -66,7 +66,7 @@ public class SelectionController : MonoBehaviour
                     else
                     {
                         Selectable oneClick = GetMouseWorldPosition3D();
-                        if (oneClick != null && !oneClick.selected)
+                        if (oneClick != null && !oneClick.selected && !oneClick.isEnemy)
                         {
                             oneClick.selected = true;
                             oneClick.Activate();

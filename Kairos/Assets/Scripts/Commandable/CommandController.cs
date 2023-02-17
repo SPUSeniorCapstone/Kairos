@@ -77,6 +77,7 @@ public class CommandController : MonoBehaviour
                 //entity.CommandGroup.entities.Remove(entity);
                 entity.CommandGroup = cg;
                 cg.entities.Add(entity);
+                entity.GetComponent<Damageable>().isAttacking = false;
                 //entity.idle = false;
             }      
         }
