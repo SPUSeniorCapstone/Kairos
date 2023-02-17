@@ -110,6 +110,20 @@ public class GameController : MonoBehaviour
     }
     [SerializeField] UIController uiController;
 
+    public void MasterDestory(GameObject item)
+    {
+       Entity entity = item.GetComponent<Entity>();
+        Selectable selectable = item.GetComponent<Selectable>();
+        
+        if (selectable == null)
+        {
+            selectable = item.GetComponentInChildren<Selectable>();
+        }
+        EntityController.Entities.Remove(entity);
+        SelectionController.masterSelect.Remove(selectable);
+        
+    }
+
     public bool paused;
     public CursorLockMode defaultLockMode = CursorLockMode.None;
 }

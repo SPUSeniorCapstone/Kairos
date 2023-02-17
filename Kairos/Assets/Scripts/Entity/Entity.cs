@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Timeline;
 using Debug = UnityEngine.Debug;
@@ -32,6 +33,13 @@ public class Entity : MonoBehaviour
 
     public float avoidStrength;
 
+    public float personalDistance;
+    public float attackDistance;
+
+    public float targetHealth;
+    public float lastAttackTime;
+    public float AttackCoolDown;
+
 
     public bool viewDebugInfo = false;
 
@@ -53,11 +61,11 @@ public class Entity : MonoBehaviour
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public float distance;
 
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool perch = false;
 
     
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool idle = true;
 
     [ConditionalHide(nameof(viewDebugInfo), true)]
@@ -80,15 +88,40 @@ public class Entity : MonoBehaviour
 
     void Update()
     {
+        if (targetObject == null)
+        {
+            idle = true;
+            GetComponent<Damageable>().isAttacking = false;
+        }
+        if (targetObject != null)
+        {
+            var dam = targetObject.GetComponent<Damageable>();
+            if (dam != null && dam.Dead)
+            {
+                Debug.Log("not null but dead");
+                targetObject = null;
+                GetComponent<Damageable>().isAttacking = false;
+                idle = true;
+                perch = false;
+            }
+            else if (targetObject == null && GetComponent<Damageable>().isAttacking == true)
+            {
+                Debug.Log("hefnafnje");
+                GetComponent<Damageable>().isAttacking = false;
+            }
+        }
+        
         CalculateMovementDirection();
-
-        // Performs movement on the object
         if(CommandGroup != null)
         {
             center = CommandGroup.centerVector;
             transform.position += (movementDirection.normalized * CommandGroup.followSpeed * Time.deltaTime);
         }
-        else
+        else if (GetComponent<Damageable>().isAttacking && !perch)
+        {
+            transform.position += (velocity.normalized * moveSpeed * Time.deltaTime);
+        }
+        else if (idle)
         {
             transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
         }
@@ -98,7 +131,10 @@ public class Entity : MonoBehaviour
         if (Mathf.Abs(height - transform.position.y) <= GameController.Main.CommandController.stepHeight)
         {
             transform.position = new Vector3(transform.position.x, height, transform.position.z);
+           
         }
+
+        personalDistance = Vector3.Distance(transform.position, targetPos);
     }
 
     #region MovementFunctions
@@ -107,12 +143,64 @@ public class Entity : MonoBehaviour
     /// </summary>
     void CalculateMovementDirection()
     {
+        if (targetObject != null)
+        {
+            targetPos = targetObject.transform.position;
+            
+            //else
+            //{
+            //    idle = false;
+            //    GetComponent<Damageable>().isAttacking = false;
+            //}
+        }
         if (!perch && !idle && CommandGroup != null)
         {
             movementDirection = Alignment() + EntityAvoidance() + Cohesion() + WallAvoidance();
             Vector3 currPos = transform.position.Flat();
             movementDirection += (targetPos.Flat() - currPos).normalized * CommandGroup.followStr;
             Debug.Log(targetPos);
+        }
+        else if (GetComponent<Damageable>().isAttacking)
+        {
+            if (!idle && !perch)
+            {
+                velocity = Alignment() + Seperation() + Cohesion();
+                velocity += (targetPos - transform.position).normalized;
+
+
+                LimitVelocity();
+
+                float X = transform.position.x;
+                float Z = transform.position.z;
+                transform.position = new Vector3(X, debugY, Z);
+            }
+           
+            // bootleg perch
+            if (personalDistance <= attackDistance)
+            {
+                perch = true;
+                if (targetObject != null)
+                {
+                    var dam = targetObject.GetComponent<Damageable>();
+                    if (dam != null && (Time.time - lastAttackTime > AttackCoolDown))
+                    {
+                        targetHealth = targetObject.GetComponent<Damageable>().Damage(10f);
+                        lastAttackTime = Time.time;
+                        if (targetHealth <= 0)
+                        {
+                            targetObject = null;
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                Debug.Log("FALSE PERCH");
+                perch = false;
+            }
+
+
         }
         else
         {
@@ -230,7 +318,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     public void LimitVelocity()
     {
-        if (movementDirection.magnitude > CommandGroup.speedLimit)
+        if (CommandGroup != null && movementDirection.magnitude > CommandGroup.speedLimit)
         {
             movementDirection = movementDirection.normalized * CommandGroup.speedLimit;
         }

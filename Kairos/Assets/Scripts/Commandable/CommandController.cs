@@ -83,6 +83,7 @@ public class CommandController : MonoBehaviour
                 {
                     cg.followSpeed = entity.movementSpeed;
                 }
+                entity.GetComponent<Damageable>().isAttacking = false;
                 //entity.idle = false;
             }      
         }

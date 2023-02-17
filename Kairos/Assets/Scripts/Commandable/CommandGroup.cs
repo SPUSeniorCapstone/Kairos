@@ -130,8 +130,10 @@ public class CommandGroup : MonoBehaviour
             else
             {
                 Debug.Log("NOT WAYPOINT");
-                entity.SetTargetPos();
-                entity.idle = false;
+                entity.pathing = true;
+                entity.NextPoint();
+                //entity.SetTargetPos();
+                //entity.idle = false;
             }
             //entity.SetTargetPos();
             //entity.idle = false;
