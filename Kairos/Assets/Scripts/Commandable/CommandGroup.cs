@@ -107,7 +107,7 @@ public class CommandGroup : MonoBehaviour
                 count++;
             }
         }
-        if(entities.Count > 0)
+        if(count > 0)
         {
             center /= count;
             center.y = 0;

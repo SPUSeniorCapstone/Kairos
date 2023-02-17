@@ -143,7 +143,7 @@ public class Entity : MonoBehaviour
     /// </summary>
     void CalculateMovementDirection()
     {
-        if (targetObject != null)
+        if (targetObject != null && targetObject.GetComponent<Damageable>() != null)
         {
             targetPos = targetObject.transform.position;
         }
