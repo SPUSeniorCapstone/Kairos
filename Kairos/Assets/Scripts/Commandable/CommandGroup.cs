@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,23 +18,22 @@ public class CommandGroup : MonoBehaviour
     public float followStr;
     public float followSpeed;
     public GameObject groupTargetObj;
-    public bool selected;
-    public bool lesser = true;
+    public bool destroyOnEmpty = true;
     public bool needsPath = true;
-
-    public bool flock;
-
-    public bool twoD = false;
 
     [Range(0, 1f)]
     public float alignmentFactor;
+    
     [Range(0, 50f)]
     public float effectiveDistance;
+    
     [Range(0, 1f)]
     public float cohesionFactor;
-    [Range(0, 1f)]
-    public float boundFactor;
-    [Range(0, 100f)]
+    
+    [Range(0, 20)]
+    public float avoidStrength = 1;
+
+    [Range(0, 20)]
     public float distanceFromTarget;
 
     void Update()
@@ -61,7 +61,7 @@ public class CommandGroup : MonoBehaviour
             // if null no path
         }
         // is there a better way?
-        if (lesser)
+        if (destroyOnEmpty)
         {
             CheckIfEmpty();
         }
@@ -73,7 +73,6 @@ public class CommandGroup : MonoBehaviour
                 {
                     group.effectiveDistance = effectiveDistance;
                     group.distanceFromTarget = distanceFromTarget;
-                    group.boundFactor = boundFactor;
                     group.cohesionFactor = cohesionFactor;
                     group.alignmentFactor = alignmentFactor;
                     group.followSpeed = followSpeed;
@@ -88,9 +87,11 @@ public class CommandGroup : MonoBehaviour
         if (entities.Count == 0)
         {
             transform.position = Vector3.zero;
+            return;
         }
 
         Vector3 center = Vector3.zero;
+        int count = 0;
         for(int i = 0; i < entities.Count; i++)
         {
             var entity = entities[i];
@@ -102,12 +103,13 @@ public class CommandGroup : MonoBehaviour
             }
             else
             {
-                center += entity.transform.position;
+                center += entity.transform.position.Flat();
+                count++;
             }
         }
         if(entities.Count > 0)
         {
-            center /= entities.Count;
+            center /= count;
             center.y = 0;
         }
         transform.position = center;

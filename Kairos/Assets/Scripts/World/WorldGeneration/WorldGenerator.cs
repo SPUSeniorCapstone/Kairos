@@ -21,6 +21,8 @@ public class WorldGenerator : MonoBehaviour
     [Range(0.001f, 1)]
     public float lacunarity;
 
+
+    public bool useLayerHeights = true;
     public bool useFalloff = false;
 
     float[,] falloff;
@@ -47,16 +49,16 @@ public class WorldGenerator : MonoBehaviour
         world.seed = seed;
         InitWorldGen(seed);
 
-        terrainMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.width, Chunk.length * world.length, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
+        terrainMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
 
         if (useFalloff)
         {
-            falloff = NoiseGenerator.GenerateFalloffMap(Chunk.width * world.width, Chunk.length * world.length);
+            falloff = NoiseGenerator.GenerateFalloffMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks);
         }
 
-        for (int x = 0; x < world.width; x++)
+        for (int x = 0; x < world.widthInChunks; x++)
         {
-            for (int z = 0; z < world.length; z++)
+            for (int z = 0; z < world.lengthInChunks; z++)
             {
                 var pos = new Vector3Int(x, 0, z);
                 if (world.Chunks[x, z] == null)
@@ -70,13 +72,20 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        for (int x = 0; x < world.width; x++)
+        for (int x = 0; x < world.widthInChunks; x++)
         {
-            for (int z = 0; z < world.length; z++)
+            for (int z = 0; z < world.lengthInChunks; z++)
             {
                 world.Chunks[x, z].UpdateChunk();
             }
         }
+
+        float width = world.WidthInBlocks * world.BlockScale;
+        float height = Chunk.height * world.BlockScale;
+        float length = world.LengthInBlock * world.BlockScale;
+
+        Vector3 center = new Vector3(width/2,width,length/2);
+        world.bounds = new Bounds(center.Flat(), center);
     }
 
     public Block[,,] GenerateChunk(Vector3Int position)
@@ -110,12 +119,16 @@ public class WorldGenerator : MonoBehaviour
                 int blockID = 0;
                 int height = 0;
                 int currBlockHeight = 0;
+
                 for(int i = 0; i < layers.Length; i++)
                 {
                     var layer = layers[i];
                     if (layer.height <= h * eccentricity)
                     {
-                        height = currBlockHeight + layer.thickness;
+                        if (useLayerHeights)
+                            height = currBlockHeight + layer.thickness;
+                        else
+                            height = (int)(h * eccentricity);
                         currBlockHeight = height;
                         blockID = layer.BlockID;
                     }

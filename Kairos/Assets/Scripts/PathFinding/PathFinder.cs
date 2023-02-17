@@ -9,20 +9,18 @@ using UnityEngine;
 [Serializable]
 public class PathFinder
 {
-    public int stepHeight = 1;
-    public bool allowDiagonals = true;
     public float runTime = 10;
 
-    public async Task<List<Vector3>> FindPath(Vector3 start, Vector3 end, bool useWorldCoords = true)
+    public async Task<List<Vector3>> FindPath(Vector3 start, Vector3 end, int stepHeight, bool allowDiagonals = false, bool useWorldCoords = true)
     {
         return await Task.Run(() =>
         {
-            return FindPathSyncronous(start, end, useWorldCoords);
+            return FindPathSyncronous(start, end, stepHeight, allowDiagonals, useWorldCoords);
         });
 
     }
 
-    private List<Vector3> FindPathSyncronous(Vector3 start, Vector3 end, bool useWorldCoords = true)
+    private List<Vector3> FindPathSyncronous(Vector3 start, Vector3 end, int stepHeight, bool allowDiagonals, bool useWorldCoords)
     {
         Vector3Int Start, End;
 
@@ -63,7 +61,7 @@ public class PathFinder
 
             closed.Add(current.position);
 
-            foreach (var n in GetNeighbors(current))
+            foreach (var n in GetNeighbors(current, stepHeight, allowDiagonals))
             {
                 var neighbor = n;
                 if (closed.Contains(neighbor.position))
@@ -105,7 +103,7 @@ public class PathFinder
         return Mathf.Abs(node.x - end.x) + Mathf.Abs(node.z - end.z);
     }
 
-    List<PathNode> GetNeighbors(PathNode node)
+    List<PathNode> GetNeighbors(PathNode node, int stepHeight, bool allowDiagonals)
     {
         List<PathNode> neighbors = new List<PathNode>();
         for (int x = -1; x <= 1; x++)
@@ -124,9 +122,9 @@ public class PathFinder
 
                 Vector3Int pos = node.position + new Vector3Int(x, 0, z);
 
-                if (pos.x > 0 && pos.x < WorldController.Main.World.width * Chunk.width &&
-                    pos.z > 0 && pos.z < WorldController.Main.World.length * Chunk.length &&
-                    CheckMove(node.position, pos))
+                if (pos.x > 0 && pos.x < WorldController.Main.World.widthInChunks * Chunk.width &&
+                    pos.z > 0 && pos.z < WorldController.Main.World.lengthInChunks * Chunk.length &&
+                    CheckMove(node.position, pos, stepHeight))
                 {
                     neighbors.Add(new PathNode(pos));
                 }
@@ -134,6 +132,7 @@ public class PathFinder
         }
         return neighbors;
     }
+
 
     List<Vector3> GetPath(PathNode node)
     {
@@ -150,7 +149,7 @@ public class PathFinder
         return path;
     }
 
-    bool CheckMove(Vector3Int A, Vector3Int B)
+    bool CheckMove(Vector3Int A, Vector3Int B, int stepHeight)
     {
         Vector3Int diff = B - A;
         if (Mathf.Abs(diff.x) > 1 || Mathf.Abs(diff.z) > 1)

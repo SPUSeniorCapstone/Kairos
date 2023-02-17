@@ -25,6 +25,12 @@ public class Damageable : MonoBehaviour
         GameController.Main.UIController.CreateHealthBar(this);
     }
 
+    private void OnDestroy()
+    {
+        if(GameController.Main != null && GameController.Main.UIController != null)
+            GameController.Main.UIController.RemoveHealthBar(this);
+    }
+
     /// <summary>
     /// Damages the entity. Pass this function the raw damage value, and it will determine how much health to subtract from the entity
     /// <para>**Currently just removes the raw damage amount from health**</para> 

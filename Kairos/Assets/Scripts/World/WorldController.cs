@@ -85,7 +85,7 @@ public class WorldController : MonoBehaviour
 
     public Vector3Int WorldToBlockPosition(Vector3 pos)
     {
-        Vector3 position = (pos / blockScale);
-        return new Vector3Int((int)position.x, (int)position.y, (int)position.z);
+        Vector3Int position = (pos / blockScale).ToVector3Int();
+        return position;
     }
 }

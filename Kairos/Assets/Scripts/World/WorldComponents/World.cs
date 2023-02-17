@@ -12,12 +12,33 @@ public class World : MonoBehaviour
     /// The size of the world in chunks
     /// </summary>
     [DisableOnPlay]
-    public int width = 16, length = 16;
+    public int widthInChunks = 16, lengthInChunks = 16;
+    public int WidthInBlocks
+    {
+        get
+        {
+            return widthInChunks * Chunk.width;
+        }
+    }
+    public int LengthInBlock
+    {
+        get
+        {
+            return lengthInChunks * Chunk.length;
+        }
+    }
+
+    public float BlockScale
+    {
+        get { return GameController.Main.WorldController.blockScale; }
+    }
 
     /// <summary>
     /// The material to use for rendering the world (this material should have the texture atlas attached to it)
     /// </summary>
     public Material worldMaterial;
+
+    public Bounds bounds;
 
     /// <summary>
     /// The world seed - this is stored for reading purposes only
@@ -35,10 +56,10 @@ public class World : MonoBehaviour
     {
         get
         {
-            if (chunks == null || chunks.GetLength(0) != width || chunks.GetLength(1) != length)
+            if (chunks == null || chunks.GetLength(0) != widthInChunks || chunks.GetLength(1) != lengthInChunks)
             {
                 Helpers.DeleteAllChildren(gameObject);
-                chunks = new Chunk[width, length];
+                chunks = new Chunk[widthInChunks, lengthInChunks];
             }
             return chunks;
         }
@@ -52,7 +73,7 @@ public class World : MonoBehaviour
     {
         int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
         int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
-        if (chunkX >= width || chunkZ >= length || voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks || voxelX >= Chunk.width || voxelZ >= Chunk.length ||
            chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
         {
             return new Block();
@@ -65,13 +86,19 @@ public class World : MonoBehaviour
     {
         int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
         int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
-        if (chunkX >= width || chunkZ >= length || voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks || voxelX >= Chunk.width || voxelZ >= Chunk.length ||
            chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
         {
             return Chunk.height;
         }
 
         return Chunks[chunkX, chunkZ].GetHeight(voxelX, voxelZ);
+    }
+
+    public int GetHeight(float x, float z)
+    {
+        var pos = GameController.Main.WorldController.WorldToBlockPosition(new Vector3(x, 0, z));
+        return GetHeight(pos.x, pos.z);
     }
 
     public bool IsPassable(int x, int z)
@@ -95,7 +122,7 @@ public class World : MonoBehaviour
     {
         int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
         int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
-        if (chunkX >= width || chunkZ >= length ||
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks ||
             voxelX >= Chunk.width || voxelZ >= Chunk.length ||
             chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0 ||
             y < 0 || y > Chunk.height)

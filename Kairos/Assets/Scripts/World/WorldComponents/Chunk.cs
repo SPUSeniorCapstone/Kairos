@@ -72,7 +72,7 @@ public class Chunk : MonoBehaviour
 
     public int GetHeight(int x, int z)
     {
-        return heights[x, z];
+        return heights[x, z] + 1;
     }
 
     /// <summary>

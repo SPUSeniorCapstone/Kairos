@@ -19,4 +19,54 @@ public static class Extensions
     {
         return new Vector3Int(vector.x, 0, vector.z);
     }
+
+    public static Vector3 Abs(this Vector3 vector)
+    {
+        return new Vector3(Mathf.Abs(vector.x), Mathf.Abs(vector.y), Mathf.Abs(vector.z));
+    }
+
+    public static Vector3 ClosestPointOnBounds(this Bounds bounds, Vector3 position)
+    {
+        if (!bounds.Contains(position))
+        {
+            return bounds.ClosestPoint(position);
+        }
+        else
+        {
+            Vector3 dist = bounds.size - (bounds.center - position).Abs() ;
+            if(dist.x < dist.y && dist.x < dist.z)
+            {
+                if(bounds.center.x - position.x < 0)
+                {
+                    return new Vector3(bounds.min.x, position.y, position.z);
+                }
+                else
+                {
+                    return new Vector3(bounds.max.x, position.y, position.z);
+                }
+            }
+            else if (dist.y < dist.z)
+            {
+                if (bounds.center.y - position.y < 0)
+                {
+                    return new Vector3(position.x, bounds.min.y, position.z);
+                }
+                else
+                {
+                    return new Vector3(position.x, bounds.max.x, position.z);
+                }
+            }
+            else
+            {
+                if (bounds.center.y - position.y < 0)
+                {
+                    return new Vector3(position.x, position.y, bounds.min.z);
+                }
+                else
+                {
+                    return new Vector3(position.x, position.y, bounds.max.z);
+                }
+            }
+        }
+    }
 }

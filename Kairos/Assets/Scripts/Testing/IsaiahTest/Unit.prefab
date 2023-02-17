@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 8328249844979736684}
   - component: {fileID: 4516272432036144583}
   - component: {fileID: 547667637956704709}
+  - component: {fileID: 4045067867810981877}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Player
@@ -124,8 +125,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2701632545085584670}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.835313, y: 60.838764, z: -53.393}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -147,13 +148,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4726a27ddfe48ae429868c3cacbfa2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectiveDistance: 1.5
-  moveSpeed: 10
-  avoidSpeed: 10
-  viewDebugInfo: 0
+  pathing: 0
+  effectiveDistance: 3
+  movementSpeed: 10
+  avoidStrength: 3
+  viewDebugInfo: 1
+  pathindex: 0
   CommandGroup: {fileID: 0}
   targetObject: {fileID: 0}
-  velocity: {x: 0, y: 0, z: 0}
+  movementDirection: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   distance: 0
   perch: 0
@@ -190,6 +193,23 @@ MonoBehaviour:
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
+--- !u!114 &4045067867810981877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701632545085584670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83bd30472b2986842b0e65e8e0242194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: {fileID: 2701632545085584670}
+  end: {fileID: 0}
+  pathLine: {fileID: 6571457335701750397}
+  stepHeight: 0
+  Button_GeneratePath: 0
 --- !u!1 &3430174129152857782
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5241900700674047824
 Transform:
   m_ObjectHideFlags: 0
@@ -346,7 +366,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6039515155449707342}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.95, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []

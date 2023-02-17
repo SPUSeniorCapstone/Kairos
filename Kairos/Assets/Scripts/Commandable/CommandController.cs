@@ -9,6 +9,8 @@ public class CommandController : MonoBehaviour
     public GameObject wayPoint;
     public float debugY;
 
+    public int stepHeight = 1;
+
     /// <summary>
     /// Command Group Master List
     /// </summary>
@@ -42,7 +44,7 @@ public class CommandController : MonoBehaviour
                     {
                         Debug.Log(hit);
                         Vector3 point = hit.point;
-                        point.y = debugY;
+                        point.y = GameController.Main.WorldController.World.GetHeight(point.x, point.z)+0.05f;
                         wayPoint.transform.position = point;
                         if (GameController.Main.SelectionController.currentlySelect.Count > 0)
                         {
@@ -56,8 +58,8 @@ public class CommandController : MonoBehaviour
     public void MoveSelected(GameObject target)
     {
         var cg = Instantiate<CommandGroup>(commandGroup,playerFaction.transform);
-        
-        //cg.groupTargetObj = target;
+
+        cg.followSpeed = -1;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
         {
             Entity entity = selectable.GetComponent<Entity>();
@@ -77,13 +79,22 @@ public class CommandController : MonoBehaviour
                 //entity.CommandGroup.entities.Remove(entity);
                 entity.CommandGroup = cg;
                 cg.entities.Add(entity);
+                if (entity.movementSpeed < cg.followSpeed || cg.followSpeed == -1)
+                {
+                    cg.followSpeed = entity.movementSpeed;
+                }
                 //entity.idle = false;
             }      
         }
 
         cg.CalculateCenter();
         Debug.Log("AFTER LOOP: cg.entites = " + cg.entities[0].name);
-        cg.pathTask = GameController.Main.PathFinder.FindPath(cg.transform.position, target.transform.position);
+        cg.pathTask = GameController.Main.PathFinder.FindPath(cg.transform.position, target.transform.position, stepHeight, false);
+        
+        //DEBUG
+        if(GetComponent<CheckPathFinding>() != null)
+            GetComponent<CheckPathFinding>().task = cg.pathTask;
+
 
         commandGroups.Add(cg);
 

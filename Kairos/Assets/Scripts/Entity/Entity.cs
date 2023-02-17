@@ -2,25 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.Timeline;
 using Debug = UnityEngine.Debug;
 
 public class Entity : MonoBehaviour
 {
-    public float debugY;
-    public int pathindex = 0;
     public bool pathing;
 
-    [Range(0, 50f)]
-    public float effectiveDistance;
+    /// <summary>
+    /// Distance at which the entity looks for collisions with other entities
+    /// </summary>
+    [Range(0, 10)]
+    public float AvoidEntityRadius = 3;
 
-    public float personalDistance;
+    /// <summary>
+    /// Distance at which the entity looks for collisions with walls and structures
+    /// </summary>
+    [Range(0,10)]
+    public float AvoidWallRadius = 3;
 
-    public float moveSpeed = 10;
-    public float avoidSpeed = 10;
+    /// <summary>
+    /// How fast the entity moves 
+    /// </summary>
+    [Tooltip("Speed of movement after calculating direction")]
+    public float movementSpeed = 10;
+
+    public float avoidStrength;
+
 
     public bool viewDebugInfo = false;
+
+    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    public int pathindex = 0;
+
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public CommandGroup CommandGroup;
 
@@ -28,7 +45,7 @@ public class Entity : MonoBehaviour
     public GameObject targetObject;
 
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
-    public Vector3 velocity = Vector3.zero;
+    public Vector3 movementDirection = Vector3.zero;
 
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public Vector3 targetPos;
@@ -43,12 +60,16 @@ public class Entity : MonoBehaviour
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public bool idle = true;
 
-
+    [ConditionalHide(nameof(viewDebugInfo), true)]
+    [Disable]
+    public Vector3 center;
 
 
     void Start()
     {
         GameController.Main.EntityController.AddEntity(this);
+        float height = GameController.Main.WorldController.World.GetHeight(transform.position.x, transform.position.z);
+        transform.position = new Vector3(transform.position.x, height, transform.position.z);
     }
 
     private void OnDestroy()
@@ -59,50 +80,46 @@ public class Entity : MonoBehaviour
 
     void Update()
     {
-        CalculateVelocity();
+        CalculateMovementDirection();
+
+        // Performs movement on the object
         if(CommandGroup != null)
         {
-            transform.position += (velocity.normalized * CommandGroup.followSpeed * Time.deltaTime);
+            center = CommandGroup.centerVector;
+            transform.position += (movementDirection.normalized * CommandGroup.followSpeed * Time.deltaTime);
         }
         else
         {
-            transform.position += (velocity * Time.deltaTime * avoidSpeed);
+            transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
         }
-        if (targetPos != null)
+
+        // Set's height to block height it valid move
+        float height = GameController.Main.WorldController.World.GetHeight(transform.position.x, transform.position.z);
+        if (Mathf.Abs(height - transform.position.y) <= GameController.Main.CommandController.stepHeight)
         {
-            personalDistance = Vector3.Distance(transform.position, targetPos);
+            transform.position = new Vector3(transform.position.x, height, transform.position.z);
         }
     }
 
-    void CalculateVelocity()
+    #region MovementFunctions
+    /// <summary>
+    /// Calculates the movement direction of the entity
+    /// </summary>
+    void CalculateMovementDirection()
     {
         if (!perch && !idle && CommandGroup != null)
         {
-            //distance = Vector3.Distance(CommandGroup.centerVector, targetObject.transform.position);
-            distance = Vector3.Distance(CommandGroup.centerVector, targetPos);
-
-            velocity = Alignment() + Seperation() + Cohesion();
-            velocity += (targetPos - transform.position).normalized * CommandGroup.followStr;
-            if (CommandGroup.flock)
-            {
-                velocity += BoundPosition();
-            }
-
-            LimitVelocity();
-            if (CommandGroup.twoD)
-            {
-                float X = transform.position.x;
-                float Z = transform.position.z;
-                transform.position = new Vector3(X, debugY, Z);
-            }
-
+            movementDirection = Alignment() + EntityAvoidance() + Cohesion() + WallAvoidance();
+            Vector3 currPos = transform.position.Flat();
+            movementDirection += (targetPos.Flat() - currPos).normalized * CommandGroup.followStr;
+            Debug.Log(targetPos);
         }
         else
         {
-            velocity = Seperation();
+            movementDirection = EntityAvoidance() + WallAvoidance();
         }
 
-        velocity.y = 0;
+        movementDirection = movementDirection.Flat().normalized;
     }
 
     /// <summary>
@@ -110,21 +127,15 @@ public class Entity : MonoBehaviour
     /// </summary>
     public Vector3 Alignment()
     {
-        if (CommandGroup.entities.Count <= 1)
+        if (CommandGroup == null || CommandGroup.entities.Count <= 1)
         {
             return Vector3.zero;
         }
 
         Vector3 perceivedCenter;
 
-        if (!CommandGroup.flock)
-        {
-            perceivedCenter = Vector3.zero;
-        }
-        else
-        {
-            perceivedCenter = CommandGroup.centerVector.normalized* CommandGroup.followStr;
-        }
+
+        perceivedCenter = CommandGroup.centerVector.normalized* CommandGroup.followStr;
 
         foreach (Entity boid in CommandGroup.entities)
         {
@@ -138,30 +149,11 @@ public class Entity : MonoBehaviour
     }
 
     /// <summary>
-    /// Boid seperation Function
-    /// </summary>
-    public Vector3 Seperation()
-    {
-        Vector3 c = Vector3.zero;
-        foreach (Entity boid in GameController.Main.EntityController.Entities)
-        {
-            if (boid != this)
-            {
-                if (Vector3.Distance(boid.transform.position, transform.position) < effectiveDistance)
-                {
-                    c = c - (boid.transform.position - transform.position);
-                }
-            }
-        }
-        return c;
-    }
-
-    /// <summary>
     /// Boid cohesion function
     /// </summary>
     public Vector3 Cohesion()
     {
-        if (CommandGroup.entities.Count <= 1)
+        if (CommandGroup == null || CommandGroup.entities.Count <= 1)
         {
             return Vector3.zero;
         }
@@ -172,11 +164,65 @@ public class Entity : MonoBehaviour
         {
             if (boid != this)
             {
-                pv += boid.velocity;
+                pv += boid.movementDirection;
             }
         }
         pv /= (CommandGroup.entities.Count - 1);
-        return (pv - velocity) * CommandGroup.cohesionFactor;
+        return (pv - movementDirection) * CommandGroup.cohesionFactor;
+    }
+
+    /// <summary>
+    /// Pushes boids away from each other
+    /// </summary>
+    public Vector3 EntityAvoidance()
+    {
+        Vector3 c = Vector3.zero;
+        foreach (Entity boid in GameController.Main.EntityController.Entities)
+        {
+            if (boid != this)
+            {
+                float mag = Vector3.Distance(boid.transform.position, transform.position) / AvoidEntityRadius;
+                if (mag < 1)
+                {
+                    c = c - (boid.transform.position - transform.position) / mag;
+                }
+            }
+        }
+        if (c.magnitude > 100)
+        {
+            c = c.normalized * 100;
+        }
+        return c * avoidStrength;
+    }
+
+    /// <summary>
+    /// Pushes entity away from walls/structures
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 WallAvoidance()
+    {
+        Vector3 v = Vector3.zero;
+
+        var world = GameController.Main.WorldController;
+
+        Vector3Int position = world.WorldToBlockPosition(transform.position);
+        var checkPos = position/* + (velocity.normalized * 2).ToVector3Int()*/;
+
+        int dist = (int)AvoidWallRadius;
+        for (int x = -dist; x <= dist; x++)
+        {
+            for(int z = -dist; z <= dist; z++)
+            {
+                var check = checkPos + new Vector3Int(x, 0, z);
+                int h = world.World.GetHeight(check.x, check.z);
+                if (Mathf.Abs(h - checkPos.y) > GameController.Main.CommandController.stepHeight)
+                {
+                    var p =  new Vector3(check.x, 0, check.z) - transform.position.Flat();
+                    v -= p / (p.magnitude / AvoidWallRadius);
+                }
+            }
+        }
+        return v * avoidStrength;
     }
 
     /// <summary>
@@ -184,65 +230,70 @@ public class Entity : MonoBehaviour
     /// </summary>
     public void LimitVelocity()
     {
-        if (velocity.magnitude > CommandGroup.speedLimit)
+        if (movementDirection.magnitude > CommandGroup.speedLimit)
         {
-            velocity = velocity.normalized * CommandGroup.speedLimit;
+            movementDirection = movementDirection.normalized * CommandGroup.speedLimit;
         }
     }
 
+    #endregion
+
     /// <summary>
-    /// Keeps units within bound (Only works when flocking)
+    /// Keeps units within map bounds
     /// </summary>
-    public Vector3 BoundPosition()
+    public Vector3 BoundAvoidance()
     {
-        if (!CommandGroup.flock)
+        Vector3 v = Vector3.zero;
+        var bounds = GameController.Main.WorldController.World.bounds;
+
+        if (!bounds.Contains(transform.position))
         {
-            return Vector3.zero;
+            v = bounds.ClosestPointOnBounds(transform.position) - transform.position;
+            v.y = 0;
         }
 
-        Vector3 adjustedPath = Vector3.zero;
-        if (transform.position.x < CommandGroup.min.x)
-        {
-            adjustedPath.x = (CommandGroup.min.x - transform.position.x);
-        }
-        else if (gameObject.transform.position.x > CommandGroup.max.x)
-        {
-            adjustedPath.x = (CommandGroup.max.x - transform.position.x);
-        }
-
-        if (gameObject.transform.position.y < CommandGroup.min.y)
-        {
-            adjustedPath.y = (CommandGroup.min.y - transform.position.y);
-        }
-        else if (gameObject.transform.position.y > CommandGroup.max.y)
-        {
-            adjustedPath.y = (CommandGroup.max.y - transform.position.y);
-        }
-
-        if (gameObject.transform.position.z < CommandGroup.min.z)
-        {
-            adjustedPath.z = (CommandGroup.min.z - transform.position.z);
-        }
-        else if (gameObject.transform.position.z > CommandGroup.max.z)
-        {
-            adjustedPath.z = (CommandGroup.max.z - transform.position.z);
-        }
-        return adjustedPath * CommandGroup.boundFactor;
+        return v;
+        ///Vector3 adjustedPath = Vector3.zero;
+        ///if (transform.position.x < CommandGroup.min.x)
+        ///{
+        ///    adjustedPath.x = (CommandGroup.min.x - transform.position.x);
+        ///}
+        ///else if (gameObject.transform.position.x > CommandGroup.max.x)
+        ///{
+        ///    adjustedPath.x = (CommandGroup.max.x - transform.position.x);
+        ///}
+        ///if (gameObject.transform.position.y < CommandGroup.min.y)
+        ///{
+        ///    adjustedPath.y = (CommandGroup.min.y - transform.position.y);
+        ///}
+        ///else if (gameObject.transform.position.y > CommandGroup.max.y)
+        ///{
+        ///    adjustedPath.y = (CommandGroup.max.y - transform.position.y);
+        ///}
+        ///if (gameObject.transform.position.z < CommandGroup.min.z)
+        ///{
+        ///    adjustedPath.z = (CommandGroup.min.z - transform.position.z);
+        ///}
+        ///else if (gameObject.transform.position.z > CommandGroup.max.z)
+        ///{
+        ///    adjustedPath.z = (CommandGroup.max.z - transform.position.z);
+        ///}
+        ///return adjustedPath * CommandGroup.boundFactor;
     }
 
     public bool Perching()
     {
         //Debug.Log(personalDistance + " <= " + CommandGroup.distanceFromTarget);
         //Debug.Log(Vector3.Distance(transform.position, targetPos) <= CommandGroup.distanceFromTarget);
-        if (Vector3.Distance(transform.position, targetPos) <= CommandGroup.distanceFromTarget)
+        if (Vector3.Distance(transform.position.Flat(), targetPos.Flat()) <= CommandGroup.distanceFromTarget)
         {
-            if (pathing && pathindex < CommandGroup.path.Count - 1) {
+            if (CommandGroup.path != null && pathing && pathindex < CommandGroup.path.Count - 1) {
                 Debug.Log("YEAHG!");
                 pathindex++;
                 NextPoint();
                 return false;
             }
-            velocity = Vector3.zero;
+            movementDirection = Vector3.zero;
             perch = true;
             idle = true;
             return true;
@@ -254,6 +305,8 @@ public class Entity : MonoBehaviour
             return false;
         }
     }
+
+
     public void SetTargetPos()
     {
         targetPos = targetObject.transform.position;

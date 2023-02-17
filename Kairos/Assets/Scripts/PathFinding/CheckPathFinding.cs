@@ -10,7 +10,6 @@ public class CheckPathFinding : MonoBehaviour
     public GameObject end;
     public LineRenderer pathLine;
     public int stepHeight = 0;
-    public bool AllowDiagonal = false;
 
     public Task<List<Vector3>> task;
 
@@ -31,7 +30,7 @@ public class CheckPathFinding : MonoBehaviour
                 for(int i = 0; i < path.Count; i++)
                 {
                     //path[i] = new Vector3(path[i].x + 0.5f, 10, path[i].z + 0.5f);
-                    path[i] = new Vector3(path[i].x, 10, path[i].z);
+                    path[i] = new Vector3(path[i].x, GameController.Main.WorldController.World.GetHeight(path[i].x, path[i].z) + 0.5f, path[i].z);
                 }
                 pathLine.SetPositions(path.ToArray());
                 task = null;
@@ -43,10 +42,7 @@ public class CheckPathFinding : MonoBehaviour
     public bool Button_GeneratePath;
     public void GeneratePath()
     {
-        GameController.Main.PathFinder.stepHeight = stepHeight;
-        GameController.Main.PathFinder.allowDiagonals = AllowDiagonal;
-
-        task = GameController.Main.PathFinder.FindPath(start.transform.position, end.transform.position);
+        task = GameController.Main.PathFinder.FindPath(start.transform.position, end.transform.position, stepHeight);
     }
 
 }
