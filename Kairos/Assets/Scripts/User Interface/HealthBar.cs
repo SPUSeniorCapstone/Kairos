@@ -20,12 +20,12 @@ public class HealthBar : MonoBehaviour
             return;
         }
 
-        if (GameController.Main.UIController.healthBarMode == UIController.HealthBarMode.SELECTED)
+        if (GameController.Main.UIController.HealthBarController.healthBarMode == HealthBarController.HealthBarMode.SELECTED)
         {
             healthBarImage.gameObject.SetActive(damageble.GetComponent<Selectable>().selected);
             background.gameObject.SetActive(damageble.GetComponent<Selectable>().selected);
         }
-        else if (GameController.Main.UIController.healthBarMode == UIController.HealthBarMode.NONE)
+        else if (GameController.Main.UIController.HealthBarController.healthBarMode == HealthBarController.HealthBarMode.NONE)
         {
             healthBarImage.gameObject.SetActive(false);
             background.gameObject.SetActive(false);
@@ -46,7 +46,7 @@ public class HealthBar : MonoBehaviour
             background.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + 10);
         }
 
-        if (GameController.Main.UIController.healthBarMode != UIController.HealthBarMode.SELECTED || (damageble.GetComponent<Selectable>() != null && damageble.GetComponent<Selectable>().selected))
+        if (GameController.Main.UIController.HealthBarController.healthBarMode != HealthBarController.HealthBarMode.SELECTED || (damageble.GetComponent<Selectable>() != null && damageble.GetComponent<Selectable>().selected))
         {
             var pos = Camera.main.WorldToScreenPoint(damageble.transform.position + damageble.healthBarPosition);
             transform.position = pos;

@@ -95,10 +95,28 @@ public class World : MonoBehaviour
         return Chunks[chunkX, chunkZ].GetHeight(voxelX, voxelZ);
     }
 
+    public int GetHeight(Vector3Int v)
+    {
+        return GetHeight(v.x, v.z);
+    }
+
     public int GetHeight(float x, float z)
     {
         var pos = GameController.Main.WorldController.WorldToBlockPosition(new Vector3(x, 0, z));
         return GetHeight(pos.x, pos.z);
+    }
+
+    public void SetHeight(int x, int z, int height)
+    {
+        int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks || voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+           chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
+        {
+            return;
+        }
+
+        Chunks[chunkX, chunkZ].SetHeight(voxelX, voxelZ, height);
     }
 
     public bool IsPassable(int x, int z)

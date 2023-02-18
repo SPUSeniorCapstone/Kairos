@@ -26,13 +26,13 @@ public class Damageable : MonoBehaviour
 
     private void Start()
     {
-        GameController.Main.UIController.CreateHealthBar(this);
+        GameController.Main.UIController.HealthBarController.CreateHealthBar(this);
     }
 
     private void OnDestroy()
     {
         if(GameController.Main != null && GameController.Main.UIController != null)
-            GameController.Main.UIController.RemoveHealthBar(this);
+            GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
     }
     
     private void Update()

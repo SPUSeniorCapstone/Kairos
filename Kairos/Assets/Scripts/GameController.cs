@@ -110,6 +110,19 @@ public class GameController : MonoBehaviour
     }
     [SerializeField] UIController uiController;
 
+    public StructureController StructureController
+    {
+        get
+        {
+            if (structureController == null)
+            {
+                structureController = FindObjectOfType<StructureController>();
+            }
+            return structureController;
+        }
+    }
+    [SerializeField] StructureController structureController;
+
     public void MasterDestory(GameObject item)
     {
        Entity entity = item.GetComponent<Entity>();

@@ -75,6 +75,11 @@ public class Chunk : MonoBehaviour
         return heights[x, z] + 1;
     }
 
+    public void SetHeight(int x, int z, int h)
+    {
+        heights[x, z] = height - 1;
+    }
+
     /// <summary>
     /// Initializes the chunk with the given data
     /// </summary>

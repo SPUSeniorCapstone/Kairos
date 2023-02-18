@@ -2,61 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Canvas))]
 public class UIController : MonoBehaviour
 {
-    private void Update()
-    {
-        if (GameController.Main.inputController.ToggleHealthBars.Down())
+    public HealthBarController HealthBarController {
+        get
         {
-            ToggleHealthBars();
+            if(_healthBarController== null)
+            {
+                _healthBarController = FindObjectOfType<HealthBarController>();
+            }
+            return _healthBarController;
+        } 
+    }
+    HealthBarController _healthBarController;
+
+    public MenuController MenuController
+    {
+        get
+        {
+            if (_menuController == null)
+            {
+                _menuController = FindObjectOfType<MenuController>();
+            }
+            return _menuController;
         }
     }
-
-    #region HealthBars
-    public enum HealthBarMode { NONE, SELECTED, ALL }
-    public HealthBarMode healthBarMode;
-    Dictionary<Damageable, HealthBar> healthBars = new Dictionary<Damageable, HealthBar>();
-    public GameObject HealthBar;
-    public void ToggleHealthBars()
-    {
-        if (healthBarMode == HealthBarMode.NONE)
-        {
-            healthBarMode = HealthBarMode.SELECTED;
-        }
-        else if (healthBarMode == HealthBarMode.SELECTED)
-        {
-            healthBarMode = HealthBarMode.ALL;
-        }
-        else if (healthBarMode == HealthBarMode.ALL)
-        {
-            healthBarMode = HealthBarMode.NONE;
-        }
-    }
-
-    public void CreateHealthBar(Damageable damageble)
-    {
-        if (healthBars.ContainsKey(damageble)){
-            Debug.Log("Entity has health bar");
-            return;
-        }
-        var h = Instantiate(HealthBar, this.transform).GetComponent<HealthBar>();
-        h.damageble = damageble;
-        healthBars.Add(damageble, h);
-    }
-
-    public void RemoveHealthBar(Damageable damageble)
-    {
-        if (healthBars.ContainsKey(damageble))
-        {
-            var bar = healthBars[damageble];
-            healthBars.Remove(damageble);
-            if (bar != null)
-                Destroy(bar.gameObject);
-        }
-    }
-
-    #endregion
-
-
+    MenuController _menuController;
 }
