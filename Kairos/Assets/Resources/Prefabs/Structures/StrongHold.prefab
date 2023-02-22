@@ -140,7 +140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8660215520609812518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 169, y: 9, z: 102}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -174,6 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1966314bed5d1cc4f9c865bc680a926a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 2, y: 2, z: 2}
-  unitToSpawn: {fileID: 2701632545085584670, guid: 18ca7b7347597ec448a877d9264d106f, type: 3}
+  Size: {x: 2, y: 0, z: 2}
+  unitToSpawn: {fileID: 107296968479968243, guid: 656a268d55155f840ae50f89aa8bcf09, type: 3}
   spawnPoint: {fileID: 6493630821753867720}
