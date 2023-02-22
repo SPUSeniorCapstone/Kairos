@@ -73,8 +73,12 @@ public class Entity : MonoBehaviour
     public Vector3 center;
 
 
+    //Cache
+    Unit unit;
+
     void Start()
     {
+        unit = GetComponent<Unit>();
         GameController.Main.EntityController.AddEntity(this);
         float height = GameController.Main.WorldController.World.GetHeight(transform.position.x, transform.position.z);
         transform.position = new Vector3(transform.position.x, height, transform.position.z);
@@ -88,28 +92,29 @@ public class Entity : MonoBehaviour
 
     void Update()
     {
-        if (targetObject == null)
-        {
-            idle = true;
-            GetComponent<Damageable>().isAttacking = false;
-        }
-        if (targetObject != null)
-        {
-            var dam = targetObject.GetComponent<Damageable>();
-            if (dam != null && dam.Dead)
-            {
-                Debug.Log("not null but dead");
-                targetObject = null;
-                GetComponent<Damageable>().isAttacking = false;
-                idle = true;
-                perch = false;
-            }
-            else if (targetObject == null && GetComponent<Damageable>().isAttacking == true)
-            {
-                Debug.Log("hefnafnje");
-                GetComponent<Damageable>().isAttacking = false;
-            }
-        }
+        
+        //if (targetObject == null)
+        //{
+        //    idle = true;
+        //    GetComponent<Unit>().isAttacking = false;
+        //}
+        //if (targetObject != null)
+        //{
+        //    var dam = targetObject.GetComponent<Damageable>();
+        //    if (dam != null && dam.Dead)
+        //    {
+        //        Debug.Log("not null but dead");
+        //        targetObject = null;
+        //        GetComponent<Damageable>().isAttacking = false;
+        //        idle = true;
+        //        perch = false;
+        //    }
+        //    else if (targetObject == null && GetComponent<Damageable>().isAttacking == true)
+        //    {
+        //        Debug.Log("hefnafnje");
+        //        GetComponent<Damageable>().isAttacking = false;
+        //    }
+        //}
         
         CalculateMovementDirection();
         if(CommandGroup != null)
@@ -143,20 +148,20 @@ public class Entity : MonoBehaviour
     /// </summary>
     void CalculateMovementDirection()
     {
-        if (targetObject != null && targetObject.GetComponent<Damageable>() != null)
-        {
-            targetPos = targetObject.transform.position;
-        }
-        if (!perch && !idle && CommandGroup != null)
+        //if (targetObject != null && targetObject.GetComponent<Damageable>() != null)
+        //{
+        //    targetPos = targetObject.transform.position;
+        //}
+        if (CommandGroup != null)
         {
             movementDirection = Alignment() + EntityAvoidance() + Cohesion() + WallAvoidance();
             movementDirection += (targetPos.Flat() - transform.position.Flat()).normalized * CommandGroup.followStr;
         }
-        else if (GetComponent<Damageable>().isAttacking)
+        else if (GetComponent<Unit>().isAttacking)
         {
             if (!idle && !perch)
             {
-                movementDirection = Alignment() + EntityAvoidance() + Cohesion();
+                movementDirection = Alignment() + EntityAvoidance() + Cohesion() + WallAvoidance();
                 movementDirection += (targetPos - transform.position).normalized;
             }
            

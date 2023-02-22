@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6309808479854157441}
   - component: {fileID: 2565546191105197864}
   - component: {fileID: 2594938126980644585}
+  - component: {fileID: 5647004309465590971}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Player
@@ -49,21 +50,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4726a27ddfe48ae429868c3cacbfa2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugY: 5.6
-  pathindex: 0
   pathing: 0
-  effectiveDistance: 1.5
+  AvoidEntityRadius: 3
+  AvoidWallRadius: 3
+  movementSpeed: 10
+  avoidStrength: 0
   personalDistance: 0
-  moveSpeed: 10
-  avoidSpeed: 10
+  attackDistance: 0
+  targetHealth: 0
+  lastAttackTime: 0
+  AttackCoolDown: 0
   viewDebugInfo: 1
+  pathindex: 0
   CommandGroup: {fileID: 0}
   targetObject: {fileID: 0}
-  velocity: {x: 0, y: 0, z: 0}
+  movementDirection: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   distance: 0
   perch: 0
   idle: 1
+  center: {x: 0, y: 0, z: 0}
 --- !u!114 &2565546191105197864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,6 +85,8 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
+  squareSide: 15
+  isAttacking: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!114 &2594938126980644585
 MonoBehaviour:
@@ -96,8 +104,21 @@ MonoBehaviour:
   end: {fileID: 0}
   pathLine: {fileID: 9165269287360740496}
   stepHeight: 0
-  AllowDiagonal: 0
   Button_GeneratePath: 0
+--- !u!114 &5647004309465590971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107296968479968243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68021257ba8c7524e99a91b09ea00991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  squareSide: 15
+  isAttacking: 0
 --- !u!1 &835839153289062491
 GameObject:
   m_ObjectHideFlags: 0
