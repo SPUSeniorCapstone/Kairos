@@ -52,10 +52,10 @@ public class Unit : MonoBehaviour, ICommandable
                     if (target != null)
                     {
                         // if has target object but there is a closer object
-                        if (isAttacking && Vector3.Distance(transform.position, entity.targetObject.transform.position) > Vector3.Distance(transform.position, selectable.transform.position))
-                        {
-                            SetTarget(selectable);
-                        } 
+                        //if (isAttacking && Vector3.Distance(transform.position, entity.targetObject.transform.position) > Vector3.Distance(transform.position, selectable.transform.position))
+                        //{
+                        //    SetTarget(selectable);
+                        //} 
                     }
                     else
                     {
@@ -68,25 +68,25 @@ public class Unit : MonoBehaviour, ICommandable
 
     public void SetTarget(Selectable target)
     {
-        isAttacking = true;
-        Entity entity = GetComponent<Entity>();
-        if (entity != null)
-        {
-            entity.pathindex = 0;
-            CommandGroup old = entity.CommandGroup;
-            if (old != null)
-            {
-                old.entities.Remove(entity);
-            }
-            //entity.CommandGroup.entities.Remove(entity);
+        //isAttacking = true;
+        //Entity entity = GetComponent<Entity>();
+        //if (entity != null)
+        //{
+        //    entity.pathindex = 0;
+        //    CommandGroup old = entity.CommandGroup;
+        //    if (old != null)
+        //    {
+        //        old.entities.Remove(entity);
+        //    }
+        //    //entity.CommandGroup.entities.Remove(entity);
 
-            //entity.idle = false;
-        }
-        entity.targetObject = target.gameObject;
-        entity.targetPos = entity.targetObject.transform.position;
-        entity.targetHealth = target.GetComponent<Damageable>().Health;
-        entity.idle = false;
-        entity.perch = false;
+        //    //entity.idle = false;
+        //}
+        //entity.targetObject = target.gameObject;
+        //entity.targetPos = entity.targetObject.transform.position;
+        //entity.targetHealth = target.GetComponent<Damageable>().Health;
+        //entity.idle = false;
+        //entity.perch = false;
 
     }
     public void Attack()

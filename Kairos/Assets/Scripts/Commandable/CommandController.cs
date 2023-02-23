@@ -70,20 +70,20 @@ public class CommandController : MonoBehaviour
             if (entity != null)
             {
                 //Debug.Log("entity does not = null (MOVESELECTED)");
-                entity.pathindex = 0;
-                CommandGroup old = entity.CommandGroup;
-                if (old != null)
-                {
-                    old.entities.Remove(entity);
-                }
-                entity.CommandGroup = cg;
-                cg.entities.Add(entity);
-                if (entity.movementSpeed < cg.followSpeed || cg.followSpeed == -1)
-                {
-                    cg.followSpeed = entity.movementSpeed;
-                }
-                entity.GetComponent<Unit>().isAttacking = false;
-                //entity.idle = false;
+                //entity.pathindex = 0;
+                //CommandGroup old = entity.CommandGroup;
+                //if (old != null)
+                //{
+                //    old.entities.Remove(entity);
+                //}
+                //entity.CommandGroup = cg;
+                //cg.entities.Add(entity);
+                //if (entity.movementSpeed < cg.followSpeed || cg.followSpeed == -1)
+                //{
+                //    cg.followSpeed = entity.movementSpeed;
+                //}
+                //entity.GetComponent<Unit>().isAttacking = false;
+                ////entity.idle = false;
             }      
         }
 

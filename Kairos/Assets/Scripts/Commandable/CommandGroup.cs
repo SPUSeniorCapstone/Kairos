@@ -53,7 +53,7 @@ public class CommandGroup : MonoBehaviour
 
                 foreach (Entity entity in entities)
                 {
-                    entity.NextPoint();
+                    //entity.NextPoint();
                     entity.idle = false;
                 }
             }
@@ -95,17 +95,9 @@ public class CommandGroup : MonoBehaviour
         for(int i = 0; i < entities.Count; i++)
         {
             var entity = entities[i];
-            if (entity.Perching())
-            {
-                //entity.CommandGroup = null;
-                //entities.RemoveAt(i);
-                //i--;
-            }
-            else
-            {
-                center += entity.transform.position.Flat();
-                count++;
-            }
+
+            center += entity.transform.position.Flat();
+            count++;
         }
         if(count > 0)
         {
@@ -119,22 +111,22 @@ public class CommandGroup : MonoBehaviour
         groupTargetObj = gameObject;
         foreach (Entity entity in entities)
         {
-            entity.targetObject = groupTargetObj;
-            if (gameObject == GameController.Main.CommandController.wayPoint)
-            {
-                Debug.Log("GAMEOBJECT WAYPOINT");
-                entity.pathing = true;
-                entity.NextPoint();
-                //entity.SetTargetPos();
-            }
-            else
-            {
-                Debug.Log("NOT WAYPOINT");
-                entity.pathing = true;
-                entity.NextPoint();
-                //entity.SetTargetPos();
-                //entity.idle = false;
-            }
+            //entity.targetObject = groupTargetObj;
+            //if (gameObject == GameController.Main.CommandController.wayPoint)
+            //{
+            //    Debug.Log("GAMEOBJECT WAYPOINT");
+            //    entity.pathing = true;
+            //    entity.NextPoint();
+            //    //entity.SetTargetPos();
+            //}
+            //else
+            //{
+            //    Debug.Log("NOT WAYPOINT");
+            //    entity.pathing = true;
+            //    entity.NextPoint();
+            //    //entity.SetTargetPos();
+            //    //entity.idle = false;
+            //}
             //entity.SetTargetPos();
             //entity.idle = false;
 

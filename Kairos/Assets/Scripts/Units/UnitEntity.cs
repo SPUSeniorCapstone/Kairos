@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Swordsman : Unit
+[RequireComponent(typeof(Unit))]
+public class UnitEntity : Entity
 {
- 
+    
 }
