@@ -62,7 +62,7 @@ public class WorldController : MonoBehaviour
         {
             if (worldGenerator == null)
             {
-                worldGenerator = FindObjectOfType<WorldGenerator>();
+                worldGenerator = GetComponent<WorldGenerator>();
             }
             return worldGenerator;
         }

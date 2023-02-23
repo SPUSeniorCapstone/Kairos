@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -7,13 +8,35 @@ using UnityEngine;
 /// </summary>
 public class WorldGenerator : MonoBehaviour
 {
+    static WorldGenerator instance;
+
     World world => WorldController.Main.World;
 
+    private void Awake()
+    {
+        if(instance != null)
+        {
+            seed = instance.seed;
+            scale = instance.scale;
+            Destroy(instance.gameObject);
+            instance = this;
+        }
+        else
+        {
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     public int seed;
+    public void SetSeed(string seed) { this.seed = int.Parse(seed); }
+
     int terrainSeed;
 
     [Range(0.001f, 3.0f)]
     public float scale;
+    public void SetScale(float scale) { this.scale = scale; }
+
     [Range(1, 10)]
     public int octaves;
     [Range(0.001f, 10)]
