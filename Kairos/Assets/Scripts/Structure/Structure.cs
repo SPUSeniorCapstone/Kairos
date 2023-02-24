@@ -21,7 +21,10 @@ public class Structure : MonoBehaviour
     }
     private void OnDestroy()
     {
-        GameController.Main.StructureController.masterStructure.Remove(this);
-        GameController.Main.CheckVictory();
+        if(GameController.Main != null && GameController.Main.StructureController != null)
+        {
+            GameController.Main.StructureController.masterStructure.Remove(this);
+            GameController.Main.CheckVictory();
+        }
     }
 }
