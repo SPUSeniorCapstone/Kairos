@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 7130091334124373856}
   - component: {fileID: 458765143053193604}
   - component: {fileID: 8361929613854930201}
+  - component: {fileID: 6816990643186172067}
   m_Layer: 6
   m_Name: Unit - new movement
   m_TagString: Player
@@ -182,13 +183,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AvoidEntityRadius: 3
-  AvoidWallRadius: 3
+  AvoidWallRadius: 2
   stepHeight: 1
   movementSpeed: 10
-  stopFollowDistance: 0
-  avoidStrength: 3
-  followStrength: 3
-  viewDebugInfo: 0
+  stopFollowDistance: 4
+  avoidStrength: 1
+  followStrength: 1.71
+  viewDebugInfo: 1
   movementDirection: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   perch: 0
@@ -210,12 +211,14 @@ MonoBehaviour:
   command: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
-  layerMask: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   personalDistance: 1
   attackDistance: 1
   attackCoolDown: 1
   attackDamage: 12
-  autoAttack: 0
+  autoAttack: 1
   target: {fileID: 0}
 --- !u!136 &8361929613854930201
 CapsuleCollider:
@@ -231,6 +234,23 @@ CapsuleCollider:
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &6816990643186172067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701632545085584670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83bd30472b2986842b0e65e8e0242194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: {fileID: 2701632545085584670}
+  end: {fileID: 0}
+  pathLine: {fileID: 6571457335701750397}
+  stepHeight: 0
+  Button_GeneratePath: 0
 --- !u!1 &3430174129152857782
 GameObject:
   m_ObjectHideFlags: 0

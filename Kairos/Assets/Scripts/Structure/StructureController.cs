@@ -14,7 +14,7 @@ public class StructureController : MonoBehaviour
 
     private void Start()
     {
-        PlaceStructure(structure, FindObjectOfType<CreateWorld>().strongholdPos);
+        //PlaceStructure(structure, FindObjectOfType<CreateWorld>().strongholdPos);
     }
 
     void Update()
