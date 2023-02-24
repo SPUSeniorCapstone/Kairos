@@ -73,22 +73,22 @@ public class CommandController : MonoBehaviour
         cg.followSpeed = -1;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
         {
-            Entity entity = selectable.GetComponent<Entity>();
+            Unit unit = selectable.GetComponent<Unit>();
             //if (entity == null)
             //{
             //    entity = selectable.GetComponentInParent<Entity>();
             //}
-            if (entity != null)
+            if (unit != null)
             {
                 //Debug.Log("entity does not = null (MOVESELECTED)");
                 //entity.pathindex = 0;
-                //CommandGroup old = entity.CommandGroup;
-                //if (old != null)
-                //{
-                //    old.entities.Remove(entity);
-                //}
-                //entity.CommandGroup = cg;
-                //cg.entities.Add(entity);
+                CommandGroup old = unit.command;
+                if (old != null)
+                {
+                    old.unitList.Remove(unit);
+                }
+                unit.command = cg;
+                cg.unitList.Add(unit);
                 //if (entity.movementSpeed < cg.followSpeed || cg.followSpeed == -1)
                 //{
                 //    cg.followSpeed = entity.movementSpeed;
@@ -108,6 +108,10 @@ public class CommandController : MonoBehaviour
 
 
         commandGroups.Add(cg);
+        foreach (Unit unit in cg.unitList)
+        {
+            unit.MoveTo(target);
+        }
 
         //cg.SetGroupTarget(target);
         

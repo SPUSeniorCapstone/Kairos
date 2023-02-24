@@ -27,6 +27,7 @@ public static class Helpers
 
     public static bool InSquareRadius(float radius, Vector2 center, Vector2 target)
     {
+        //Debug.Log(center.x+ " - "+ target.x+ " <= "+ radius + " and " + center.y + " - " + target.y + " <= " + radius);
         return Mathf.Abs(center.x - target.x) <= radius && Mathf.Abs(center.y - target.y) <= radius;
     }
 }

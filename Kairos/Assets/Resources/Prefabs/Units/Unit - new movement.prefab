@@ -111,7 +111,8 @@ GameObject:
   - component: {fileID: 547667637956704709}
   - component: {fileID: 7130091334124373856}
   - component: {fileID: 458765143053193604}
-  m_Layer: 0
+  - component: {fileID: 8361929613854930201}
+  m_Layer: 6
   m_Name: Unit - new movement
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -206,13 +207,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  command: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
+  layerMask: 
   personalDistance: 1
   attackDistance: 1
   attackCoolDown: 1
+  attackDamage: 12
+  autoAttack: 0
   target: {fileID: 0}
-  command: {fileID: 0}
+--- !u!136 &8361929613854930201
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701632545085584670}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 4
+  m_Direction: 1
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1 &3430174129152857782
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +371,6 @@ GameObject:
   - component: {fileID: 3510650847348026472}
   - component: {fileID: 560656626240585751}
   - component: {fileID: 7309704699595137353}
-  - component: {fileID: 2770805661685769825}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -426,17 +443,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2770805661685769825
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039515155449707342}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
