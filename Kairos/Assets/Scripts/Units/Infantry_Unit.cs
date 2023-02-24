@@ -31,6 +31,10 @@ public class Infantry_Unit : Unit
         {
             GetComponent<CheckPathFinding>().end = GameController.Main.CommandController.wayPoint;
         }
+ 
+    }
+    private void Awake()
+    {
         entity = GetComponent<Infantry_Entity>();
     }
 

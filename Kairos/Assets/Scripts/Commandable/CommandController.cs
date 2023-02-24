@@ -57,7 +57,7 @@ public class CommandController : MonoBehaviour
     }
     public void MoveSelected(Vector3 target)
     {
-        if(GameController.Main.SelectionController.currentlySelect.Count == 1)
+        if(GameController.Main.SelectionController.currentlySelect.Count == 1 && GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null)
         {
             var t = GameController.Main.SelectionController.currentlySelect[0];
             var u = t.GetComponent<Unit>();
@@ -73,7 +73,9 @@ public class CommandController : MonoBehaviour
         cg.followSpeed = -1;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
         {
+            Debug.Log("Try strucute");
             Unit unit = selectable.GetComponent<Unit>();
+            ProductionStructure production = selectable.GetComponent<ProductionStructure>();
             //if (entity == null)
             //{
             //    entity = selectable.GetComponentInParent<Entity>();
@@ -95,7 +97,13 @@ public class CommandController : MonoBehaviour
                 //}
                 //entity.GetComponent<Unit>().isAttacking = false;
                 ////entity.idle = false;
-            }      
+            }
+           
+            if (production != null)
+            {
+                Debug.Log("Structure not null");
+                production.rallyPoint = wayPoint.transform.position;
+            }
         }
 
         cg.CalculateCenter();

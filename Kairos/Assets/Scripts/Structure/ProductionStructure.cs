@@ -5,11 +5,12 @@ using UnityEngine;
 public class ProductionStructure : Structure
 {
 
-    private int unitsQueued;
-    private float timeLeft = 5;
-    private float originialTime = 5;
+    public int unitsQueued;
+    protected float timeLeft = 5;
+    protected float originialTime = 5;
     public GameObject unitToSpawn;
     public GameObject spawnPoint;
+    public Vector3 rallyPoint;
 
 
     private void Update()
@@ -42,6 +43,14 @@ public class ProductionStructure : Structure
     //Spawn unit function
     public void SpawnUnits()
     {
-        Instantiate(unitToSpawn, spawnPoint.transform.position, Quaternion.identity);
+        GameObject tree = Instantiate(unitToSpawn, spawnPoint.transform.position, Quaternion.identity);
+        // does this work?
+        if (rallyPoint != null && rallyPoint != Vector3.zero)
+        {
+            if (tree.GetComponent<Infantry_Unit>() != null)
+            {
+                tree.GetComponent<Infantry_Unit>().MoveTo(rallyPoint);
+            }
+        }
     }
 }
