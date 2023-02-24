@@ -151,6 +151,34 @@ public class GameController : MonoBehaviour
         
     }
 
+    public bool lost;
+    public bool won;
+    public int playerCount = 0;
+    public int enemyCount = 0;
+
+    public void CheckVictory()
+    {
+        foreach (Structure structure in StructureController.masterStructure)
+        {
+            if (!structure.GetComponent<Selectable>().faction)
+            {
+                enemyCount--;
+            }
+            else
+            {
+                playerCount--;
+            }
+        }
+        if (playerCount == 0)
+        {
+            lost = true;
+        }
+        if (enemyCount == 0)
+        {
+            won = true;
+        }
+    }
+
     public bool paused;
     public CursorLockMode defaultLockMode = CursorLockMode.None;
 }

@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 1445774268486989596}
   - component: {fileID: 1897678701477724327}
   - component: {fileID: 6542148412012091935}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: CorruptionNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 2, y: 0, z: 2}
+  unitsQueued: 0
   unitToSpawn: {fileID: 8169230732344282633, guid: c0d64a8195cd6ed4593ff464c3dd8f53, type: 3}
   spawnPoint: {fileID: 4784923547611459183}
   rallyPoint: {x: 0, y: 0, z: 0}

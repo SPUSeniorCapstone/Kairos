@@ -7,6 +7,8 @@ public class StructureController : MonoBehaviour
 {
     public bool StructurePlacementMode = false;
 
+    public List<Structure> masterStructure;
+
     public Structure structure;
     public GameObject placeHolder;
 
