@@ -7,7 +7,10 @@ public class EnemyProd : ProductionStructure
     // Start is called before the first frame update
     void Start()
     {
-        originialTime = 12;
+        base.Start();
+        originialTime = 15;
+        Vector3 offset = new Vector3 (6, 0, -6);
+        rallyPoint = spawnPoint.transform.position + offset;
     }
 
     // Update is called once per frame
