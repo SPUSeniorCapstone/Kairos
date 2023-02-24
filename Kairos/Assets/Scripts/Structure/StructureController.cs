@@ -10,13 +10,20 @@ public class StructureController : MonoBehaviour
     public List<Structure> masterStructure;
 
     public Structure structure;
+    public Structure strongHold;
     public GameObject placeHolder;
+
+    public Structure corruptionNode;
 
     public ProductionStructure selected;
 
     private void Start()
     {
-        //PlaceStructure(structure, FindObjectOfType<CreateWorld>().strongholdPos);
+        PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
+        foreach(var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
+        {
+            PlaceStructure(corruptionNode, pos);
+        }
     }
 
     void Update()
@@ -39,7 +46,7 @@ public class StructureController : MonoBehaviour
 
             if (GameController.Main.inputController.Select.Down())
             {
-                PlaceStructure(structure, pos);
+                PlaceStructure(strongHold, pos);
             }
         }
     }
