@@ -48,11 +48,6 @@ public static class Extensions
         return new Vector3Int((int)vector.x, (int)vector.y, (int)vector.z);
     }
 
-    public static Vector2Int ToVector2Int(this Vector3Int vector)
-    {
-        return new Vector2Int(vector.x, vector.z);
-    }
-
     public static Vector3Int Flat(this Vector3Int vector)
     {
         return new Vector3Int(vector.x, 0, vector.z);

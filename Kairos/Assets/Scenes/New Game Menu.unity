@@ -1698,7 +1698,7 @@ MonoBehaviour:
   - name: stone
     BlockID: 5
     height: 20
-    thickness: 1
+    thickness: 2
 --- !u!4 &1476974975
 Transform:
   m_ObjectHideFlags: 0
