@@ -26,7 +26,8 @@ public class Unit : MonoBehaviour, ICommandable
             command.unitList.Remove(this);
         }
         // will this work?
-        GameController.Main.MasterDestory(gameObject);
+        if(GameController.Main != null)
+            GameController.Main.MasterDestory(gameObject);
     }
 
     public void Start()

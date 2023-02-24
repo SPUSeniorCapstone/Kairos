@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Data.Common;
+using static UnityEngine.UI.GridLayoutGroup;
+using System.Linq;
 
 public class CreateWorld : MonoBehaviour
 {
@@ -15,21 +17,68 @@ public class CreateWorld : MonoBehaviour
     public World world;
 
 
-    public bool placeStronghold;
-    public Vector3Int strongholdPos;
+    public Image strongholdIconPlaceholder;
+    public Image strongholdIcon;
 
-    WorldGenerator generator;
+    public bool placeStronghold;
+
+    public Image corruptionIconPlaceholder;
+    public List<Image> corruptionIcons;
+
+    public bool placeCorruptionNode;
+
+
+    public WorldGenerator generator;
 
     private void Start()
     {
-        generator = GetComponent<WorldGenerator>();
-
         input.text = generator.seed.ToString();
         scaleSlider.value = generator.scale;
         sizeSlider.value = generator.worldSize.x;
 
         generator.GenerateWorld(false);
         rawImage.texture = world.GeneratedWorldTexture();
+    }
+
+    private void Update()
+    {
+        if (placeStronghold)
+        {
+            Vector3[] corners = new Vector3[4];
+            strongholdIconPlaceholder.rectTransform.GetLocalCorners(corners);
+            var offset = (corners[2].y - corners[0].y) / 4f;
+            strongholdIconPlaceholder.rectTransform.position = Input.mousePosition + new Vector3(0, offset, 0);
+            strongholdIconPlaceholder.gameObject.SetActive(true);
+        }
+        else
+        {
+            strongholdIconPlaceholder.gameObject.SetActive(false);
+        }
+
+        if (placeCorruptionNode)
+        {
+            Vector3[] corners = new Vector3[4];
+            corruptionIconPlaceholder.rectTransform.GetLocalCorners(corners);
+            var offset = (corners[2].y - corners[0].y) / 3f;
+            corruptionIconPlaceholder.rectTransform.position = Input.mousePosition + new Vector3(0, offset, 0);
+            corruptionIconPlaceholder.gameObject.SetActive(true);
+        }
+        else
+        {
+            corruptionIconPlaceholder.gameObject.SetActive(false);
+        }
+    }
+
+    public void BeginPlaceStronghold()
+    {
+        placeStronghold = true;
+        placeCorruptionNode = false;
+    }
+
+    public void BeginPlaceCorruptionNode()
+    {
+        placeCorruptionNode = true;
+        placeStronghold = false;
     }
 
     bool CheckValid(Vector3Int position, Vector2Int size)
@@ -54,7 +103,7 @@ public class CreateWorld : MonoBehaviour
 
     public void OnClick(BaseEventData data)
     {
-        if (!placeStronghold)
+        if (!placeStronghold && !placeCorruptionNode)
         {
             return;
         }
@@ -80,8 +129,26 @@ public class CreateWorld : MonoBehaviour
             
             if(CheckValid(position, new Vector2Int(2, 2)))
             {
-                strongholdPos = position;
+                strongholdIcon.rectTransform.position = strongholdIconPlaceholder.rectTransform.position;
+                strongholdIcon.gameObject.SetActive(true);
+                generator.strongholdPos = position;
                 placeStronghold = false;
+            }
+        }
+        else if (placeCorruptionNode)
+        {
+            Vector3Int position = (normPos * WorldController.Main.World.LengthInBlocks).ToVector3Int();
+            position.z = position.y;
+            position.y = 0;
+
+
+            if (CheckValid(position, new Vector2Int(2, 2)))
+            {
+                var ico = Instantiate<Image>(corruptionIconPlaceholder, rawImage.transform);
+                corruptionIcons.Append(ico);
+                ico.gameObject.SetActive(true);
+                generator.corruptionNodePositions.Append(position);
+                placeCorruptionNode = false;
             }
         }
     }

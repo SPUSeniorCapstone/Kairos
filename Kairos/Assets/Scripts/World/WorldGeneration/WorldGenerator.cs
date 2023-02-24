@@ -30,6 +30,9 @@ public class WorldGenerator : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public Vector3Int strongholdPos;
+    public Vector3Int[] corruptionNodePositions = new Vector3Int[0];
+
     public int seed;
     public void SetSeed(string seed) { this.seed = int.Parse(seed); }
 
