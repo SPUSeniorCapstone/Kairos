@@ -121,11 +121,11 @@ public class Entity : MonoBehaviour
     public Vector3 EntityAvoidance()
     {
         Vector3 c = Vector3.zero;
-        // better way?
-        //var faction = GetComponent<Selectable>();
+        // make this better, for gameplay demo
+        var faction = GetComponent<Selectable>();
         foreach (Entity boid in GameController.Main.EntityController.Entities)
         {
-            if (boid != this)
+            if (boid != this && boid.GetComponent<Selectable>().faction == faction.faction)
             {
                 float mag = Vector3.Distance(boid.transform.position, transform.position) / AvoidEntityRadius;
                 if (mag < 1)
