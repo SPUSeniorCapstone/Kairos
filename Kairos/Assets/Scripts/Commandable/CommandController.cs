@@ -57,6 +57,17 @@ public class CommandController : MonoBehaviour
     }
     public void MoveSelected(Vector3 target)
     {
+        if(GameController.Main.SelectionController.currentlySelect.Count == 1)
+        {
+            var t = GameController.Main.SelectionController.currentlySelect[0];
+            var u = t.GetComponent<Unit>();
+            if(u != null)
+            {
+                u.MoveTo(target);
+            }
+            return;
+        }
+
         var cg = Instantiate<CommandGroup>(commandGroup,playerFaction.transform);
 
         cg.followSpeed = -1;

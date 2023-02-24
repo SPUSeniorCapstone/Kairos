@@ -123,6 +123,19 @@ public class GameController : MonoBehaviour
     }
     [SerializeField] StructureController structureController;
 
+    public DamageableController DamageableController
+    {
+        get
+        {
+            if(damageableController == null)
+            {
+                damageableController = FindObjectOfType<DamageableController>();
+            }
+            return damageableController;
+        }
+    }
+    DamageableController damageableController;
+
     public void MasterDestory(GameObject item)
     {
        Entity entity = item.GetComponent<Entity>();

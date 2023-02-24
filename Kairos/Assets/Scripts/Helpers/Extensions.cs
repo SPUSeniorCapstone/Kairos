@@ -5,6 +5,39 @@ using UnityEngine;
 
 public static class Extensions 
 {
+    public static Vector2Int ToVector2Int(this Vector2 vec)
+    {
+        Vector2Int ret = new Vector2Int();
+        ret.x = Mathf.FloorToInt(vec.x);
+        ret.y = Mathf.FloorToInt(vec.y);
+        return ret;
+    }
+
+    /// <summary>
+    /// Converts Vector3 to Vector2 where y is assumed to be 0 
+    /// <para>(x=x, y=z)</para>
+    /// </summary>
+    /// <param name="vec"></param>
+    /// <returns></returns>
+    public static Vector2 ToVector2(this Vector3 vec)
+    {
+        return new Vector2(vec.x, vec.z);
+    }
+
+    public static Vector2Int ToVector2Int(this Vector3Int vec)
+    {
+        Vector2Int ret = new Vector2Int();
+        ret.x = vec.x;
+        ret.y = vec.z;
+        return ret;
+    }
+
+    public static Vector3 SetZ(this Vector3 vector, float z)
+    {
+        vector.z = z;
+        return vector;
+    }
+
     public static Vector3 Flat(this Vector3 vector)
     {
         return new Vector3(vector.x, 0, vector.z);

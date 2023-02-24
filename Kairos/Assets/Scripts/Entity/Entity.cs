@@ -11,7 +11,7 @@ using Debug = UnityEngine.Debug;
 
 public class Entity : MonoBehaviour
 {
-    public bool pathing;
+    #region Fields
 
     /// <summary>
     /// Distance at which the entity looks for collisions with other entities
@@ -23,7 +23,9 @@ public class Entity : MonoBehaviour
     /// Distance at which the entity looks for collisions with walls and structures
     /// </summary>
     [Range(0,10)]
-    public float AvoidWallRadius = 3;
+    public int AvoidWallRadius = 3;
+
+    public int stepHeight = 1;
 
     /// <summary>
     /// How fast the entity moves 
@@ -31,20 +33,21 @@ public class Entity : MonoBehaviour
     [Tooltip("Speed of movement after calculating direction")]
     public float movementSpeed = 10;
 
-    public float avoidStrength;
-    public float followStrength;
+    [Tooltip("The distance at which the entity will stop following it's target")]
+    public float stopFollowDistance = 1;
+
+    [Range (0, 10)]
+    public float avoidStrength = 1;
+    [Range(0,10)]
+    public float followStrength = 1;
 
     public bool viewDebugInfo = false;
-
-
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public Vector3 movementDirection = Vector3.zero;
 
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public Vector3 targetPos;
 
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
-    public float distance;
 
     [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool perch = false;
@@ -52,12 +55,17 @@ public class Entity : MonoBehaviour
     [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool idle = true;
 
+    #endregion
 
-
+    #region Object Cache
     //Cache
     Unit unit;
 
-    void Start()
+    #endregion
+
+    #region Unity Messages
+
+    protected void Start()
     {
         unit = GetComponent<Unit>();
         GameController.Main.EntityController.AddEntity(this);
@@ -71,7 +79,7 @@ public class Entity : MonoBehaviour
             GameController.Main.EntityController.RemoveEntity(this);
     }
 
-    void Update()
+    protected void Update()
     {
         CalculateMovementDirection();
         transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
@@ -85,18 +93,24 @@ public class Entity : MonoBehaviour
         }
     }
 
+    #endregion
+
     #region MovementFunctions
     /// <summary>
     /// Calculates the movement direction of the entity
     /// </summary>
-    void CalculateMovementDirection()
+    virtual protected void CalculateMovementDirection()
     {
-        movementDirection = EntityAvoidance() + WallAvoidance() + FollowTarget();
+        movementDirection = EntityAvoidance() + WallAvoidance() + TargetAttraction();
         movementDirection = movementDirection.Flat().normalized;
     }
 
-    public Vector3 FollowTarget()
+    public Vector3 TargetAttraction()
     {
+        if(Vector3.Distance(transform.position, targetPos) < stopFollowDistance)
+        {
+            return Vector3.zero;
+        }
         return (targetPos.Flat() - transform.position.Flat()).normalized * followStrength;
     }
 
@@ -155,18 +169,6 @@ public class Entity : MonoBehaviour
         return v * avoidStrength;
     }
 
-    /// <summary>
-    /// Limits the velocity to the max possible velocity
-    /// </summary>
-    public void LimitVelocity()
-    {
-        //if (CommandGroup != null && movementDirection.magnitude > CommandGroup.speedLimit)
-        //{
-        //    movementDirection = movementDirection.normalized * CommandGroup.speedLimit;
-        //}
-    }
-
-    #endregion
 
     /// <summary>
     /// Keeps units within map bounds
@@ -183,33 +185,9 @@ public class Entity : MonoBehaviour
         }
 
         return v;
-        ///Vector3 adjustedPath = Vector3.zero;
-        ///if (transform.position.x < CommandGroup.min.x)
-        ///{
-        ///    adjustedPath.x = (CommandGroup.min.x - transform.position.x);
-        ///}
-        ///else if (gameObject.transform.position.x > CommandGroup.max.x)
-        ///{
-        ///    adjustedPath.x = (CommandGroup.max.x - transform.position.x);
-        ///}
-        ///if (gameObject.transform.position.y < CommandGroup.min.y)
-        ///{
-        ///    adjustedPath.y = (CommandGroup.min.y - transform.position.y);
-        ///}
-        ///else if (gameObject.transform.position.y > CommandGroup.max.y)
-        ///{
-        ///    adjustedPath.y = (CommandGroup.max.y - transform.position.y);
-        ///}
-        ///if (gameObject.transform.position.z < CommandGroup.min.z)
-        ///{
-        ///    adjustedPath.z = (CommandGroup.min.z - transform.position.z);
-        ///}
-        ///else if (gameObject.transform.position.z > CommandGroup.max.z)
-        ///{
-        ///    adjustedPath.z = (CommandGroup.max.z - transform.position.z);
-        ///}
-        ///return adjustedPath * CommandGroup.boundFactor;
     }
+
+    #endregion
 
     public void SetTargetPos(Vector3 pos)
     {
