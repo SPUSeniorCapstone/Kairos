@@ -20,3 +20,13 @@
 [2023-02-24 14:23:11] [Roaming Config] OnRemoteStorageSyncedClient() - result OK
 [2023-02-24 14:23:11] [AppID 7] YldWriteCacheDirectoryToFile - saved to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/userdata/302452335/7/remotecache.vdf'
 [2023-02-24 14:24:05] [Roaming Config] PerformSyncCloud - all sync'd up
+[2023-02-24 15:31:34] [AppID 7] Starting sync (init,)
+[2023-02-24 15:31:34] [AppID 7] AutoCloud checking local state for user 302452335
+[2023-02-24 15:31:34] [U:1:302452335] [AppID 7] Init cache request complete
+[2023-02-24 15:31:34] [AppID 7] YldWriteCacheDirectoryToFile - saved to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/userdata/302452335/7/remotecache.vdf'
+[2023-02-24 15:31:36] [AppID 7] Starting sync (down,)
+[2023-02-24 15:31:36] [AppID 7] Currently already synced to global change number '11371829230116590045', should be nothing to download
+[2023-02-24 15:31:36] [AppID 7] Download complete in build list
+[2023-02-24 15:31:36] [AppID 7] Successfully synced to ChangeNumber 0
+[2023-02-24 15:31:36] [Roaming Config] OnRemoteStorageSyncedClient() - result OK
+[2023-02-24 15:31:36] [AppID 7] YldWriteCacheDirectoryToFile - saved to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/userdata/302452335/7/remotecache.vdf'

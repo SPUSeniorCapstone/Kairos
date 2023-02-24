@@ -163,3 +163,29 @@
 [2023-02-24 14:51:32] Connectivity test: Starting test, fetching 'http://test.steampowered.com/204'
 [2023-02-24 14:51:32] Connectivity test: OK!
 [2023-02-24 14:51:32] Connectivity test: result=Connected (since 1839.9s ago), prev=Unknown, in progress=0
+[2023-02-24 15:23:05] CClientJobGetClientUpdateHosts: cached version not expired
+[2023-02-24 15:31:34] [Logged Off, 0, 0] [U:1:302452335] CCMInterface::SetSteamID( [U:1:302452335] )
+[2023-02-24 15:31:34] [Logged Off, 0, 0] [U:1:302452335] CCMInterface::SetSteamID( [U:1:302452335] )
+[2023-02-24 15:31:34] [Logged Off, 4, 0] [U:1:302452335] LogOn() called; not connected yet, scheduling connection. Schedule init returned 1
+[2023-02-24 15:31:34] CCMInterface::YieldingConnect -- calling ISteamDirectory/GetCMListForConnect web api
+[2023-02-24 15:31:35] GetCMListForConnect -- got 4 Netfilter CMs and 76 WebSocket CMs
+[2023-02-24 15:31:35] GetCMListForConnect -- DC 'sea1' count: 21
+[2023-02-24 15:31:35] GetCMListForConnect -- DC 'lax1' count: 21
+[2023-02-24 15:31:35] GetCMListForConnect -- DC 'dfw1' count: 22
+[2023-02-24 15:31:35] GetCMListForConnect -- DC 'ord1' count: 16
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] CM Directory list says 95% of connections should be websockets, we rolled 83 - using WebSockets as default.
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() (ext2-sea1.steamserver.net:27037) starting...
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() (ext1-sea1.steamserver.net:27021) starting...
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() (ext2-sea1.steamserver.net:443) starting...
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() (ext2-lax1.steamserver.net:27021) starting...
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() (ext2-sea1.steamserver.net:443) results: 45.8984ms + load 25.0000
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() (ext1-sea1.steamserver.net:27021) results: 38.5742ms + load 24.0000
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() stopping early for good host (ext1-sea1.steamserver.net:27021)
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() (ext2-sea1.steamserver.net:27037) results: 53.2227ms + load 9.0000
+[2023-02-24 15:31:35] [Connecting, 4, 0] [U:1:302452335] PingWebSocketCM() (ext2-lax1.steamserver.net:27021) results: 92.7734ms + load 19.0000
+[2023-02-24 15:31:35] [Connecting, 4, 7] [U:1:302452335] Connect() starting connection (eNetQOSLevelHigh, ext2-sea1.steamserver.net:27037, WebSocket)
+[2023-02-24 15:31:35] [Connecting, 4, 7] [U:1:302452335] ConnectionCompleted() (205.196.6.215:27037, WebSocket) local address (192.168.2.35:50103)
+[2023-02-24 15:31:35] [Connecting, 4, 7] [U:1:302452335] Client thinks it can connect via: UDP - yes, TCP - yes, WebSocket:443 - yes, WebSocket:Non443 - yes
+[2023-02-24 15:31:35] [Connected, 4, 7] [U:1:302452335] Logging on [U:1:302452335]
+[2023-02-24 15:31:35] [Logging On, 4, 7] [U:1:302452335] Using JWT
+[2023-02-24 15:31:35] [Logging On, 4, 7] [U:1:302452335] RecvMsgClientLogOnResponse() : [U:1:302452335] 'OK'

@@ -19,3 +19,22 @@
 [2023-02-24 14:23:05] 		525680 (allowed)
 [2023-02-24 14:23:05] 	Enabled features (1000):
 [2023-02-24 14:23:05] 		Test
+[2023-02-24 15:31:35] Setting parental settings for 302452335, account flags are 142840c5
+[2023-02-24 15:31:35] Settings dump:
+[2023-02-24 15:31:35] 	Account ID: 302452335
+[2023-02-24 15:31:35] 	Enabled: false
+[2023-02-24 15:31:35] 	Base list: 1 (Block all games)
+[2023-02-24 15:31:35] 	Custom list:
+[2023-02-24 15:31:35] 		525680 (allowed)
+[2023-02-24 15:31:35] 	Enabled features (1000):
+[2023-02-24 15:31:35] 		Test
+[2023-02-24 15:31:35] Disabling parental settings for 302452335, account flags are 142840c5
+[2023-02-24 15:31:35] Validating parental settings
+[2023-02-24 15:31:35] Settings dump:
+[2023-02-24 15:31:35] 	Account ID: 302452335
+[2023-02-24 15:31:35] 	Enabled: false
+[2023-02-24 15:31:35] 	Base list: 1 (Block all games)
+[2023-02-24 15:31:35] 	Custom list:
+[2023-02-24 15:31:35] 		525680 (allowed)
+[2023-02-24 15:31:35] 	Enabled features (1000):
+[2023-02-24 15:31:35] 		Test
