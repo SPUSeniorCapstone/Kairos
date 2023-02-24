@@ -27,6 +27,10 @@ public class Infantry_Unit : Unit
     private void Start()
     {
         base.Start();
+        if (GetComponent<CheckPathFinding>() != null)
+        {
+            GetComponent<CheckPathFinding>().end = GameController.Main.CommandController.wayPoint;
+        }
         entity = GetComponent<Infantry_Entity>();
     }
 

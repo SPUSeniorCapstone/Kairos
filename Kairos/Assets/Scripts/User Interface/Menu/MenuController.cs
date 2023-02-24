@@ -43,9 +43,9 @@ public class MenuController : MonoBehaviour
         GameIsPaused = true;
     }
 
-    public void PlayGame()
+    public void NewGame()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("New Game Menu");
     }
 
     //Loads Option Scene
@@ -59,6 +59,10 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
     public void QuitGame()
     {
         Application.Quit();

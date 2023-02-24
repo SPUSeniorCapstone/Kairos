@@ -125,7 +125,9 @@ GameObject:
   - component: {fileID: 520291537825819003}
   - component: {fileID: 2392466254012157841}
   - component: {fileID: 8181554048383060575}
-  m_Layer: 0
+  - component: {fileID: 894272694490731707}
+  - component: {fileID: 156672671965586176}
+  m_Layer: 6
   m_Name: StrongHold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,5 +177,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 2, y: 0, z: 2}
-  unitToSpawn: {fileID: 107296968479968243, guid: 656a268d55155f840ae50f89aa8bcf09, type: 3}
+  unitToSpawn: {fileID: 2701632545085584670, guid: 556bd51a97a71624e8e2bd8159bddadc, type: 3}
   spawnPoint: {fileID: 6493630821753867720}
+--- !u!114 &894272694490731707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8660215520609812518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3857e4e29de344740ac031912fbb139c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selected: 0
+  faction: 0
+  unSelectedMaterial: {fileID: 2100000, guid: e7dde06afd271494f8a4e1439b8cd7fe, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
+--- !u!114 &156672671965586176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8660215520609812518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a3fbe181f4a4944eb17e7828ed0e0a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MaxHealth>k__BackingField: 1000
+  <Health>k__BackingField: 1000
+  <Invulnerable>k__BackingField: 0
+  healthBarPosition: {x: 0, y: 2, z: 0}

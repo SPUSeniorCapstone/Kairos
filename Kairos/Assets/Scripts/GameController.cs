@@ -147,6 +147,7 @@ public class GameController : MonoBehaviour
         }
         EntityController.Entities.Remove(entity);
         SelectionController.masterSelect.Remove(selectable);
+        SelectionController.currentlySelect.Remove(selectable);
         
     }
 
