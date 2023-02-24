@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     public bool heroMode;
 
     public PlayerController playerController;
-    public GameObject pauseMenu;
+    //public GameObject pauseMenu;
     [SerializeField] public Hero hero;
     public CameraController cameraController;
 
@@ -44,14 +44,14 @@ public class GameController : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 1;
-                pauseMenu.SetActive(false);
+                //pauseMenu.SetActive(false);
                 paused = false;
             }
             else
             {
                 Cursor.lockState = defaultLockMode;
                 Time.timeScale = 0;
-                pauseMenu.SetActive(true);
+                //pauseMenu.SetActive(true);
                 paused = true;
 
             }
