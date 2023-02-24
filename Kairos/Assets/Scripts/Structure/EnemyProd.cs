@@ -8,8 +8,8 @@ public class EnemyProd : ProductionStructure
     void Start()
     {
         base.Start();
-        originialTime = 12;
-        Vector3 offset = new Vector3 (3, 0, 3);
+        originialTime = 15;
+        Vector3 offset = new Vector3 (6, 0, -6);
         rallyPoint = spawnPoint.transform.position + offset;
     }
 

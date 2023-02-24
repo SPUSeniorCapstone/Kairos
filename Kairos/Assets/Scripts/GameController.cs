@@ -136,6 +136,8 @@ public class GameController : MonoBehaviour
     }
     DamageableController damageableController;
 
+    public MenuController menuController;
+
     public void MasterDestory(GameObject item)
     {
        Entity entity = item.GetComponent<Entity>();
@@ -169,13 +171,16 @@ public class GameController : MonoBehaviour
                 playerCount--;
             }
         }
-        if (playerCount == 0)
+        if (playerCount <= 0)
         {
             lost = true;
+            menuController.Defeat();
+            
         }
-        if (enemyCount == 0)
+        if (enemyCount <= 0)
         {
             won = true;
+            menuController.Victory();
         }
     }
 
