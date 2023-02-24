@@ -1,24 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class Helpers
 {
-    public static Vector2Int ToVector2Int(Vector2 vec)
-    {
-        Vector2Int ret = new Vector2Int();
-        ret.x = Mathf.FloorToInt(vec.x);
-        ret.y = Mathf.FloorToInt(vec.y);
-        return ret;
-    }
 
-    public static Vector2Int ToVector2Int(Vector3Int vec)
-    {
-        Vector2Int ret = new Vector2Int();
-        ret.x = vec.x;
-        ret.y = vec.z;
-        return ret;
-    }
 
     public static Vector3 Vector2IntToVector3(Vector2Int vec, float y = 0)
     {
@@ -36,5 +23,11 @@ public static class Helpers
             if(c.gameObject != obj)
                 GameObject.DestroyImmediate(c.gameObject);
         }
+    }
+
+    public static bool InSquareRadius(float radius, Vector2 center, Vector2 target)
+    {
+        //Debug.Log(center.x+ " - "+ target.x+ " <= "+ radius + " and " + center.y + " - " + target.y + " <= " + radius);
+        return Mathf.Abs(center.x - target.x) <= radius && Mathf.Abs(center.y - target.y) <= radius;
     }
 }

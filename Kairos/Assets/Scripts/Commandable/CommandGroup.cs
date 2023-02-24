@@ -8,7 +8,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class CommandGroup : MonoBehaviour
 {
-    public List<Entity> entities;
+    //public List<Entity> entities;
+    public List<Unit> unitList;
     public List<Vector3> path;
     public Task<List<Vector3>> pathTask;
 
@@ -39,52 +40,57 @@ public class CommandGroup : MonoBehaviour
     void Update()
     {
         CalculateCenter();
-        if (pathTask != null && pathTask.IsCompleted && needsPath)
-        {
-            path = pathTask.Result;
-            if (path == null)
-            {
-                Debug.Log("null path");
-            }
-            else
-            {
-                Debug.Log("path = " + pathTask.Result);
-                needsPath = false;
-
-                foreach (Entity entity in entities)
-                {
-                    entity.NextPoint();
-                    entity.idle = false;
-                }
-            }
-        
-            // if null no path
-        }
-        // is there a better way?
         if (destroyOnEmpty)
         {
             CheckIfEmpty();
         }
-        else 
-        {
-            foreach (CommandGroup group in GameController.Main.CommandController.CommandGroups)
-            {
-                if (group != this)
-                {
-                    group.effectiveDistance = effectiveDistance;
-                    group.distanceFromTarget = distanceFromTarget;
-                    group.cohesionFactor = cohesionFactor;
-                    group.alignmentFactor = alignmentFactor;
-                    group.followSpeed = followSpeed;
-                    group.followStr = followStr;
-                }
-            }
-        }
+        //if (pathTask != null && pathTask.IsCompleted && needsPath)
+        //{
+        //    path = pathTask.Result;
+        //    if (path == null)
+        //    {
+        //        Debug.Log("null path");
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("path = " + pathTask.Result);
+        //        needsPath = false;
+
+        //        foreach (Entity entity in entities)
+        //        {
+        //            //entity.NextPoint();
+        //            entity.idle = false;
+        //        }
+        //    }
+
+        //    // if null no path
+        //}
+        //// is there a better way?
+        //if (destroyOnEmpty)
+        //{
+        //    CheckIfEmpty();
+        //}
+        //else 
+        //{
+        //    foreach (CommandGroup group in GameController.Main.CommandController.CommandGroups)
+        //    {
+        //        if (group != this)
+        //        {
+        //            group.effectiveDistance = effectiveDistance;
+        //            group.distanceFromTarget = distanceFromTarget;
+        //            group.cohesionFactor = cohesionFactor;
+        //            group.alignmentFactor = alignmentFactor;
+        //            group.followSpeed = followSpeed;
+        //            group.followStr = followStr;
+        //        }
+        //    }
+        //}
     }
 
     public void CalculateCenter()
     {
-        if (entities.Count == 0)
+        // why is this neccessary?
+        if (unitList.Count == 0)
         {
             transform.position = Vector3.zero;
             return;
@@ -92,20 +98,12 @@ public class CommandGroup : MonoBehaviour
 
         Vector3 center = Vector3.zero;
         int count = 0;
-        for(int i = 0; i < entities.Count; i++)
+        for(int i = 0; i < unitList.Count; i++)
         {
-            var entity = entities[i];
-            if (entity.Perching())
-            {
-                //entity.CommandGroup = null;
-                //entities.RemoveAt(i);
-                //i--;
-            }
-            else
-            {
-                center += entity.transform.position.Flat();
-                count++;
-            }
+            var unit = unitList[i];
+
+            center += unit.transform.position.Flat();
+            count++;
         }
         if(count > 0)
         {
@@ -117,32 +115,32 @@ public class CommandGroup : MonoBehaviour
     public void SetGroupTarget(GameObject gameObject)
     {
         groupTargetObj = gameObject;
-        foreach (Entity entity in entities)
-        {
-            entity.targetObject = groupTargetObj;
-            if (gameObject == GameController.Main.CommandController.wayPoint)
-            {
-                Debug.Log("GAMEOBJECT WAYPOINT");
-                entity.pathing = true;
-                entity.NextPoint();
-                //entity.SetTargetPos();
-            }
-            else
-            {
-                Debug.Log("NOT WAYPOINT");
-                entity.pathing = true;
-                entity.NextPoint();
-                //entity.SetTargetPos();
-                //entity.idle = false;
-            }
+        //foreach (Unit units in unitList)
+        //{
+            //entity.targetObject = groupTargetObj;
+            //if (gameObject == GameController.Main.CommandController.wayPoint)
+            //{
+            //    Debug.Log("GAMEOBJECT WAYPOINT");
+            //    entity.pathing = true;
+            //    entity.NextPoint();
+            //    //entity.SetTargetPos();
+            //}
+            //else
+            //{
+            //    Debug.Log("NOT WAYPOINT");
+            //    entity.pathing = true;
+            //    entity.NextPoint();
+            //    //entity.SetTargetPos();
+            //    //entity.idle = false;
+            //}
             //entity.SetTargetPos();
             //entity.idle = false;
 
-        }
+        //}
     }
     public void CheckIfEmpty()
     {
-        if (entities.Count == 0)
+        if (unitList.Count == 0)
         {
             GameController.Main.CommandController.CommandGroups.Remove(this);
             Destroy(gameObject);

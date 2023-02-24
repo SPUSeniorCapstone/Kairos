@@ -5,7 +5,7 @@ using UnityEngine;
 public class Selectable : MonoBehaviour
 {
     public bool selected;
-    public bool isEnemy;
+    public bool faction;
     public Material unSelectedMaterial;
     public Material selectedMaterial;
     void Start()
@@ -29,7 +29,7 @@ public class Selectable : MonoBehaviour
         //{
         //    Debug.Log("Unsuccesful");
         //}
-        if (isEnemy)
+        if (faction)
         {
             Debug.Log("Enimico!");
             GameController.Main.SelectionController.onEnemy = true;

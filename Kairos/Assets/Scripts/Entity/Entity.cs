@@ -11,7 +11,7 @@ using Debug = UnityEngine.Debug;
 
 public class Entity : MonoBehaviour
 {
-    public bool pathing;
+    #region Fields
 
     /// <summary>
     /// Distance at which the entity looks for collisions with other entities
@@ -23,7 +23,9 @@ public class Entity : MonoBehaviour
     /// Distance at which the entity looks for collisions with walls and structures
     /// </summary>
     [Range(0,10)]
-    public float AvoidWallRadius = 3;
+    public int AvoidWallRadius = 3;
+
+    public int stepHeight = 1;
 
     /// <summary>
     /// How fast the entity moves 
@@ -31,50 +33,41 @@ public class Entity : MonoBehaviour
     [Tooltip("Speed of movement after calculating direction")]
     public float movementSpeed = 10;
 
-    public float avoidStrength;
+    [Tooltip("The distance at which the entity will stop following it's target")]
+    public float stopFollowDistance = 1;
 
-    public float personalDistance;
-    public float attackDistance;
-
-    public float targetHealth;
-    public float lastAttackTime;
-    public float AttackCoolDown;
-
+    [Range (0, 10)]
+    public float avoidStrength = 1;
+    [Range(0,10)]
+    public float followStrength = 1;
 
     public bool viewDebugInfo = false;
-
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
-    public int pathindex = 0;
-
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
-    public CommandGroup CommandGroup;
-
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
-    public GameObject targetObject;
-
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public Vector3 movementDirection = Vector3.zero;
 
     [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
     public Vector3 targetPos;
 
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
-    public float distance;
 
     [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool perch = false;
 
-    
     [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool idle = true;
 
-    [ConditionalHide(nameof(viewDebugInfo), true)]
-    [Disable]
-    public Vector3 center;
+    #endregion
 
+    #region Object Cache
+    //Cache
+    Unit unit;
 
-    void Start()
+    #endregion
+
+    #region Unity Messages
+
+    protected void Start()
     {
+        unit = GetComponent<Unit>();
         GameController.Main.EntityController.AddEntity(this);
         float height = GameController.Main.WorldController.World.GetHeight(transform.position.x, transform.position.z);
         transform.position = new Vector3(transform.position.x, height, transform.position.z);
@@ -86,45 +79,10 @@ public class Entity : MonoBehaviour
             GameController.Main.EntityController.RemoveEntity(this);
     }
 
-    void Update()
+    protected void Update()
     {
-        if (targetObject == null)
-        {
-            idle = true;
-            GetComponent<Damageable>().isAttacking = false;
-        }
-        if (targetObject != null)
-        {
-            var dam = targetObject.GetComponent<Damageable>();
-            if (dam != null && dam.Dead)
-            {
-                Debug.Log("not null but dead");
-                targetObject = null;
-                GetComponent<Damageable>().isAttacking = false;
-                idle = true;
-                perch = false;
-            }
-            else if (targetObject == null && GetComponent<Damageable>().isAttacking == true)
-            {
-                Debug.Log("hefnafnje");
-                GetComponent<Damageable>().isAttacking = false;
-            }
-        }
-        
         CalculateMovementDirection();
-        if(CommandGroup != null)
-        {
-            center = CommandGroup.centerVector;
-            transform.position += (movementDirection.normalized * CommandGroup.followSpeed * Time.deltaTime);
-        }
-        else if (GetComponent<Damageable>().isAttacking && !perch)
-        {
-            transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
-        }
-        else if (idle)
-        {
-            transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
-        }
+        transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
 
         // Set's height to block height it valid move
         float height = GameController.Main.WorldController.World.GetHeight(transform.position.x, transform.position.z);
@@ -133,116 +91,29 @@ public class Entity : MonoBehaviour
             transform.position = new Vector3(transform.position.x, height, transform.position.z);
            
         }
-
-        personalDistance = Vector3.Distance(transform.position, targetPos);
     }
+
+    #endregion
 
     #region MovementFunctions
     /// <summary>
     /// Calculates the movement direction of the entity
     /// </summary>
-    void CalculateMovementDirection()
+    virtual protected void CalculateMovementDirection()
     {
-        if (targetObject != null && targetObject.GetComponent<Damageable>() != null)
-        {
-            targetPos = targetObject.transform.position;
-        }
-        if (!perch && !idle && CommandGroup != null)
-        {
-            movementDirection = Alignment() + EntityAvoidance() + Cohesion() + WallAvoidance();
-            movementDirection += (targetPos.Flat() - transform.position.Flat()).normalized * CommandGroup.followStr;
-        }
-        else if (GetComponent<Damageable>().isAttacking)
-        {
-            if (!idle && !perch)
-            {
-                movementDirection = Alignment() + EntityAvoidance() + Cohesion();
-                movementDirection += (targetPos - transform.position).normalized;
-            }
-           
-            // bootleg perch
-            if (personalDistance <= attackDistance)
-            {
-                perch = true;
-                if (targetObject != null)
-                {
-                    var dam = targetObject.GetComponent<Damageable>();
-                    if (dam != null && (Time.time - lastAttackTime > AttackCoolDown))
-                    {
-                        targetHealth = targetObject.GetComponent<Damageable>().Damage(10f);
-                        lastAttackTime = Time.time;
-                        if (targetHealth <= 0)
-                        {
-                            targetObject = null;
-                        }
-                    }
-                }
-
-            }
-            else
-            {
-                Debug.Log("FALSE PERCH");
-                perch = false;
-            }
-
-
-        }
-        else
-        {
-            movementDirection = EntityAvoidance() + WallAvoidance();
-        }
-
+        movementDirection = EntityAvoidance() + WallAvoidance() + TargetAttraction();
         movementDirection = movementDirection.Flat().normalized;
     }
 
-    /// <summary>
-    /// boid alignment function
-    /// </summary>
-    public Vector3 Alignment()
+    public Vector3 TargetAttraction()
     {
-        if (CommandGroup == null || CommandGroup.entities.Count <= 1)
+        if(Vector3.Distance(transform.position, targetPos) < stopFollowDistance)
         {
             return Vector3.zero;
         }
-
-        Vector3 perceivedCenter;
-
-
-        perceivedCenter = CommandGroup.centerVector.normalized* CommandGroup.followStr;
-
-        foreach (Entity boid in CommandGroup.entities)
-        {
-            if (boid != this)
-            {
-                perceivedCenter += boid.transform.position;
-            }
-        }
-        perceivedCenter = perceivedCenter / (CommandGroup.entities.Count - 1);
-        return (perceivedCenter - transform.position) * CommandGroup.alignmentFactor;
+        return (targetPos.Flat() - transform.position.Flat()).normalized * followStrength;
     }
 
-    /// <summary>
-    /// Boid cohesion function
-    /// </summary>
-    public Vector3 Cohesion()
-    {
-        if (CommandGroup == null || CommandGroup.entities.Count <= 1)
-        {
-            return Vector3.zero;
-        }
-
-        //percieved velocity
-        Vector3 pv = Vector3.zero;
-        foreach (Entity boid in CommandGroup.entities)
-        {
-            if (boid != this)
-            {
-                pv += boid.movementDirection;
-            }
-        }
-        pv /= (CommandGroup.entities.Count - 1);
-        return (pv - movementDirection) * CommandGroup.cohesionFactor;
-    }
 
     /// <summary>
     /// Pushes boids away from each other
@@ -250,6 +121,8 @@ public class Entity : MonoBehaviour
     public Vector3 EntityAvoidance()
     {
         Vector3 c = Vector3.zero;
+        // better way?
+        //var faction = GetComponent<Selectable>();
         foreach (Entity boid in GameController.Main.EntityController.Entities)
         {
             if (boid != this)
@@ -298,18 +171,6 @@ public class Entity : MonoBehaviour
         return v * avoidStrength;
     }
 
-    /// <summary>
-    /// Limits the velocity to the max possible velocity
-    /// </summary>
-    public void LimitVelocity()
-    {
-        if (CommandGroup != null && movementDirection.magnitude > CommandGroup.speedLimit)
-        {
-            movementDirection = movementDirection.normalized * CommandGroup.speedLimit;
-        }
-    }
-
-    #endregion
 
     /// <summary>
     /// Keeps units within map bounds
@@ -326,75 +187,12 @@ public class Entity : MonoBehaviour
         }
 
         return v;
-        ///Vector3 adjustedPath = Vector3.zero;
-        ///if (transform.position.x < CommandGroup.min.x)
-        ///{
-        ///    adjustedPath.x = (CommandGroup.min.x - transform.position.x);
-        ///}
-        ///else if (gameObject.transform.position.x > CommandGroup.max.x)
-        ///{
-        ///    adjustedPath.x = (CommandGroup.max.x - transform.position.x);
-        ///}
-        ///if (gameObject.transform.position.y < CommandGroup.min.y)
-        ///{
-        ///    adjustedPath.y = (CommandGroup.min.y - transform.position.y);
-        ///}
-        ///else if (gameObject.transform.position.y > CommandGroup.max.y)
-        ///{
-        ///    adjustedPath.y = (CommandGroup.max.y - transform.position.y);
-        ///}
-        ///if (gameObject.transform.position.z < CommandGroup.min.z)
-        ///{
-        ///    adjustedPath.z = (CommandGroup.min.z - transform.position.z);
-        ///}
-        ///else if (gameObject.transform.position.z > CommandGroup.max.z)
-        ///{
-        ///    adjustedPath.z = (CommandGroup.max.z - transform.position.z);
-        ///}
-        ///return adjustedPath * CommandGroup.boundFactor;
     }
 
-    public bool Perching()
-    {
-        //Debug.Log(personalDistance + " <= " + CommandGroup.distanceFromTarget);
-        //Debug.Log(Vector3.Distance(transform.position, targetPos) <= CommandGroup.distanceFromTarget);
-        if (Vector3.Distance(transform.position.Flat(), targetPos.Flat()) <= CommandGroup.distanceFromTarget)
-        {
-            if (CommandGroup.path != null && pathing && pathindex < CommandGroup.path.Count - 1) {
-                Debug.Log("YEAHG!");
-                pathindex++;
-                NextPoint();
-                return false;
-            }
-            movementDirection = Vector3.zero;
-            perch = true;
-            idle = true;
-            return true;
-        }
-        else
-        {
-            Debug.Log("NOPE");
-            perch = false;
-            return false;
-        }
-    }
+    #endregion
 
-
-    public void SetTargetPos()
+    public void SetTargetPos(Vector3 pos)
     {
-        targetPos = targetObject.transform.position;
-    }
-    public void NextPoint()
-    {
-        if (CommandGroup.path.Count != 0 && CommandGroup.path != null)
-        {
-            //UnityEngine.Debug.Log("Next Point count:" + CommandGroup.path.Count);
-            //UnityEngine.Debug.Log("Next Point List:" + CommandGroup.path);
-            targetPos = CommandGroup.path[pathindex];
-        }
-        else
-        {
-            Debug.Log("path null or 0 count");
-        }
+        targetPos = pos;
     }
 }

@@ -40,7 +40,6 @@ public class EntityManager : MonoBehaviour
         foreach (var go in arry)
         {
             boids.Add(go);
-            go.targetObject = groupTargetObj;
         }
 
     }
@@ -58,7 +57,6 @@ public class EntityManager : MonoBehaviour
         float z = 0;
         foreach (Entity boid in boids)
         {
-            boid.Perching();
             x += boid.transform.position.x;
             y += boid.transform.position.y;
             z += boid.transform.position.z;
@@ -80,7 +78,6 @@ public class EntityManager : MonoBehaviour
         groupTargetObj = gameObject;
         foreach (Entity entity in boids)
         {
-            entity.targetObject = groupTargetObj;
             entity.idle = false;
         }
     }
