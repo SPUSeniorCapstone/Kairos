@@ -16,10 +16,12 @@ public class WorldGenerator : MonoBehaviour
     {
         if(instance != null)
         {
-            seed = instance.seed;
-            scale = instance.scale;
-            Destroy(instance.gameObject);
-            instance = this;
+            Destroy(this);
+            return;
+            //seed = instance.seed;
+            //scale = instance.scale;
+            //Destroy(instance.gameObject);
+            //instance = this;
         }
         else
         {
@@ -51,6 +53,9 @@ public class WorldGenerator : MonoBehaviour
     float[,] falloff;
     float[,] terrainMap;
 
+    public Vector2Int worldSize = new Vector2Int(8, 8);
+    public void SetSize(float size) { worldSize = new Vector2Int((int)size, (int)size); }
+
     [Range(1f, Chunk.height)]
     public float eccentricity;
 
@@ -66,10 +71,12 @@ public class WorldGenerator : MonoBehaviour
         terrainSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
     }
 
-    public void GenerateWorld()
+    public void GenerateWorld(bool loadMeshes = true)
     {
 
         world.seed = seed;
+        world.widthInChunks = worldSize.x;
+        world.lengthInChunks = worldSize.y;
         InitWorldGen(seed);
 
         terrainMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
@@ -94,18 +101,21 @@ public class WorldGenerator : MonoBehaviour
                 }
             }
         }
-
-        for (int x = 0; x < world.widthInChunks; x++)
+        if (loadMeshes)
         {
-            for (int z = 0; z < world.lengthInChunks; z++)
+            for (int x = 0; x < world.widthInChunks; x++)
             {
-                world.Chunks[x, z].UpdateChunk();
+                for (int z = 0; z < world.lengthInChunks; z++)
+                {
+                    world.Chunks[x, z].UpdateChunk();
+                }
             }
         }
 
+
         float width = world.WidthInBlocks * world.BlockScale;
         float height = Chunk.height * world.BlockScale;
-        float length = world.LengthInBlock * world.BlockScale;
+        float length = world.LengthInBlocks * world.BlockScale;
 
         Vector3 center = new Vector3(width/2,width,length/2);
         world.bounds = new Bounds(center.Flat(), center);
@@ -177,7 +187,57 @@ public class WorldGenerator : MonoBehaviour
         return blocks;
     }
 
+    public Texture2D GenerateWorldTexture()
+    {
+        InitWorldGen(seed);
 
+        int width = Chunk.width * worldSize.x;
+        int length = Chunk.length * worldSize.y;
+        terrainMap = NoiseGenerator.GenerateNoiseMap(width, length, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
+
+        if (useFalloff)
+        {
+            falloff = NoiseGenerator.GenerateFalloffMap(width, length);
+        }
+
+        Color[] colors = new Color[width * length];
+
+        for(int x = 0; x < width; x++)
+        {
+            for(int z = 0; z < length; z++)
+            {
+                float height = terrainMap[x, z];
+
+                if (useFalloff)
+                {
+                    height -= falloff[x, z];
+                }
+
+                int blockID = layers[0].BlockID;
+
+                for (int i = 1; i < layers.Length; i++)
+                {
+                    var layer = layers[i];
+                    if (layer.height <= height * eccentricity)
+                    {
+                        blockID = layer.BlockID;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                colors[x + (z * length)] = BlockManager.Main.GetBlockColor(blockID);
+            }
+        }
+
+        Texture2D texture = new Texture2D(width, length);
+        texture.SetPixels(colors);
+        texture.filterMode = FilterMode.Point;
+        texture.Apply();
+        return texture;
+    }
 }
 
 [Serializable]

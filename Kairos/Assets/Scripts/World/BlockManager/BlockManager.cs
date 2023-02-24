@@ -53,6 +53,11 @@ public class BlockManager : MonoBehaviour
         return new Vector2(x, y) * TextureAtlas.NormalizedBlockTextureSize;
     }
 
+    public Color GetBlockColor(int BlockID)
+    {
+        return blockTypes[BlockID - 1].color;
+    }
+
     public void ReloadTextureAtlasIDs()
     {
         TextureAtlas.ReloadTextureAtlasIDs();

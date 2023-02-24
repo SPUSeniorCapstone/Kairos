@@ -11,6 +11,8 @@ public class WorldController : MonoBehaviour
     [DisableOnPlay]
     public float blockScale = 1;
 
+    public bool loadMeshes = true;
+
     /// <summary>
     /// The Main WorldController Instance
     /// </summary>
@@ -62,7 +64,7 @@ public class WorldController : MonoBehaviour
         {
             if (worldGenerator == null)
             {
-                worldGenerator = GetComponent<WorldGenerator>();
+                worldGenerator = FindObjectOfType<WorldGenerator>();
             }
             return worldGenerator;
         }
@@ -80,7 +82,7 @@ public class WorldController : MonoBehaviour
     /// </summary>
     public void GenerateWorld()
     {
-        WorldGenerator.GenerateWorld();
+        WorldGenerator.GenerateWorld(loadMeshes);
     }
 
     public Vector3Int WorldToBlockPosition(Vector3 pos)

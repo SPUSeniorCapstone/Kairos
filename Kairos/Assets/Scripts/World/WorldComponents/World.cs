@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.TerrainUtils;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /// <summary>
 /// The 3D Voxel World
@@ -11,7 +14,7 @@ public class World : MonoBehaviour
     /// <summary>
     /// The size of the world in chunks
     /// </summary>
-    [DisableOnPlay]
+    [Disable]
     public int widthInChunks = 16, lengthInChunks = 16;
     public int WidthInBlocks
     {
@@ -20,7 +23,7 @@ public class World : MonoBehaviour
             return widthInChunks * Chunk.width;
         }
     }
-    public int LengthInBlock
+    public int LengthInBlocks
     {
         get
         {
@@ -30,7 +33,7 @@ public class World : MonoBehaviour
 
     public float BlockScale
     {
-        get { return GameController.Main.WorldController.blockScale; }
+        get { return WorldController.Main.blockScale; }
     }
 
     /// <summary>
@@ -65,6 +68,7 @@ public class World : MonoBehaviour
         }
     }
     Chunk[,] chunks;
+
 
     /// <summary>
     /// Returns the top most block at the given (x,z) position
@@ -157,5 +161,26 @@ public class World : MonoBehaviour
     public Block GetBlock(Vector3Int position)
     {
         return GetBlock(position.x, position.y, position.z);
+    }
+
+    public Texture2D GeneratedWorldTexture()
+    {
+
+        Color[] colors = new Color[WidthInBlocks * LengthInBlocks];
+
+        for (int x = 0; x < WidthInBlocks; x++)
+        {
+            for (int z = 0; z < LengthInBlocks; z++)
+            {
+                var block = GetBlock(x, 0, z);
+                colors[x + (z * LengthInBlocks)] = BlockManager.Main.GetBlockColor(block.blockID);
+            }
+        }
+
+        Texture2D texture = new Texture2D(WidthInBlocks, LengthInBlocks);
+        texture.SetPixels(colors);
+        texture.filterMode = FilterMode.Point;
+        texture.Apply();
+        return texture;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class StructureController : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class StructureController : MonoBehaviour
     public GameObject placeHolder;
 
     public ProductionStructure selected;
+
+    private void Start()
+    {
+        PlaceStructure(structure, FindObjectOfType<CreateWorld>().strongholdPos);
+    }
 
     void Update()
     {
@@ -49,7 +55,10 @@ public class StructureController : MonoBehaviour
             return;
         }
 
+
         var w = GameController.Main.WorldController;
+
+        position.y = w.World.GetHeight(position);
 
         var s = Instantiate<Structure>(structure);
         s.transform.position = position;
