@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class SelectionController : MonoBehaviour
 {
@@ -48,7 +45,7 @@ public class SelectionController : MonoBehaviour
             {
                 Debug.Log("Mouse0 up");
                 selectionAreaTransform.gameObject.SetActive(false);
-                foreach(Selectable selectable in masterSelect)
+                foreach (Selectable selectable in masterSelect)
                 {
                     selectable.selected = false;
                     selectable.Deactivate();
@@ -86,27 +83,27 @@ public class SelectionController : MonoBehaviour
                 }
                 Vector3 currentMousePosition = Input.mousePosition;
                 float z = currentMousePosition.z;
-                lowerLeft =  new Vector3(
+                lowerLeft = new Vector3(
                         Mathf.Min(startPosition.x, currentMousePosition.x),
                         Mathf.Min(startPosition.y, currentMousePosition.y),
                         z
                 );
-                 upperRight = new Vector3(
-                     Mathf.Max(startPosition.x, currentMousePosition.x),
-                      Mathf.Max(startPosition.y, currentMousePosition.y),
-                      z
-                    );
+                upperRight = new Vector3(
+                    Mathf.Max(startPosition.x, currentMousePosition.x),
+                     Mathf.Max(startPosition.y, currentMousePosition.y),
+                     z
+                   );
                 // shouldn't matter: just the lower left and upper ight corner shouls matter right?
-                 lowerRight = new Vector3(
-                    upperRight.x,
-                    lowerLeft.y,
-                    z
-                   );
-                 upperLeft = new Vector3(
-                    lowerLeft.x,
-                    upperRight.y,
-                    z
-                   );
+                lowerRight = new Vector3(
+                   upperRight.x,
+                   lowerLeft.y,
+                   z
+                  );
+                upperLeft = new Vector3(
+                   lowerLeft.x,
+                   upperRight.y,
+                   z
+                  );
 
                 //================================================================================================================
 

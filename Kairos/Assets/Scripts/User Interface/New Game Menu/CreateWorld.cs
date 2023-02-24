@@ -1,12 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.EventSystems;
-using System.Data.Common;
-using static UnityEngine.UI.GridLayoutGroup;
 using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CreateWorld : MonoBehaviour
 {
@@ -113,7 +110,7 @@ public class CreateWorld : MonoBehaviour
         rawImage.rectTransform.GetWorldCorners(corners);
         Vector3 bottomLeft = corners[0];
         Vector3 topRight = corners[2];
-        
+
         var posInImage = Input.mousePosition - bottomLeft;
         topRight -= bottomLeft;
 
@@ -126,8 +123,8 @@ public class CreateWorld : MonoBehaviour
             position.z = position.y;
             position.y = 0;
 
-            
-            if(CheckValid(position, new Vector2Int(2, 2)))
+
+            if (CheckValid(position, new Vector2Int(2, 2)))
             {
                 strongholdIcon.rectTransform.position = strongholdIconPlaceholder.rectTransform.position;
                 strongholdIcon.gameObject.SetActive(true);

@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Infantry_Entity))]
 public class Infantry_Unit : Unit
@@ -31,7 +28,7 @@ public class Infantry_Unit : Unit
         {
             GetComponent<CheckPathFinding>().end = GameController.Main.CommandController.wayPoint;
         }
- 
+
     }
     private void Awake()
     {
@@ -45,7 +42,7 @@ public class Infantry_Unit : Unit
         {
             entity.movementMode = Infantry_Entity.MovementMode.IDLE;
         }
-        if(entity.movementMode == Infantry_Entity.MovementMode.IDLE)
+        if (entity.movementMode == Infantry_Entity.MovementMode.IDLE)
         {
             // if idle, should be done path finding, so remove self from cg
             if (command != null)
@@ -56,15 +53,15 @@ public class Infantry_Unit : Unit
 
             // passive auto attack
             var enemy = EnemyDetection();
-            if(enemy != null)
+            if (enemy != null)
             {
                 SetTarget(enemy);
                 if (autoAttack)
-                entity.movementMode = Infantry_Entity.MovementMode.ATTACK_FOLLOW;
+                    entity.movementMode = Infantry_Entity.MovementMode.ATTACK_FOLLOW;
             }
         }
         // is this neccesary? why not update all the time?
-        if(entity.movementMode == Infantry_Entity.MovementMode.ATTACK_FOLLOW && target != null && autoAttack)
+        if (entity.movementMode == Infantry_Entity.MovementMode.ATTACK_FOLLOW && target != null && autoAttack)
         {
             entity.targetPos = target.transform.position;
             //when within attack range
@@ -106,7 +103,7 @@ public class Infantry_Unit : Unit
         //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
         entity.pathingTask = SetPath(position);
     }
-    
+
     public Task<List<Vector3>> SetPath(Vector3 position)
     {
         if (command != null)

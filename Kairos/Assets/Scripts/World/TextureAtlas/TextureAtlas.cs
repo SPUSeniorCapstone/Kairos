@@ -1,10 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using TreeEditor;
-using Unity.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 /// <summary>
@@ -43,7 +37,7 @@ public class TextureAtlas : MonoBehaviour
     {
         get
         {
-            if(textureAtlas == null)
+            if (textureAtlas == null)
             {
                 textureAtlas = GenerateTextureAtlas();
             }

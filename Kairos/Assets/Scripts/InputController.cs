@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -36,7 +34,7 @@ public class InputController
         [SerializeField]
         KeyCode key2;
 
-        
+
 
         public InputType(KeyCode primary, KeyCode secondary)
         {
@@ -49,7 +47,7 @@ public class InputController
         /// </summary>
         public bool Down()
         {
-            if(Input.GetKeyDown(key1) || Input.GetKeyDown(key2))
+            if (Input.GetKeyDown(key1) || Input.GetKeyDown(key2))
             {
                 return true;
             }
@@ -61,7 +59,7 @@ public class InputController
         /// </summary>
         public bool Pressed()
         {
-            if(Input.GetKey(key1) || Input.GetKey(key2))
+            if (Input.GetKey(key1) || Input.GetKey(key2))
             {
                 return true;
             }

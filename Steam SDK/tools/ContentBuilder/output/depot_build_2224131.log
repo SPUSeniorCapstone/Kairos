@@ -1,0 +1,176 @@
+[2023-02-24 14:49:58]: Starting build for depot 2224131, content path is "C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\content\", build flags 0x0
+[2023-02-24 14:49:58]: Building file listing for depot 2224131 ...
+[2023-02-24 14:49:58]: Found 166 files for mapping: C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\content\windows * -> .
+[2023-02-24 14:49:58]: Found 166 files (107 MB) for depot 2224131
+[2023-02-24 14:49:58]: Building depot 2224131, no baseline manifest
+[2023-02-24 14:49:59]: Found 233 chunks ( 0 used previously ) for depot 2224131, took 0 minutes, 1 seconds
+[2023-02-24 14:49:59]: Changes to baseline manifest 0 :
+[2023-02-24 14:49:59]: Added  : "Kairos.exe" 639 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\app.info" 1 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\boot.config" 1 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\globalgamemanagers" 125 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\globalgamemanagers.assets" 183 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level0" 7 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level0.resS" 129 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level1" 14 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level1.resS" 129 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level2" 22 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level2.resS" 129 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level3" 11 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level3.resS" 129 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level4" 26 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level4.resS" 129 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level5" 23582 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\level5.resS" 129 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Assembly-CSharp.dll" 107 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Mono.Security.dll" 236 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\mscorlib.dll" 4522 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\netstandard.dll" 88 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.ComponentModel.Composition.dll" 251 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Configuration.dll" 122 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Core.dll" 1087 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Data.DataSetExtensions.dll" 29 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Data.dll" 2069 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.dll" 2576 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Drawing.dll" 479 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.EnterpriseServices.dll" 44 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.IO.Compression.dll" 112 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.IO.Compression.FileSystem.dll" 18 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Net.Http.dll" 119 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Numerics.dll" 117 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Runtime.Serialization.dll" 913 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Security.dll" 313 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.ServiceModel.Internals.dll" 210 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Transactions.dll" 35 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Xml.dll" 3086 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\System.Xml.Linq.dll" 134 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Unity.Recorder.Base.dll" 4 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Unity.Recorder.dll" 6 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Unity.TextMeshPro.dll" 362 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Unity.Timeline.dll" 113 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Unity.VisualScripting.Antlr3.Runtime.dll" 84 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Unity.VisualScripting.Core.dll" 534 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Unity.VisualScripting.Flow.dll" 323 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\Unity.VisualScripting.State.dll" 27 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.AccessibilityModule.dll" 23 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.AIModule.dll" 56 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.AndroidJNIModule.dll" 78 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.AnimationModule.dll" 159 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.ARModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.AssetBundleModule.dll" 33 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.AudioModule.dll" 69 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.ClothModule.dll" 26 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.ClusterInputModule.dll" 22 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.ClusterRendererModule.dll" 22 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.CoreModule.dll" 1243 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.CrashReportingModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.DirectorModule.dll" 25 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.dll" 110 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.DSPGraphModule.dll" 29 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.GameCenterModule.dll" 40 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.GIModule.dll" 20 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.GridModule.dll" 25 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.HotReloadModule.dll" 20 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.ImageConversionModule.dll" 24 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.IMGUIModule.dll" 170 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.InputLegacyModule.dll" 37 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.InputModule.dll" 23 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.JSONSerializeModule.dll" 22 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.LocalizationModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.NVIDIAModule.dll" 34 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.ParticleSystemModule.dll" 152 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.PerformanceReportingModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.Physics2DModule.dll" 131 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.PhysicsModule.dll" 113 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.ProfilerModule.dll" 20 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll" 20 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.ScreenCaptureModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.SharedInternalsModule.dll" 32 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.SpriteMaskModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.SpriteShapeModule.dll" 25 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.StreamingModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.SubstanceModule.dll" 25 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.SubsystemsModule.dll" 35 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.TerrainModule.dll" 97 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.TerrainPhysicsModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll" 71 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll" 193 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.TextRenderingModule.dll" 39 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.TilemapModule.dll" 42 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.TLSModule.dll" 26 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UI.dll" 241 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UIElementsModule.dll" 1181 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UIElementsNativeModule.dll" 58 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UIModule.dll" 36 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UmbraModule.dll" 20 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UNETModule.dll" 88 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityAnalyticsCommonModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityAnalyticsModule.dll" 44 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityConnectModule.dll" 22 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityCurlModule.dll" 22 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityTestProtocolModule.dll" 20 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll" 23 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll" 23 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityWebRequestModule.dll" 56 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll" 22 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll" 31 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.VehiclesModule.dll" 24 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.VFXModule.dll" 54 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.VideoModule.dll" 40 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.VirtualTexturingModule.dll" 35 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.VRModule.dll" 26 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.WindModule.dll" 21 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Managed\UnityEngine.XRModule.dll" 69 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Resources" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\resources.assets" 1114 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\resources.assets.resS" 15795 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Resources\unity default resources" 4719 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\Resources\unity_builtin_extra" 381 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\RuntimeInitializeOnLoads.json" 1 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\ScriptingAssemblies.json" 3 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\sharedassets0.assets" 15 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\sharedassets0.assets.resS" 683 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\sharedassets1.assets" 5 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\sharedassets2.assets" 8 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\sharedassets2.assets.resS" 70 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\sharedassets3.assets" 5 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\sharedassets4.assets" 5 kB 
+[2023-02-24 14:49:59]: Added  : "Kairos_Data\sharedassets5.assets" 7 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\EmbedRuntime" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\EmbedRuntime\mono-2.0-bdwgc.dll" 7574 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\EmbedRuntime\MonoPosixHelper.dll" 597 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\2.0" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\2.0\Browsers" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\2.0\Browsers\Compat.browser" 2 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\2.0\DefaultWsdlHelpGenerator.aspx" 60 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\2.0\machine.config" 29 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\2.0\settings.map" 3 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\2.0\web.config" 12 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.0" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.0\Browsers" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.0\Browsers\Compat.browser" 2 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.0\DefaultWsdlHelpGenerator.aspx" 60 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.0\machine.config" 33 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.0\settings.map" 3 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.0\web.config" 19 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.5" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.5\Browsers" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.5\Browsers\Compat.browser" 2 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.5\DefaultWsdlHelpGenerator.aspx" 60 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.5\machine.config" 34 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.5\settings.map" 3 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\4.5\web.config" 19 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\browscap.ini" 305 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\config" 4 kB 
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\mconfig" 0 kB ,Flags: 64
+[2023-02-24 14:49:59]: Added  : "MonoBleedingEdge\etc\mono\mconfig\config.xml" 26 kB 
+[2023-02-24 14:49:59]: Added  : "UnityCrashHandler64.exe" 1098 kB 
+[2023-02-24 14:49:59]: Added  : "UnityPlayer.dll" 28596 kB 
+[2023-02-24 14:49:59]: Summary: 166 files added, 0 files changed, 0 files removed
+[2023-02-24 14:49:59]: Uploading new manifest to 208.64.201.204:80 (handle 851276686351485169, 26593 bytes).
+[2023-02-24 14:50:00]: Success! New manifestID 6767049799971711143 created and 0 new chunks uploaded.

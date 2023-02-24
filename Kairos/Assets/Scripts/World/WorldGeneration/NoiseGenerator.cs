@@ -1,8 +1,5 @@
 //Noise Generator with help from Sebastian Lague 
 
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 /// <summary>

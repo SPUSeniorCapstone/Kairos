@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -34,7 +31,7 @@ public class PathFinder
             Start = start.ToVector3Int().Flat(); ;
             End = end.ToVector3Int().Flat();
         }
-        
+
 
         var open = new NodeQueue();
         var closed = new HashSet<Vector3Int>();
@@ -87,7 +84,7 @@ public class PathFinder
                 else
                 {
                     neighbor = open.GetNode(neighbor.position);
-                    if(g < neighbor.g)
+                    if (g < neighbor.g)
                     {
                         neighbor.parent = current;
                         neighbor.g = g;
@@ -139,7 +136,7 @@ public class PathFinder
         var path = new List<Vector3>();
         var current = node;
 
-        while(current != null)
+        while (current != null)
         {
             path.Add(current.position + new Vector3(0.5f, 0, 0.5f) * WorldController.Main.blockScale);
             current = current.parent;
@@ -163,7 +160,7 @@ public class PathFinder
         int hA = WorldController.Main.World.GetHeight(A.x, A.z);
         int hB = WorldController.Main.World.GetHeight(B.x, B.z);
 
-        if (MathF.Abs(hA - hB) > stepHeight || !WorldController.Main.World.IsPassable(B.x, B.z)) 
+        if (MathF.Abs(hA - hB) > stepHeight || !WorldController.Main.World.IsPassable(B.x, B.z))
         {
             return false;
         }

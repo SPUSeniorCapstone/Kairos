@@ -1,0 +1,165 @@
+
+
+[2023-02-24 14:18:57] Connectivity test: Starting test, fetching 'http://test.steampowered.com/204'
+[2023-02-24 14:18:57] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:18:57] Clearing in-memory token - 1 (OK): set to null
+[2023-02-24 14:18:57] Clearing in-memory token - 1 (OK): SetLoginInformation
+[2023-02-24 14:18:57] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:18:57] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:18:57] [Logged Off, 4, 0] [U:1:0] EConnect called - scheduling connection for 50ms from now
+[2023-02-24 14:18:57] [Logged Off, 4, 0] [U:1:0] LogOn() called; not connected yet, scheduling connection. Schedule init returned 22
+[2023-02-24 14:18:57] [Logged Off, 4, 0] [U:1:0] EConnect called - scheduling connection for 50ms from now
+[2023-02-24 14:18:57] CCMInterface::YieldingConnect -- calling ISteamDirectory/GetCMListForConnect web api
+[2023-02-24 14:18:58] Connectivity test: OK!
+[2023-02-24 14:18:58] Connectivity test: result=Connected (since 0.0s ago), prev=Unknown, in progress=0
+[2023-02-24 14:18:58] IPv6 HTTP connectivity test (ipv6check-http.steamserver.net / [2602:801:f008:100::a2fe:c783]:80 ([2602:801:f008:100::a2fe:c783]:80)) - SUCCESS
+[2023-02-24 14:18:58] IPv6 HTTP connectivity test (ipv6check-http.steamserver.net / [2602:801:f008:100::a2fe:c783]:80 ([2602:801:f008:100::a2fe:c783]:80)) - server indicated we are using ipv6, external address = '2601:600:8e00:58f4:4d7f:ba4d:4f8e:efe7'
+[2023-02-24 14:18:58] GetCMListForConnect -- got 9 Netfilter CMs and 71 WebSocket CMs
+[2023-02-24 14:18:58] GetCMListForConnect -- DC 'sea1' count: 21
+[2023-02-24 14:18:58] GetCMListForConnect -- DC 'lax1' count: 20
+[2023-02-24 14:18:58] GetCMListForConnect -- DC 'dfw1' count: 22
+[2023-02-24 14:18:58] GetCMListForConnect -- DC 'ord1' count: 17
+[2023-02-24 14:18:58] [Connecting, 4, 0] [U:1:0] CM Directory list says 88% of connections should be websockets, we rolled 41 - using WebSockets as default.
+[2023-02-24 14:18:58] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:27025) starting...
+[2023-02-24 14:18:58] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext2-sea1.steamserver.net:27030) starting...
+[2023-02-24 14:18:58] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:443) starting...
+[2023-02-24 14:18:58] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-lax1.steamserver.net:27033) starting...
+[2023-02-24 14:18:58] IPv6 UDP connectivity test (ipv6check-udp.steamserver.net / [2602:801:f002:102::a2fe:c026]:27019) - SUCCESS
+[2023-02-24 14:18:58] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:27025) results: 42.3154ms + load 20.0000
+[2023-02-24 14:18:58] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() stopping early for good host (ext1-sea1.steamserver.net:27025)
+[2023-02-24 14:18:58] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext2-sea1.steamserver.net:27030) results: 29.9957ms + load 9.0000
+[2023-02-24 14:18:59] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:443) results: 84.5472ms + load 27.0000
+[2023-02-24 14:18:59] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-lax1.steamserver.net:27033) results: 54.6714ms + load 16.0000
+[2023-02-24 14:18:59] [Connecting, 4, 3] [U:1:0] Connect() starting connection (eNetQOSLevelHigh, ext2-sea1.steamserver.net:27030, WebSocket)
+[2023-02-24 14:18:59] [Connecting, 4, 3] [U:1:0] ConnectionCompleted() (205.196.6.215:27030, WebSocket) local address (192.168.2.35:52063)
+[2023-02-24 14:18:59] [Connecting, 4, 3] [U:1:0] Client thinks it can connect via: UDP - yes, TCP - yes, WebSocket:443 - yes, WebSocket:Non443 - yes
+[2023-02-24 14:18:59] [Connected, 4, 3] [U:1:0] Logging on [U:1:0]
+[2023-02-24 14:18:59] [Logging On, 4, 3] [U:1:0] Using credential pair
+[2023-02-24 14:18:59] [Logging On, 4, 3] [U:1:0] RecvMsgClientLogOnResponse() : [I:0:0] 'Invalid Password'
+[2023-02-24 14:18:59] Clearing in-memory token - 5 (Invalid Password): LogonFailureReceived(1)
+[2023-02-24 14:18:59] Clearing in-memory token - 1 (OK): set to null
+[2023-02-24 14:18:59] Clearing in-memory token - 5 (Invalid Password): LogonFailureReceived(2)
+[2023-02-24 14:18:59] [Logging On, 4, 3] [U:1:0] AsyncDisconnect( bDontWaitOnTCPShutdown: false )
+[2023-02-24 14:18:59] [Logged Off, 4, 0] [U:1:0] ConnectionDisconnected('I/O Operation Failed') : 'Invalid Password' (205.196.6.215:27030, WebSocket)
+[2023-02-24 14:18:59] [Logged Off, 4, 0] [U:1:0] ConnectionDisconnected() not auto reconnecting due to eResultLogonSession specifies no reconnect
+[2023-02-24 14:18:59] [Logged Off, 0, 0] [U:1:0] Sending SteamServerConnectFailure_t Invalid Password Do not reconnect
+[2023-02-24 14:18:59] [Logged Off, 0, 0] [U:1:0] ResetVoiceRecording() (was recording: 0) (last get voice time: 1677277139 seconds ago)
+[2023-02-24 14:18:59] [Logged Off, 0, 0] [U:1:0] Log session ended
+
+
+[2023-02-24 14:19:06] Connectivity test: Starting test, fetching 'http://test.steampowered.com/204'
+[2023-02-24 14:19:06] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:19:06] Clearing in-memory token - 1 (OK): set to null
+[2023-02-24 14:19:06] Clearing in-memory token - 1 (OK): SetLoginInformation
+[2023-02-24 14:19:06] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:19:06] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:19:06] [Logged Off, 4, 0] [U:1:0] EConnect called - scheduling connection for 50ms from now
+[2023-02-24 14:19:06] [Logged Off, 4, 0] [U:1:0] LogOn() called; not connected yet, scheduling connection. Schedule init returned 22
+[2023-02-24 14:19:06] [Logged Off, 4, 0] [U:1:0] EConnect called - scheduling connection for 50ms from now
+[2023-02-24 14:19:06] [Logged Off, 4, 0] [U:1:0] EConnect called - scheduling connection for 50ms from now
+[2023-02-24 14:19:06] [Logged Off, 4, 0] [U:1:0] EConnect called - scheduling connection for 50ms from now
+[2023-02-24 14:19:06] [Logged Off, 4, 0] [U:1:0] EConnect called - scheduling connection for 50ms from now
+[2023-02-24 14:19:06] Connectivity test: OK!
+[2023-02-24 14:19:06] Connectivity test: result=Connected (since 0.0s ago), prev=Unknown, in progress=0
+[2023-02-24 14:19:07] CCMInterface::YieldingConnect -- calling ISteamDirectory/GetCMListForConnect web api
+[2023-02-24 14:19:07] IPv6 HTTP connectivity test (ipv6check-http.steamserver.net / [2602:801:f008:100::a2fe:c783]:80 ([2602:801:f008:100::a2fe:c783]:80)) - SUCCESS
+[2023-02-24 14:19:07] IPv6 HTTP connectivity test (ipv6check-http.steamserver.net / [2602:801:f008:100::a2fe:c783]:80 ([2602:801:f008:100::a2fe:c783]:80)) - server indicated we are using ipv6, external address = '2601:600:8e00:58f4:4d7f:ba4d:4f8e:efe7'
+[2023-02-24 14:19:07] IPv6 UDP connectivity test (ipv6check-udp.steamserver.net / [2602:801:f002:102::a2fe:c026]:27019) - SUCCESS
+[2023-02-24 14:19:07] GetCMListForConnect -- got 8 Netfilter CMs and 72 WebSocket CMs
+[2023-02-24 14:19:07] GetCMListForConnect -- DC 'sea1' count: 21
+[2023-02-24 14:19:07] GetCMListForConnect -- DC 'lax1' count: 21
+[2023-02-24 14:19:07] GetCMListForConnect -- DC 'dfw1' count: 22
+[2023-02-24 14:19:07] GetCMListForConnect -- DC 'ord1' count: 16
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] CM Directory list says 90% of connections should be websockets, we rolled 29 - using WebSockets as default.
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext2-sea1.steamserver.net:27030) starting...
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext2-sea1.steamserver.net:27033) starting...
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:443) starting...
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-lax1.steamserver.net:27025) starting...
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:443) results: 36.8503ms + load 29.0000
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext2-sea1.steamserver.net:27033) results: 44.3717ms + load 9.0000
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext2-sea1.steamserver.net:27030) results: 51.9871ms + load 9.0000
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() stopping early for good host (ext2-sea1.steamserver.net:27033)
+[2023-02-24 14:19:07] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-lax1.steamserver.net:27025) results: 90.9654ms + load 17.0000
+[2023-02-24 14:19:07] [Connecting, 4, 3] [U:1:0] Connect() starting connection (eNetQOSLevelHigh, ext2-sea1.steamserver.net:27033, WebSocket)
+[2023-02-24 14:19:07] [Connecting, 4, 3] [U:1:0] ConnectionCompleted() (205.196.6.215:27033, WebSocket) local address (192.168.2.35:52084)
+[2023-02-24 14:19:07] [Connecting, 4, 3] [U:1:0] Client thinks it can connect via: UDP - yes, TCP - yes, WebSocket:443 - yes, WebSocket:Non443 - yes
+[2023-02-24 14:19:07] [Connected, 4, 3] [U:1:0] Logging on [U:1:0]
+[2023-02-24 14:19:07] [Logging On, 4, 3] [U:1:0] Using credential pair
+[2023-02-24 14:19:08] [Logging On, 4, 3] [U:1:0] RecvMsgClientLogOnResponse() : [I:0:0] 'Invalid Password'
+[2023-02-24 14:19:08] Clearing in-memory token - 5 (Invalid Password): LogonFailureReceived(1)
+[2023-02-24 14:19:08] Clearing in-memory token - 1 (OK): set to null
+[2023-02-24 14:19:08] Clearing in-memory token - 5 (Invalid Password): LogonFailureReceived(2)
+[2023-02-24 14:19:08] [Logging On, 4, 3] [U:1:0] AsyncDisconnect( bDontWaitOnTCPShutdown: false )
+[2023-02-24 14:19:08] [Logged Off, 4, 0] [U:1:0] ConnectionDisconnected('I/O Operation Failed') : 'Invalid Password' (205.196.6.215:27033, WebSocket)
+[2023-02-24 14:19:08] [Logged Off, 4, 0] [U:1:0] ConnectionDisconnected() not auto reconnecting due to eResultLogonSession specifies no reconnect
+[2023-02-24 14:19:08] [Logged Off, 0, 0] [U:1:0] Sending SteamServerConnectFailure_t Invalid Password Do not reconnect
+[2023-02-24 14:19:08] [Logged Off, 0, 0] [U:1:0] ResetVoiceRecording() (was recording: 0) (last get voice time: 1677277148 seconds ago)
+[2023-02-24 14:19:08] [Logged Off, 0, 0] [U:1:0] Log session ended
+
+
+[2023-02-24 14:20:52] Connectivity test: Starting test, fetching 'http://test.steampowered.com/204'
+[2023-02-24 14:20:52] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:20:52] Connectivity test: OK!
+[2023-02-24 14:20:52] Connectivity test: result=Connected (since 0.0s ago), prev=Unknown, in progress=0
+[2023-02-24 14:20:52] IPv6 HTTP connectivity test (ipv6check-http.steamserver.net / [2602:801:f008:102::a2fe:c7c8]:80 ([2602:801:f008:102::a2fe:c7c8]:80)) - SUCCESS
+[2023-02-24 14:20:52] IPv6 HTTP connectivity test (ipv6check-http.steamserver.net / [2602:801:f008:102::a2fe:c7c8]:80 ([2602:801:f008:102::a2fe:c7c8]:80)) - server indicated we are using ipv6, external address = '2601:600:8e00:58f4:4d7f:ba4d:4f8e:efe7'
+[2023-02-24 14:20:52] IPv6 UDP connectivity test (ipv6check-udp.steamserver.net / [2602:801:f002:101::a2fe:c009]:27019) - SUCCESS
+[2023-02-24 14:21:21] Clearing in-memory token - 1 (OK): cached creds not available
+[2023-02-24 14:21:25] Clearing in-memory token - 1 (OK): set to null
+[2023-02-24 14:21:25] Clearing in-memory token - 1 (OK): SetLoginInformation
+[2023-02-24 14:21:25] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:21:25] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:21:25] [Logged Off, 4, 0] [U:1:0] LogOn() called; not connected yet, scheduling connection. Schedule init returned 1
+[2023-02-24 14:21:25] CCMInterface::YieldingConnect -- calling ISteamDirectory/GetCMListForConnect web api
+[2023-02-24 14:21:26] GetCMListForConnect -- got 10 Netfilter CMs and 70 WebSocket CMs
+[2023-02-24 14:21:26] GetCMListForConnect -- DC 'sea1' count: 21
+[2023-02-24 14:21:26] GetCMListForConnect -- DC 'lax1' count: 21
+[2023-02-24 14:21:26] GetCMListForConnect -- DC 'dfw1' count: 21
+[2023-02-24 14:21:26] GetCMListForConnect -- DC 'ord1' count: 17
+[2023-02-24 14:21:26] [Connecting, 4, 0] [U:1:0] CM Directory list says 87% of connections should be websockets, we rolled 92 - using UDP as default.
+[2023-02-24 14:21:26] [Connecting, 4, 2] [U:1:0] Connect() starting connection (eNetQOSLevelHigh, 205.196.6.215:27017, UDP)
+[2023-02-24 14:21:26] [Connecting, 4, 2] [U:1:0] ConnectionCompleted() (205.196.6.215:27017, UDP) local address (0.0.0.0:62715)
+[2023-02-24 14:21:26] [Connecting, 4, 2] [U:1:0] Client thinks it can connect via: UDP - yes, TCP - yes, WebSocket:443 - yes, WebSocket:Non443 - yes
+[2023-02-24 14:21:26] [Connected, 4, 2] [U:1:0] Logging on [U:1:0]
+[2023-02-24 14:21:26] [Logging On, 4, 2] [U:1:0] Using credential pair
+[2023-02-24 14:21:27] [Logging On, 4, 2] [U:1:0] RecvMsgClientLogOnResponse() : [I:0:0] 'Account logon denied, need two-factor code'
+[2023-02-24 14:21:27] Clearing in-memory token - 85 (Account logon denied, need two-factor code): LogonFailureReceived(2)
+[2023-02-24 14:21:27] [Logging On, 4, 2] [U:1:0] AsyncDisconnect( bDontWaitOnTCPShutdown: false )
+[2023-02-24 14:21:27] [Logged Off, 4, 0] [U:1:0] ConnectionDisconnected('Disconnected By Remote Host') : 'Account logon denied, need two-factor code' (205.196.6.215:27017, UDP)
+[2023-02-24 14:21:27] [Logged Off, 4, 0] [U:1:0] ConnectionDisconnected() not auto reconnecting due to eResultLogonSession specifies no reconnect
+[2023-02-24 14:21:27] [Logged Off, 0, 0] [U:1:0] Sending SteamServerConnectFailure_t Account logon denied, need two-factor code Do not reconnect
+[2023-02-24 14:23:04] [Logged Off, 0, 0] [U:1:0] CCMInterface::SetSteamID( [U:1:0] )
+[2023-02-24 14:23:04] [Logged Off, 4, 0] [U:1:0] LogOn() called; not connected yet, scheduling connection. Schedule init returned 1
+[2023-02-24 14:23:04] CCMInterface::YieldingConnect -- calling ISteamDirectory/GetCMListForConnect web api
+[2023-02-24 14:23:05] GetCMListForConnect -- got 9 Netfilter CMs and 71 WebSocket CMs
+[2023-02-24 14:23:05] GetCMListForConnect -- DC 'sea1' count: 20
+[2023-02-24 14:23:05] GetCMListForConnect -- DC 'lax1' count: 21
+[2023-02-24 14:23:05] GetCMListForConnect -- DC 'dfw1' count: 21
+[2023-02-24 14:23:05] GetCMListForConnect -- DC 'ord1' count: 18
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] CM Directory list says 88% of connections should be websockets, we rolled 78 - using WebSockets as default.
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:27026) starting...
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:27024) starting...
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext2-sea1.steamserver.net:443) starting...
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-lax1.steamserver.net:27022) starting...
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext2-sea1.steamserver.net:443) results: 44.1437ms + load 23.0000
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:27026) results: 51.2085ms + load 22.0000
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() stopping early for good host (ext2-sea1.steamserver.net:443)
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-sea1.steamserver.net:27024) results: 37.1704ms + load 20.0000
+[2023-02-24 14:23:05] [Connecting, 4, 0] [U:1:0] PingWebSocketCM() (ext1-lax1.steamserver.net:27022) results: 92.0258ms + load 16.0000
+[2023-02-24 14:23:05] [Connecting, 4, 3] [U:1:0] Connect() starting connection (eNetQOSLevelHigh, ext1-sea1.steamserver.net:27024, WebSocket)
+[2023-02-24 14:23:05] [Connecting, 4, 3] [U:1:0] ConnectionCompleted() (205.196.6.214:27024, WebSocket) local address (192.168.2.35:52347)
+[2023-02-24 14:23:05] [Connecting, 4, 3] [U:1:0] Client thinks it can connect via: UDP - yes, TCP - yes, WebSocket:443 - yes, WebSocket:Non443 - yes
+[2023-02-24 14:23:05] [Connected, 4, 3] [U:1:0] Logging on [U:1:0]
+[2023-02-24 14:23:05] [Logging On, 4, 3] [U:1:0] Using credential pair
+[2023-02-24 14:23:05] [Logging On, 4, 3] [U:1:0] RecvMsgClientLogOnResponse() : [U:1:302452335] 'OK'
+[2023-02-24 14:23:05] CClientJobGetClientUpdateHosts: failed to load, 'File 'update_hosts_cached.vdf' not found'
+[2023-02-24 14:23:05] CClientJobGetClientUpdateHosts: received update from server
+[2023-02-24 14:23:05] CClientJobGetClientUpdateHosts: cached copy new expiration: Sun Feb 26 18:05:58 2023
+[2023-02-24 14:51:31] [Logged On, 4, 3] [U:1:302452335] RecvMsgClientLoggedOff('Session Replaced')
+[2023-02-24 14:51:31] [Logged On, 4, 3] [U:1:302452335] AsyncDisconnect( bDontWaitOnTCPShutdown: false )
+[2023-02-24 14:51:31] [Logged Off, 4, 0] [U:1:302452335] ConnectionDisconnected('I/O Operation Failed') : 'Session Replaced' (205.196.6.214:27024, WebSocket)
+[2023-02-24 14:51:31] [Logged Off, 4, 0] [U:1:302452335] ConnectionDisconnected() not auto reconnecting due to eResultLogonSession specifies no reconnect
+[2023-02-24 14:51:31] [Logged Off, 0, 0] [U:1:302452335] Sending SteamServersDisconnected_t because we were logged on
+[2023-02-24 14:51:32] Connectivity test: Starting test, fetching 'http://test.steampowered.com/204'
+[2023-02-24 14:51:32] Connectivity test: OK!
+[2023-02-24 14:51:32] Connectivity test: result=Connected (since 1839.9s ago), prev=Unknown, in progress=0

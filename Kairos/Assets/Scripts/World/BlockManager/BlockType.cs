@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using UnityEngine;
 
 /// <summary>
@@ -9,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public enum FaceID
 {
-    FRONT, 
+    FRONT,
     BACK,
     LEFT,
     RIGHT,

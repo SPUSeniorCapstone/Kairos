@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 /// <summary>
 /// A 3D World Voxel Chunk
@@ -42,7 +40,7 @@ public class Chunk : MonoBehaviour
     /// The Chunk Position
     /// </summary>
     Vector3Int position;
-    
+
     /// <summary>
     /// The List of blocks in the Chunk
     /// </summary>
@@ -111,12 +109,12 @@ public class Chunk : MonoBehaviour
     /// <exception cref="NotImplementedException"></exception>
     private void ReloadHeights()
     {
-        for(int x = 0; x < width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int z = 0; z < length; z++)
+            for (int z = 0; z < length; z++)
             {
                 int y = 0;
-                while (y < height && blocks[x,y,z].blockID != 0)
+                while (y < height && blocks[x, y, z].blockID != 0)
                 {
                     y++;
                 }

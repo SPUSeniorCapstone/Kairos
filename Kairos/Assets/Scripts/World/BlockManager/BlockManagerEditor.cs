@@ -1,7 +1,6 @@
-using UnityEngine;
+#if (UNITY_EDITOR) 
 using UnityEditor;
-using Unity.VisualScripting;
-using System.Linq;
+using UnityEngine;
 
 [CustomEditor(typeof(BlockManager))]
 public class BlockManagerEditor : Editor
@@ -10,7 +9,7 @@ public class BlockManagerEditor : Editor
     SerializedProperty blockTypes;
 
     int removeAt, insertAt;
-    bool disabled= false;
+    bool disabled = false;
     Vector2 scrollPos;
 
     private void OnEnable()
@@ -55,6 +54,8 @@ public class BlockManagerEditor : Editor
             serializedObject.ApplyModifiedProperties();
         }
 
-        
+
     }
 }
+
+#endif

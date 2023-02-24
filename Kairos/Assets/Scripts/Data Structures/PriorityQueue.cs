@@ -90,8 +90,8 @@ public class PriorityQueue<T> where T : IComparable<T>
                 break;
             }
             int rc = j + 1;
-            
-            if(mode == PriorityQueueMode.MIN)
+
+            if (mode == PriorityQueueMode.MIN)
             {
                 if (rc < elements.Count && elements[rc].CompareTo(elements[j]) < 0)
                 {

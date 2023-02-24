@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -21,7 +19,7 @@ public class Structure : MonoBehaviour
     }
     private void OnDestroy()
     {
-        if(GameController.Main != null && GameController.Main.StructureController != null)
+        if (GameController.Main != null && GameController.Main.StructureController != null)
         {
             GameController.Main.StructureController.masterStructure.Remove(this);
             GameController.Main.CheckVictory();

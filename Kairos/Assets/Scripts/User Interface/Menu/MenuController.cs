@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -46,7 +44,7 @@ public class MenuController : MonoBehaviour
     }
     public void Victory()
     {
-        if(victoryMenuUI == null || optionsMenuUI == null)
+        if (victoryMenuUI == null || optionsMenuUI == null)
         {
             return;
         }

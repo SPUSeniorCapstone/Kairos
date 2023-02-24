@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +13,7 @@ public class WorldGenerator : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null)
+        if (instance != null)
         {
             Destroy(this);
             return;
@@ -120,7 +119,7 @@ public class WorldGenerator : MonoBehaviour
         float height = Chunk.height * world.BlockScale;
         float length = world.LengthInBlocks * world.BlockScale;
 
-        Vector3 center = new Vector3(width/2,width,length/2);
+        Vector3 center = new Vector3(width / 2, width, length / 2);
         world.bounds = new Bounds(center.Flat(), center);
     }
 
@@ -156,7 +155,7 @@ public class WorldGenerator : MonoBehaviour
                 int height = 0;
                 int currBlockHeight = 0;
 
-                for(int i = 0; i < layers.Length; i++)
+                for (int i = 0; i < layers.Length; i++)
                 {
                     var layer = layers[i];
                     if (layer.height <= h * eccentricity)
@@ -205,9 +204,9 @@ public class WorldGenerator : MonoBehaviour
 
         Color[] colors = new Color[width * length];
 
-        for(int x = 0; x < width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int z = 0; z < length; z++)
+            for (int z = 0; z < length; z++)
             {
                 float height = terrainMap[x, z];
 
