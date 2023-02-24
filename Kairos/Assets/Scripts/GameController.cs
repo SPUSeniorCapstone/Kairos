@@ -136,8 +136,15 @@ public class GameController : MonoBehaviour
     }
     DamageableController damageableController;
 
+    public MenuController menuController;
+
     public void MasterDestory(GameObject item)
     {
+        if(EntityController == null || SelectionController == null)
+        {
+            return;
+        }
+
        Entity entity = item.GetComponent<Entity>();
         Selectable selectable = item.GetComponent<Selectable>();
         
@@ -149,6 +156,37 @@ public class GameController : MonoBehaviour
         SelectionController.masterSelect.Remove(selectable);
         SelectionController.currentlySelect.Remove(selectable);
         
+    }
+
+    public bool lost;
+    public bool won;
+    public int playerCount = 0;
+    public int enemyCount = 0;
+
+    public void CheckVictory()
+    {
+        foreach (Structure structure in StructureController.masterStructure)
+        {
+            if (!structure.GetComponent<Selectable>().faction)
+            {
+                enemyCount--;
+            }
+            else
+            {
+                playerCount--;
+            }
+        }
+        if (playerCount <= 0)
+        {
+            lost = true;
+            menuController.Defeat();
+            
+        }
+        if (enemyCount <= 0)
+        {
+            won = true;
+            menuController.Victory();
+        }
     }
 
     public bool paused;

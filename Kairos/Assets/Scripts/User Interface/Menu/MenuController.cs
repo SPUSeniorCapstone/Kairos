@@ -9,6 +9,8 @@ public class MenuController : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject optionsMenuUI;
     public GameObject structureMenuUI;
+    public GameObject victoryMenuUI;
+    public GameObject defeatMenuUI;
 
     // Update is called once per frame
     void Update()
@@ -38,6 +40,25 @@ public class MenuController : MonoBehaviour
     public void Pause()
     {
         pauseMenuUI.SetActive(true);
+        optionsMenuUI.SetActive(false);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
+    public void Victory()
+    {
+        if(victoryMenuUI == null || optionsMenuUI == null)
+        {
+            return;
+        }
+
+        victoryMenuUI.SetActive(true);
+        optionsMenuUI.SetActive(false);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
+    public void Defeat()
+    {
+        defeatMenuUI.SetActive(true);
         optionsMenuUI.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
