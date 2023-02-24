@@ -147,7 +147,7 @@ public class CreateWorld : MonoBehaviour
                 var ico = Instantiate<Image>(corruptionIconPlaceholder, rawImage.transform);
                 corruptionIcons.Append(ico);
                 ico.gameObject.SetActive(true);
-                generator.corruptionNodePositions.Append(position);
+                generator.corruptionNodePositions.Add(position);
                 placeCorruptionNode = false;
             }
         }

@@ -124,9 +124,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2252088071193184988}
   - component: {fileID: 4128335412678863926}
+  - component: {fileID: 6542148412012091935}
   - component: {fileID: 1445774268486989596}
   - component: {fileID: 1897678701477724327}
-  - component: {fileID: 6542148412012091935}
   m_Layer: 6
   m_Name: CorruptionNode
   m_TagString: Untagged
@@ -164,6 +164,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 1, y: 1, z: 1}
+--- !u!114 &6542148412012091935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6941789130374734721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e24538dbb51b3942b25a479f3da9ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Size: {x: 2, y: 0, z: 2}
+  unitsQueued: 0
+  unitToSpawn: {fileID: 8169230732344282633, guid: c0d64a8195cd6ed4593ff464c3dd8f53, type: 3}
+  spawnPoint: {fileID: 4784923547611459183}
+  rallyPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &1445774268486989596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,19 +213,3 @@ MonoBehaviour:
   <Health>k__BackingField: 1000
   <Invulnerable>k__BackingField: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
---- !u!114 &6542148412012091935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6941789130374734721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e24538dbb51b3942b25a479f3da9ec7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Size: {x: 2, y: 0, z: 2}
-  unitToSpawn: {fileID: 8169230732344282633, guid: c0d64a8195cd6ed4593ff464c3dd8f53, type: 3}
-  spawnPoint: {fileID: 4784923547611459183}
-  rallyPoint: {x: 0, y: 0, z: 0}

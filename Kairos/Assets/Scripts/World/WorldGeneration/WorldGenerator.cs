@@ -31,7 +31,7 @@ public class WorldGenerator : MonoBehaviour
     }
 
     public Vector3Int strongholdPos;
-    public Vector3Int[] corruptionNodePositions = new Vector3Int[0];
+    public List<Vector3Int> corruptionNodePositions = new List<Vector3Int>();
 
     public int seed;
     public void SetSeed(string seed) { this.seed = int.Parse(seed); }

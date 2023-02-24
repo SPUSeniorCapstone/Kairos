@@ -30,7 +30,7 @@ public class Damageable : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(GameController.Main != null && GameController.Main.UIController != null)
+        if(GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
             GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
     }
     
