@@ -1767,6 +1767,8 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 0}
   optionsMenuUI: {fileID: 0}
   structureMenuUI: {fileID: 0}
+  victoryMenuUI: {fileID: 0}
+  defeatMenuUI: {fileID: 0}
 --- !u!1 &2048899508
 GameObject:
   m_ObjectHideFlags: 0
