@@ -138,7 +138,7 @@ public class Entity : MonoBehaviour
         {
             c = c.normalized * 100;
         }
-        return c * avoidStrength;
+        return c.Flat() * avoidStrength;
     }
 
     /// <summary>
@@ -168,7 +168,7 @@ public class Entity : MonoBehaviour
                 }
             }
         }
-        return v * avoidStrength;
+        return v.Flat() * avoidStrength;
     }
 
 
@@ -186,7 +186,7 @@ public class Entity : MonoBehaviour
             v.y = 0;
         }
 
-        return v;
+        return v.Flat();
     }
 
     #endregion

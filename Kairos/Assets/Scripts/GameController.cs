@@ -140,6 +140,11 @@ public class GameController : MonoBehaviour
 
     public void MasterDestory(GameObject item)
     {
+        if(EntityController == null || SelectionController == null)
+        {
+            return;
+        }
+
        Entity entity = item.GetComponent<Entity>();
         Selectable selectable = item.GetComponent<Selectable>();
         

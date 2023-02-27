@@ -53,6 +53,11 @@ public class MenuController : MonoBehaviour
     }
     public void Victory()
     {
+        if(victoryMenuUI == null || optionsMenuUI == null)
+        {
+            return;
+        }
+
         victoryMenuUI.SetActive(true);
         optionsMenuUI.SetActive(false);
         Time.timeScale = 0f;
