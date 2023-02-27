@@ -161,18 +161,15 @@ public class GameController : MonoBehaviour
     public int playerCount = 0;
     public int enemyCount = 0;
 
-    public void CheckVictory()
+    public void CheckVictory(Structure structure)
     {
-        foreach (Structure structure in StructureController.masterStructure)
+        if (structure.GetComponent<Selectable>().faction)
         {
-            if (!structure.GetComponent<Selectable>().faction)
-            {
-                enemyCount--;
-            }
-            else
-            {
-                playerCount--;
-            }
+            enemyCount--;
+        }
+        else
+        {
+            playerCount--;
         }
         if (playerCount <= 0)
         {
@@ -180,11 +177,15 @@ public class GameController : MonoBehaviour
             menuController.Defeat();
 
         }
-        if (enemyCount <= 0)
+        else if (enemyCount <= 0)
         {
             won = true;
             menuController.Victory();
         }
+    }
+    public void Start()
+    {
+        GameController.Main.menuController.Resume();
     }
 
     public bool paused;
