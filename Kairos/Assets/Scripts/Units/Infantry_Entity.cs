@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -6,13 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Infantry_Unit))]
 public class Infantry_Entity : Entity
 {
-    public enum MovementMode { IDLE, FOLLOW_PATH, FOLLOW_TARGET, ATTACK_FOLLOW}
+    public enum MovementMode { IDLE, FOLLOW_PATH, FOLLOW_TARGET, ATTACK_FOLLOW }
 
     public MovementMode movementMode = MovementMode.IDLE;
 
     public bool retrievingPath;
     public Task<List<Vector3>> pathingTask;
-    
+
     List<Vector3> path;
     int pathIndex = -1;
 
@@ -23,14 +22,14 @@ public class Infantry_Entity : Entity
 
         if (retrievingPath)
         {
-            if(pathingTask == null)
+            if (pathingTask == null)
             {
                 retrievingPath = false;
             }
             else if (pathingTask.IsCompleted)
             {
                 var tempPath = pathingTask.Result;
-                if(tempPath != null)
+                if (tempPath != null)
                 {
                     path = tempPath;
                 }
@@ -68,7 +67,7 @@ public class Infantry_Entity : Entity
         movementDirection = Vector3.zero;
         switch (movementMode)
         {
-            case MovementMode.IDLE: 
+            case MovementMode.IDLE:
                 Idle();
                 break;
             case MovementMode.FOLLOW_PATH:
@@ -92,7 +91,7 @@ public class Infantry_Entity : Entity
     {
         if (Vector3.Distance(transform.position.Flat(), targetPos.Flat()) < stopFollowDistance)
         {
-            if(pathIndex < path.Count - 1)
+            if (pathIndex < path.Count - 1)
             {
                 pathIndex++;
                 targetPos = path[pathIndex];

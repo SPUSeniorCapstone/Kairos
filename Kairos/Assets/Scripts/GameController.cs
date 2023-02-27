@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -8,7 +6,7 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            if(main == null)
+            if (main == null)
             {
                 main = FindObjectOfType<GameController>();
             }
@@ -21,7 +19,7 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            if(inputController == null)
+            if (inputController == null)
             {
                 inputController = new InputController();
             }
@@ -47,7 +45,7 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            if(selectionController == null)
+            if (selectionController == null)
             {
                 selectionController = FindObjectOfType<SelectionController>();
             }
@@ -60,7 +58,7 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            if(worldController == null)
+            if (worldController == null)
             {
                 worldController = FindObjectOfType<WorldController>();
             }
@@ -69,7 +67,7 @@ public class GameController : MonoBehaviour
     }
     WorldController worldController;
 
-    public CommandController CommandController 
+    public CommandController CommandController
 
     {
         get
@@ -127,7 +125,7 @@ public class GameController : MonoBehaviour
     {
         get
         {
-            if(damageableController == null)
+            if (damageableController == null)
             {
                 damageableController = FindObjectOfType<DamageableController>();
             }
@@ -140,14 +138,14 @@ public class GameController : MonoBehaviour
 
     public void MasterDestory(GameObject item)
     {
-        if(EntityController == null || SelectionController == null)
+        if (EntityController == null || SelectionController == null)
         {
             return;
         }
 
-       Entity entity = item.GetComponent<Entity>();
+        Entity entity = item.GetComponent<Entity>();
         Selectable selectable = item.GetComponent<Selectable>();
-        
+
         if (selectable == null)
         {
             selectable = item.GetComponentInChildren<Selectable>();
@@ -155,7 +153,7 @@ public class GameController : MonoBehaviour
         EntityController.Entities.Remove(entity);
         SelectionController.masterSelect.Remove(selectable);
         SelectionController.currentlySelect.Remove(selectable);
-        
+
     }
 
     public bool lost;
@@ -177,7 +175,7 @@ public class GameController : MonoBehaviour
         {
             lost = true;
             menuController.Defeat();
-            
+
         }
         else if (enemyCount <= 0)
         {

@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using System.Threading.Tasks;
 
 public class CommandController : MonoBehaviour
 {
@@ -44,7 +41,7 @@ public class CommandController : MonoBehaviour
                     {
                         Debug.Log(hit);
                         Vector3 point = hit.point;
-                        point.y = GameController.Main.WorldController.World.GetHeight(point.x, point.z)+0.05f;
+                        point.y = GameController.Main.WorldController.World.GetHeight(point.x, point.z) + 0.05f;
                         wayPoint.transform.position = point;
                         if (GameController.Main.SelectionController.currentlySelect.Count > 0)
                         {
@@ -57,18 +54,18 @@ public class CommandController : MonoBehaviour
     }
     public void MoveSelected(Vector3 target)
     {
-        if(GameController.Main.SelectionController.currentlySelect.Count == 1 && GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null)
+        if (GameController.Main.SelectionController.currentlySelect.Count == 1 && GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null)
         {
             var t = GameController.Main.SelectionController.currentlySelect[0];
             var u = t.GetComponent<Unit>();
-            if(u != null)
+            if (u != null)
             {
                 u.MoveTo(target);
             }
             return;
         }
 
-        var cg = Instantiate<CommandGroup>(commandGroup,playerFaction.transform);
+        var cg = Instantiate<CommandGroup>(commandGroup, playerFaction.transform);
 
         cg.followSpeed = -1;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
@@ -98,7 +95,7 @@ public class CommandController : MonoBehaviour
                 //entity.GetComponent<Unit>().isAttacking = false;
                 ////entity.idle = false;
             }
-           
+
             if (production != null)
             {
                 Debug.Log("Structure not null");
@@ -109,9 +106,9 @@ public class CommandController : MonoBehaviour
         cg.CalculateCenter();
         //Debug.Log("AFTER LOOP: cg.entites = " + cg.entities[0].name);
         cg.pathTask = GameController.Main.PathFinder.FindPath(cg.transform.position, target, stepHeight, false);
-        
+
         //DEBUG
-        if(GetComponent<CheckPathFinding>() != null)
+        if (GetComponent<CheckPathFinding>() != null)
             GetComponent<CheckPathFinding>().task = cg.pathTask;
 
 
@@ -122,7 +119,7 @@ public class CommandController : MonoBehaviour
         }
 
         //cg.SetGroupTarget(target);
-        
+
         // this doesn't work, changes length while in the loop
         //int count = commandGroups.Count;
         //for (int i = 0; i < count; i++)

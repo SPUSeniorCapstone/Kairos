@@ -1,0 +1,33 @@
+
+
+[2023-02-24 14:18:57] Failed to read store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf.tmp'
+[2023-02-24 14:18:57] Failed to read store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf.tmp'
+[2023-02-24 14:18:57] Failed to read store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf.tmp'
+[2023-02-24 14:18:57] Failed to read store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf.tmp'
+[2023-02-24 14:18:57] Flushed store 'install' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf'
+[2023-02-24 14:18:59] Flushed store 'install' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf'
+
+
+[2023-02-24 14:19:06] Loaded store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf' successfully
+[2023-02-24 14:19:06] Loaded store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf' successfully
+[2023-02-24 14:19:06] Loaded store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf' successfully
+[2023-02-24 14:19:06] Loaded store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf' successfully
+[2023-02-24 14:19:08] Flushed store 'install' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf'
+
+
+[2023-02-24 14:20:52] Loaded store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf' successfully
+[2023-02-24 14:20:52] Loaded store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf' successfully
+[2023-02-24 14:20:52] Loaded store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf' successfully
+[2023-02-24 14:21:25] Loaded store 'install' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf' successfully
+[2023-02-24 14:23:05] Failed to read store 'userlocal' from 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf.tmp'
+[2023-02-24 14:23:06] Flushed store 'install' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf'
+[2023-02-24 14:23:06] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'
+[2023-02-24 14:23:07] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'
+[2023-02-24 14:23:11] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'
+[2023-02-24 14:23:11] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'
+[2023-02-24 14:37:34] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'
+[2023-02-24 15:31:36] Flushed store 'install' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\config\config.vdf'
+[2023-02-24 15:31:36] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'
+[2023-02-24 15:31:37] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'
+[2023-02-24 15:31:41] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'
+[2023-02-24 15:32:45] Flushed store 'userlocal' to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder\userdata\302452335\config\localconfig.vdf'

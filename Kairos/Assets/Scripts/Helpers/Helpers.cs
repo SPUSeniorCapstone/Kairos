@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public static class Helpers
 {
@@ -18,9 +15,9 @@ public static class Helpers
 
     public static void DeleteAllChildren(GameObject obj)
     {
-        foreach(var c in obj.GetComponentsInChildren<Transform>())
+        foreach (var c in obj.GetComponentsInChildren<Transform>())
         {
-            if(c.gameObject != obj)
+            if (c.gameObject != obj)
                 GameObject.DestroyImmediate(c.gameObject);
         }
     }

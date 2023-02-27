@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class StructureController : MonoBehaviour
 {
@@ -20,7 +18,7 @@ public class StructureController : MonoBehaviour
     private void Start()
     {
         PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
-        foreach(var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
+        foreach (var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
         {
             PlaceStructure(corruptionNode, pos);
         }
@@ -30,7 +28,7 @@ public class StructureController : MonoBehaviour
     {
         if (StructurePlacementMode)
         {
-            Vector3Int pos = Vector3Int.zero; 
+            Vector3Int pos = Vector3Int.zero;
 
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
@@ -58,7 +56,7 @@ public class StructureController : MonoBehaviour
 
     public void PlaceStructure(Structure structure, Vector3Int position)
     {
-        if(!IsValidPlacement(structure, position))
+        if (!IsValidPlacement(structure, position))
         {
             Debug.Log("Invalid Structure Placement");
             return;
@@ -92,7 +90,7 @@ public class StructureController : MonoBehaviour
             for (int z = 0; z < structure.Size.z; z++)
             {
                 int h2 = w.World.GetHeight(position.x + x, position.z + z);
-                if(h2 != h)
+                if (h2 != h)
                 {
                     return false;
                 }

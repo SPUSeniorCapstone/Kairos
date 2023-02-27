@@ -1,0 +1,26 @@
+
+
+[2023-02-24 14:23:05] RequestAppInfoUpdate: AppIDs 7
+[2023-02-24 14:23:05] Change number 0->17864851, apps: 0/0, packages: 0/0
+[2023-02-24 14:23:06] Requesting 1 apps, 187 packages (meta data, 1024 prev attempts)
+[2023-02-24 14:23:06] Downloaded 1 apps via HTTP, 13 KB (3 KB compressed)
+[2023-02-24 14:23:06] Requesting 0 apps, 187 packages (full data, 1024 prev attempts)
+[2023-02-24 14:23:06] UpdatesJob: finished OK, apps updated 1 (13 KB), packages updated 187 (44 KB)
+[2023-02-24 14:23:06] Requesting 455 apps, 0 packages (meta data, 1024 prev attempts)
+[2023-02-24 14:23:06] Requested 72 app access tokens, 63 received, 9 denied
+[2023-02-24 14:23:07] Updated SHAs with 63 new access tokens
+[2023-02-24 14:23:08] Downloaded 69 apps via HTTP, 3947 KB (952 KB compressed)
+[2023-02-24 14:23:08] Requesting 386 apps, 0 packages (full data, 1024 prev attempts)
+[2023-02-24 14:23:08] UpdatesJob: finished OK, apps updated 455 (4817 KB), packages updated 0 (0 KB)
+[2023-02-24 14:23:23] Starting async write C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/appcache/appinfo.vdf (3695174 bytes)
+[2023-02-24 14:37:34] Apps changed: 
+[2023-02-24 14:37:34] Change number 17864851->17864935, apps: 0/70, packages: 0/0
+[2023-02-24 15:31:35] RequestAppInfoUpdate: AppIDs 7
+[2023-02-24 15:31:36] Packages changed: 
+[2023-02-24 15:31:36] Apps changed: 1240440=17865420,2224090=17865406,443030=17865364,2224130=17865006,
+[2023-02-24 15:31:36] Change number 17864935->17865445, apps: 4/386, packages: 0/27
+[2023-02-24 15:31:36] Requesting 5 apps, 0 packages (meta data, 1024 prev attempts)
+[2023-02-24 15:31:36] Downloaded 2 apps via HTTP, 98 KB (28 KB compressed)
+[2023-02-24 15:31:36] Requesting 2 apps, 0 packages (full data, 1024 prev attempts)
+[2023-02-24 15:31:36] UpdatesJob: finished OK, apps updated 4 (101 KB), packages updated 0 (0 KB)
+[2023-02-24 15:31:51] Starting async write C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/appcache/appinfo.vdf (3695277 bytes)

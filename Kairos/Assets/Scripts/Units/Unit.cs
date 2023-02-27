@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Selectable), typeof(Damageable))]
@@ -26,7 +24,7 @@ public class Unit : MonoBehaviour, ICommandable
             command.unitList.Remove(this);
         }
         // will this work?
-        if(GameController.Main != null)
+        if (GameController.Main != null)
             GameController.Main.MasterDestory(gameObject);
     }
 

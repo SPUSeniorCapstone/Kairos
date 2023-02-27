@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    public HealthBarController HealthBarController {
+    public HealthBarController HealthBarController
+    {
         get
         {
-            if(_healthBarController== null)
+            if (_healthBarController == null)
             {
                 _healthBarController = FindObjectOfType<HealthBarController>();
             }
             return _healthBarController;
-        } 
+        }
     }
     HealthBarController _healthBarController;
 

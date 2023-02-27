@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TextureAtlas))]
@@ -15,7 +13,7 @@ public class BlockManager : MonoBehaviour
     {
         get
         {
-            if(textureAtlas == null)
+            if (textureAtlas == null)
             {
                 textureAtlas = GetComponent<TextureAtlas>();
             }
@@ -67,7 +65,7 @@ public class BlockManager : MonoBehaviour
     {
         TextureAtlas.GenerateTextureAtlas();
     }
-    
+
     public void SaveTextureAtlas()
     {
         TextureAtlas.SaveTextureAtlas();

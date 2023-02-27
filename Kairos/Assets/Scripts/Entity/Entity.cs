@@ -1,13 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Timeline;
-using Debug = UnityEngine.Debug;
 
 public class Entity : MonoBehaviour
 {
@@ -22,7 +13,7 @@ public class Entity : MonoBehaviour
     /// <summary>
     /// Distance at which the entity looks for collisions with walls and structures
     /// </summary>
-    [Range(0,10)]
+    [Range(0, 10)]
     public int AvoidWallRadius = 3;
 
     public int stepHeight = 1;
@@ -36,16 +27,18 @@ public class Entity : MonoBehaviour
     [Tooltip("The distance at which the entity will stop following it's target")]
     public float stopFollowDistance = 1;
 
-    [Range (0, 10)]
+    [Range(0, 10)]
     public float avoidStrength = 1;
-    [Range(0,10)]
+    [Range(0, 10)]
     public float followStrength = 1;
 
     public bool viewDebugInfo = false;
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    [ConditionalHide(nameof(viewDebugInfo), true)]
+    [Disable]
     public Vector3 movementDirection = Vector3.zero;
 
-    [ConditionalHide(nameof(viewDebugInfo), true)][Disable]
+    [ConditionalHide(nameof(viewDebugInfo), true)]
+    [Disable]
     public Vector3 targetPos;
 
 
@@ -75,7 +68,7 @@ public class Entity : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(GameController.Main != null && GameController.Main.EntityController != null)
+        if (GameController.Main != null && GameController.Main.EntityController != null)
             GameController.Main.EntityController.RemoveEntity(this);
     }
 
@@ -89,7 +82,7 @@ public class Entity : MonoBehaviour
         if (Mathf.Abs(height - transform.position.y) <= GameController.Main.CommandController.stepHeight)
         {
             transform.position = new Vector3(transform.position.x, height, transform.position.z);
-           
+
         }
     }
 
@@ -107,7 +100,7 @@ public class Entity : MonoBehaviour
 
     public Vector3 TargetAttraction()
     {
-        if(Vector3.Distance(transform.position, targetPos) < stopFollowDistance)
+        if (Vector3.Distance(transform.position, targetPos) < stopFollowDistance)
         {
             return Vector3.zero;
         }
@@ -157,13 +150,13 @@ public class Entity : MonoBehaviour
         int dist = (int)AvoidWallRadius;
         for (int x = -dist; x <= dist; x++)
         {
-            for(int z = -dist; z <= dist; z++)
+            for (int z = -dist; z <= dist; z++)
             {
                 var check = checkPos + new Vector3Int(x, 0, z);
                 int h = world.World.GetHeight(check.x, check.z);
                 if (Mathf.Abs(h - checkPos.y) > GameController.Main.CommandController.stepHeight)
                 {
-                    var p =  new Vector3(check.x, 0, check.z) - transform.position.Flat();
+                    var p = new Vector3(check.x, 0, check.z) - transform.position.Flat();
                     v -= p / (p.magnitude / AvoidWallRadius);
                 }
             }

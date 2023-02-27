@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public static class VoxelData 
+public static class VoxelData
 {
     public static Vector3[] Vertices =
    {

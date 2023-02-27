@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -15,11 +13,11 @@ public class CheckPathFinding : MonoBehaviour
 
     private void Update()
     {
-        if(task != null && task.IsCompleted)
+        if (task != null && task.IsCompleted)
         {
-            List<Vector3> path = task.Result;   
+            List<Vector3> path = task.Result;
 
-            if(path == null)
+            if (path == null)
             {
                 Debug.Log("Path not found");
                 task = null;
@@ -27,7 +25,7 @@ public class CheckPathFinding : MonoBehaviour
             else
             {
                 pathLine.positionCount = (path.Count);
-                for(int i = 0; i < path.Count; i++)
+                for (int i = 0; i < path.Count; i++)
                 {
                     //path[i] = new Vector3(path[i].x + 0.5f, 10, path[i].z + 0.5f);
                     path[i] = new Vector3(path[i].x, GameController.Main.WorldController.World.GetHeight(path[i].x, path[i].z) + 0.5f, path[i].z);

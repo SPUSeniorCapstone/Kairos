@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public static class Extensions 
+public static class Extensions
 {
     public static Vector2Int ToVector2Int(this Vector2 vec)
     {
@@ -66,10 +63,10 @@ public static class Extensions
         }
         else
         {
-            Vector3 dist = bounds.size - (bounds.center - position).Abs() ;
-            if(dist.x < dist.y && dist.x < dist.z)
+            Vector3 dist = bounds.size - (bounds.center - position).Abs();
+            if (dist.x < dist.y && dist.x < dist.z)
             {
-                if(bounds.center.x - position.x < 0)
+                if (bounds.center.x - position.x < 0)
                 {
                     return new Vector3(bounds.min.x, position.y, position.z);
                 }

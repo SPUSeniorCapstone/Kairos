@@ -1,0 +1,32 @@
+
+
+[2023-02-24 14:23:05] [AppID 7] Starting sync (init,)
+[2023-02-24 14:23:05] [AppID 7] AutoCloud checking local state for user 302452335
+[2023-02-24 14:23:05] [AppID 7] Not running AutoCloud. No config data found
+[2023-02-24 14:23:05] [U:1:302452335] [AppID 7] Init cache request complete
+[2023-02-24 14:23:05] [AppID 7] YldWriteCacheDirectoryToFile - empty vector, deleting 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/userdata/302452335/7/remotecache.vdf'
+[2023-02-24 14:23:08] [AppID 7] Starting sync (down,)
+[2023-02-24 14:23:08] [AppID 7] Attempting to sync from local change number '0' to global change number '11371829230116590045'
+[2023-02-24 14:23:08] [AppID 7] Need to download file serverbrowser_hist.vdf
+[2023-02-24 14:23:08] [AppID 7] Need to download file sharedconfig.vdf
+[2023-02-24 14:23:10] [AppID 7] HTTP download for file 'sharedconfig.vdf' from host 'steamcloudquincy.blob.core.windows.net', path /cloud/6F/0E/07/12/7/016_7_147FA9DF_D93E4_78.dat?sv=2017-04-17&se=2023-02-24T23%3A23%3A10Z&sr=b&sp=r&sig=tXGqre0Ur13SsjGcjtBdJaUBIZlQo9JIisdMWELclys%3D, beginning. . .
+[2023-02-24 14:23:10] [AppID 7] HTTP download for file 'serverbrowser_hist.vdf' from host 'steamcloud-us-east1.storage.googleapis.com', path /6F/0E/07/12/7/030_1_17B5C713_0A731_905.dat?GoogleAccessId=1034790105812-5bdngop952i7sjvk3q8dm3nur4tlg4vb@developer.gserviceaccount.com&Expires=1677280990&Signature=bzblA6Ha36QAx1OymsFyqzKdRJK4oRq9PVA6WVHKDhUuUDjq2XAUQDJWS%2BmoOtnOxzI9ccMLRZa1Aoy0jMn6N7Rljf%2FghFQsoAczriWtiC1k6PuEtdkG7zPeNN0kcNcVGU2IDO3spum4H4pBVvYcALHOvu02axJTH30G9QCZ36g%3D, beginning. . .
+[2023-02-24 14:23:11] [AppID 7] HTTP download for file 'sharedconfig.vdf' from host 'steamcloudquincy.blob.core.windows.net' - Success.
+[2023-02-24 14:23:11] [AppID 7] HTTP download for file 'serverbrowser_hist.vdf' from host 'steamcloud-us-east1.storage.googleapis.com' - Success.
+[2023-02-24 14:23:11] [AppID 7] Download OK for file sharedconfig.vdf
+[2023-02-24 14:23:11] [AppID 7] Download OK for file serverbrowser_hist.vdf
+[2023-02-24 14:23:11] [AppID 7] Download complete, result OK
+[2023-02-24 14:23:11] [AppID 7] Successfully synced to ChangeNumber 11371829230116590045
+[2023-02-24 14:23:11] [Roaming Config] OnRemoteStorageSyncedClient() - result OK
+[2023-02-24 14:23:11] [AppID 7] YldWriteCacheDirectoryToFile - saved to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/userdata/302452335/7/remotecache.vdf'
+[2023-02-24 14:24:05] [Roaming Config] PerformSyncCloud - all sync'd up
+[2023-02-24 15:31:34] [AppID 7] Starting sync (init,)
+[2023-02-24 15:31:34] [AppID 7] AutoCloud checking local state for user 302452335
+[2023-02-24 15:31:34] [U:1:302452335] [AppID 7] Init cache request complete
+[2023-02-24 15:31:34] [AppID 7] YldWriteCacheDirectoryToFile - saved to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/userdata/302452335/7/remotecache.vdf'
+[2023-02-24 15:31:36] [AppID 7] Starting sync (down,)
+[2023-02-24 15:31:36] [AppID 7] Currently already synced to global change number '11371829230116590045', should be nothing to download
+[2023-02-24 15:31:36] [AppID 7] Download complete in build list
+[2023-02-24 15:31:36] [AppID 7] Successfully synced to ChangeNumber 0
+[2023-02-24 15:31:36] [Roaming Config] OnRemoteStorageSyncedClient() - result OK
+[2023-02-24 15:31:36] [AppID 7] YldWriteCacheDirectoryToFile - saved to 'C:\Development\SoftwareEngineeringProject\Steam SDK\tools\ContentBuilder\builder/userdata/302452335/7/remotecache.vdf'

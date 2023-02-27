@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Damageable : MonoBehaviour
 {
@@ -30,13 +27,13 @@ public class Damageable : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
+        if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
             GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
     }
-    
+
     private void Update()
     {
-        
+
         if (Health <= 0)
         {
             dead = true;
@@ -55,7 +52,7 @@ public class Damageable : MonoBehaviour
         if (!Invulnerable)
         {
             Health -= damage;
-            if(Health < 0)
+            if (Health < 0)
             {
                 dead = true;
             }
@@ -66,7 +63,7 @@ public class Damageable : MonoBehaviour
     public void Heal(float heal)
     {
         Health += heal;
-        if(Health > MaxHealth)
+        if (Health > MaxHealth)
         {
             Health = MaxHealth;
         }

@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class CommandGroup : MonoBehaviour
 {
@@ -24,13 +20,13 @@ public class CommandGroup : MonoBehaviour
 
     [Range(0, 1f)]
     public float alignmentFactor;
-    
+
     [Range(0, 50f)]
     public float effectiveDistance;
-    
+
     [Range(0, 1f)]
     public float cohesionFactor;
-    
+
     [Range(0, 20)]
     public float avoidStrength = 1;
 
@@ -98,14 +94,14 @@ public class CommandGroup : MonoBehaviour
 
         Vector3 center = Vector3.zero;
         int count = 0;
-        for(int i = 0; i < unitList.Count; i++)
+        for (int i = 0; i < unitList.Count; i++)
         {
             var unit = unitList[i];
 
             center += unit.transform.position.Flat();
             count++;
         }
-        if(count > 0)
+        if (count > 0)
         {
             center /= count;
             center.y = 0;
@@ -117,24 +113,24 @@ public class CommandGroup : MonoBehaviour
         groupTargetObj = gameObject;
         //foreach (Unit units in unitList)
         //{
-            //entity.targetObject = groupTargetObj;
-            //if (gameObject == GameController.Main.CommandController.wayPoint)
-            //{
-            //    Debug.Log("GAMEOBJECT WAYPOINT");
-            //    entity.pathing = true;
-            //    entity.NextPoint();
-            //    //entity.SetTargetPos();
-            //}
-            //else
-            //{
-            //    Debug.Log("NOT WAYPOINT");
-            //    entity.pathing = true;
-            //    entity.NextPoint();
-            //    //entity.SetTargetPos();
-            //    //entity.idle = false;
-            //}
-            //entity.SetTargetPos();
-            //entity.idle = false;
+        //entity.targetObject = groupTargetObj;
+        //if (gameObject == GameController.Main.CommandController.wayPoint)
+        //{
+        //    Debug.Log("GAMEOBJECT WAYPOINT");
+        //    entity.pathing = true;
+        //    entity.NextPoint();
+        //    //entity.SetTargetPos();
+        //}
+        //else
+        //{
+        //    Debug.Log("NOT WAYPOINT");
+        //    entity.pathing = true;
+        //    entity.NextPoint();
+        //    //entity.SetTargetPos();
+        //    //entity.idle = false;
+        //}
+        //entity.SetTargetPos();
+        //entity.idle = false;
 
         //}
     }
