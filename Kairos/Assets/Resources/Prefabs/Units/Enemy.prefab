@@ -293,12 +293,14 @@ MonoBehaviour:
   command: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
-  layerMask: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
   personalDistance: 1
   attackDistance: 1
   attackCoolDown: 1
   attackDamage: 10
-  autoAttack: 0
+  autoAttack: 1
   target: {fileID: 0}
 --- !u!136 &2318046230472838670
 CapsuleCollider:

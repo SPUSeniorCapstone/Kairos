@@ -30,9 +30,16 @@ public class MenuController : MonoBehaviour
 
     public void Resume()
     {
+        // null checking, errors if otherwise
+        if (pauseMenuUI != null)
         pauseMenuUI.SetActive(false);
+       
+        if (optionsMenuUI != null)
         optionsMenuUI.SetActive(false);
-        structureMenuUI.SetActive(false);
+
+        if (structureMenuUI != null)
+            structureMenuUI.SetActive(false);
+
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
@@ -67,6 +74,7 @@ public class MenuController : MonoBehaviour
     public void NewGame()
     {
         SceneManager.LoadScene("New Game Menu");
+        Resume();
     }
 
     //Loads Option Scene
