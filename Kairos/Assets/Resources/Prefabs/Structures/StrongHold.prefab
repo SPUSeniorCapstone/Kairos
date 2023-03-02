@@ -177,8 +177,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Size: {x: 2, y: 0, z: 2}
+  unitsQueued: 0
   unitToSpawn: {fileID: 2701632545085584670, guid: 556bd51a97a71624e8e2bd8159bddadc, type: 3}
+  unitTypes:
+  - {fileID: 2875157832969938577, guid: 9d784b3cac64d67409ff2d94d28a8ab2, type: 3}
+  - {fileID: 2701632545085584670, guid: 556bd51a97a71624e8e2bd8159bddadc, type: 3}
   spawnPoint: {fileID: 6493630821753867720}
+  rallyPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &894272694490731707
 MonoBehaviour:
   m_ObjectHideFlags: 0

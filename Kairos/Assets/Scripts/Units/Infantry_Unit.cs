@@ -50,18 +50,26 @@ public class Infantry_Unit : Unit
                 command.unitList.Remove(this);
                 command = null;
             }
+        }
 
+        if (autoAttack)
+        {
             // passive auto attack
             var enemy = EnemyDetection();
             if (enemy != null)
             {
-                SetTarget(enemy);
-                if (autoAttack)
+            
+                if (autoAttack && entity.movementMode == Infantry_Entity.MovementMode.IDLE)
+                {
+                    SetTarget(enemy);
                     entity.movementMode = Infantry_Entity.MovementMode.ATTACK_FOLLOW;
+                }
+
             }
         }
+
         // is this neccesary? why not update all the time?
-        if (entity.movementMode == Infantry_Entity.MovementMode.ATTACK_FOLLOW && target != null && autoAttack)
+        if (entity.movementMode == Infantry_Entity.MovementMode.ATTACK_FOLLOW && target != null && Visible(target.GetComponent<Selectable>()) && autoAttack)
         {
             entity.targetPos = target.transform.position;
             //when within attack range
@@ -94,6 +102,10 @@ public class Infantry_Unit : Unit
         if (tar != null)
         {
             SetTarget(tar, true);
+        }
+        else
+        {
+            Debug.Log("TAR IS NULL! => " + selectable);
         }
     }
 
@@ -185,11 +197,21 @@ public class Infantry_Unit : Unit
             // , LayerMask.NameToLayer(layerMask)
             if (Physics.Raycast(ray, out hitData, searchRadius, layerMask) && (hitData.transform == selectable.transform)) // <- will this be problematic?
             {
-                Debug.Log(hitData.transform.name + " spotted by " + name);
+                //Debug.Log(hitData.transform.name + " spotted by " + name);
                 return true;
             }
         }
 
         return false;
+    }
+    public override void AttackCommand()
+    {
+        Debug.Log("attack command");
+        GetComponent<Infantry_Entity>().movementMode = Infantry_Entity.MovementMode.ATTACK_FOLLOW;
+    }
+    public override void ClearTarget()
+    {
+        Debug.Log("CLEAR");
+        target = null;
     }
 }

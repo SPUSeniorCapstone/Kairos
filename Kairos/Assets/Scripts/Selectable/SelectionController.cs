@@ -138,7 +138,8 @@ public class SelectionController : MonoBehaviour
             Debug.Log(hitData.transform.name);
             return hitData.transform.GetComponentInParent<Selectable>();
         }
-        else if (hitData.transform != null) { Debug.Log(hitData.transform.name); }
+        else if (hitData.transform != null) { //Debug.Log(hitData.transform.name);
+                                              }
         return null;
     }
 }

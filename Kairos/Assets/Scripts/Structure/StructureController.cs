@@ -15,6 +15,10 @@ public class StructureController : MonoBehaviour
 
     public ProductionStructure selected;
 
+    // PLEASE FIX THIS
+    public GameObject infantry;
+    public GameObject archer;
+
     private void Start()
     {
         PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
@@ -49,9 +53,18 @@ public class StructureController : MonoBehaviour
         }
     }
 
-    public void TrainUnit()
+    //public void TrainUnit()
+    //{
+    //    selected.QueueUnits();
+    //}
+
+    public void TrainArcher()
     {
-        selected.QueueUnits();
+        selected.QueueUnits(archer);
+    }
+    public void TrainInfantry()
+    {
+        selected.QueueUnits(infantry);
     }
 
     public void PlaceStructure(Structure structure, Vector3Int position)

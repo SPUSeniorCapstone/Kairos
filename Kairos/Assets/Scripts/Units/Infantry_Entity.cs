@@ -20,6 +20,12 @@ public class Infantry_Entity : Entity
     {
         //base.Update();
 
+        //Debug test range
+        //if (GetComponent<Infantry_Unit>().target != null)
+        //{
+        //    Debug.Log(Vector3.Distance(transform.position.Flat(), GetComponent<Infantry_Unit>().target.transform.position.Flat()) + " <= " + GetComponent<Infantry_Unit>().attackDistance);
+        //} 
+
         if (retrievingPath)
         {
             if (pathingTask == null)
@@ -77,7 +83,7 @@ public class Infantry_Entity : Entity
                 FollowTarget();
                 break;
             case MovementMode.ATTACK_FOLLOW:
-                FollowTarget();
+                AttackFollow();
                 break;
         }
     }
@@ -89,7 +95,7 @@ public class Infantry_Entity : Entity
 
     void FollowPath()
     {
-        if (Vector3.Distance(transform.position.Flat(), targetPos.Flat()) < stopFollowDistance)
+        if (path != null && Vector3.Distance(transform.position.Flat(), targetPos.Flat()) < stopFollowDistance)
         {
             if (pathIndex < path.Count - 1)
             {
@@ -103,6 +109,13 @@ public class Infantry_Entity : Entity
                 movementMode = MovementMode.IDLE;
             }
         }
+        if (GetComponent<Infantry_Unit>().target != null && Vector3.Distance(transform.position.Flat(), GetComponent<Infantry_Unit>().target.transform.position.Flat()) <= GetComponent<Infantry_Unit>().attackDistance)
+        {
+            movementMode = MovementMode.ATTACK_FOLLOW;
+            Debug.Log("IN RANGE!!");
+            pathIndex = -1;
+            path = null;
+        }
         FollowTarget();
     }
 
@@ -110,6 +123,20 @@ public class Infantry_Entity : Entity
     {
         Idle();
         movementDirection += TargetAttraction();
+    }
+
+    void AttackFollow()
+    {
+        Idle();
+        if (Vector3.Distance(transform.position.Flat(), GetComponent<Infantry_Unit>().target.transform.position.Flat()) <= GetComponent<Infantry_Unit>().attackDistance)
+        {
+            movementMode = MovementMode.ATTACK_FOLLOW;
+            Debug.Log("IN RANGE!!");
+        }
+        else
+        {
+            movementDirection += TargetAttraction();
+        }
     }
 
 }

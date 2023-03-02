@@ -17,6 +17,14 @@ public class Unit : MonoBehaviour, ICommandable
     {
 
     }
+    virtual public void AttackCommand()
+    {
+
+    }
+    virtual public void ClearTarget()
+    {
+
+    }
     public void OnDestroy()
     {
         if (command != null)
