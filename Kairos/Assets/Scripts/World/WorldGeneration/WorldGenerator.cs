@@ -36,6 +36,7 @@ public class WorldGenerator : MonoBehaviour
     public void SetSeed(string seed) { this.seed = int.Parse(seed); }
 
     int terrainSeed;
+    int corruptionSeed;
 
     [Range(0.001f, 3.0f)]
     public float scale;
@@ -54,6 +55,7 @@ public class WorldGenerator : MonoBehaviour
 
     float[,] falloff;
     float[,] terrainMap;
+    float[,] corruptionMap;
 
     public Vector2Int worldSize = new Vector2Int(8, 8);
     public void SetSize(float size) { worldSize = new Vector2Int((int)size, (int)size); }
@@ -71,6 +73,7 @@ public class WorldGenerator : MonoBehaviour
     {
         UnityEngine.Random.InitState(seed);
         terrainSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        corruptionSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
     }
 
     public void GenerateWorld(bool loadMeshes = true)
@@ -81,6 +84,7 @@ public class WorldGenerator : MonoBehaviour
         world.lengthInChunks = worldSize.y;
         InitWorldGen(seed);
 
+        corruptionMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, corruptionSeed, 0.3f, octaves, 4, lacunarity, Vector2.zero);
         terrainMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
 
         if (useFalloff)
@@ -181,7 +185,7 @@ public class WorldGenerator : MonoBehaviour
 
                 for (int y = 0; y < height; y++)
                 {
-                    blocks[x, y, z] = new Block(blockID, new Vector3Int(x, y, z));
+                    blocks[x, y, z] = new Block(blockID, new Vector3Int(x, y, z), corruptionMap[x + offset.x,z + offset.y]);
                 }
             }
         }

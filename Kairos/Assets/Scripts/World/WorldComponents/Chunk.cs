@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -138,6 +137,7 @@ public class Chunk : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
         List<Vector2> uvs = new List<Vector2>();
+        List<Vector2> corruption = new List<Vector2>();
 
         for (int x = 0; x < width; x++)
         {
@@ -145,7 +145,7 @@ public class Chunk : MonoBehaviour
             {
                 for (int z = 0; z < length; z++)
                 {
-                    DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID);
+                    DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID, blocks[x,y,z].corruption);
                 }
             }
         }
@@ -155,7 +155,9 @@ public class Chunk : MonoBehaviour
         mesh.SetVertices(vertices);
         mesh.SetTriangles(triangles, 0);
         mesh.SetUVs(0, uvs);
+        mesh.SetUVs(3,corruption);
         mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
 
         meshFilter.sharedMesh = mesh;
         GetComponent<MeshCollider>().convex = false;
@@ -165,7 +167,7 @@ public class Chunk : MonoBehaviour
 
         transform.position = new Vector3(position.x * width, 0, position.z * length);
 
-        void DrawVoxel(Vector3Int pos, int blockID)
+        void DrawVoxel(Vector3Int pos, int blockID, float corruptStrength = 0f)
         {
             if (blockID == 0)
             {
@@ -188,6 +190,10 @@ public class Chunk : MonoBehaviour
                     uvs.Add((VoxelData.UVs[1] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
                     uvs.Add((VoxelData.UVs[2] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
                     uvs.Add((VoxelData.UVs[3] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
                     triangles.Add(index);
                     triangles.Add(index + 1);
                     triangles.Add(index + 2);
@@ -198,6 +204,15 @@ public class Chunk : MonoBehaviour
                 }
             }
         }
+
+        //Vector2 tempuv = (VoxelData.UVs[0] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett;
+        //uvs.Add(new Vector3(tempuv.x, tempuv.y, Random.Range(0f, 1)));
+        //tempuv = (VoxelData.UVs[1] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett;
+        //uvs.Add(new Vector3(tempuv.x, tempuv.y, Random.Range(0f, 1)));
+        //tempuv = (VoxelData.UVs[2] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett;
+        //uvs.Add(new Vector3(tempuv.x, tempuv.y, Random.Range(0f, 1)));
+        //tempuv = (VoxelData.UVs[3] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett;
+        //uvs.Add(new Vector3(tempuv.x, tempuv.y, Random.Range(0f, 1)));
     }
 
     /// <summary>
@@ -210,7 +225,7 @@ public class Chunk : MonoBehaviour
         if (pos.x > width || pos.y > height || pos.z > length)
         {
             Debug.LogError("Invalid Chunk Position");
-            return new Block(-1, Vector3Int.zero);
+            return new Block(-1, Vector3Int.zero, 0);
         }
         return blocks[pos.x, pos.y, pos.z];
     }
