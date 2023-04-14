@@ -91,9 +91,10 @@ public class Selectable : MonoBehaviour
         // Debug.Log("off");
     }
 
-    private void OnDestroy()
-    {
-        GameController.Main.SelectionController.masterSelect.Remove(this);
-        GameController.Main.SelectionController.currentlySelect.Remove(this);
-    }
+    // master destroy should deal with this?
+    //private void OnDestroy()
+    //{
+    //    GameController.Main.SelectionController.masterSelect.Remove(this);
+    //    GameController.Main.SelectionController.currentlySelect.Remove(this);
+    //}
 }

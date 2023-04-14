@@ -151,6 +151,7 @@ public class GameController : MonoBehaviour
             selectable = item.GetComponentInChildren<Selectable>();
         }
         EntityController.Entities.Remove(entity);
+        // un comment to put back as master destroy
         SelectionController.masterSelect.Remove(selectable);
         SelectionController.currentlySelect.Remove(selectable);
 

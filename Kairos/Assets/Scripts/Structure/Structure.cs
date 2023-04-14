@@ -15,6 +15,8 @@ public class Structure : MonoBehaviour
 
     public bool example = false;
 
+    public Builder_Unit builder;
+
     public GameObject directory;
 
     protected void Start()

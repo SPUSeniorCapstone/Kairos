@@ -53,17 +53,20 @@ public class StructureController : MonoBehaviour
 
             if (GameController.Main.inputController.Select.Pressed())
             {
-                GameController.Main.SelectionController.testCooldown = false;
-                PlaceStructure(strongHold, pos);
                 StructurePlacementMode = false;
+                GameController.Main.SelectionController.testCooldown = false;
+                GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>().BuildTask(pos);
+                PlaceStructure(strongHold, pos);
+                
                 GameController.Main.SelectionController.testCooldown = true;
             }
         }
     }
 
-    public void Placement()
+    public void BuildOrder()
     {
         StructurePlacementMode = true;
+        
     }
 
     public void TrainArcher()
@@ -88,8 +91,9 @@ public class StructureController : MonoBehaviour
 
         position.y = w.World.GetHeight(position);
 
-        var s = Instantiate<Structure>(structure);
+        var s = Instantiate<Structure>(structure, PlayerStructures.transform);
         s.transform.position = position;
+        s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
 
         for (int x = 0; x < structure.Size.x; x++)
         {

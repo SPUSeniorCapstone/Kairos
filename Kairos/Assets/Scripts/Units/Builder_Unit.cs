@@ -8,7 +8,7 @@ public class Builder_Unit : Unit
     public float personalDistance = 1;
 
     // if certain stance, flee when enemy detected
-
+    public Vector3 display;
 
 
 
@@ -17,7 +17,7 @@ public class Builder_Unit : Unit
     // i want to move this to base unit class
     //public CommandGroup command;
 
-    Builder_Entity entity;
+    public Builder_Entity entity;
 
     private void Start()
     {
@@ -60,6 +60,14 @@ public class Builder_Unit : Unit
     {
         Debug.Log("off");
         GameController.Main.UIController.StratView.BuildMenu.SetActive(false);
+    }
+
+    public void BuildTask(Vector3 pos)
+    {
+        display = pos;
+        pos.x++;
+        pos.y++;
+        MoveTo(pos);
     }
 
     public override void PerformTaskOn(Selectable selectable)
