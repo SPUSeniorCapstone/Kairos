@@ -113,6 +113,7 @@ public class Infantry_Unit : Unit
     {
         entity.retrievingPath = true;
         //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
+        entity.movementMode = Infantry_Entity.MovementMode.FOLLOW_PATH;
         entity.pathingTask = SetPath(position);
     }
 

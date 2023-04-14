@@ -1,0 +1,180 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+
+[RequireComponent(typeof(Builder_Entity))]
+public class Builder_Unit : Unit
+{
+    public float personalDistance = 1;
+
+    // if certain stance, flee when enemy detected
+
+
+
+
+    public Damageable target;
+
+    // i want to move this to base unit class
+    //public CommandGroup command;
+
+    Builder_Entity entity;
+
+    private void Start()
+    {
+        base.Start();
+        if (GetComponent<CheckPathFinding>() != null)
+        {
+            GetComponent<CheckPathFinding>().end = GameController.Main.CommandController.wayPoint;
+        }
+
+    }
+    private void Awake()
+    {
+        entity = GetComponent<Builder_Entity>();
+    }
+
+    private void Update()
+    {
+        if (entity.movementMode == Builder_Entity.MovementMode.IDLE)
+        {
+            // if idle, should be done path finding, so remove self from cg
+            if (command != null)
+            {
+                command.unitList.Remove(this);
+                command = null;
+            }
+        }
+        if (GameController.Main.UIController.StratView.inspectee == this.gameObject && GameController.Main.UIController.StratView.BuildMenu.active == false)
+        {
+           // GameController.Main.UIController.StratView.BuildMenu.SetActive(true);
+        }
+
+    }
+
+    public override void OnSelect()
+    {
+        Debug.Log("OnSelect");
+        GameController.Main.UIController.StratView.BuildMenu.SetActive(true);
+    }
+    public override void OnDeselect()
+    {
+        Debug.Log("off");
+        GameController.Main.UIController.StratView.BuildMenu.SetActive(false);
+    }
+
+    public override void PerformTaskOn(Selectable selectable)
+    {
+        var tar = selectable.GetComponent<Damageable>();
+        if (tar != null)
+        {
+            SetTarget(tar, true);
+        }
+        else
+        {
+            Debug.Log("TAR IS NULL! => " + selectable);
+        }
+    }
+
+    public override void MoveTo(Vector3 position)
+    {
+        entity.retrievingPath = true;
+        //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
+        entity.movementMode = Builder_Entity.MovementMode.FOLLOW_PATH;
+        entity.pathingTask = SetPath(position);
+    }
+
+    public Task<List<Vector3>> SetPath(Vector3 position)
+    {
+        if (command != null)
+        {
+            return GameController.Main.PathFinder.FindPath(command.centerVector, position, entity.stepHeight, false);
+        }
+        else
+        {
+            return GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
+        }
+    }
+
+    public void SetTarget(Damageable target, bool pathfind = false)
+    {
+        if (!Visible(target.GetComponent<Selectable>()))
+        {
+            if (!pathfind)
+            {
+                Debug.Log("Cannot see target");
+                return;
+            }
+            else
+            {
+                MoveTo(target.transform.position);
+            }
+        }
+        this.target = target;
+        entity.targetPos = target.transform.position;
+        entity.idle = false;
+        entity.perch = false;
+        isPerformingTask = true;
+    }
+
+    /// <summary>
+    /// Returns the closest enemy the unit can see. Returns null if no enemies are found
+    /// </summary>
+    public Damageable EnemyDetection()
+    {
+        Damageable damageable = null;
+
+        foreach (Selectable selectable in GameController.Main.SelectionController.masterSelect)
+        {
+            // No friendly fire
+            if (GetComponent<Selectable>().faction ^ selectable.faction) // !^ = Not XOR
+            {
+
+
+                //Don't bother fighting things that cannot be damaged
+                var temp = selectable.GetComponent<Damageable>();
+                if (temp == null || temp.Invulnerable)
+                {
+                    continue;
+                }
+
+                if (Visible(selectable))
+                {
+                    if (damageable == null || Vector3.Distance(temp.transform.position, transform.position) < Vector3.Distance(damageable.transform.position, transform.position))
+                    {
+                        damageable = temp;
+
+                    }
+                }
+            }
+
+        }
+        return damageable;
+    }
+
+    public bool Visible(Selectable selectable)
+    {
+        // if within square bounds
+        if (Helpers.InSquareRadius(searchRadius, transform.position.ToVector2(), selectable.transform.position.ToVector2()))
+        {
+            Ray ray;
+            // need the vector up or else only works in postive quadrant
+            ray = new Ray(transform.position + Vector3.up, selectable.transform.position - transform.position);
+            RaycastHit hitData;
+            // if within line of sight
+            // , LayerMask.NameToLayer(layerMask)
+            if (Physics.Raycast(ray, out hitData, searchRadius, layerMask) && (hitData.transform == selectable.transform)) // <- will this be problematic?
+            {
+                //Debug.Log(hitData.transform.name + " spotted by " + name);
+                return true;
+            }
+        }
+
+        return false;
+    }
+   
+    public override void ClearTarget()
+    {
+        Debug.Log("CLEAR");
+        target = null;
+    }
+}

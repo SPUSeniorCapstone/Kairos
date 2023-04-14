@@ -9,6 +9,7 @@ public class StructureController : MonoBehaviour
 
     public Structure structure;
     public Structure strongHold;
+    public GameObject strongHoldPreview;
     public GameObject placeHolder;
 
     public Structure corruptionNode;
@@ -46,17 +47,20 @@ public class StructureController : MonoBehaviour
 
             placeHolder.transform.position = pos;
 
-            if (GameController.Main.inputController.Select.Down())
+            if (GameController.Main.inputController.Select.Pressed())
             {
+                GameController.Main.SelectionController.testCooldown = false;
                 PlaceStructure(strongHold, pos);
+                StructurePlacementMode = false;
+                GameController.Main.SelectionController.testCooldown = true;
             }
         }
     }
 
-    //public void TrainUnit()
-    //{
-    //    selected.QueueUnits();
-    //}
+    public void Placement()
+    {
+        StructurePlacementMode = true;
+    }
 
     public void TrainArcher()
     {

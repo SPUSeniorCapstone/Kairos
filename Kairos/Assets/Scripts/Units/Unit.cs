@@ -25,6 +25,14 @@ public class Unit : MonoBehaviour, ICommandable
     {
 
     }
+    public virtual void OnSelect()
+    {
+
+    }
+    public virtual void OnDeselect()
+    {
+
+    }
     public void OnDestroy()
     {
         if (command != null)

@@ -9,6 +9,7 @@ public class SelectionController : MonoBehaviour
     public List<Selectable> masterSelect = new List<Selectable>();
     public List<Selectable> currentlySelect = new List<Selectable>();
     // is this neccessary
+    public bool testCooldown = true;
 
     [SerializeField] private GameObject selectionAreaTransform;
 
@@ -41,7 +42,7 @@ public class SelectionController : MonoBehaviour
             //    }
             //}
             // single click select, or click and drag let go
-            if (GameController.Main.InputController.Select.KeyUp())
+            if (GameController.Main.InputController.Select.KeyUp() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
                 Debug.Log("Mouse0 up");
                 selectionAreaTransform.gameObject.SetActive(false);
@@ -54,7 +55,7 @@ public class SelectionController : MonoBehaviour
                     // will this work? will it remember these "global" vectors?
                     if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.faction)
                     {
-                        //Debug.Log("Within bounds");
+                        Debug.Log("Within bounds");
                         selectable.selected = true;
                         selectable.Activate();
                         currentlySelect.Add(selectable);
@@ -72,6 +73,10 @@ public class SelectionController : MonoBehaviour
                         }
                     }
                 }
+                // ping ui to check
+                if (currentlySelect.Count > 0)
+                    GameController.Main.UIController.StratView.SetUnitView(currentlySelect[0].gameObject);
+                else GameController.Main.UIController.StratView.SetUnitView(null);
             }
             // click and drag box
             if (GameController.Main.InputController.Select.Pressed())

@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
+    public Selectable currentSelected;
+
+    public void SetUnitView()
+    {
+
+    }
     public HealthBarController HealthBarController
     {
         get
@@ -27,4 +33,17 @@ public class UIController : MonoBehaviour
         }
     }
     MenuController _menuController;
+
+    public StratView StratView
+    {
+        get
+        {
+            if (_stratView == null)
+            {
+                _stratView = FindObjectOfType<StratView>();
+            }
+            return (_stratView);
+        }
+    }
+    StratView _stratView;
 }

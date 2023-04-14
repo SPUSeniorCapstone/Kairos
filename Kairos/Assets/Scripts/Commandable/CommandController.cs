@@ -68,8 +68,7 @@ public class CommandController : MonoBehaviour
             var u = t.GetComponent<Unit>();
             if (u != null)
             {
-                u.ClearTarget();
-                u.GetComponent<Infantry_Entity>().movementMode = Infantry_Entity.MovementMode.FOLLOW_PATH;
+                u.ClearTarget();                
                 u.MoveTo(target);
             }
             return;
@@ -126,7 +125,6 @@ public class CommandController : MonoBehaviour
         foreach (Unit unit in cg.unitList)
         {
             unit.ClearTarget();
-            unit.GetComponent<Infantry_Entity>().movementMode = Infantry_Entity.MovementMode.FOLLOW_PATH;
             unit.MoveTo(target);
         }
 

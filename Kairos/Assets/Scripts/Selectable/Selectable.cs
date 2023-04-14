@@ -6,20 +6,54 @@ public class Selectable : MonoBehaviour
     public bool faction;
     public Material unSelectedMaterial;
     public Material selectedMaterial;
+    private Unit unit;
+    private Structure structure;
+   
     void Start()
     {
         // write function to handles this or modify public list directly?
         GameController.Main.SelectionController.masterSelect.Add(this);
+
+        if(GetComponent<Unit>() != null)
+        {
+            unit = GetComponent<Unit>();
+        }
+        else if (GetComponent<Structure>() != null)
+        {
+            structure = GetComponent<Structure>();
+        }
     }
 
     // test code delete when done
     public void Activate()
     {
-        GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+       if (GameController.Main.SelectionController.testCooldown)
+        {
+            GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+            if (unit != null)
+            {
+                unit.OnSelect();
+            }
+            else if (structure != null)
+            {
+                structure.OnSelect();
+            }
+        }
     }
     public void Deactivate()
     {
-        GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
+        if (GameController.Main.SelectionController.testCooldown)
+        {
+            GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
+            if (unit != null)
+            {
+                unit.OnDeselect();
+            }
+            else if (structure != null)
+            {
+                structure.OnDeselect();
+            }
+        }
     }
     private void OnMouseOver()
     {

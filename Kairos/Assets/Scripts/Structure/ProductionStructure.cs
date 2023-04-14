@@ -36,8 +36,11 @@ public class ProductionStructure : Structure
     //Function for when stronghold is clicked activate structureMenuUI
     public void OnMouseDown()
     {
-        GameController.Main.StructureController.selected = this;
-        GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
+        //if (GameController.Main.SelectionController.currentlySelect[0].gameObject == this)
+        //{
+        //    GameController.Main.StructureController.selected = this;
+        //    GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
+        //}
     }
 
     //Add a unit to queue if train units button is clicked
@@ -63,5 +66,17 @@ public class ProductionStructure : Structure
                 tree.GetComponent<Infantry_Unit>().MoveTo(rallyPoint);
             }
         }
+    }
+    public override void OnSelect()
+    {
+        Debug.Log("OnSelect");
+        GameController.Main.StructureController.selected = this;
+        GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
+    }
+    public override void OnDeselect()
+    {
+        Debug.Log("off");
+        GameController.Main.StructureController.selected = null;
+        GameController.Main.UIController.MenuController.structureMenuUI.SetActive(false);
     }
 }

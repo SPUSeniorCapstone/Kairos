@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -27,5 +28,14 @@ public class Structure : MonoBehaviour
             GameController.Main.StructureController.masterStructure.Remove(this);
             GameController.Main.CheckVictory(this);
         }
+    }
+
+    public virtual void OnSelect()
+    {
+
+    }
+    public virtual void OnDeselect()
+    {
+
     }
 }

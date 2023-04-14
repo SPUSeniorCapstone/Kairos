@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[RequireComponent(typeof(Infantry_Unit))]
+
 public class Infantry_Entity : Entity
 {
     public enum MovementMode { IDLE, FOLLOW_PATH, FOLLOW_TARGET, ATTACK_FOLLOW }
