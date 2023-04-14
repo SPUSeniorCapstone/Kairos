@@ -185,7 +185,7 @@ public class WorldGenerator : MonoBehaviour
 
                 for (int y = 0; y < height; y++)
                 {
-                    blocks[x, y, z] = new Block(blockID, new Vector3Int(x, y, z), corruptionMap[x + offset.x,z + offset.y]);
+                    blocks[x, y, z] = new Block(blockID, new Vector3Int(x, y, z));
                 }
             }
         }

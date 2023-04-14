@@ -177,4 +177,14 @@ public class World : MonoBehaviour
         texture.Apply();
         return texture;
     }
+
+    public void SetCorruption(int x, int z)
+    {
+
+    }
+
+    public void GetCorruption(int x, int z)
+    {
+
+    }
 }

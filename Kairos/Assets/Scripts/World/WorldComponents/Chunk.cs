@@ -47,6 +47,8 @@ public class Chunk : MonoBehaviour
 
     public int[,] heights = new int[width, length];
 
+    public float[,] corruptionMap = new float[width, length]; 
+
     //Methods
 
     /// <summary>
@@ -145,7 +147,7 @@ public class Chunk : MonoBehaviour
             {
                 for (int z = 0; z < length; z++)
                 {
-                    DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID, blocks[x,y,z].corruption);
+                    DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID, corruptionMap[x,z]);
                 }
             }
         }
@@ -204,15 +206,31 @@ public class Chunk : MonoBehaviour
                 }
             }
         }
+    }
 
-        //Vector2 tempuv = (VoxelData.UVs[0] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett;
-        //uvs.Add(new Vector3(tempuv.x, tempuv.y, Random.Range(0f, 1)));
-        //tempuv = (VoxelData.UVs[1] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett;
-        //uvs.Add(new Vector3(tempuv.x, tempuv.y, Random.Range(0f, 1)));
-        //tempuv = (VoxelData.UVs[2] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett;
-        //uvs.Add(new Vector3(tempuv.x, tempuv.y, Random.Range(0f, 1)));
-        //tempuv = (VoxelData.UVs[3] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett;
-        //uvs.Add(new Vector3(tempuv.x, tempuv.y, Random.Range(0f, 1)));
+    public void UpdateCorruptionUV()
+    {
+        List<Vector2> corruption = new List<Vector2>();
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int z = 0; z < length; z++)
+                {
+                    if(blocks[x, y, z].blockID == 0)
+                    {
+                        continue;
+                    }
+
+                    float corruptStrength = corruptionMap[x, z];
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                }
+            }
+        }
+        GetComponent<MeshFilter>().sharedMesh.SetUVs(3, corruption);
     }
 
     /// <summary>

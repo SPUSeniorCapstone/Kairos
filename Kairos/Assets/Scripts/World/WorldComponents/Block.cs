@@ -16,12 +16,9 @@ public struct Block
     /// </summary>
     public Vector3Int position;
 
-    public float corruption;
-
-    public Block(int blockID, Vector3Int position, float corruptionAmount )
+    public Block(int blockID, Vector3Int position)
     {
         this.blockID = blockID;
         this.position = position;
-        this.corruption = corruptionAmount;
     }
 }
