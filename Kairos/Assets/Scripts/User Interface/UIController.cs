@@ -3,11 +3,6 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
     public Selectable currentSelected;
-
-    public void SetUnitView()
-    {
-
-    }
     public HealthBarController HealthBarController
     {
         get

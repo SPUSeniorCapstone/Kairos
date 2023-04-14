@@ -1,12 +1,14 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Selectable), typeof(Damageable))]
-public class Unit : MonoBehaviour, ICommandable
+public class Unit : MonoBehaviour
 {
     public CommandGroup command;
     public float searchRadius = 15f;
     public bool isPerformingTask = false;
     public LayerMask layerMask;
+    // best way to do this?
+    private Selectable goal;
 
     virtual public void PerformTaskOn(Selectable selectable)
     {
@@ -39,7 +41,7 @@ public class Unit : MonoBehaviour, ICommandable
         {
             command.unitList.Remove(this);
         }
-        // will this work?
+        // calls master destroy
         if (GameController.Main != null)
             GameController.Main.MasterDestory(gameObject);
     }
@@ -47,6 +49,7 @@ public class Unit : MonoBehaviour, ICommandable
     public void Start()
     {
         var faction = GetComponent<Selectable>();
+        // faction is enemy or player?
         if (faction.faction)
         {
             layerMask = LayerMask.GetMask("Terrain", "Player");

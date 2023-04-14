@@ -39,7 +39,7 @@ public class CommandController : MonoBehaviour
                     attackCommand = true;
                     if (GameController.Main.SelectionController.currentlySelect.Count > 0)
                     {
-                        AttackWithSelected(GameController.Main.SelectionController.enemy);
+                        AttackWithSelected(GameController.Main.SelectionController.actionTarget);
                     }
                 }
                 else

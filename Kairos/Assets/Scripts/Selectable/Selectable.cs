@@ -14,6 +14,7 @@ public class Selectable : MonoBehaviour
         // write function to handles this or modify public list directly?
         GameController.Main.SelectionController.masterSelect.Add(this);
 
+        // this is so that when selected, selectable can fire any event that needs to happen in unit or structure
         if(GetComponent<Unit>() != null)
         {
             unit = GetComponent<Unit>();
@@ -23,8 +24,6 @@ public class Selectable : MonoBehaviour
             structure = GetComponent<Structure>();
         }
     }
-
-    // test code delete when done
     public void Activate()
     {
        if (GameController.Main.SelectionController.testCooldown)
@@ -55,6 +54,9 @@ public class Selectable : MonoBehaviour
             }
         }
     }
+
+    // Next two functions do with hover over triggers
+
     private void OnMouseOver()
     {
         //if (GameController.Main.capture == null)
@@ -65,7 +67,7 @@ public class Selectable : MonoBehaviour
         {
             Debug.Log("Enimico!");
             GameController.Main.SelectionController.onEnemy = true;
-            GameController.Main.SelectionController.enemy = this.gameObject;
+            GameController.Main.SelectionController.actionTarget = this.gameObject;
 
             //Debug.Log("True enemy, pos" + GameController.main.playerController.enemyPos);
 
@@ -86,7 +88,7 @@ public class Selectable : MonoBehaviour
     private void OnMouseExit()
     {
         GameController.Main.SelectionController.onEnemy = false;
-        GameController.Main.SelectionController.enemy = null;
+        GameController.Main.SelectionController.actionTarget = null;
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         // Debug.Log("off");
     }

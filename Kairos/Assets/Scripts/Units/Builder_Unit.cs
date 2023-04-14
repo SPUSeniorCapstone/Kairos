@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Builder_Entity))]
 public class Builder_Unit : Unit
 {
+
+    public string Task;
+
     public float personalDistance = 1;
 
     // if certain stance, flee when enemy detected
@@ -14,14 +17,13 @@ public class Builder_Unit : Unit
 
     public Damageable target;
 
-    // i want to move this to base unit class
-    //public CommandGroup command;
-
+    // should this be public? protected?
     public Builder_Entity entity;
 
     private void Start()
     {
         base.Start();
+        // is this supposed to be for on spawn moving to way point?
         if (GetComponent<CheckPathFinding>() != null)
         {
             GetComponent<CheckPathFinding>().end = GameController.Main.CommandController.wayPoint;
@@ -44,21 +46,16 @@ public class Builder_Unit : Unit
                 command = null;
             }
         }
-        if (GameController.Main.UIController.StratView.inspectee == this.gameObject && GameController.Main.UIController.StratView.BuildMenu.active == false)
-        {
-           // GameController.Main.UIController.StratView.BuildMenu.SetActive(true);
-        }
-
     }
 
     public override void OnSelect()
     {
-        Debug.Log("OnSelect");
+        // neccessary?
+        if (GameController.Main.UIController.StratView.inspectee == gameObject)
         GameController.Main.UIController.StratView.BuildMenu.SetActive(true);
     }
     public override void OnDeselect()
     {
-        Debug.Log("off");
         GameController.Main.UIController.StratView.BuildMenu.SetActive(false);
     }
 
@@ -182,7 +179,6 @@ public class Builder_Unit : Unit
    
     public override void ClearTarget()
     {
-        Debug.Log("CLEAR");
         target = null;
     }
 }
