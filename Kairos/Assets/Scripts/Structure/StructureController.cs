@@ -7,6 +7,10 @@ public class StructureController : MonoBehaviour
 
     public List<Structure> masterStructure;
 
+    // don't know how else to do this
+    public GameObject PlayerStructures;
+    public GameObject EnemyStructures;
+
     public Structure structure;
     public Structure strongHold;
     public GameObject strongHoldPreview;
@@ -22,7 +26,7 @@ public class StructureController : MonoBehaviour
 
     private void Start()
     {
-        PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
+        //PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
         foreach (var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
         {
             PlaceStructure(corruptionNode, pos);

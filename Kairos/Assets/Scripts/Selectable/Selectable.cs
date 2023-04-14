@@ -90,4 +90,10 @@ public class Selectable : MonoBehaviour
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         // Debug.Log("off");
     }
+
+    private void OnDestroy()
+    {
+        GameController.Main.SelectionController.masterSelect.Remove(this);
+        GameController.Main.SelectionController.currentlySelect.Remove(this);
+    }
 }

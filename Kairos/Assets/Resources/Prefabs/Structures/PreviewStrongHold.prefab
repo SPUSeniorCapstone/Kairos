@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 2392466254012157841}
   - component: {fileID: 894272694490731707}
   - component: {fileID: 156672671965586176}
+  - component: {fileID: 7449997359375875407}
   m_Layer: 6
   m_Name: PreviewStrongHold
   m_TagString: Untagged
@@ -163,3 +164,21 @@ MonoBehaviour:
   <Health>k__BackingField: 1
   <Invulnerable>k__BackingField: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
+--- !u!114 &7449997359375875407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8660215520609812518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8e5ea8ec043f43438e3a7c48509239d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Size: {x: 1, y: 1, z: 1}
+  Preview: {fileID: 0}
+  enemy: 0
+  directory: {fileID: 0}
+  example: 0
+  structure: {fileID: 8181554048383060575, guid: f8a9c1a1bec5c3a4181e86d1577e0846, type: 3}

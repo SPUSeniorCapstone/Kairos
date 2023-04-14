@@ -14,6 +14,7 @@ public class ProductionStructure : Structure
     public Queue<GameObject> buildQue;
 
 
+
     private void Update()
     {
         if (unitsQueued > 0)
@@ -31,6 +32,7 @@ public class ProductionStructure : Structure
     {
         base.Start();
         buildQue = new Queue<GameObject>();
+        Destroy(Preview);
     }
 
     //Function for when stronghold is clicked activate structureMenuUI
