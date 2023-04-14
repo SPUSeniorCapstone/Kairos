@@ -1,0 +1,4 @@
+"C:\Development\Steam SDK\tools\ContentBuilder\builder\steamcmd.exe" 
+login crazynoah5000 
+run_app_build "app_build_2224090.vdf"
+PAUSE
