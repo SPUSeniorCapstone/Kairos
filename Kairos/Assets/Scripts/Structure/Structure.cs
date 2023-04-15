@@ -49,6 +49,7 @@ public class Structure : MonoBehaviour
         if(GameController.Main != null && GameController.Main.StructureController != null && GameController.Main.won == false && GameController.Main.lost == false)
         {
             GameController.Main.StructureController.masterStructure.Remove(this);
+            GameController.Main.MasterDestory(gameObject);
             GameController.Main.CheckVictory(this);
         }
     }

@@ -11,10 +11,10 @@ public class StructureController : MonoBehaviour
     public GameObject PlayerStructures;
     public GameObject EnemyStructures;
 
-    public Structure structure;
-    public Structure strongHold;
-    public GameObject strongHoldPreview;
-    public GameObject placeHolder;
+    
+
+    public Structure StructureToSpawn;
+    public GameObject structurePreview;
 
     public Structure corruptionNode;
 
@@ -49,15 +49,15 @@ public class StructureController : MonoBehaviour
             }
 
 
-            placeHolder.transform.position = pos;
+            structurePreview.transform.position = pos;
 
             if (GameController.Main.inputController.Select.Pressed())
             {
                 StructurePlacementMode = false;
                 GameController.Main.SelectionController.testCooldown = false;
                 GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>().BuildTask(pos);
-                PlaceStructure(strongHold, pos);
-                
+                PlaceStructure(StructureToSpawn, pos);
+                structurePreview.transform.position = Vector3.zero;
                 GameController.Main.SelectionController.testCooldown = true;
             }
         }

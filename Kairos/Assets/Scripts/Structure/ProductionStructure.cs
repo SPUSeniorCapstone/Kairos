@@ -71,13 +71,13 @@ public class ProductionStructure : Structure
     }
     public override void OnSelect()
     {
-        Debug.Log("OnSelect");
+        Debug.Log("OnSelect S");
         GameController.Main.StructureController.selected = this;
         GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
     }
     public override void OnDeselect()
     {
-        Debug.Log("off");
+        Debug.Log("OnDeselect S");
         GameController.Main.StructureController.selected = null;
         GameController.Main.UIController.MenuController.structureMenuUI.SetActive(false);
     }

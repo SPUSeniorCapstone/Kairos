@@ -47,25 +47,27 @@ public class SelectionController : MonoBehaviour
             if (GameController.Main.InputController.Select.KeyUp() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
                 selectionAreaTransform.gameObject.SetActive(false);
+                bool kontinue = true;
                 foreach (Selectable selectable in masterSelect)
                 {
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
-                    if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.faction)
+                    if (kontinue == true && point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.faction)
                     {
                         if (selectable.selected == false)
                         {
                             currentlySelect.Add(selectable);
-                            if (GameController.Main.UIController.StratView.inspectee == null)
-                            {
-                                GameController.Main.UIController.StratView.SetUnitView(selectable.gameObject);
-                            }
+                            
+                            // what to add so this only fires if the current unit view isn't part of currentlyselect after new selection occurs?
+                            GameController.Main.UIController.StratView.SetUnitView(selectable.gameObject);
+                            
                         }
                         selectable.selected = true;
                         selectable.Activate();
-                        continue;
+                        kontinue = false;
                     }
                     // this will check if the mouse click ray hit a selectable (uses oneclick instead of selectable)
-                    else
+                    // does this work as intended? what if you flick the mouse?
+                    else if (kontinue == true)
                     {
                         Selectable oneClick = GetMouseWorldPosition3D();
                         if (oneClick != null && !oneClick.selected && !oneClick.faction)
@@ -73,20 +75,21 @@ public class SelectionController : MonoBehaviour
                             if (oneClick.selected == false)
                             {
                                 currentlySelect.Add(oneClick);
-                                if (GameController.Main.UIController.StratView.inspectee == null)
-                                {
-                                    GameController.Main.UIController.StratView.SetUnitView(oneClick.gameObject);
-                                }
                             }
+                            GameController.Main.UIController.StratView.SetUnitView(oneClick.gameObject);
                             oneClick.selected = true;
                             oneClick.Activate();
                             Debug.Log(oneClick);
-                            continue;
+                            kontinue = false;
                         }
                     }
-                    selectable.selected = false;
-                    selectable.Deactivate();
-                    currentlySelect.Remove(selectable);
+                    if (selectable.selected == true && kontinue == true)
+                    {
+                        Debug.Log(selectable + " deactivate");
+                        selectable.selected = false;
+                        selectable.Deactivate();
+                        currentlySelect.Remove(selectable);
+                    }
                 }
                 // ping ui to check
                 if (currentlySelect.Count > 0) { }

@@ -53,10 +53,12 @@ public class Builder_Unit : Unit
         // neccessary?
         if (GameController.Main.UIController.StratView.inspectee == gameObject)
         GameController.Main.UIController.StratView.BuildMenu.SetActive(true);
+        Debug.Log("OnSelect");
     }
     public override void OnDeselect()
     {
         GameController.Main.UIController.StratView.BuildMenu.SetActive(false);
+        Debug.Log("OnDeSelect");
     }
 
     public void BuildTask(Vector3 pos)
