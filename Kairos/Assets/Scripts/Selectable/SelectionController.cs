@@ -4,11 +4,14 @@ using UnityEngine;
 public class SelectionController : MonoBehaviour
 {
     public bool onEnemy;
-    public GameObject enemy;
+    // originally enemy, but i think should be generalized
+    public GameObject actionTarget;
     private Vector3 startPosition;
     public List<Selectable> masterSelect = new List<Selectable>();
     public List<Selectable> currentlySelect = new List<Selectable>();
-    // is this neccessary
+
+    // this only exists to try and fix clicking on something that just got instantiated (trying to prevent it, works only sometimes)
+    public bool testCooldown = true;
 
     [SerializeField] private GameObject selectionAreaTransform;
 
@@ -41,37 +44,57 @@ public class SelectionController : MonoBehaviour
             //    }
             //}
             // single click select, or click and drag let go
-            if (GameController.Main.InputController.Select.KeyUp())
+            if (GameController.Main.InputController.Select.KeyUp() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
-                Debug.Log("Mouse0 up");
                 selectionAreaTransform.gameObject.SetActive(false);
+                bool kontinue = true;
                 foreach (Selectable selectable in masterSelect)
                 {
-                    selectable.selected = false;
-                    selectable.Deactivate();
-                    currentlySelect.Remove(selectable);
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
-                    // will this work? will it remember these "global" vectors?
-                    if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.faction)
+                    if (kontinue == true && point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.faction)
                     {
-                        //Debug.Log("Within bounds");
+                        if (selectable.selected == false)
+                        {
+                            currentlySelect.Add(selectable);
+                            
+                            // what to add so this only fires if the current unit view isn't part of currentlyselect after new selection occurs?
+                            GameController.Main.UIController.StratView.SetUnitView(selectable.gameObject);
+                            
+                        }
                         selectable.selected = true;
                         selectable.Activate();
-                        currentlySelect.Add(selectable);
+                        kontinue = false;
                     }
-                    // this will check if the mouse click ray hit a selectable
-                    else
+                    // this will check if the mouse click ray hit a selectable (uses oneclick instead of selectable)
+                    // does this work as intended? what if you flick the mouse?
+                    else if (kontinue == true)
                     {
                         Selectable oneClick = GetMouseWorldPosition3D();
                         if (oneClick != null && !oneClick.selected && !oneClick.faction)
                         {
+                            if (oneClick.selected == false)
+                            {
+                                currentlySelect.Add(oneClick);
+                            }
+                            GameController.Main.UIController.StratView.SetUnitView(oneClick.gameObject);
                             oneClick.selected = true;
                             oneClick.Activate();
-                            currentlySelect.Add(oneClick);
                             Debug.Log(oneClick);
+                            kontinue = false;
                         }
                     }
+                    if (selectable.selected == true && kontinue == true)
+                    {
+                        Debug.Log(selectable + " deactivate");
+                        selectable.selected = false;
+                        selectable.Deactivate();
+                        currentlySelect.Remove(selectable);
+                    }
                 }
+                // ping ui to check
+                if (currentlySelect.Count > 0) { }
+                    //GameController.Main.UIController.StratView.SetUnitView(currentlySelect[0].gameObject);
+                else GameController.Main.UIController.StratView.SetUnitView(null);
             }
             // click and drag box
             if (GameController.Main.InputController.Select.Pressed())
@@ -126,8 +149,6 @@ public class SelectionController : MonoBehaviour
         vector.z = 2.5f;
         return Camera.main.ScreenToWorldPoint(vector);
     }
-    // does this need to run in update?
-    // don't know if get componet in parent will work now
     private Selectable GetMouseWorldPosition3D()
     {
         Ray ray;
@@ -138,7 +159,8 @@ public class SelectionController : MonoBehaviour
             Debug.Log(hitData.transform.name);
             return hitData.transform.GetComponentInParent<Selectable>();
         }
-        else if (hitData.transform != null) { Debug.Log(hitData.transform.name); }
+        else if (hitData.transform != null) { //Debug.Log(hitData.transform.name);
+                                              }
         return null;
     }
 }

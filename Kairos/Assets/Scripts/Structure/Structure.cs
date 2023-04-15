@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 
@@ -7,16 +9,38 @@ public class Structure : MonoBehaviour
 {
     public Vector3Int Size = Vector3Int.one;
 
+    public GameObject Preview;
+
+    public bool enemy = false;
+
+    public bool example = false;
+
+    public Builder_Unit builder;
+
+    public GameObject directory;
+
     protected void Start()
     {
-        GameController.Main.StructureController.masterStructure.Add(this);
-        if (GetComponent<Selectable>().faction)
+        if (!example)
         {
-            GameController.Main.enemyCount++;
-        }
-        else
-        {
-            GameController.Main.playerCount++;
+            GameController.Main.StructureController.masterStructure.Add(this);
+            if (GetComponent<Selectable>().faction)
+            {
+                GameController.Main.enemyCount++;
+                enemy = true;
+            }
+            else
+            {
+                GameController.Main.playerCount++;
+            }
+            if (!enemy)
+            {
+                directory = GameController.Main.StructureController.PlayerStructures;
+            }
+            else
+            {
+                directory = GameController.Main.StructureController.EnemyStructures;
+            }
         }
     }
     private void OnDestroy()
@@ -25,7 +49,17 @@ public class Structure : MonoBehaviour
         if(GameController.Main != null && GameController.Main.StructureController != null && GameController.Main.won == false && GameController.Main.lost == false)
         {
             GameController.Main.StructureController.masterStructure.Remove(this);
+            GameController.Main.MasterDestory(gameObject);
             GameController.Main.CheckVictory(this);
         }
+    }
+
+    public virtual void OnSelect()
+    {
+
+    }
+    public virtual void OnDeselect()
+    {
+
     }
 }

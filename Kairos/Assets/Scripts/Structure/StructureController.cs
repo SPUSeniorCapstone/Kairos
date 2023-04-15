@@ -7,17 +7,26 @@ public class StructureController : MonoBehaviour
 
     public List<Structure> masterStructure;
 
-    public Structure structure;
-    public Structure strongHold;
-    public GameObject placeHolder;
+    // don't know how else to do this
+    public GameObject PlayerStructures;
+    public GameObject EnemyStructures;
+
+    
+
+    public Structure StructureToSpawn;
+    public GameObject structurePreview;
 
     public Structure corruptionNode;
 
     public ProductionStructure selected;
 
+    // PLEASE FIX THIS
+    public GameObject infantry;
+    public GameObject archer;
+
     private void Start()
     {
-        PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
+        //PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
         foreach (var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
         {
             PlaceStructure(corruptionNode, pos);
@@ -40,18 +49,33 @@ public class StructureController : MonoBehaviour
             }
 
 
-            placeHolder.transform.position = pos;
+            structurePreview.transform.position = pos;
 
-            if (GameController.Main.inputController.Select.Down())
+            if (GameController.Main.inputController.Select.Pressed())
             {
-                PlaceStructure(strongHold, pos);
+                StructurePlacementMode = false;
+                GameController.Main.SelectionController.testCooldown = false;
+                GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>().BuildTask(pos);
+                PlaceStructure(StructureToSpawn, pos);
+                structurePreview.transform.position = Vector3.zero;
+                GameController.Main.SelectionController.testCooldown = true;
             }
         }
     }
 
-    public void TrainUnit()
+    public void BuildOrder()
     {
-        selected.QueueUnits();
+        StructurePlacementMode = true;
+        
+    }
+
+    public void TrainArcher()
+    {
+        selected.QueueUnits(archer);
+    }
+    public void TrainInfantry()
+    {
+        selected.QueueUnits(infantry);
     }
 
     public void PlaceStructure(Structure structure, Vector3Int position)
@@ -67,8 +91,9 @@ public class StructureController : MonoBehaviour
 
         position.y = w.World.GetHeight(position);
 
-        var s = Instantiate<Structure>(structure);
+        var s = Instantiate<Structure>(structure, PlayerStructures.transform);
         s.transform.position = position;
+        s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
 
         for (int x = 0; x < structure.Size.x; x++)
         {

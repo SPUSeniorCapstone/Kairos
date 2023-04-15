@@ -151,6 +151,7 @@ public class GameController : MonoBehaviour
             selectable = item.GetComponentInChildren<Selectable>();
         }
         EntityController.Entities.Remove(entity);
+        // un comment to put back as master destroy
         SelectionController.masterSelect.Remove(selectable);
         SelectionController.currentlySelect.Remove(selectable);
 
@@ -160,27 +161,31 @@ public class GameController : MonoBehaviour
     public bool won;
     public int playerCount = 0;
     public int enemyCount = 0;
+    public bool WinConDebug = false;
 
     public void CheckVictory(Structure structure)
     {
-        if (structure.GetComponent<Selectable>().faction)
+        if (!WinConDebug)
         {
-            enemyCount--;
-        }
-        else
-        {
-            playerCount--;
-        }
-        if (playerCount <= 0)
-        {
-            lost = true;
-            menuController.Defeat();
+            if (structure.GetComponent<Selectable>().faction)
+            {
+                enemyCount--;
+            }
+            else
+            {
+                playerCount--;
+            }
+            if (playerCount <= 0)
+            {
+                lost = true;
+                menuController.Defeat();
 
-        }
-        else if (enemyCount <= 0)
-        {
-            won = true;
-            menuController.Victory();
+            }
+            else if (enemyCount <= 0)
+            {
+                won = true;
+                menuController.Victory();
+            }
         }
     }
     public void Start()
