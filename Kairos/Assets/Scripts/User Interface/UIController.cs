@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UIController : MonoBehaviour
 {
@@ -41,4 +42,11 @@ public class UIController : MonoBehaviour
         }
     }
     StratView _stratView;
+
+    public GameUI gameUI;
+
+    public void EnableBuildMenu(bool enable)
+    {
+        gameUI.BuildMenu.EnableBuildMenu(enable);
+    }
 }
