@@ -49,4 +49,9 @@ public class UIController : MonoBehaviour
     {
         gameUI.BuildMenu.EnableBuildMenu(enable);
     }
+
+    public void EnableProductionMenu(bool enable)
+    {
+        gameUI.ProductionMenu.EnableProductionMenu(enable);
+    }
 }

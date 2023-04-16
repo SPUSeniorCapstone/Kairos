@@ -92,7 +92,6 @@ public class SelectionController : MonoBehaviour
                         //}
                         if (selectable.selected == true && selectable.gameObject != GameController.Main.UIController.StratView.inspectee)
                         {
-                            Debug.Log(selectable + " deactivate");
                             selectable.selected = false;
                             selectable.Deactivate();
                             currentlySelect.Remove(selectable);
@@ -104,7 +103,6 @@ public class SelectionController : MonoBehaviour
                             {
                                 currentlySelect.Remove(selectable);
                             }
-                            Debug.Log(selectable + " deactivate");
                             selectable.selected = false;
                             selectable.Deactivate();
                             currentlySelect.Remove(selectable);

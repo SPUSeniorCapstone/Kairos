@@ -45,12 +45,10 @@ public class StructurePreview : Structure
    
     public override void OnSelect()
     {
-        Debug.Log("OnSelect P");
-  
+        
     }
     public override void OnDeselect()
     {
-        Debug.Log("OnDeSelect P");
        
       
     }

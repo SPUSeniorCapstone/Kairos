@@ -14,6 +14,8 @@ public class Selectable : MonoBehaviour
         // write function to handles this or modify public list directly?
         GameController.Main.SelectionController.masterSelect.Add(this);
 
+        //unSelectedMaterial = gameObject.GetComponentInChildren<Material>();
+
         // this is so that when selected, selectable can fire any event that needs to happen in unit or structure
         if(GetComponent<Unit>() != null)
         {
@@ -97,7 +99,6 @@ public class Selectable : MonoBehaviour
     {
         if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("ON MOUSE DOWN");
             if (selected == false)
             {
                 GameController.Main.SelectionController.currentlySelect.Add(this);
@@ -105,7 +106,6 @@ public class Selectable : MonoBehaviour
             GameController.Main.UIController.StratView.SetUnitView(gameObject);
             selected = true;
             Activate();
-            Debug.Log(this + " activate");
         }
     }
 
