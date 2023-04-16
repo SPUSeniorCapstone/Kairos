@@ -93,6 +93,22 @@ public class Selectable : MonoBehaviour
         // Debug.Log("off");
     }
 
+    private void OnMouseDown()
+    {
+        if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("ON MOUSE DOWN");
+            if (selected == false)
+            {
+                GameController.Main.SelectionController.currentlySelect.Add(this);
+            }
+            GameController.Main.UIController.StratView.SetUnitView(gameObject);
+            selected = true;
+            Activate();
+            Debug.Log(this + " activate");
+        }
+    }
+
     // master destroy should deal with this?
     //private void OnDestroy()
     //{
