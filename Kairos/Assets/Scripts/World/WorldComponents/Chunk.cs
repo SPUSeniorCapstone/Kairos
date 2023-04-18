@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 /// <summary>
 /// A 3D World Voxel Chunk
@@ -47,7 +50,7 @@ public class Chunk : MonoBehaviour
 
     public int[,] heights = new int[width, length];
 
-    public float[,] corruptionMap = new float[width, length]; 
+    public float[,] corruptionMap = new float[width, length];
 
     //Methods
 
@@ -102,6 +105,52 @@ public class Chunk : MonoBehaviour
     {
         ReloadMesh();
         ReloadHeights();
+    }
+
+    public void UpdateCorruption()
+    {
+        var meshFilter = GetComponent<MeshFilter>();
+
+        if (meshFilter == null || meshFilter.sharedMesh == null || meshFilter.sharedMesh.vertexCount == 0)
+        {
+            return;
+        }
+
+        List<Vector2> corruption = new List<Vector2>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int z = 0; z < length; z++)
+                {
+                    if (CheckVoxel(new Vector3Int(x, y, z)))
+                    {
+                        var corruptStrength = corruptionMap[x, z];
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if (!CheckVoxel(new Vector3Int(x, y, z) + VoxelData.faceChecks[i]))
+                            {
+                                corruption.Add(new Vector2(corruptStrength, 0));
+                                corruption.Add(new Vector2(corruptStrength, 0));
+                                corruption.Add(new Vector2(corruptStrength, 0));
+                                corruption.Add(new Vector2(corruptStrength, 0));
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        if (corruption.Count == meshFilter.sharedMesh.vertexCount)
+        {
+            meshFilter.sharedMesh.SetUVs(3, corruption);
+        }
+        else
+        {
+            Debug.LogError("INVALID CORRUPTION VALUES");
+        }
     }
 
     /// <summary>
@@ -208,30 +257,30 @@ public class Chunk : MonoBehaviour
         }
     }
 
-    public void UpdateCorruptionUV()
-    {
-        List<Vector2> corruption = new List<Vector2>();
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                for (int z = 0; z < length; z++)
-                {
-                    if(blocks[x, y, z].blockID == 0)
-                    {
-                        continue;
-                    }
+    //public void UpdateCorruptionUV()
+    //{
+    //    List<Vector2> corruption = new List<Vector2>();
+    //    for (int x = 0; x < width; x++)
+    //    {
+    //        for (int y = 0; y < height; y++)
+    //        {
+    //            for (int z = 0; z < length; z++)
+    //            {
+    //                if(blocks[x, y, z].blockID == 0)
+    //                {
+    //                    continue;
+    //                }
 
-                    float corruptStrength = corruptionMap[x, z];
-                    corruption.Add(new Vector2(corruptStrength, 0));
-                    corruption.Add(new Vector2(corruptStrength, 0));
-                    corruption.Add(new Vector2(corruptStrength, 0));
-                    corruption.Add(new Vector2(corruptStrength, 0));
-                }
-            }
-        }
-        GetComponent<MeshFilter>().sharedMesh.SetUVs(3, corruption);
-    }
+    //                float corruptStrength = corruptionMap[x, z];
+    //                corruption.Add(new Vector2(corruptStrength, 0));
+    //                corruption.Add(new Vector2(corruptStrength, 0));
+    //                corruption.Add(new Vector2(corruptStrength, 0));
+    //                corruption.Add(new Vector2(corruptStrength, 0));
+    //            }
+    //        }
+    //    }
+    //    GetComponent<MeshFilter>().sharedMesh.SetUVs(3, corruption);
+    //}
 
     /// <summary>
     /// Returns the Blok at the given local position
@@ -243,7 +292,7 @@ public class Chunk : MonoBehaviour
         if (pos.x > width || pos.y > height || pos.z > length)
         {
             Debug.LogError("Invalid Chunk Position");
-            return new Block(-1, Vector3Int.zero, 0);
+            return new Block(-1, Vector3Int.zero);
         }
         return blocks[pos.x, pos.y, pos.z];
     }

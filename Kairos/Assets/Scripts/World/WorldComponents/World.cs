@@ -63,6 +63,28 @@ public class World : MonoBehaviour
     }
     Chunk[,] chunks;
 
+    Vector2Int currUpdate = Vector2Int.zero;
+
+    private void Update()
+    {
+        UpdateNext(); 
+    }
+
+    public void UpdateNext()
+    {
+        chunks[currUpdate.x, currUpdate.y].UpdateCorruption();
+        currUpdate.x += 1;
+        if(currUpdate.x >= widthInChunks)
+        {
+            currUpdate.x = 0;
+            currUpdate.y++;
+
+            if(currUpdate.y >= lengthInChunks)
+            {
+                currUpdate.y = 0;
+            }
+        }
+    }
 
     /// <summary>
     /// Returns the top most block at the given (x,z) position
@@ -178,13 +200,31 @@ public class World : MonoBehaviour
         return texture;
     }
 
-    public void SetCorruption(int x, int z)
+    public void SetCorruption(int x, int z, float val)
     {
+        int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks ||
+            voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+            chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
+        {
+            return;
+        }
 
+        Chunks[chunkX, chunkZ].corruptionMap[voxelX, voxelZ] = Mathf.Clamp(val,0,1);
     }
 
-    public void GetCorruption(int x, int z)
+    public float GetCorruption(int x, int z)
     {
+        int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks ||
+            voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+            chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
+        {
+            return -1;
+        }
 
+        return Chunks[chunkX, chunkZ].corruptionMap[voxelX,voxelZ];
     }
 }
