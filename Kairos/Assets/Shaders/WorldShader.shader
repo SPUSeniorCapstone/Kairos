@@ -4,8 +4,7 @@ Shader "Custom/WorldShader"
     {
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _SecondTex("Corruption (RGB)", 2D) = "white" {}
-
-        _Color("Color", Color) = (1,1,1,1)
+        _CorruptionColorOver("Corruption Color Percent", Range(0.0, 1.0)) = 0.5
     }
     SubShader
     {
@@ -24,7 +23,8 @@ Shader "Custom/WorldShader"
 
         sampler2D _MainTex;
         sampler2D _SecondTex;
-        fixed4 _Color;
+        float _CorruptionColorOver;
+
 
         struct appdata
         {
@@ -56,8 +56,8 @@ Shader "Custom/WorldShader"
         {
             // Merge
             float4 tex1 = tex2D(_MainTex, IN.uv_MainTex);
-            float4 tex2 = tex2D(_SecondTex, float2(0, 1));
-            fixed4 c = lerp(tex1, tex2, IN.corr.x);
+            float4 tex2 = tex2D(_SecondTex, float2(0.0f, 1.0f));
+            fixed4 c = lerp(tex1, tex2, IN.corr.x * _CorruptionColorOver);
             o.Albedo = c.rgb;
             o.Alpha = c.a;
         }

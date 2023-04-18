@@ -42,6 +42,9 @@ public class WorldGenerator : MonoBehaviour
     public float scale;
     public void SetScale(float scale) { this.scale = scale; }
 
+    public NoiseGenerator.NoiseSettings worldSettings;
+    public NoiseGenerator.NoiseSettings corruptionSettings;
+
     [Range(1, 10)]
     public int octaves;
     [Range(0.001f, 10)]
@@ -84,7 +87,7 @@ public class WorldGenerator : MonoBehaviour
         world.lengthInChunks = worldSize.y;
         InitWorldGen(seed);
 
-        corruptionMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, corruptionSeed, 0.3f, octaves, 4, lacunarity, Vector2.zero);
+        corruptionMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, corruptionSettings);
         terrainMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
 
         if (useFalloff)
@@ -118,6 +121,7 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
+        world.SetCorruptionMap(corruptionMap);
 
         float width = world.WidthInBlocks * world.BlockScale;
         float height = Chunk.height * world.BlockScale;
@@ -256,3 +260,4 @@ public struct WorldLayer
     [Range(1, Chunk.height)]
     public int thickness;
 }
+

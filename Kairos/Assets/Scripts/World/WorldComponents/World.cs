@@ -227,4 +227,39 @@ public class World : MonoBehaviour
 
         return Chunks[chunkX, chunkZ].corruptionMap[voxelX,voxelZ];
     }
+
+    public void SetCorruptionMap(float[,] corruptionMap)
+    {
+        if(corruptionMap.GetLength(0) != WidthInBlocks || corruptionMap.GetLength(1) != LengthInBlocks)
+        {
+            return;
+        }
+
+        for(int x = 0; x < WidthInBlocks; x++)
+        {
+            for(int z = 0; z < LengthInBlocks; z++)
+            {
+                SetCorruption(x,z,corruptionMap[x, z]);
+            }
+        }
+    }
+
+    public bool CheckVoxel(Vector3Int pos)
+    {
+        var x = pos.x;
+        var y = pos.y;
+        var z = pos.z;
+
+        int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks ||
+            voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+            chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0 ||
+            y < 0 || y > Chunk.height)
+        {
+            return false;
+        }
+
+        return Chunks[chunkX, chunkZ].CheckVoxel(new Vector3Int(voxelX,y,voxelZ));
+    }
 }

@@ -1,12 +1,25 @@
 //Noise Generator with help from Sebastian Lague 
 
+using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// A class for generating many different types of noise maps
 /// </summary>
 public class NoiseGenerator
 {
+    [Serializable]
+    public struct NoiseSettings
+    {
+        public int seed;
+        public float scale;
+        public int octaves;
+        public float persistance;
+        public float lacunarity;
+        public Vector2 offset;
+    }
+
     /// <summary>
     /// Generates a noise map of the given width and height
     /// </summary>
@@ -80,6 +93,11 @@ public class NoiseGenerator
         }
 
         return noiseMap;
+    }
+
+    public static float[,] GenerateNoiseMap(int width, int height, NoiseSettings settings)
+    {
+        return GenerateNoiseMap(width, height, settings.seed, settings.scale, settings.octaves, settings.persistance, settings.lacunarity, settings.offset);
     }
 
     /// <summary>

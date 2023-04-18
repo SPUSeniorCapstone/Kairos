@@ -38,6 +38,8 @@ public class Chunk : MonoBehaviour
     }
 
     //Fields
+
+    public Vector3Int Position { get { return position; } }
     /// <summary>
     /// The Chunk Position
     /// </summary>
@@ -300,14 +302,19 @@ public class Chunk : MonoBehaviour
     /// <summary>
     /// Checks if there is a (non-air) Block at the given position 
     /// </summary>
-    bool CheckVoxel(Vector3Int pos)
+    public bool CheckVoxel(Vector3Int pos)
     {
-        int x = Mathf.FloorToInt(pos.x);
-        int y = Mathf.FloorToInt(pos.y);
-        int z = Mathf.FloorToInt(pos.z);
+        int x = pos.x;
+        int y = pos.y;
+        int z = pos.z;
+
+        if (y < 0) return true;
 
         if (x < 0 || x > width - 1 || y < 0 || y > height - 1 || z < 0 || z > length - 1)
-            return false;
+        {
+            var chunkOrigin = new Vector3Int(position.x * width, 0, position.z * length);
+            return WorldController.Main.World.CheckVoxel(chunkOrigin + pos);
+        }
 
         if (blocks[x, y, z].blockID == 0)
         {
@@ -318,6 +325,4 @@ public class Chunk : MonoBehaviour
             return true;
         }
     }
-
-
 }
