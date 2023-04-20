@@ -87,6 +87,8 @@ public class WorldGenerator : MonoBehaviour
         world.lengthInChunks = worldSize.y;
         InitWorldGen(seed);
 
+        corruptionSettings.seed = corruptionSeed;
+
         corruptionMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, corruptionSettings);
         terrainMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
 
