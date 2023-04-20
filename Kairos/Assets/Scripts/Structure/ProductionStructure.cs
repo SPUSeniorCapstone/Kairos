@@ -57,7 +57,7 @@ public class ProductionStructure : Structure
     }
 
     //Spawn unit function
-    public void SpawnUnits(GameObject unit)
+    public virtual void SpawnUnits(GameObject unit)
     {
         GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity);
         // does this work?

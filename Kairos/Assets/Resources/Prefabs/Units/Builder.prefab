@@ -111,8 +111,8 @@ GameObject:
   - component: {fileID: 548469208533061309}
   - component: {fileID: 8362819093570306657}
   - component: {fileID: 6818425480220162011}
-  - component: {fileID: 6600184327498845372}
-  - component: {fileID: 7519666986791622287}
+  - component: {fileID: 3768060847104558126}
+  - component: {fileID: 5113807028992209960}
   m_Layer: 6
   m_Name: Builder
   m_TagString: Player
@@ -201,7 +201,7 @@ MonoBehaviour:
   pathLine: {fileID: 6572925209787757829}
   stepHeight: 0
   Button_GeneratePath: 0
---- !u!114 &6600184327498845372
+--- !u!114 &3768060847104558126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,9 +217,9 @@ MonoBehaviour:
   AvoidWallRadius: 3
   stepHeight: 1
   movementSpeed: 10
-  stopFollowDistance: 4
+  stopFollowDistance: 1
   avoidStrength: 1
-  followStrength: 1.71
+  followStrength: 1
   viewDebugInfo: 0
   movementDirection: {x: 0, y: 0, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
@@ -227,7 +227,7 @@ MonoBehaviour:
   idle: 1
   movementMode: 0
   retrievingPath: 0
---- !u!114 &7519666986791622287
+--- !u!114 &5113807028992209960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -245,8 +245,14 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 0
+  Head: {fileID: 0}
+  Body: {fileID: 0}
+  Feet: {fileID: 0}
+  Task: 
   personalDistance: 1
+  display: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
+  entity: {fileID: 0}
 --- !u!1 &3431554024105353678
 GameObject:
   m_ObjectHideFlags: 0
