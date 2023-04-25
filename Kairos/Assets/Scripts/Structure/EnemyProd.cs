@@ -16,13 +16,17 @@ public class EnemyProd : ProductionStructure
     // Update is called once per frame
     void Update()
     {
-        timeLeft -= Time.deltaTime;
-        if (timeLeft <= 0)
+        if (GameController.Main.CorruptionController.SpawnUnits)
         {
-            timeLeft = originialTime;
-            SpawnUnits(base.unitToSpawn);
-            unitsQueued--;
+            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0)
+            {
+                timeLeft = originialTime;
+                SpawnUnits(base.unitToSpawn);
+                unitsQueued--;
+            }
         }
+
     }
 
     public override void SpawnUnits(GameObject unit)

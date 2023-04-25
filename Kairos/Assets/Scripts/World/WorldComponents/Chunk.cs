@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 /// <summary>
 /// A 3D World Voxel Chunk
@@ -36,6 +38,8 @@ public class Chunk : MonoBehaviour
     }
 
     //Fields
+
+    public Vector3Int Position { get { return position; } }
     /// <summary>
     /// The Chunk Position
     /// </summary>
@@ -47,6 +51,8 @@ public class Chunk : MonoBehaviour
     public Block[,,] blocks = new Block[width, height, length];
 
     public int[,] heights = new int[width, length];
+
+    public float[,] corruptionMap = new float[width, length];
 
     //Methods
 
@@ -103,6 +109,52 @@ public class Chunk : MonoBehaviour
         ReloadHeights();
     }
 
+    public void UpdateCorruption()
+    {
+        var meshFilter = GetComponent<MeshFilter>();
+
+        if (meshFilter == null || meshFilter.sharedMesh == null || meshFilter.sharedMesh.vertexCount == 0)
+        {
+            return;
+        }
+
+        List<Vector2> corruption = new List<Vector2>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int z = 0; z < length; z++)
+                {
+                    if (CheckVoxel(new Vector3Int(x, y, z)))
+                    {
+                        var corruptStrength = corruptionMap[x, z];
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if (!CheckVoxel(new Vector3Int(x, y, z) + VoxelData.faceChecks[i]))
+                            {
+                                corruption.Add(new Vector2(corruptStrength, 0));
+                                corruption.Add(new Vector2(corruptStrength, 0));
+                                corruption.Add(new Vector2(corruptStrength, 0));
+                                corruption.Add(new Vector2(corruptStrength, 0));
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        if (corruption.Count == meshFilter.sharedMesh.vertexCount)
+        {
+            meshFilter.sharedMesh.SetUVs(3, corruption);
+        }
+        else
+        {
+            Debug.LogError("INVALID CORRUPTION VALUES");
+        }
+    }
+
     /// <summary>
     /// Reloads chunks heightmap
     /// </summary>
@@ -138,6 +190,7 @@ public class Chunk : MonoBehaviour
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
         List<Vector2> uvs = new List<Vector2>();
+        List<Vector2> corruption = new List<Vector2>();
 
         for (int x = 0; x < width; x++)
         {
@@ -145,7 +198,7 @@ public class Chunk : MonoBehaviour
             {
                 for (int z = 0; z < length; z++)
                 {
-                    DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID);
+                    DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID, corruptionMap[x,z]);
                 }
             }
         }
@@ -155,7 +208,9 @@ public class Chunk : MonoBehaviour
         mesh.SetVertices(vertices);
         mesh.SetTriangles(triangles, 0);
         mesh.SetUVs(0, uvs);
+        mesh.SetUVs(3,corruption);
         mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
 
         meshFilter.sharedMesh = mesh;
         GetComponent<MeshCollider>().convex = false;
@@ -165,7 +220,7 @@ public class Chunk : MonoBehaviour
 
         transform.position = new Vector3(position.x * width, 0, position.z * length);
 
-        void DrawVoxel(Vector3Int pos, int blockID)
+        void DrawVoxel(Vector3Int pos, int blockID, float corruptStrength = 0f)
         {
             if (blockID == 0)
             {
@@ -188,6 +243,10 @@ public class Chunk : MonoBehaviour
                     uvs.Add((VoxelData.UVs[1] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
                     uvs.Add((VoxelData.UVs[2] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
                     uvs.Add((VoxelData.UVs[3] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
                     triangles.Add(index);
                     triangles.Add(index + 1);
                     triangles.Add(index + 2);
@@ -199,6 +258,31 @@ public class Chunk : MonoBehaviour
             }
         }
     }
+
+    //public void UpdateCorruptionUV()
+    //{
+    //    List<Vector2> corruption = new List<Vector2>();
+    //    for (int x = 0; x < width; x++)
+    //    {
+    //        for (int y = 0; y < height; y++)
+    //        {
+    //            for (int z = 0; z < length; z++)
+    //            {
+    //                if(blocks[x, y, z].blockID == 0)
+    //                {
+    //                    continue;
+    //                }
+
+    //                float corruptStrength = corruptionMap[x, z];
+    //                corruption.Add(new Vector2(corruptStrength, 0));
+    //                corruption.Add(new Vector2(corruptStrength, 0));
+    //                corruption.Add(new Vector2(corruptStrength, 0));
+    //                corruption.Add(new Vector2(corruptStrength, 0));
+    //            }
+    //        }
+    //    }
+    //    GetComponent<MeshFilter>().sharedMesh.SetUVs(3, corruption);
+    //}
 
     /// <summary>
     /// Returns the Blok at the given local position
@@ -218,14 +302,20 @@ public class Chunk : MonoBehaviour
     /// <summary>
     /// Checks if there is a (non-air) Block at the given position 
     /// </summary>
-    bool CheckVoxel(Vector3Int pos)
+    public bool CheckVoxel(Vector3Int pos)
     {
-        int x = Mathf.FloorToInt(pos.x);
-        int y = Mathf.FloorToInt(pos.y);
-        int z = Mathf.FloorToInt(pos.z);
+        int x = pos.x;
+        int y = pos.y;
+        int z = pos.z;
 
-        if (x < 0 || x > width - 1 || y < 0 || y > height - 1 || z < 0 || z > length - 1)
-            return false;
+        if (y < 0) return true;
+        else if (y > height - 1) return false;
+
+        if (x < 0 || x > width - 1 || y < 0 || z < 0 || z > length - 1)
+        {
+            var chunkOrigin = new Vector3Int(position.x * width, 0, position.z * length);
+            return WorldController.Main.World.CheckVoxel(chunkOrigin + pos);
+        }
 
         if (blocks[x, y, z].blockID == 0)
         {
@@ -236,6 +326,4 @@ public class Chunk : MonoBehaviour
             return true;
         }
     }
-
-
 }

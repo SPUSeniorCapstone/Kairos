@@ -53,16 +53,43 @@ public class World : MonoBehaviour
     {
         get
         {
-            if (chunks == null || chunks.GetLength(0) != widthInChunks || chunks.GetLength(1) != lengthInChunks)
-            {
-                Helpers.DeleteAllChildren(gameObject);
-                chunks = new Chunk[widthInChunks, lengthInChunks];
-            }
             return chunks;
         }
     }
     Chunk[,] chunks;
 
+    Vector2Int currUpdate = Vector2Int.zero;
+
+
+    public void Init(Vector2Int size)
+    {
+        Helpers.DeleteAllChildren(gameObject);
+
+        widthInChunks = size.x;
+        lengthInChunks = size.y;
+        chunks = new Chunk[widthInChunks, lengthInChunks];
+    }
+
+    private void Update()
+    {
+        UpdateNext(); 
+    }
+
+    public void UpdateNext()
+    {
+        chunks[currUpdate.x, currUpdate.y].UpdateCorruption();
+        currUpdate.x += 1;
+        if(currUpdate.x >= widthInChunks)
+        {
+            currUpdate.x = 0;
+            currUpdate.y++;
+
+            if(currUpdate.y >= lengthInChunks)
+            {
+                currUpdate.y = 0;
+            }
+        }
+    }
 
     /// <summary>
     /// Returns the top most block at the given (x,z) position
@@ -176,5 +203,74 @@ public class World : MonoBehaviour
         texture.filterMode = FilterMode.Point;
         texture.Apply();
         return texture;
+    }
+
+    public void SetCorruption(int x, int z, float val)
+    {
+        int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks ||
+            voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+            chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
+        {
+            return;
+        }
+
+        Chunks[chunkX, chunkZ].corruptionMap[voxelX, voxelZ] = Mathf.Clamp(val,0,1);
+    }
+
+    public float GetCorruption(int x, int z)
+    {
+        int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks ||
+            voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+            chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0)
+        {
+            return -1;
+        }
+
+        return Chunks[chunkX, chunkZ].corruptionMap[voxelX,voxelZ];
+    }
+
+    public void SetCorruptionMap(float[,] corruptionMap)
+    {
+        if(corruptionMap.GetLength(0) != WidthInBlocks || corruptionMap.GetLength(1) != LengthInBlocks)
+        {
+            return;
+        }
+
+        for(int x = 0; x < WidthInBlocks; x++)
+        {
+            for(int z = 0; z < LengthInBlocks; z++)
+            {
+                SetCorruption(x,z,corruptionMap[x, z]);
+            }
+        }
+    }
+
+    public bool CheckVoxel(Vector3Int pos)
+    {
+        var x = pos.x;
+        var y = pos.y;
+        var z = pos.z;
+
+        int chunkX = x / Chunk.width, chunkZ = z / Chunk.length;
+        int voxelX = x % Chunk.width, voxelZ = z % Chunk.length;
+        if (chunkX >= widthInChunks || chunkZ >= lengthInChunks ||
+            voxelX >= Chunk.width || voxelZ >= Chunk.length ||
+            chunkX < 0 || chunkZ < 0 || voxelX < 0 || voxelZ < 0 ||
+            y < 0 || y > Chunk.height)
+        {
+            return false;
+        }
+
+        return Chunks[chunkX, chunkZ].CheckVoxel(new Vector3Int(voxelX,y,voxelZ));
+    }
+
+    public Vector2Int WorldToChunkPosition(Vector2Int position)
+    {
+        int chunkX = position.x / Chunk.width, chunkZ = position.y / Chunk.length;
+        return new Vector2Int(chunkX, chunkZ);
     }
 }
