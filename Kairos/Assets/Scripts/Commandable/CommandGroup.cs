@@ -11,6 +11,7 @@ public class CommandGroup : MonoBehaviour
 
     public int speedLimit;
     public Vector3 max, min;
+    public bool attackCommand = false;
     public Vector3 centerVector => transform.position;
     public float followStr;
     public float followSpeed;

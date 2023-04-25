@@ -6,21 +6,57 @@ public class Selectable : MonoBehaviour
     public bool faction;
     public Material unSelectedMaterial;
     public Material selectedMaterial;
+    private Unit unit;
+    private Structure structure;
+   
     void Start()
     {
         // write function to handles this or modify public list directly?
         GameController.Main.SelectionController.masterSelect.Add(this);
-    }
 
-    // test code delete when done
+        // this is so that when selected, selectable can fire any event that needs to happen in unit or structure
+        if(GetComponent<Unit>() != null)
+        {
+            unit = GetComponent<Unit>();
+        }
+        else if (GetComponent<Structure>() != null)
+        {
+            structure = GetComponent<Structure>();
+        }
+    }
     public void Activate()
     {
-        GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+       if (GameController.Main.SelectionController.testCooldown)
+        {
+            GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+            if (unit != null)
+            {
+                unit.OnSelect();
+            }
+            else if (structure != null)
+            {
+                structure.OnSelect();
+            }
+        }
     }
     public void Deactivate()
     {
-        GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
+        if (GameController.Main.SelectionController.testCooldown)
+        {
+            GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
+            if (unit != null)
+            {
+                unit.OnDeselect();
+            }
+            else if (structure != null)
+            {
+                structure.OnDeselect();
+            }
+        }
     }
+
+    // Next two functions do with hover over triggers
+
     private void OnMouseOver()
     {
         //if (GameController.Main.capture == null)
@@ -31,7 +67,7 @@ public class Selectable : MonoBehaviour
         {
             Debug.Log("Enimico!");
             GameController.Main.SelectionController.onEnemy = true;
-            GameController.Main.SelectionController.enemy = this.gameObject;
+            GameController.Main.SelectionController.actionTarget = this.gameObject;
 
             //Debug.Log("True enemy, pos" + GameController.main.playerController.enemyPos);
 
@@ -52,8 +88,15 @@ public class Selectable : MonoBehaviour
     private void OnMouseExit()
     {
         GameController.Main.SelectionController.onEnemy = false;
-        GameController.Main.SelectionController.enemy = null;
+        GameController.Main.SelectionController.actionTarget = null;
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         // Debug.Log("off");
     }
+
+    // master destroy should deal with this?
+    //private void OnDestroy()
+    //{
+    //    GameController.Main.SelectionController.masterSelect.Remove(this);
+    //    GameController.Main.SelectionController.currentlySelect.Remove(this);
+    //}
 }

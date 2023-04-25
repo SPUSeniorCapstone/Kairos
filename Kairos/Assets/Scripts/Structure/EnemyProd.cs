@@ -20,7 +20,7 @@ public class EnemyProd : ProductionStructure
             if (timeLeft <= 0)
             {
                 timeLeft = originialTime;
-                SpawnUnits();
+                SpawnUnits(base.unitToSpawn);
                 unitsQueued--;
             }
         }
