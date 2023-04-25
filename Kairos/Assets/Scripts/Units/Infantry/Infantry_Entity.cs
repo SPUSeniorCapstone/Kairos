@@ -57,6 +57,7 @@ public class Infantry_Entity : Entity
     void Move()
     {
         CalculateMovementDirection();
+        RotateTowards(movementDirection);
         transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
 
         // Set's height to block height it valid move
@@ -66,6 +67,7 @@ public class Infantry_Entity : Entity
             transform.position = new Vector3(transform.position.x, height, transform.position.z);
 
         }
+
     }
 
     protected override void CalculateMovementDirection()
@@ -137,6 +139,26 @@ public class Infantry_Entity : Entity
         {
             movementDirection += TargetAttraction();
         }
+    }
+
+    
+    public void RotateTowards(Vector3 pos)
+    {
+        bool lockHorizontalRotation = true;
+        if (lockHorizontalRotation)
+        {
+            pos.y = transform.position.y;
+        }
+        Debug.Log("ROTATE");
+        float rotateSpeed = 10.0f;
+        Quaternion rotation = transform.rotation;
+
+        Vector3 direction = pos - transform.position;
+        var lookRotation = Quaternion.LookRotation(direction);
+
+
+        rotation = Quaternion.Slerp(rotation, lookRotation, Time.deltaTime * rotateSpeed);
+        transform.rotation = rotation;
     }
 
 }
