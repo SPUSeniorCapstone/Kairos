@@ -32,6 +32,16 @@ public static class Extensions
         return ret;
     }
 
+    public static Vector3 ToVector3(this Vector2Int vec, int y = 0)
+    {
+        return new Vector3(vec.x, y, vec.y);
+    }
+
+    public static Vector3Int ToVector3Int(this Vector2Int vec, int y = 0)
+    {
+        return new Vector3Int(vec.x, y, vec.y);
+    }
+
     public static Vector3 SetZ(this Vector3 vector, float z)
     {
         vector.z = z;

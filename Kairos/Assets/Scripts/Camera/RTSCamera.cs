@@ -96,4 +96,9 @@ public class RTSCamera : MonoBehaviour
             Cursor.lockState = GameController.Main.defaultLockMode;
         }
     }
+
+    void FocusOnPosition(Vector3 pos)
+    {
+        pos = new Vector3(pos.x, WorldController.Main.World.GetHeight(pos.x, pos.z), pos.z);
+    }
 }

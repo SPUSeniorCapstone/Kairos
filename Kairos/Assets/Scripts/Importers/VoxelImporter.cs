@@ -47,6 +47,9 @@ public class VoxelImporter : ScriptedImporter
         Vector3 max = Vector3.zero;
         Vector3 min = Vector3.zero;
 
+        Vector3 center = Vector3.zero;
+        int count = 0;
+
         for (int x = 0; x < size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
@@ -56,14 +59,19 @@ public class VoxelImporter : ScriptedImporter
                     voxels[x, y, z] = reader.ReadVoxel();
                     if (voxels[x, y, z].solid)
                     {
-                        max = new Vector3(Mathf.Max(max.x, x), Mathf.Max(max.y, y), Mathf.Max(max.z, z));
-                        min = new Vector3(Mathf.Min(min.x, x), Mathf.Min(min.y, y), Mathf.Min(min.z, z));
+                        center += new Vector3(x, y, z);
+                        count++;
+                        //max = new Vector3(Mathf.Max(max.x, x), Mathf.Max(max.y, y), Mathf.Max(max.z, z));
+                        //min = new Vector3(Mathf.Min(min.x, x), Mathf.Min(min.y, y), Mathf.Min(min.z, z));
                     }
                 }
             }
         }
 
-        Vector3 center = Vector3.Lerp(max, min, 0.5f);
+        center /= count;
+        center = center.ToVector3Int();
+
+        //Vector3 center = Vector3.Lerp(max, min, 0.5f);
 
         int index = 0;
         List<Vector3> vertices = new List<Vector3>();
@@ -108,10 +116,10 @@ public class VoxelImporter : ScriptedImporter
 
                 if ( (X < 0 || X > size.x) || (Y < 0 || Y > size.y) || (Z < 0 || Z > size.z) || !voxels[X,Y,Z].solid)
                 {
-                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 0]] + center);
-                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 1]] + center);
-                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 2]] + center);
-                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 3]] + center);
+                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 0]] - center);
+                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 1]] - center);
+                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 2]] - center);
+                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 3]] - center);
                     colors.Add(voxel.color);
                     colors.Add(voxel.color);
                     colors.Add(voxel.color);

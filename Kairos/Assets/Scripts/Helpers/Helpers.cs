@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class Helpers
@@ -13,11 +14,11 @@ public static class Helpers
         return ret;
     }
 
-    public static void DeleteAllChildren(GameObject obj)
+    public static void DeleteAllChildren(this GameObject obj)
     {
         foreach (var c in obj.GetComponentsInChildren<Transform>())
         {
-            if (c.gameObject != obj)
+            if (c != null && c.gameObject != obj)
                 GameObject.DestroyImmediate(c.gameObject);
         }
     }
