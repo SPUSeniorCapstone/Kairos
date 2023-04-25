@@ -136,6 +136,20 @@ public class GameController : MonoBehaviour
 
     public MenuController menuController;
 
+
+    public CorruptionController CorruptionController
+    {
+        get
+        {
+            if (corruptionController == null)
+            {
+                corruptionController = FindObjectOfType<CorruptionController>();
+            }
+            return corruptionController;
+        }
+    }
+    CorruptionController corruptionController;
+
     public void MasterDestory(GameObject item)
     {
         if (EntityController == null || SelectionController == null)

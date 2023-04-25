@@ -309,8 +309,9 @@ public class Chunk : MonoBehaviour
         int z = pos.z;
 
         if (y < 0) return true;
+        else if (y > height - 1) return false;
 
-        if (x < 0 || x > width - 1 || y < 0 || y > height - 1 || z < 0 || z > length - 1)
+        if (x < 0 || x > width - 1 || y < 0 || z < 0 || z > length - 1)
         {
             var chunkOrigin = new Vector3Int(position.x * width, 0, position.z * length);
             return WorldController.Main.World.CheckVoxel(chunkOrigin + pos);

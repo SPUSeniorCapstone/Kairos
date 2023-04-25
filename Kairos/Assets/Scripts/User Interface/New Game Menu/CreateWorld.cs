@@ -30,7 +30,7 @@ public class CreateWorld : MonoBehaviour
     private void Start()
     {
         input.text = generator.seed.ToString();
-        scaleSlider.value = generator.scale;
+        scaleSlider.value = generator.worldSettings.scale;
         sizeSlider.value = generator.worldSize.x;
 
         generator.GenerateWorld(false);

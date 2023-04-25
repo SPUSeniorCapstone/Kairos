@@ -15,12 +15,15 @@ public class StructureController : MonoBehaviour
 
     public ProductionStructure selected;
 
+    public List<Structure> CorruptionNodes = new List<Structure>();
+    public Structure StrongholdActual;
+
     private void Start()
     {
-        PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
+        StrongholdActual = PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
         foreach (var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
         {
-            PlaceStructure(corruptionNode, pos);
+            CorruptionNodes.Add(PlaceStructure(corruptionNode, pos));
         }
     }
 
@@ -54,12 +57,12 @@ public class StructureController : MonoBehaviour
         selected.QueueUnits();
     }
 
-    public void PlaceStructure(Structure structure, Vector3Int position)
+    public Structure PlaceStructure(Structure structure, Vector3Int position)
     {
         if (!IsValidPlacement(structure, position))
         {
             Debug.Log("Invalid Structure Placement");
-            return;
+            return null;
         }
 
 
@@ -78,6 +81,9 @@ public class StructureController : MonoBehaviour
                 w.World.SetHeight(position.x + x, position.z + z, h + structure.Size.y);
             }
         }
+
+        return s;
+
     }
 
     public bool IsValidPlacement(Structure structure, Vector3Int position)

@@ -12,11 +12,17 @@ public class NoiseGenerator
     [Serializable]
     public struct NoiseSettings
     {
+        [Disable]
         public int seed;
+        [Range(0.001f, 3.0f)]
         public float scale;
+        [Range(1, 10)]
         public int octaves;
+        [Range(0.001f, 15)]
         public float persistance;
+        [Range(0.001f, 1)]
         public float lacunarity;
+        [Disable]
         public Vector2 offset;
     }
 

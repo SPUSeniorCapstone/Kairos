@@ -58,6 +58,8 @@ Shader "Custom/WorldShader"
             float4 tex1 = tex2D(_MainTex, IN.uv_MainTex);
             float4 tex2 = tex2D(_SecondTex, float2(0.0f, 1.0f));
             fixed4 c = lerp(tex1, tex2, IN.corr.x * _CorruptionColorOver);
+
+
             o.Albedo = c.rgb;
             o.Alpha = c.a;
         }

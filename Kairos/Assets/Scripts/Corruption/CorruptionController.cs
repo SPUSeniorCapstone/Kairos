@@ -16,6 +16,8 @@ public class CorruptionController : MonoBehaviour
     [Range(0, 1)]
     public float startingCorruption;
 
+    public bool SpawnUnits = true;
+
     private void Start()
     {
         //var max = new Vector2Int(WorldController.Main.World.WidthInBlocks, WorldController.Main.World.LengthInBlocks);

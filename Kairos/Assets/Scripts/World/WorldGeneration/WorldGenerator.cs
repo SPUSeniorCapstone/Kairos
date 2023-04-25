@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Generate a 3D Voxel-based world
@@ -30,34 +32,33 @@ public class WorldGenerator : MonoBehaviour
     }
 
     public Vector3Int strongholdPos;
+    public float strongholdRadius = 10;
+
     public List<Vector3Int> corruptionNodePositions = new List<Vector3Int>();
+    public int numNodes = 10;
+    public float corruptionNodeDensityRadius = 20;
 
     public int seed;
     public void SetSeed(string seed) { this.seed = int.Parse(seed); }
 
-    int terrainSeed;
-    int corruptionSeed;
-
-    [Range(0.001f, 3.0f)]
-    public float scale;
-    public void SetScale(float scale) { this.scale = scale; }
-
     public NoiseGenerator.NoiseSettings worldSettings;
+    public NoiseGenerator.NoiseSettings flatMapSettings;
     public NoiseGenerator.NoiseSettings corruptionSettings;
 
-    [Range(1, 10)]
-    public int octaves;
-    [Range(0.001f, 10)]
-    public float persistance;
-    [Range(0.001f, 1)]
-    public float lacunarity;
 
 
     public bool useLayerHeights = true;
     public bool useFalloff = false;
 
+    [Range(0, 100)]
+    public int smoothStrength;
+
+    public float corruptionStrength = 0.25f;
+
     float[,] falloff;
-    float[,] terrainMap;
+    float[,] heightMap;
+    int[,] terrainMap;
+    int[,] blockMap;
     float[,] corruptionMap;
 
     public Vector2Int worldSize = new Vector2Int(8, 8);
@@ -68,15 +69,17 @@ public class WorldGenerator : MonoBehaviour
 
     public WorldLayer[] layers;
 
-    Vector3Int terrainOffset;
-    Vector3Int tempOffset;
-    Vector3Int humidityOffset;
+    [Range(0,100)]
+    public int veinsPerNode = 10;
+    [Range(0,1000)]
+    public int stepsPerVein = 100;
 
     public void InitWorldGen(int seed)
     {
         UnityEngine.Random.InitState(seed);
-        terrainSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        corruptionSeed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        worldSettings.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        corruptionSettings.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        flatMapSettings.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
     }
 
     public void GenerateWorld(bool loadMeshes = true)
@@ -87,31 +90,22 @@ public class WorldGenerator : MonoBehaviour
         world.lengthInChunks = worldSize.y;
         InitWorldGen(seed);
 
-        corruptionSettings.seed = corruptionSeed;
+        world.Init(worldSize);
 
-        corruptionMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, corruptionSettings);
-        terrainMap = NoiseGenerator.GenerateNoiseMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
+        GenerateHeights();
 
-        if (useFalloff)
-        {
-            falloff = NoiseGenerator.GenerateFalloffMap(Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks);
-        }
 
-        for (int x = 0; x < world.widthInChunks; x++)
-        {
-            for (int z = 0; z < world.lengthInChunks; z++)
-            {
-                var pos = new Vector3Int(x, 0, z);
-                if (world.Chunks[x, z] == null)
-                {
-                    world.Chunks[x, z] = Chunk.CreateChunk(pos, GenerateChunk(pos), world.transform, world.worldMaterial);
-                }
-                else
-                {
-                    world.Chunks[x, z].SetChunk(pos, GenerateChunk(pos), world.worldMaterial);
-                }
-            }
-        }
+        GenerateVoxelMap();
+
+        GenerateChunks();
+
+        PlacePlayerStronghold();
+
+        PlaceCorruptionNodes();
+
+        GenerateCorruption();
+
+
         if (loadMeshes)
         {
             for (int x = 0; x < world.widthInChunks; x++)
@@ -123,7 +117,8 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        world.SetCorruptionMap(corruptionMap);
+        //corruptionMap = new float[Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks];
+        //world.SetCorruptionMap(corruptionMap);
 
         float width = world.WidthInBlocks * world.BlockScale;
         float height = Chunk.height * world.BlockScale;
@@ -133,19 +128,212 @@ public class WorldGenerator : MonoBehaviour
         world.bounds = new Bounds(center.Flat(), center);
     }
 
+    public void GenerateHeights()
+    {
+        Debug.Log("Generating Terrain Height Map...");
+        heightMap = NoiseGenerator.GenerateNoiseMap(world.WidthInBlocks, world.LengthInBlocks, worldSettings);
+
+
+        //Post Processing
+        if (useFalloff) ApplyFalloffMap();
+        Debug.Log("Finished Generating Terrain Height Map");
+    }
+
+    public void ApplyFalloffMap()
+    {
+        Debug.Log("Creating Falloff Map...");
+        falloff = NoiseGenerator.GenerateFalloffMap(world.WidthInBlocks, world.LengthInBlocks);
+
+        Debug.Log("Applying Falloff...");
+        for (int x = 0; x < world.WidthInBlocks; x++)
+        {
+            for (int z = 0; z < world.LengthInBlocks; z++)
+            {
+                heightMap[x, z] = Mathf.Clamp(heightMap[x, z] - falloff[x, z], 0.0f, 1.0f);
+            }
+        }
+        Debug.Log("Finished Applying Falloff");
+    }
+
+
+    public void GenerateVoxelMap()
+    {
+        Debug.Log("Generating Voxel Map...");
+        terrainMap = new int[world.WidthInBlocks, world.LengthInBlocks];
+        blockMap = new int[world.WidthInBlocks, world.LengthInBlocks];
+
+        for (int x = 0; x < world.WidthInBlocks; x++)
+        {
+            for (int z = 0; z < world.LengthInBlocks; z++)
+            {
+                float height = heightMap[x, z];
+                int blockID = 0;
+                int newHeight = 1;
+
+                for(int i = 0; i < layers.Length; i++)
+                {
+                    blockID = layers[i].BlockID;
+                    newHeight += layers[i].thickness;
+
+                    if(i+1 >= layers.Length || layers[i+1].height > height)
+                    {
+                        break;
+                    }
+                }
+
+                if (!useLayerHeights)
+                {
+                    newHeight = (int)(height * eccentricity);
+                }
+
+                terrainMap[x, z] = newHeight;
+                blockMap[x, z] = blockID;
+
+            }
+        }
+    }
+
+
+
+
+    public void PlacePlayerStronghold()
+    {
+        strongholdPos = GetRandomPosition().ToVector3Int();
+    }
+
+    public void GenerateCorruption()
+    {
+        corruptionMap = new float[world.WidthInBlocks, world.LengthInBlocks];
+        foreach(var pos in corruptionNodePositions)
+        {
+            corruptionMap[pos.x,pos.z] = 1.0f;
+            for(int i = 0; i < veinsPerNode; i++)
+            {
+                Vector2Int prev = pos.ToVector2Int();
+                Vector2Int dir = Vector2Int.zero;
+                float curr = 1.0f;
+                int c = 0;
+                while(curr > 0 && c < stepsPerVein)
+                {
+                    curr = corruptionMap[prev.x, prev.y] - Random.Range(0,0.01f);
+                    Vector2Int next = prev + dir + new Vector2Int(Random.Range(-1, 2), Random.Range(-1, 2));
+                    if (prev == next || next.x >= world.WidthInBlocks || next.x < 0 || next.y < 0 || next.y >= world.LengthInBlocks)
+                    {
+                        c++;
+                        continue;
+                    }
+
+                    corruptionMap[next.x, next.y] = Mathf.Clamp(curr + corruptionMap[next.x, next.y], 0,1);
+                    
+                    dir = next - prev;
+                    dir /= (int)dir.magnitude;
+
+                    prev = next;
+                    c++;
+                }
+
+            }
+
+        }
+
+        world.SetCorruptionMap(corruptionMap);
+
+        /**
+        //Debug.Log("Generating Corruption Map...");
+        //corruptionMap = NoiseGenerator.GenerateNoiseMap(world.WidthInBlocks, world.LengthInBlocks, corruptionSettings);
+        //for (int x = 0; x < world.WidthInBlocks; x++)
+        //{
+        //    for (int z = 0; z < world.LengthInBlocks; z++)
+        //    {
+        //        var c = corruptionMap[x, z];
+
+        //        if(Vector3Int.Distance(strongholdPos, new Vector3Int(x,0,z)) < strongholdRadius)
+        //        {
+        //            c = 0;
+        //        }
+
+        //        if (c < 0.25) corruptionMap[x, z] = 0;
+        //        if (c > 0.75) corruptionMap[x, z] = 1;
+        //    }
+        //}
+
+        //float[,] temp = new float[world.WidthInBlocks, world.LengthInBlocks];
+        //for (int x = 0; x < world.WidthInBlocks; x++)
+        //{
+        //    for (int z = 0; z < world.LengthInBlocks; z++)
+        //    {
+        //        float avg = 0;
+        //        int c = 0;
+        //        for (int i = -2; i <= 2; i++)
+        //        {
+        //            for (int j = -2; j <= 2; j++)
+        //            {
+        //                if (x + i < 0 || z + j < 0 || x + i >= world.WidthInBlocks || z + j >= world.LengthInBlocks)
+        //                    continue;
+        //                avg += corruptionMap[x + i, z + j];
+        //                c++;
+        //            }
+        //        }
+        //        if (c != 0)
+        //            temp[x, z] = avg / c;
+        //    }
+        //}
+        //corruptionMap = temp;
+
+        //world.SetCorruptionMap(corruptionMap);
+        //Debug.Log("Finished Generating Corruption Map");
+        */
+
+    }
+
+    public void PlaceCorruptionNodes()
+    {
+        var positions = PoissonDiscSampling.GeneratePoints(corruptionNodeDensityRadius, new Vector2(world.WidthInBlocks, world.LengthInBlocks));
+
+
+        corruptionNodePositions = new List<Vector3Int>();
+        while (corruptionNodePositions.Count < numNodes && positions.Count > 0)
+        {
+            int i = Random.Range(0, positions.Count);
+            Vector2 pos = positions[i];
+            positions.RemoveAt(i);
+            if(Vector3Int.Distance(new Vector3(pos.x,0,pos.y).ToVector3Int(), strongholdPos) > strongholdRadius)
+            {
+                corruptionNodePositions.Add(new Vector3(pos.x, 0, pos.y).ToVector3Int());
+            }
+        }
+        Debug.Log("Placing Corruption Nodes");
+    }
+
+    public void PlaceDecoration()
+    {
+
+    }
+
+    public void PlaceResources()
+    {
+
+    }
+
+    public void GenerateChunks()
+    {
+        Debug.Log("Generating World Chunks...");
+        for (int x = 0; x < world.widthInChunks; x++)
+        {
+            for (int z = 0; z < world.lengthInChunks; z++)
+            {
+                var pos = new Vector3Int(x, 0, z);
+                world.Chunks[x, z] = Chunk.CreateChunk(pos, GenerateChunk(pos), world.transform, world.worldMaterial);
+            }
+        }
+        Debug.Log("Finished Generating Chunks");
+    }
+
     public Block[,,] GenerateChunk(Vector3Int position)
     {
-        //int terrainOffsetX = terrainOffset.x + (position.x * Chunk.width);
-        //int terrainOffsetZ = terrainOffset.z + (position.z * Chunk.length);
-
-        //int tempOffsetX = tempOffset.x + (position.x * Chunk.width);
-        //int tempOffsetZ = tempOffset.z + (position.z * Chunk.length);
-
-        //int humidityOffsetX = humidityOffset.x + (position.x * Chunk.width);
-        //int humidityOffsetZ = humidityOffset.z + (position.z * Chunk.length);
+        //Debug.Log("Generating Chunk: " + position);
 
         Vector2Int offset = new Vector2Int(position.x * Chunk.width, position.z * Chunk.length);
-
         Block[,,] blocks = new Block[Chunk.width, Chunk.height, Chunk.length];
 
         for (int x = 0; x < Chunk.width; x++)
@@ -153,43 +341,22 @@ public class WorldGenerator : MonoBehaviour
             for (int z = 0; z < Chunk.length; z++)
             {
                 var h = terrainMap[offset.x + x, offset.y + z];
-
-                if (useFalloff)
-                {
-                    h -= falloff[offset.x + x, offset.y + z];
-                }
-
                 if (h < 0) h = 0;
+                else if (h > Chunk.height-1) h = Chunk.height-1;
 
-                int blockID = 0;
-                int height = 0;
-                int currBlockHeight = 0;
+                int blockID = blockMap[position.x * Chunk.width + x, position.z * Chunk.length + z];
 
-                for (int i = 0; i < layers.Length; i++)
-                {
-                    var layer = layers[i];
-                    if (layer.height <= h * eccentricity)
-                    {
-                        if (useLayerHeights)
-                            height = currBlockHeight + layer.thickness;
-                        else
-                            height = (int)(h * eccentricity);
-                        currBlockHeight = height;
-                        blockID = layer.BlockID;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+                //for (int i = layers.Length-1; i >= 0; i--)
+                //{
+                //    var layer = layers[i];
+                //    if (h >= layer.height)
+                //    {
+                //        blockID = layer.BlockID;
+                //        break;
+                //    }
+                //}
 
-
-                if (height > Chunk.height)
-                {
-                    height = Chunk.height;
-                }
-
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y <= h; y++)
                 {
                     blocks[x, y, z] = new Block(blockID, new Vector3Int(x, y, z));
                 }
@@ -205,7 +372,7 @@ public class WorldGenerator : MonoBehaviour
 
         int width = Chunk.width * worldSize.x;
         int length = Chunk.length * worldSize.y;
-        terrainMap = NoiseGenerator.GenerateNoiseMap(width, length, terrainSeed, scale, octaves, persistance, lacunarity, Vector2.zero);
+        heightMap = NoiseGenerator.GenerateNoiseMap(width, length, worldSettings);
 
         if (useFalloff)
         {
@@ -218,7 +385,7 @@ public class WorldGenerator : MonoBehaviour
         {
             for (int z = 0; z < length; z++)
             {
-                float height = terrainMap[x, z];
+                float height = heightMap[x, z];
 
                 if (useFalloff)
                 {
@@ -250,6 +417,11 @@ public class WorldGenerator : MonoBehaviour
         texture.Apply();
         return texture;
     }
+
+    public Vector2Int GetRandomPosition()
+    {
+        return new Vector2Int(Random.Range(0, world.WidthInBlocks), Random.Range(0, world.LengthInBlocks));
+    }
 }
 
 [Serializable]
@@ -257,8 +429,8 @@ public struct WorldLayer
 {
     public string name;
     public int BlockID;
-    [Range(0, Chunk.height)]
-    public int height;
+    [Range(0, 1)]
+    public float height;
     [Range(1, Chunk.height)]
     public int thickness;
 }

@@ -53,17 +53,22 @@ public class World : MonoBehaviour
     {
         get
         {
-            if (chunks == null || chunks.GetLength(0) != widthInChunks || chunks.GetLength(1) != lengthInChunks)
-            {
-                Helpers.DeleteAllChildren(gameObject);
-                chunks = new Chunk[widthInChunks, lengthInChunks];
-            }
             return chunks;
         }
     }
     Chunk[,] chunks;
 
     Vector2Int currUpdate = Vector2Int.zero;
+
+
+    public void Init(Vector2Int size)
+    {
+        Helpers.DeleteAllChildren(gameObject);
+
+        widthInChunks = size.x;
+        lengthInChunks = size.y;
+        chunks = new Chunk[widthInChunks, lengthInChunks];
+    }
 
     private void Update()
     {
