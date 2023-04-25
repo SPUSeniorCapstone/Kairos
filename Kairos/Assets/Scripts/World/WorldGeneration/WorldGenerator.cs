@@ -45,7 +45,7 @@ public class WorldGenerator : MonoBehaviour
     public NoiseGenerator.NoiseSettings flatMapSettings;
     public NoiseGenerator.NoiseSettings corruptionSettings;
 
-
+    public List<Decoration> decorations;
 
     public bool useLayerHeights = true;
     public bool useFalloff = false;
@@ -58,6 +58,7 @@ public class WorldGenerator : MonoBehaviour
     float[,] falloff;
     float[,] heightMap;
     int[,] terrainMap;
+    int[,] layerMap;
     int[,] blockMap;
     float[,] corruptionMap;
 
@@ -103,6 +104,7 @@ public class WorldGenerator : MonoBehaviour
 
         PlaceCorruptionNodes();
 
+
         GenerateCorruption();
 
 
@@ -116,6 +118,8 @@ public class WorldGenerator : MonoBehaviour
                 }
             }
         }
+
+        PlaceDecorations();
 
         //corruptionMap = new float[Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks];
         //world.SetCorruptionMap(corruptionMap);
@@ -161,6 +165,7 @@ public class WorldGenerator : MonoBehaviour
         Debug.Log("Generating Voxel Map...");
         terrainMap = new int[world.WidthInBlocks, world.LengthInBlocks];
         blockMap = new int[world.WidthInBlocks, world.LengthInBlocks];
+        layerMap = new int[world.WidthInBlocks, world.LengthInBlocks];
 
         for (int x = 0; x < world.WidthInBlocks; x++)
         {
@@ -169,11 +174,13 @@ public class WorldGenerator : MonoBehaviour
                 float height = heightMap[x, z];
                 int blockID = 0;
                 int newHeight = 1;
+                int layer = 0;
 
                 for(int i = 0; i < layers.Length; i++)
                 {
                     blockID = layers[i].BlockID;
                     newHeight += layers[i].thickness;
+                    layer = i;
 
                     if(i+1 >= layers.Length || layers[i+1].height > height)
                     {
@@ -186,6 +193,7 @@ public class WorldGenerator : MonoBehaviour
                     newHeight = (int)(height * eccentricity);
                 }
 
+                layerMap[x, z] = layer;
                 terrainMap[x, z] = newHeight;
                 blockMap[x, z] = blockID;
 
@@ -305,9 +313,28 @@ public class WorldGenerator : MonoBehaviour
         Debug.Log("Placing Corruption Nodes");
     }
 
-    public void PlaceDecoration()
+    public void PlaceDecorations()
     {
-
+        foreach(var dec in decorations)
+        {
+            if(dec.decorationObject != null)
+            {
+                var positions = PoissonDiscSampling.GeneratePoints(dec.radius, new Vector2(world.WidthInBlocks, world.LengthInBlocks));
+                foreach(var pos in positions)
+                {
+                    var position = pos.ToVector2Int();
+                    if(position.x < world.WidthInBlocks && position.x >= 0 && position.y < world.LengthInBlocks && position.y >= 0)
+                    {
+                        if (layerMap[position.x, position.y] == dec.LayerID)
+                        {
+                            var cp = world.WorldToChunkPosition(position);
+                            var wp = position.ToVector3(world.GetHeight(position.ToVector3Int()));
+                            Instantiate(dec.decorationObject, wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void PlaceResources()
@@ -433,5 +460,13 @@ public struct WorldLayer
     public float height;
     [Range(1, Chunk.height)]
     public int thickness;
+}
+
+[Serializable]
+public struct Decoration
+{
+    public GameObject decorationObject;
+    public float radius;
+    public int LayerID;
 }
 

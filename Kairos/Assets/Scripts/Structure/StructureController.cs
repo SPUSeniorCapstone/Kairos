@@ -29,7 +29,7 @@ public class StructureController : MonoBehaviour
 
     private void Start()
     {
-        StrongholdActual = PlaceStructure(strongHold, GameController.Main.WorldController.WorldGenerator.strongholdPos);
+        //StrongholdActual = PlaceStructure(PlayerStructures, GameController.Main.WorldController.WorldGenerator.strongholdPos);
         foreach (var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
         {
             CorruptionNodes.Add(PlaceStructure(corruptionNode, pos));

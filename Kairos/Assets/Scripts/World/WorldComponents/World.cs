@@ -267,4 +267,10 @@ public class World : MonoBehaviour
 
         return Chunks[chunkX, chunkZ].CheckVoxel(new Vector3Int(voxelX,y,voxelZ));
     }
+
+    public Vector2Int WorldToChunkPosition(Vector2Int position)
+    {
+        int chunkX = position.x / Chunk.width, chunkZ = position.y / Chunk.length;
+        return new Vector2Int(chunkX, chunkZ);
+    }
 }
