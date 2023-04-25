@@ -11,7 +11,7 @@ public class StratView : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BuildMenu.SetActive(false);
+        GameController.Main.UIController.EnableBuildMenu(false);
     }
 
     // Update is called once per frame
@@ -26,7 +26,8 @@ public class StratView : MonoBehaviour
         {
             inspectee = null;
             unitView.text = "New Text";
-            BuildMenu.SetActive(false);
+            GameController.Main.UIController.EnableBuildMenu(false);
+            //BuildMenu.SetActive(false);
         }
         else
         {
@@ -36,6 +37,7 @@ public class StratView : MonoBehaviour
     }
     public void BuilderSelected()
     {
-        BuildMenu.SetActive(!BuildMenu.active);
+        GameController.Main.UIController.EnableBuildMenu(true);
+        //BuildMenu.SetActive(!BuildMenu.active);
     }
 }

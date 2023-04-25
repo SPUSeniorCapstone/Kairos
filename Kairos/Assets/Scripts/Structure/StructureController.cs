@@ -27,6 +27,9 @@ public class StructureController : MonoBehaviour
     public GameObject infantry;
     public GameObject archer;
 
+    public Material valid;
+    public Material invalid;
+
     private void Start()
     {
         //StrongholdActual = PlaceStructure(PlayerStructures, GameController.Main.WorldController.WorldGenerator.strongholdPos);
@@ -40,6 +43,7 @@ public class StructureController : MonoBehaviour
     {
         if (StructurePlacementMode)
         {
+
             Vector3Int pos = Vector3Int.zero;
 
             RaycastHit hit;
@@ -52,7 +56,18 @@ public class StructureController : MonoBehaviour
             }
 
 
+
+            // i want this code to have active feedback for good placement
             structurePreview.transform.position = pos;
+            if (!IsValidPlacement(structurePreview.GetComponent<Structure>(), pos))
+            {
+                structurePreview.GetComponentInChildren<MeshRenderer>().material = invalid;
+            }
+            else
+            {
+                structurePreview.GetComponentInChildren<MeshRenderer>().material = valid;
+            }
+           
 
             if (GameController.Main.inputController.Select.Pressed())
             {
@@ -96,6 +111,7 @@ public class StructureController : MonoBehaviour
 
         var s = Instantiate<Structure>(structure, PlayerStructures.transform);
         s.transform.position = position;
+        // need to fix, enemy buildings call this with no builder
         s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
 
         for (int x = 0; x < structure.Size.x; x++)
@@ -122,6 +138,10 @@ public class StructureController : MonoBehaviour
             {
                 int h2 = w.World.GetHeight(position.x + x, position.z + z);
                 if (h2 != h)
+                {
+                    return false;
+                }
+                if (structure.GetComponent<ResourceStructure>() != null)
                 {
                     return false;
                 }

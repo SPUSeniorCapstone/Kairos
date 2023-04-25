@@ -57,7 +57,7 @@ public class ProductionStructure : Structure
     }
 
     //Spawn unit function
-    public void SpawnUnits(GameObject unit)
+    public virtual void SpawnUnits(GameObject unit)
     {
         GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity);
         // does this work?
@@ -71,14 +71,14 @@ public class ProductionStructure : Structure
     }
     public override void OnSelect()
     {
-        Debug.Log("OnSelect S");
         GameController.Main.StructureController.selected = this;
-        GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
+        GameController.Main.UIController.EnableProductionMenu(true);
+        //GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
     }
     public override void OnDeselect()
     {
-        Debug.Log("OnDeselect S");
         GameController.Main.StructureController.selected = null;
-        GameController.Main.UIController.MenuController.structureMenuUI.SetActive(false);
+        GameController.Main.UIController.EnableProductionMenu(false);
+        //GameController.Main.UIController.MenuController.structureMenuUI.SetActive(false);
     }
 }

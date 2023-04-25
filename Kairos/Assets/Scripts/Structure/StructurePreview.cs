@@ -20,7 +20,7 @@ public class StructurePreview : Structure
            if (!example)
         {
             timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0 && Vector3.Distance(transform.position, builder.transform.position) < 6 && builder.entity.movementMode == Builder_Entity.MovementMode.IDLE)
+            if (timeLeft <= 0 && builder != null && Vector3.Distance(transform.position, builder.transform.position) < 6 && builder.entity.movementMode == Builder_Entity.MovementMode.IDLE)
             {
                 timeLeft = originialTime;
                 damageable.Heal(100);
@@ -45,12 +45,10 @@ public class StructurePreview : Structure
    
     public override void OnSelect()
     {
-        Debug.Log("OnSelect P");
-  
+        
     }
     public override void OnDeselect()
     {
-        Debug.Log("OnDeSelect P");
        
       
     }

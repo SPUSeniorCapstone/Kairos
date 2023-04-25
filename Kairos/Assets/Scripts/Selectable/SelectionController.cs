@@ -47,11 +47,10 @@ public class SelectionController : MonoBehaviour
             if (GameController.Main.InputController.Select.KeyUp() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
                 selectionAreaTransform.gameObject.SetActive(false);
-                bool kontinue = true;
                 foreach (Selectable selectable in masterSelect)
                 {
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
-                    if (kontinue == true && point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.faction)
+                    if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.faction)
                     {
                         if (selectable.selected == false)
                         {
@@ -63,32 +62,51 @@ public class SelectionController : MonoBehaviour
                         }
                         selectable.selected = true;
                         selectable.Activate();
-                        kontinue = false;
                     }
                     // this will check if the mouse click ray hit a selectable (uses oneclick instead of selectable)
                     // does this work as intended? what if you flick the mouse?
-                    else if (kontinue == true)
+                    else
                     {
-                        Selectable oneClick = GetMouseWorldPosition3D();
-                        if (oneClick != null && !oneClick.selected && !oneClick.faction)
+                        //Selectable oneClick = GetMouseWorldPosition3D();
+                        //if (oneClick != null && !oneClick.faction)
+                        //{
+                        //    if (oneClick.selected == false)
+                        //    {
+                        //        currentlySelect.Add(oneClick);
+                        //    }
+                        //    GameController.Main.UIController.StratView.SetUnitView(oneClick.gameObject);
+                        //    oneClick.selected = true;
+                        //    oneClick.Activate();
+                        //    Debug.Log(oneClick + " activate");
+                        //}
+                        //// otherwise deactivate
+                        //else
+                        //{
+                        //    if (selectable.selected == true)
+                        //    {
+                        //        Debug.Log(selectable + " deactivate");
+                        //        selectable.selected = false;
+                        //        selectable.Deactivate();
+                        //        currentlySelect.Remove(selectable);
+                        //    }
+                        //}
+                        if (selectable.selected == true && selectable.gameObject != GameController.Main.UIController.StratView.inspectee)
                         {
-                            if (oneClick.selected == false)
-                            {
-                                currentlySelect.Add(oneClick);
-                            }
-                            GameController.Main.UIController.StratView.SetUnitView(oneClick.gameObject);
-                            oneClick.selected = true;
-                            oneClick.Activate();
-                            Debug.Log(oneClick);
-                            kontinue = false;
+                            selectable.selected = false;
+                            selectable.Deactivate();
+                            currentlySelect.Remove(selectable);
                         }
-                    }
-                    if (selectable.selected == true && kontinue == true)
-                    {
-                        Debug.Log(selectable + " deactivate");
-                        selectable.selected = false;
-                        selectable.Deactivate();
-                        currentlySelect.Remove(selectable);
+                        Selectable oneClick = GetMouseWorldPosition3D();
+                        if (oneClick == null)
+                        {
+                            if (selectable.selected == false)
+                            {
+                                currentlySelect.Remove(selectable);
+                            }
+                            selectable.selected = false;
+                            selectable.Deactivate();
+                            currentlySelect.Remove(selectable);
+                        }
                     }
                 }
                 // ping ui to check

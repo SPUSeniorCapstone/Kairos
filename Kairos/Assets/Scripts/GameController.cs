@@ -177,6 +177,8 @@ public class GameController : MonoBehaviour
     public int enemyCount = 0;
     public bool WinConDebug = false;
 
+    public int resouceCount = 0;
+
     public void CheckVictory(Structure structure)
     {
         if (!WinConDebug)

@@ -10,6 +10,10 @@ public class Unit : MonoBehaviour
     // best way to do this?
     private Selectable goal;
 
+    public AudioSource Head;
+    public AudioSource Body;
+    public AudioSource Feet;
+
     virtual public void PerformTaskOn(Selectable selectable)
     {
 
