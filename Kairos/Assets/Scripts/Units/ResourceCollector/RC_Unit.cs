@@ -54,21 +54,13 @@ public class RC_Unit : Unit
     public override void OnSelect()
     {
         // neccessary?
-        if (GameController.Main.UIController.StratView.inspectee == gameObject)
-            GameController.Main.UIController.EnableBuildMenu(true);
+
     }
     public override void OnDeselect()
     {
-        GameController.Main.UIController.EnableBuildMenu(false);
+
     }
 
-    public void BuildTask(Vector3 pos)
-    {
-        display = pos;
-        pos.x++;
-        pos.y++;
-        MoveTo(pos);
-    }
 
     public override void PerformTaskOn(Selectable selectable)
     {

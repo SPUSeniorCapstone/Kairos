@@ -183,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
-  unSelectedMaterial: {fileID: 2100000, guid: 2418d2aee4b53274a92337bed0d593ae, type: 2}
+  unSelectedMaterial: {fileID: 2100000, guid: e0f1dc1dddaec344c84df02ecb8f6924, type: 2}
   selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
 --- !u!114 &4414594709870812646
 MonoBehaviour:
