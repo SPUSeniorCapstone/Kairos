@@ -111,6 +111,7 @@ public class StructureController : MonoBehaviour
 
         var s = Instantiate<Structure>(structure, PlayerStructures.transform);
         s.transform.position = position;
+        // need to fix, enemy buildings call this with no builder
         s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
 
         for (int x = 0; x < structure.Size.x; x++)
