@@ -8,6 +8,7 @@ public class Selectable : MonoBehaviour
     public Material selectedMaterial;
     private Unit unit;
     private Structure structure;
+    public GameObject highlight;
    
     void Start()
     {
@@ -78,6 +79,8 @@ public class Selectable : MonoBehaviour
         }
         else
         {
+
+            GameController.Main.SelectionController.actionTarget = this.gameObject;
             // set cursor other
             //Cursor.SetCursor(GameController.Main.capture, Vector2.zero, CursorMode.Auto);
 

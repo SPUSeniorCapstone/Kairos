@@ -15,6 +15,13 @@ public class RC_Entity : Entity
     List<Vector3> path;
     int pathIndex = -1;
 
+    public Vector3 HomeVector;
+    public Vector3 TargetVector;
+
+    public bool lockHorizontalRotation = true;
+
+    public float rotateSpeed = 10f;
+
 
     new void Update()
     {
@@ -120,6 +127,26 @@ public class RC_Entity : Entity
     {
         Idle();
         movementDirection += TargetAttraction();
+    }
+
+    public void RotateTowards(Vector3 pos)
+    {
+        pos += transform.position;
+
+
+        if (lockHorizontalRotation)
+        {
+            pos.y = transform.position.y;
+        }
+
+        Quaternion rotation = transform.rotation;
+
+        Vector3 direction = pos - transform.position;
+        var lookRotation = Quaternion.LookRotation(direction);
+
+
+        rotation = Quaternion.Slerp(rotation, lookRotation, Time.deltaTime * rotateSpeed);
+        transform.rotation = rotation;
     }
 
 }

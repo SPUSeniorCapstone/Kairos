@@ -49,6 +49,10 @@ public class RC_Unit : Unit
                 command = null;
             }
         }
+        else
+        {
+            entity.RotateTowards(entity.movementDirection);
+        }
     }
 
     public override void OnSelect()
@@ -64,14 +68,22 @@ public class RC_Unit : Unit
 
     public override void PerformTaskOn(Selectable selectable)
     {
-        var tar = selectable.GetComponent<Damageable>();
-        if (tar != null)
+
+        var home = selectable.GetComponent<ResourceStructure>();
+        if (home != null)
         {
-            SetTarget(tar, true);
+            entity.HomeVector = home.transform.position;
         }
         else
         {
-            Debug.Log("TAR IS NULL! => " + selectable);
+            
+            var target = selectable.GetComponent<Stronghold>();
+            Debug.Log(target);
+            if (target != null)
+            {
+                Debug.Log("PLZ WORK");
+                entity.TargetVector = target.transform.position;
+            }
         }
     }
 

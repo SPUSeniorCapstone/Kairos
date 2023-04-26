@@ -15,6 +15,10 @@ public class Infantry_Entity : Entity
     List<Vector3> path;
     int pathIndex = -1;
 
+    public bool lockHorizontalRotation = true;
+
+    public float rotateSpeed = 10f;
+
 
     new void Update()
     {
@@ -141,16 +145,17 @@ public class Infantry_Entity : Entity
         }
     }
 
-    
+
     public void RotateTowards(Vector3 pos)
     {
-        bool lockHorizontalRotation = true;
+        pos += transform.position;
+
+
         if (lockHorizontalRotation)
         {
             pos.y = transform.position.y;
         }
-        Debug.Log("ROTATE");
-        float rotateSpeed = 10.0f;
+
         Quaternion rotation = transform.rotation;
 
         Vector3 direction = pos - transform.position;

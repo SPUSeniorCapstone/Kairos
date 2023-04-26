@@ -132,7 +132,7 @@ public class Builder_Entity : Entity
         {
             pos.y = transform.position.y;
         }
-        Debug.Log("ROTATE " + movementDirection);
+    
 
         Quaternion rotation = transform.rotation;
 
