@@ -156,6 +156,7 @@ MonoBehaviour:
   faction: 0
   unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
   selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
+  highlight: {fileID: 612765044266595988}
 --- !u!114 &548469208533061309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8109322803649473111, guid: 5368d3f0e8044d2449beb257ff33b63f, type: 3}
       propertyPath: m_Name
-      value: Builder
+      value: Model
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4129305450542123762, guid: 5368d3f0e8044d2449beb257ff33b63f, type: 3}

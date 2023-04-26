@@ -10,6 +10,7 @@ public class StructurePreview : Structure
     protected float originialTime = 1;
     protected Damageable damageable;
     public Structure structure;
+    public float distanceToBuild;
 
 
 
@@ -20,7 +21,7 @@ public class StructurePreview : Structure
            if (!example)
         {
             timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0 && builder != null && Vector3.Distance(transform.position, builder.transform.position) < 6 && builder.entity.movementMode == Builder_Entity.MovementMode.IDLE)
+            if (timeLeft <= 0 && builder != null && Vector3.Distance(transform.position, builder.transform.position) < distanceToBuild && builder.entity.movementMode == Builder_Entity.MovementMode.IDLE)
             {
                 timeLeft = originialTime;
                 damageable.Heal(100);

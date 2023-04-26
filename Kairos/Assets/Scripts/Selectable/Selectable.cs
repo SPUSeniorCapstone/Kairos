@@ -31,7 +31,14 @@ public class Selectable : MonoBehaviour
     {
        if (GameController.Main.SelectionController.testCooldown)
         {
-            GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+            if (highlight != null)
+            {
+                highlight.SetActive(true);
+            }
+            else
+            {
+                GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+            }
             if (unit != null)
             {
                 unit.OnSelect();
@@ -46,7 +53,14 @@ public class Selectable : MonoBehaviour
     {
         if (GameController.Main.SelectionController.testCooldown)
         {
-            GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
+            if (highlight != null)
+            {
+                highlight.SetActive(false);
+            }
+            else
+            {
+                GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
+            }
             if (unit != null)
             {
                 unit.OnDeselect();
