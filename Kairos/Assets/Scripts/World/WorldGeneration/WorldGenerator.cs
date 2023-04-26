@@ -115,7 +115,9 @@ public class WorldGenerator : MonoBehaviour
 
         PlacePlayerStronghold();
 
-        PlaceCorruptionNodes(); 
+        PlaceCorruptionNodes();
+
+        GenerateCorruption();
 
         if (loadMeshes)
         {
@@ -128,7 +130,6 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        GenerateCorruption();
 
         PlaceDecorations();
 
@@ -483,50 +484,41 @@ public class WorldGenerator : MonoBehaviour
 
     public Texture2D GenerateWorldTexture()
     {
+        world.seed = seed;
+        world.widthInChunks = worldSize.x;
+        world.lengthInChunks = worldSize.y;
         InitWorldGen(seed);
 
-        int width = Chunk.width * worldSize.x;
-        int length = Chunk.length * worldSize.y;
-        heightMap = NoiseGenerator.GenerateNoiseMap(width, length, worldSettings);
+        world.Init(worldSize);
 
-        if (useFalloff)
+        GenerateHeights();
+
+
+        GenerateVoxelMap();
+
+        GenerateChunks();
+
+        PlacePlayerStronghold();
+
+        PlaceCorruptionNodes();
+
+        GenerateCorruption();
+
+
+        Color[] colors = new Color[world.WidthInBlocks * world.LengthInBlocks];
+
+        for (int x = 0; x < world.WidthInBlocks; x++)
         {
-            falloff = NoiseGenerator.GenerateFalloffMap(width, length);
-        }
-
-        Color[] colors = new Color[width * length];
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < length; z++)
+            for (int z = 0; z < world.LengthInBlocks; z++)
             {
-                float height = heightMap[x, z];
+                var blockID = layers[layerMap[x, z]].BlockID;
 
-                if (useFalloff)
-                {
-                    height -= falloff[x, z];
-                }
-
-                int blockID = layers[0].BlockID;
-
-                for (int i = 1; i < layers.Length; i++)
-                {
-                    var layer = layers[i];
-                    if (layer.height <= height * eccentricity)
-                    {
-                        blockID = layer.BlockID;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                colors[x + (z * length)] = BlockManager.Main.GetBlockColor(blockID);
+                Color color = Color.Lerp(BlockManager.Main.GetBlockColor(blockID), new Color(1, 0, 1, 1), corruptionMap[x, z]);
+                colors[x + (z * world.LengthInBlocks)] =  color;
             }
         }
 
-        Texture2D texture = new Texture2D(width, length);
+        Texture2D texture = new Texture2D(world.WidthInBlocks, world.LengthInBlocks);
         texture.SetPixels(colors);
         texture.filterMode = FilterMode.Point;
         texture.Apply();

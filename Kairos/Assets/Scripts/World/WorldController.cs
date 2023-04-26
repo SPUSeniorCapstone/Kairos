@@ -30,6 +30,8 @@ public class WorldController : MonoBehaviour
     {
         main = this;
         world = FindObjectOfType<World>();
+        Random.InitState(System.DateTime.Now.Millisecond);
+        WorldGenerator.seed = Random.Range(int.MinValue, int.MaxValue);
         GenerateWorld();
     }
 
