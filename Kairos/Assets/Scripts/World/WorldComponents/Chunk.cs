@@ -107,6 +107,21 @@ public class Chunk : MonoBehaviour
     {
         ReloadMesh();
         ReloadHeights();
+        ReloadDecorations();
+    }
+
+    public void ReloadDecorations()
+    {
+        foreach(var child in transform.GetComponentsInChildren<DecorationObject>())
+        {
+            var pos = child.position;
+            if(pos.x < width && pos.x >= 0 && pos.y < length && pos.x >= 0)
+            {
+                bool corr = corruptionMap[pos.x, pos.y] > 0.5f;
+                child.UpdateCorrupted(corr);
+            }
+
+        }
     }
 
     public void UpdateCorruption()
@@ -159,7 +174,7 @@ public class Chunk : MonoBehaviour
     /// Reloads chunks heightmap
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
-    private void ReloadHeights()
+    public void ReloadHeights()
     {
         for (int x = 0; x < width; x++)
         {

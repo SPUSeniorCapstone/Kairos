@@ -78,6 +78,8 @@ public class World : MonoBehaviour
     public void UpdateNext()
     {
         chunks[currUpdate.x, currUpdate.y].UpdateCorruption();
+        chunks[currUpdate.x, currUpdate.y].ReloadDecorations();
+
         currUpdate.x += 1;
         if(currUpdate.x >= widthInChunks)
         {
