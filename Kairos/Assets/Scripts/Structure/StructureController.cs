@@ -22,6 +22,7 @@ public class StructureController : MonoBehaviour
 
     public List<Structure> CorruptionNodes = new List<Structure>();
     public Structure StrongholdActual;
+    public Structure StrongholdPrefab;
 
     // PLEASE FIX THIS
     public GameObject infantry;
@@ -32,7 +33,7 @@ public class StructureController : MonoBehaviour
 
     private void Start()
     {
-        //StrongholdActual = PlaceStructure(PlayerStructures, GameController.Main.WorldController.WorldGenerator.strongholdPos);
+        StrongholdActual = PlaceStructure(StrongholdPrefab, GameController.Main.WorldController.WorldGenerator.strongholdPos);
         foreach (var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
         {
             CorruptionNodes.Add(PlaceStructure(corruptionNode, pos));
@@ -112,7 +113,7 @@ public class StructureController : MonoBehaviour
         var s = Instantiate<Structure>(structure, PlayerStructures.transform);
         s.transform.position = position;
         // need to fix, enemy buildings call this with no builder
-        s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
+        //s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
 
         for (int x = 0; x < structure.Size.x; x++)
         {

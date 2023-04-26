@@ -17,6 +17,7 @@ public class RTSCamera : MonoBehaviour
         {
             defaultRotation = transform.rotation.eulerAngles;
         }
+        FocusOnPosition(GameController.Main.StructureController.StrongholdActual.transform.position);
     }
 
     // Update is called once per frame
@@ -99,6 +100,8 @@ public class RTSCamera : MonoBehaviour
 
     void FocusOnPosition(Vector3 pos)
     {
-        pos = new Vector3(pos.x, WorldController.Main.World.GetHeight(pos.x, pos.z), pos.z);
+        //pos = new Vector3(pos.x, WorldController.Main.World.GetHeight(pos.x, pos.z), pos.z);
+
+        transform.position = pos +Vector3.up * 10;
     }
 }
