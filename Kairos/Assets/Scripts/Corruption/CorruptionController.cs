@@ -30,7 +30,12 @@ public class CorruptionController : MonoBehaviour
 
     private void Update()
     {
-        foreach(Chunk c in WorldController.Main.World.Chunks)
+        CorruptionUpdate();
+    }
+
+    public void CorruptionUpdate()
+    {
+        foreach (Chunk c in WorldController.Main.World.Chunks)
         {
             var positions = GetRandomPositions(RandomTick, Vector2Int.zero, new Vector2Int(Chunk.width, Chunk.length));
             foreach (var position in positions)
@@ -46,7 +51,6 @@ public class CorruptionController : MonoBehaviour
                 }
             }
         }
-
     }
 
     float GetNeighborCorruptionStrength(int x, int z)
@@ -61,7 +65,7 @@ public class CorruptionController : MonoBehaviour
                     continue;
 
                 var corr = WorldController.Main.World.GetCorruption(x + i, z + j);
-                if(corr > 0)
+                if(corr >= 0)
                 {
                     strength += corr;
                     c++;

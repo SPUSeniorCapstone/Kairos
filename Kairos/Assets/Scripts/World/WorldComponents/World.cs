@@ -60,6 +60,7 @@ public class World : MonoBehaviour
 
     Vector2Int currUpdate = Vector2Int.zero;
 
+    public bool enable = true;
 
     public void Init(Vector2Int size)
     {
@@ -72,12 +73,15 @@ public class World : MonoBehaviour
 
     private void Update()
     {
-        UpdateNext(); 
+        if(enable)
+            UpdateNext(); 
     }
 
     public void UpdateNext()
     {
         chunks[currUpdate.x, currUpdate.y].UpdateCorruption();
+        chunks[currUpdate.x, currUpdate.y].ReloadDecorations();
+
         currUpdate.x += 1;
         if(currUpdate.x >= widthInChunks)
         {

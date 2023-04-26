@@ -71,7 +71,7 @@ public class MenuController : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene("New Game Menu");
+        SceneManager.LoadScene("Game");
         Resume();
     }
 

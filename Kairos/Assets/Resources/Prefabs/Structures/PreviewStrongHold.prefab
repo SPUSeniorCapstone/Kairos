@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5ea8ec043f43438e3a7c48509239d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 1, y: 1, z: 1}
+  Size: {x: 2, y: 2, z: 2}
   Preview: {fileID: 0}
   enemy: 0
   example: 0

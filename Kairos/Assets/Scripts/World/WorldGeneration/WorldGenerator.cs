@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -31,30 +34,26 @@ public class WorldGenerator : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public Vector3Int strongholdPos;
-    public float strongholdRadius = 10;
 
-    public List<Vector3Int> corruptionNodePositions = new List<Vector3Int>();
-    public int numNodes = 10;
-    public float corruptionNodeDensityRadius = 20;
 
-    public int seed;
-    public void SetSeed(string seed) { this.seed = int.Parse(seed); }
 
+
+
+    [Header("Noise Settings Objects")]
     public NoiseGenerator.NoiseSettings worldSettings;
-    public NoiseGenerator.NoiseSettings flatMapSettings;
-    public NoiseGenerator.NoiseSettings corruptionSettings;
+    public NoiseGenerator.NoiseSettings forestSettings;
 
-    public List<Decoration> decorations;
-
+    [Header("General Generation Settings")]
+    public int seed;
     public bool useLayerHeights = true;
     public bool useFalloff = false;
 
-    [Range(0, 100)]
-    public int smoothStrength;
+    [Range(1f, Chunk.height)]
+    public float eccentricity;
 
-    public float corruptionStrength = 0.25f;
+    public Vector2Int worldSize = new Vector2Int(8, 8);
 
+    //World Settings Maps
     float[,] falloff;
     float[,] heightMap;
     int[,] terrainMap;
@@ -62,25 +61,39 @@ public class WorldGenerator : MonoBehaviour
     int[,] blockMap;
     float[,] corruptionMap;
 
-    public Vector2Int worldSize = new Vector2Int(8, 8);
-    public void SetSize(float size) { worldSize = new Vector2Int((int)size, (int)size); }
+    [Header("Player Spawn Generation")]
+    public Vector3Int strongholdPos;
+    public float strongholdRadius = 10;
+    public int strongholdSpawnLayer = 4;
 
-    [Range(1f, Chunk.height)]
-    public float eccentricity;
-
-    public WorldLayer[] layers;
-
+    [Header("Corruption Generation")]
+    public int numNodes = 10;
+    public float corruptionNodeDensityRadius = 20;
     [Range(0,100)]
     public int veinsPerNode = 10;
     [Range(0,1000)]
     public int stepsPerVein = 100;
+    [HideInInspector]
+    public List<Vector3Int> corruptionNodePositions = new List<Vector3Int>();
+    public int nodeSpawnLayer = 4;
+    [Range(0,100000)]
+    public int simulateCorruptionSteps = 10000;
+
+
+    [Header("Tree Decorations")]
+    public DecorationObject treePrefab;
+    public float forestRadius;
+    public int treeSpawnLayer = 4;
+    [Range(0, 1)]
+    public float forestMin;
+
+    [Header("World Layers")]
+    public WorldLayer[] layers;
 
     public void InitWorldGen(int seed)
     {
         UnityEngine.Random.InitState(seed);
         worldSettings.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        corruptionSettings.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        flatMapSettings.seed = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
     }
 
     public void GenerateWorld(bool loadMeshes = true)
@@ -104,9 +117,7 @@ public class WorldGenerator : MonoBehaviour
 
         PlaceCorruptionNodes();
 
-
         GenerateCorruption();
-
 
         if (loadMeshes)
         {
@@ -119,10 +130,19 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
+
         PlaceDecorations();
 
-        //corruptionMap = new float[Chunk.width * world.widthInChunks, Chunk.length * world.lengthInChunks];
-        //world.SetCorruptionMap(corruptionMap);
+        if (loadMeshes)
+        {
+            for (int x = 0; x < world.widthInChunks; x++)
+            {
+                for (int z = 0; z < world.lengthInChunks; z++)
+                {
+                    world.Chunks[x, z].UpdateChunk();
+                }
+            }
+        }
 
         float width = world.WidthInBlocks * world.BlockScale;
         float height = Chunk.height * world.BlockScale;
@@ -201,12 +221,19 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-
-
-
     public void PlacePlayerStronghold()
     {
-        strongholdPos = GetRandomPosition().ToVector3Int();
+        int max = 50;
+        int count = 0;
+        do
+        {
+            count++;
+            strongholdPos = GetRandomPosition().ToVector3Int();
+        } while (layerMap[strongholdPos.x, strongholdPos.z] != strongholdSpawnLayer && count < max);
+        if(count == max)
+        {
+            Debug.LogError("Could Not Generate Stronghold");
+        }
     }
 
     public void GenerateCorruption()
@@ -242,6 +269,36 @@ public class WorldGenerator : MonoBehaviour
 
             }
 
+        }
+
+        for(int i = 0; i < simulateCorruptionSteps; i++)
+        {
+            var positions = GetRandomPositions(100);
+            foreach (var pos in positions)
+            {
+                float corruptModifier = GetNeighborCorruptionStrength(pos.x, pos.y);
+                float curr = corruptionMap[pos.x, pos.y];
+                if (corruptModifier > 0.25f)
+                {
+                    float val = curr + 0.1f;
+                    corruptionMap[pos.x, pos.y] =  val;
+                }
+            }
+        }
+
+        for(int i = (int) -(strongholdRadius + 1); i < strongholdRadius; i++)
+        {
+            for(int j = (int)-(strongholdRadius+1); j < strongholdRadius; j++)
+            {
+                var pos = strongholdPos.ToVector2Int() + new Vector2Int(i, j);
+                if(pos.x >= 0 && pos.x < world.WidthInBlocks && pos.y >= 0 && pos.y < world.LengthInBlocks)
+                {
+                    if (Vector2Int.Distance(strongholdPos.ToVector2Int(), pos) < strongholdRadius)
+                    {
+                        corruptionMap[pos.x, pos.y] = 0;
+                    }
+                }
+            }
         }
 
         world.SetCorruptionMap(corruptionMap);
@@ -292,7 +349,35 @@ public class WorldGenerator : MonoBehaviour
         //Debug.Log("Finished Generating Corruption Map");
         */
 
+        float GetNeighborCorruptionStrength(int x, int z)
+        {
+            float strength = 0;
+            int c = 0;
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    if (j == 0 && i == 0)
+                        continue;
+
+                    var X = x + i;
+                    var Z = z + j;
+                    if (X >= world.WidthInBlocks || X < 0 || Z >= world.LengthInBlocks || Z < 0)
+                        continue;
+
+                    var corr = corruptionMap[x + i, z + j];
+                    if (corr >= 0)
+                    {
+                        strength += corr;
+                        c++;
+                    }
+                }
+            }
+            return strength / c;
+        }
     }
+
+    
 
     public void PlaceCorruptionNodes()
     {
@@ -305,7 +390,8 @@ public class WorldGenerator : MonoBehaviour
             int i = Random.Range(0, positions.Count);
             Vector2 pos = positions[i];
             positions.RemoveAt(i);
-            if(Vector3Int.Distance(new Vector3(pos.x,0,pos.y).ToVector3Int(), strongholdPos) > strongholdRadius)
+            var position = new Vector3(pos.x, 0, pos.y).ToVector3Int();
+            if (Vector3Int.Distance(position, strongholdPos) > strongholdRadius * 1.5 && layerMap[position.x,position.z] == 4)
             {
                 corruptionNodePositions.Add(new Vector3(pos.x, 0, pos.y).ToVector3Int());
             }
@@ -315,22 +401,25 @@ public class WorldGenerator : MonoBehaviour
 
     public void PlaceDecorations()
     {
-        foreach(var dec in decorations)
+        //Spawn Trees
+        if (treePrefab != null)
         {
-            if(dec.decorationObject != null)
+            float[,] forestmap = NoiseGenerator.GenerateNoiseMap(world.WidthInBlocks, world.LengthInBlocks, forestSettings);
+            var positions = PoissonDiscSampling.GeneratePoints(forestRadius, new Vector2(world.WidthInBlocks, world.LengthInBlocks));
+            foreach (var pos in positions)
             {
-                var positions = PoissonDiscSampling.GeneratePoints(dec.radius, new Vector2(world.WidthInBlocks, world.LengthInBlocks));
-                foreach(var pos in positions)
+                var position = pos.ToVector2Int();
+
+
+                if (position.x < world.WidthInBlocks && position.x >= 0 && position.y < world.LengthInBlocks && position.y >= 0)
                 {
-                    var position = pos.ToVector2Int();
-                    if(position.x < world.WidthInBlocks && position.x >= 0 && position.y < world.LengthInBlocks && position.y >= 0)
+                    if (layerMap[position.x, position.y] == treeSpawnLayer && forestmap[position.x, position.y] > forestMin &&
+                        Vector3Int.Distance(position.ToVector3Int(), strongholdPos) > strongholdRadius * 0.75)
                     {
-                        if (layerMap[position.x, position.y] == dec.LayerID)
-                        {
-                            var cp = world.WorldToChunkPosition(position);
-                            var wp = position.ToVector3(world.GetHeight(position.ToVector3Int()));
-                            Instantiate(dec.decorationObject, wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
-                        }
+                        var cp = world.WorldToChunkPosition(position);
+                        var wp = position.ToVector3(world.GetHeight(position.ToVector3Int()));
+                        var obj = Instantiate<DecorationObject>(treePrefab, wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
+                        obj.position = position - new Vector2Int(cp.x * Chunk.width, cp.y * Chunk.length);
                     }
                 }
             }
@@ -395,50 +484,41 @@ public class WorldGenerator : MonoBehaviour
 
     public Texture2D GenerateWorldTexture()
     {
+        world.seed = seed;
+        world.widthInChunks = worldSize.x;
+        world.lengthInChunks = worldSize.y;
         InitWorldGen(seed);
 
-        int width = Chunk.width * worldSize.x;
-        int length = Chunk.length * worldSize.y;
-        heightMap = NoiseGenerator.GenerateNoiseMap(width, length, worldSettings);
+        world.Init(worldSize);
 
-        if (useFalloff)
+        GenerateHeights();
+
+
+        GenerateVoxelMap();
+
+        GenerateChunks();
+
+        PlacePlayerStronghold();
+
+        PlaceCorruptionNodes();
+
+        GenerateCorruption();
+
+
+        Color[] colors = new Color[world.WidthInBlocks * world.LengthInBlocks];
+
+        for (int x = 0; x < world.WidthInBlocks; x++)
         {
-            falloff = NoiseGenerator.GenerateFalloffMap(width, length);
-        }
-
-        Color[] colors = new Color[width * length];
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < length; z++)
+            for (int z = 0; z < world.LengthInBlocks; z++)
             {
-                float height = heightMap[x, z];
+                var blockID = layers[layerMap[x, z]].BlockID;
 
-                if (useFalloff)
-                {
-                    height -= falloff[x, z];
-                }
-
-                int blockID = layers[0].BlockID;
-
-                for (int i = 1; i < layers.Length; i++)
-                {
-                    var layer = layers[i];
-                    if (layer.height <= height * eccentricity)
-                    {
-                        blockID = layer.BlockID;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                colors[x + (z * length)] = BlockManager.Main.GetBlockColor(blockID);
+                Color color = Color.Lerp(BlockManager.Main.GetBlockColor(blockID), new Color(1, 0, 1, 1), corruptionMap[x, z]);
+                colors[x + (z * world.LengthInBlocks)] =  color;
             }
         }
 
-        Texture2D texture = new Texture2D(width, length);
+        Texture2D texture = new Texture2D(world.WidthInBlocks, world.LengthInBlocks);
         texture.SetPixels(colors);
         texture.filterMode = FilterMode.Point;
         texture.Apply();
@@ -448,6 +528,16 @@ public class WorldGenerator : MonoBehaviour
     public Vector2Int GetRandomPosition()
     {
         return new Vector2Int(Random.Range(0, world.WidthInBlocks), Random.Range(0, world.LengthInBlocks));
+    }
+
+    public List<Vector2Int> GetRandomPositions(int count)
+    {
+        List<Vector2Int> positions = new List<Vector2Int>();
+        for(int i = 0; i < count; i++)
+        {
+            positions.Add(GetRandomPosition());
+        }
+        return positions;
     }
 }
 
@@ -462,11 +552,4 @@ public struct WorldLayer
     public int thickness;
 }
 
-[Serializable]
-public struct Decoration
-{
-    public GameObject decorationObject;
-    public float radius;
-    public int LayerID;
-}
 
