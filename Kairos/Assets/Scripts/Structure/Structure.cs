@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-
+//[RequireComponent(typeof(Selectable))]
 public class Structure : MonoBehaviour
 {
     public Vector3Int Size = Vector3Int.one;

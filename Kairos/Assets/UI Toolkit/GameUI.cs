@@ -32,7 +32,13 @@ public class BuildMenu
 
     public VisualElement mainElement;
 
-    public Button buildButton;
+    public Button strongholdButton;
+
+    public Button barracksButton;
+
+    public Button archerTowerButton;
+
+    public Button resourceButton;
 
   
 
@@ -45,20 +51,44 @@ public class BuildMenu
     {
         mainElement = element;
 
-        buildButton = element.Q("BuildButton") as Button;
-        buildButton.RegisterCallback<ClickEvent>(BuildButton_OnClick);
+        strongholdButton = element.Q("StrongholdButton") as Button;
+        strongholdButton.RegisterCallback<ClickEvent>(StrongholdButton_OnClick);
+
+        barracksButton = element.Q("BarracksButton") as Button;
+        barracksButton.RegisterCallback<ClickEvent>(Barracks_Button_OnClick);
+
+        archerTowerButton = element.Q("ArcherTowerButton") as Button;
+        archerTowerButton.RegisterCallback<ClickEvent>(ArcherTowerButton_OnClick);
+
+        resourceButton = element.Q("ResourceButton") as Button;
+        resourceButton.RegisterCallback<ClickEvent>(ResourceButton_OnClick);
     }
 
     public void EnableBuildMenu(bool enable)
     {
         mainElement.visible = enable;
-        buildButton.visible = enable;
+        strongholdButton.visible = enable;
+        barracksButton.visible = enable;
+        archerTowerButton.visible = enable;
+        resourceButton.visible = enable;
         mainElement.SetEnabled(enable);
     }
 
-    private void BuildButton_OnClick(ClickEvent cl)
+    private void StrongholdButton_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.BuildOrder();
+        GameController.Main.StructureController.BuildOrder("stronghold");
+    }
+    private void Barracks_Button_OnClick(ClickEvent cl)
+    {
+        GameController.Main.StructureController.BuildOrder("barracks");
+    }
+    private void ArcherTowerButton_OnClick(ClickEvent cl)
+    {
+        GameController.Main.StructureController.BuildOrder("archertower");
+    }
+    private void ResourceButton_OnClick(ClickEvent cl)
+    {
+        GameController.Main.StructureController.BuildOrder("resource");
     }
 }
 
