@@ -79,6 +79,11 @@ public class WorldGenerator : MonoBehaviour
     [Range(0,100000)]
     public int simulateCorruptionSteps = 10000;
 
+    [Header("Resources")]
+    public ResourceNode resourcePrefab;
+    public float resourceRadius = 40;
+    public int resourceLayer = 4;
+
 
     [Header("Tree Decorations")]
     public List<DecorationObject> treePrefabs;
@@ -115,6 +120,7 @@ public class WorldGenerator : MonoBehaviour
 
         PlacePlayerStronghold();
 
+
         PlaceCorruptionNodes();
 
         GenerateCorruption();
@@ -129,6 +135,8 @@ public class WorldGenerator : MonoBehaviour
                 }
             }
         }
+
+        PlaceResources();
 
 
         PlaceDecorations();
@@ -428,7 +436,28 @@ public class WorldGenerator : MonoBehaviour
 
     public void PlaceResources()
     {
+        Debug.Log("Placing Resources");
+        if (resourcePrefab != null)
+        {
+            var positions = PoissonDiscSampling.GeneratePoints(resourceRadius, new Vector2(world.WidthInBlocks,world.LengthInBlocks));
+            foreach (var pos in positions)
+            {
+                var position = pos.ToVector2Int();
 
+
+                if (position.x < world.WidthInBlocks && position.x >= 0 && position.y < world.LengthInBlocks && position.y >= 0)
+                {
+                    if(layerMap[position.x, position.y] == resourceLayer)
+                    {
+                        var cp = world.WorldToChunkPosition(position);
+                        var wp = position.ToVector3(world.GetHeight(position.ToVector3Int()));
+                        var obj = Instantiate(resourcePrefab, wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
+                        obj.position = position - new Vector2Int(cp.x * Chunk.width, cp.y * Chunk.length);
+                    }
+
+                }
+            }
+        }
     }
 
     public void GenerateChunks()
