@@ -39,19 +39,20 @@ public class Infantry_Entity : Entity
             else if (pathingTask.IsCompleted)
             {
                 var tempPath = pathingTask.Result;
-                if (tempPath != null)
+                if (tempPath != null && tempPath.Count > 0)
                 {
                     path = tempPath;
+
+                    movementMode = MovementMode.FOLLOW_PATH;
+                    targetPos = path[0];
+                    pathIndex = 1;
+                    pathingTask = null;
                 }
                 else
                 {
                     Debug.Log("Path not found");
                 }
-                movementMode = MovementMode.FOLLOW_PATH;
-                targetPos = path[0];
-                pathIndex = 1;
                 retrievingPath = false;
-                pathingTask = null;
             }
         }
 
