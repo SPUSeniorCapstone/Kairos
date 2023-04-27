@@ -102,6 +102,6 @@ public class RTSCamera : MonoBehaviour
     {
         //pos = new Vector3(pos.x, WorldController.Main.World.GetHeight(pos.x, pos.z), pos.z);
 
-        transform.position = pos +Vector3.up * 10;
+        transform.position = pos +Vector3.up * 30;
     }
 }

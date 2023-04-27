@@ -81,7 +81,7 @@ public class WorldGenerator : MonoBehaviour
 
 
     [Header("Tree Decorations")]
-    public DecorationObject treePrefab;
+    public List<DecorationObject> treePrefabs;
     public float forestRadius;
     public int treeSpawnLayer = 4;
     [Range(0, 1)]
@@ -402,7 +402,7 @@ public class WorldGenerator : MonoBehaviour
     public void PlaceDecorations()
     {
         //Spawn Trees
-        if (treePrefab != null)
+        if (treePrefabs != null)
         {
             float[,] forestmap = NoiseGenerator.GenerateNoiseMap(world.WidthInBlocks, world.LengthInBlocks, forestSettings);
             var positions = PoissonDiscSampling.GeneratePoints(forestRadius, new Vector2(world.WidthInBlocks, world.LengthInBlocks));
@@ -418,7 +418,7 @@ public class WorldGenerator : MonoBehaviour
                     {
                         var cp = world.WorldToChunkPosition(position);
                         var wp = position.ToVector3(world.GetHeight(position.ToVector3Int()));
-                        var obj = Instantiate<DecorationObject>(treePrefab, wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
+                        var obj = Instantiate<DecorationObject>(treePrefabs[Random.Range(0,treePrefabs.Count)], wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
                         obj.position = position - new Vector2Int(cp.x * Chunk.width, cp.y * Chunk.length);
                     }
                 }

@@ -16,9 +16,12 @@ public struct Block
     /// </summary>
     public Vector3Int position;
 
-    public Block(int blockID, Vector3Int position)
+    public bool building;
+
+    public Block(int blockID, Vector3Int position, bool building = false)
     {
         this.blockID = blockID;
         this.position = position;
+        this.building = building;
     }
 }
