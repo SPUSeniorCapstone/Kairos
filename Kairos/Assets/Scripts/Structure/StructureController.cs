@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StructureController : MonoBehaviour
@@ -6,6 +7,8 @@ public class StructureController : MonoBehaviour
     public bool StructurePlacementMode = false;
 
     public List<Structure> masterStructure;
+
+    public List<Structure> previewList;
 
     // don't know how else to do this
     public GameObject PlayerStructures;
@@ -27,6 +30,10 @@ public class StructureController : MonoBehaviour
     // PLEASE FIX THIS
     public GameObject infantry;
     public GameObject archer;
+
+    // previews
+    public GameObject sp;
+    public GameObject bp;
 
     public Material valid;
     public Material invalid;
@@ -83,9 +90,22 @@ public class StructureController : MonoBehaviour
         }
     }
 
-    public void BuildOrder()
+    public void BuildOrder(string name)
     {
         StructurePlacementMode = true;
+        sp.SetActive(false);
+        bp.SetActive(false);
+        if(name == sp.name)
+        {
+            sp.SetActive(true);
+            StructureToSpawn = previewList.ElementAt(0);
+
+        }
+        else if(name == bp.name)
+        {
+            bp.SetActive(true);
+            StructureToSpawn = previewList.ElementAt(1);
+        }
         
     }
 
