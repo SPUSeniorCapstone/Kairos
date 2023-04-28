@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(RC_Entity))]
 public class RC_Unit : Unit
@@ -10,6 +11,8 @@ public class RC_Unit : Unit
 
     public float personalDistance = 1;
 
+
+
     // if certain stance, flee when enemy detected
     public Vector3 display;
 
@@ -17,8 +20,8 @@ public class RC_Unit : Unit
 
     public Damageable target;
 
-    public GameObject Stronghold;
-    public GameObject ResourceNode;
+    public Stronghold Stronghold;
+    public ResourceNode ResourceNode;
 
     // should this be public? protected?
     public RC_Entity entity;
@@ -69,22 +72,37 @@ public class RC_Unit : Unit
     public override void PerformTaskOn(Selectable selectable)
     {
 
-        var home = selectable.GetComponent<ResourceStructure>();
-        if (home != null)
+        var target = selectable.GetComponent<ResourceNode>();
+        if (target != null)
         {
-            entity.HomeVector = home.transform.position;
+            Debug.Log("Resource Found");
+            entity.HomeVector = target.transform.position;
+            ResourceNode = target;
         }
         else
         {
             
-            var target = selectable.GetComponent<Stronghold>();
-            Debug.Log(target);
-            if (target != null)
+            var home = selectable.GetComponent<Stronghold>();
+            Debug.Log(home);
+            if (home != null)
             {
                 Debug.Log("PLZ WORK");
-                entity.TargetVector = target.transform.position;
+                entity.TargetVector = home.transform.position;
+                Stronghold = home;
             }
         }
+        if (Stronghold != null && ResourceNode != null)
+        {
+            MoveToTask();
+        }
+    }
+
+    public void MoveToTask()
+    {
+        entity.retrievingPath = true;
+        //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
+        //entity.movementMode = RC_Entity.MovementMode.COLLECT_RESOURCE;
+        entity.pathingTask = SetPath(entity.TargetVector);
     }
 
     public override void MoveTo(Vector3 position)

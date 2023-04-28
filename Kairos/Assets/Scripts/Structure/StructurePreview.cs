@@ -32,6 +32,7 @@ public class StructurePreview : Structure
                 var s = Instantiate<Structure>(structure, directory.transform);
                 s.transform.position = transform.position;
                 s.Preview = gameObject;
+                Destroy(gameObject);
             }
         }
         

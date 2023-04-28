@@ -52,7 +52,7 @@ public class Entity : MonoBehaviour
 
     #region Object Cache
     //Cache
-    Unit unit;
+    protected Unit unit;
 
     #endregion
 

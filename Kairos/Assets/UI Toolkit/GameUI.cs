@@ -100,6 +100,10 @@ public class ProductionMenu
 
     public Button archerButton;
 
+    public Button collectorButton;
+
+    public Button builderButton;
+
     public ProductionMenu(VisualElement element)
     {
         Init(element);
@@ -115,8 +119,16 @@ public class ProductionMenu
         archerButton = element.Q("ArcherButton") as Button;
         archerButton.RegisterCallback<ClickEvent>(ArcherButton_OnClick);
 
+        collectorButton = element.Q("RCButton") as Button;
+        collectorButton.RegisterCallback<ClickEvent>(RCButton_OnClick);
+
+        builderButton = element.Q("BuilderButton") as Button;
+        builderButton.RegisterCallback<ClickEvent>(BuilderButton_OnClick);
+
         archerButton.visible = false;
         infantryButton.visible = false;
+        collectorButton.visible = false;
+        builderButton.visible = false;
     }
 
     public void EnableProductionMenu(bool enable)
@@ -124,6 +136,8 @@ public class ProductionMenu
         mainElement.visible = enable;
         infantryButton.visible = enable;
         archerButton.visible = enable;
+        collectorButton.visible = enable;
+        builderButton.visible = enable;
         mainElement.SetEnabled(enable);
     }
 
@@ -135,5 +149,13 @@ public class ProductionMenu
     private void ArcherButton_OnClick(ClickEvent cl)
     {
         GameController.Main.StructureController.TrainArcher();
+    }
+    private void RCButton_OnClick(ClickEvent cl)
+    {
+        GameController.Main.StructureController.TrainCollector();
+    }
+    private void BuilderButton_OnClick(ClickEvent cl)
+    {
+        GameController.Main.StructureController.TrainBuilder();
     }
 }

@@ -255,7 +255,7 @@ MonoBehaviour:
   rallyPoint: {x: 0, y: 0, z: 0}
   RallyPoint: {fileID: 5086277857375823974}
   guard: []
-  guardNumber: 0
+  guardNumber: 3
 --- !u!1001 &8764441074646413702
 PrefabInstance:
   m_ObjectHideFlags: 0

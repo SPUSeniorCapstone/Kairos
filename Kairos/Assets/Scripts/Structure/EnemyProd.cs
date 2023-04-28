@@ -37,7 +37,7 @@ public class EnemyProd : ProductionStructure
 
     public override void SpawnUnits(GameObject unit)
     {
-        GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity);
+        GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity, GameController.Main.StructureController.EnemyUnits.transform);
         // does this work?
         if ( guard.Count < guardNumber)
         {

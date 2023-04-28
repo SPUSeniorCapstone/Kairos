@@ -98,8 +98,8 @@ public class Infantry_Unit : Unit
                         // neccessary? doesn't work all the time (race condition)
                         if (target.Health <= 0)
                         {
-                            target = null;
                             entity.movementMode = Infantry_Entity.MovementMode.IDLE;
+                            target = null;
                         }
                     }
                 }
