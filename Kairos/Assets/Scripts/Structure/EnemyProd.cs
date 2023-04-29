@@ -2,11 +2,14 @@ using UnityEngine;
 using System.Collections.Generic;
 // delete this later
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
+
 public class EnemyProd : ProductionStructure
 {
     // Start is called before the first frame update
 
     public GameObject RallyPoint;
+
 
     [SerializeField] List<GameObject> guard = new List<GameObject>();
     public int guardNumber = 4;
@@ -27,8 +30,9 @@ public class EnemyProd : ProductionStructure
             timeLeft -= Time.deltaTime;
             if (timeLeft <= 0)
             {
+                int rand = Random.Range(0, 2);
                 timeLeft = originialTime;
-                SpawnUnits(base.unitToSpawn);
+                SpawnUnits(base.unitTypes[rand]);
                 unitsQueued--;
             }
         }

@@ -250,7 +250,10 @@ MonoBehaviour:
   directory: {fileID: 0}
   unitsQueued: 0
   unitToSpawn: {fileID: 8169230732344282633, guid: c0d64a8195cd6ed4593ff464c3dd8f53, type: 3}
-  unitTypes: []
+  unitTypes:
+  - {fileID: 8169230732344282633, guid: c0d64a8195cd6ed4593ff464c3dd8f53, type: 3}
+  - {fileID: 1731995671655893518, guid: 563f67d649590be4097d90aab9a4ad00, type: 3}
+  - {fileID: 9021786559248497074, guid: b109b954e97d2de47b4a069f04bf246f, type: 3}
   spawnPoint: {fileID: 4784923547611459183}
   rallyPoint: {x: 0, y: 0, z: 0}
   RallyPoint: {fileID: 5086277857375823974}

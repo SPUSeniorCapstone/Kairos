@@ -76,10 +76,6 @@ public class Infantry_Unit : Unit
         // is this neccesary? why not update all the time?
         if (entity.movementMode == Infantry_Entity.MovementMode.ATTACK_FOLLOW && target != null && Visible(target.GetComponent<Selectable>()) && autoAttack)
         {
-                
-        
-            entity.RotateTowards(entity.movementDirection);
-        
             entity.targetPos = target.transform.position;
             //when within attack range
             // bootleg combat
@@ -105,9 +101,10 @@ public class Infantry_Unit : Unit
                 }
             }
         }
-       
+       if (entity.movementMode != Infantry_Entity.MovementMode.IDLE)
+        {
             entity.RotateTowards(entity.movementDirection);
-        
+        }     
     }
 
     public override void PerformTaskOn(Selectable selectable)

@@ -156,8 +156,8 @@ MonoBehaviour:
   selected: 0
   faction: 0
   unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
-  highlight: {fileID: 0}
+  selectedMaterial: {fileID: 0}
+  highlight: {fileID: 728878513437725283}
 --- !u!114 &360578774360517194
 MonoBehaviour:
   m_ObjectHideFlags: 0

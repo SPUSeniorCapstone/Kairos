@@ -25,6 +25,7 @@ public class RC_Entity : Entity
     private float lastcollectTime = 0;
     public int count;
     public int maxHold = 4;
+    public int collectDistance;
 
     public bool lockHorizontalRotation = true;
 
@@ -71,7 +72,7 @@ public class RC_Entity : Entity
                 pathingTask = null;
             }
         }
-        if (movementMode == MovementMode.IDLE && HomeVector != Vector3.zero && TargetVector != Vector3.zero && Vector3.Distance(transform.position.Flat(), TargetVector.Flat()) < stopFollowDistance)
+        if (movementMode == MovementMode.IDLE && HomeVector != Vector3.zero && TargetVector != Vector3.zero && Vector3.Distance(transform.position.Flat(), TargetVector.Flat()) < collectDistance)
         {
             if (Time.time - lastcollectTime > collectCoolDown)
             {
@@ -87,7 +88,7 @@ public class RC_Entity : Entity
                 }
             }
         }
-        else if (movementMode == MovementMode.IDLE && HomeVector != Vector3.zero && TargetVector != Vector3.zero && Vector3.Distance(transform.position.Flat(), HomeVector.Flat()) < stopFollowDistance)
+        else if (movementMode == MovementMode.IDLE && HomeVector != Vector3.zero && TargetVector != Vector3.zero && Vector3.Distance(transform.position.Flat(), HomeVector.Flat()) < collectDistance)
         {
             if (Time.time - lastcollectTime > collectCoolDown)
             {

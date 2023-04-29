@@ -62,7 +62,6 @@ public class Infantry_Entity : Entity
     void Move()
     {
         CalculateMovementDirection();
-        RotateTowards(movementDirection);
         transform.position += (movementDirection.normalized * movementSpeed * Time.deltaTime);
 
         // Set's height to block height it valid move
@@ -135,7 +134,7 @@ public class Infantry_Entity : Entity
     void AttackFollow()
     {
         Idle();
-        if (Vector3.Distance(transform.position.Flat(), GetComponent<Infantry_Unit>().target.transform.position.Flat()) <= GetComponent<Infantry_Unit>().attackDistance)
+        if (GetComponent<Infantry_Unit>().target != null && Vector3.Distance(transform.position.Flat(), GetComponent<Infantry_Unit>().target.transform.position.Flat()) <= GetComponent<Infantry_Unit>().attackDistance)
         {
             movementMode = MovementMode.ATTACK_FOLLOW;
             Debug.Log("IN RANGE!!");

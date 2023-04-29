@@ -6,15 +6,9 @@ public class ResourceNode : MonoBehaviour
 {
     public Vector2Int position;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public RC_Unit unit;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool taken = false;
+
+   
 }

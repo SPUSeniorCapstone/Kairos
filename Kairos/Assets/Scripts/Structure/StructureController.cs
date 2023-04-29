@@ -87,7 +87,7 @@ public class StructureController : MonoBehaviour
             }
            
 
-            if (GameController.Main.inputController.Select.Pressed())
+            if (GameController.Main.inputController.Select.Pressed() && GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>() != null)
             {
                 StructurePlacementMode = false;
                 GameController.Main.SelectionController.testCooldown = false;

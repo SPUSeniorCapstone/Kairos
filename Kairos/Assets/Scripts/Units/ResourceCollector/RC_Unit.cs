@@ -73,10 +73,12 @@ public class RC_Unit : Unit
     {
 
         var target = selectable.GetComponent<ResourceNode>();
-        if (target != null)
+        if (target != null && !target.taken)
         {
             Debug.Log("Resource Found");
-            entity.HomeVector = target.transform.position;
+            entity.TargetVector = target.transform.position;
+            target.unit = this;
+            target.taken = true;
             ResourceNode = target;
         }
         else
@@ -87,13 +89,20 @@ public class RC_Unit : Unit
             if (home != null)
             {
                 Debug.Log("PLZ WORK");
-                entity.TargetVector = home.transform.position;
+                entity.HomeVector = home.transform.position;
                 Stronghold = home;
             }
         }
         if (Stronghold != null && ResourceNode != null)
         {
-            MoveToTask();
+            if (entity.count == entity.maxHold)
+            {
+                MoveTo(Stronghold.transform.position);
+            }
+            else
+            {
+                MoveTo(ResourceNode.transform.position);
+            }
         }
     }
 
