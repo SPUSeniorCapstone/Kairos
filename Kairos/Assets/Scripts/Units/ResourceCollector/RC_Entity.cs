@@ -1,20 +1,42 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.GraphicsBuffer;
 
 
 public class RC_Entity : Entity
 {
-    public enum MovementMode { IDLE, FOLLOW_PATH, FOLLOW_TARGET}
+    public enum MovementMode { IDLE, FOLLOW_PATH, FOLLOW_TARGET, COLLECT_RESOURCE, RETURN_HOME}
 
     public MovementMode movementMode = MovementMode.IDLE;
 
     public bool retrievingPath;
     public Task<List<Vector3>> pathingTask;
 
+    public RC_Unit rcUnit;
+
     List<Vector3> path;
     int pathIndex = -1;
 
+    public Vector3 HomeVector;
+    public Vector3 TargetVector;
+    public float collectCoolDown = 1;
+    private float lastcollectTime = 0;
+    public int count;
+    public int maxHold = 4;
+    public int collectDistance;
+
+    public bool lockHorizontalRotation = true;
+
+    public float rotateSpeed = 10f;
+
+
+    private void Start()
+    {
+        base.Start();
+        rcUnit = GetComponent<RC_Unit>();
+    }
 
     new void Update()
     {
@@ -50,6 +72,39 @@ public class RC_Entity : Entity
                 pathingTask = null;
             }
         }
+        if (movementMode == MovementMode.IDLE && HomeVector != Vector3.zero && TargetVector != Vector3.zero && Vector3.Distance(transform.position.Flat(), TargetVector.Flat()) < collectDistance)
+        {
+            if (Time.time - lastcollectTime > collectCoolDown)
+            {
+                //Body.clip = BodySounds.ElementAt(10);
+                //Body.Play();
+                count++;
+                lastcollectTime = Time.time;
+
+                // neccessary? doesn't work all the time (race condition)
+                if (count == maxHold)
+                {
+                    rcUnit.MoveTo(HomeVector);
+                }
+            }
+        }
+        else if (movementMode == MovementMode.IDLE && HomeVector != Vector3.zero && TargetVector != Vector3.zero && Vector3.Distance(transform.position.Flat(), HomeVector.Flat()) < collectDistance)
+        {
+            if (Time.time - lastcollectTime > collectCoolDown)
+            {
+                //Body.clip = BodySounds.ElementAt(10);
+                //Body.Play();
+                count--;
+                GameController.Main.resouceCount += 40;
+                lastcollectTime = Time.time;
+
+                // neccessary? doesn't work all the time (race condition)
+                if (count == 0)
+                {
+                    rcUnit.MoveTo(TargetVector);
+                }
+            }
+        }
 
         Move();
     }
@@ -81,6 +136,12 @@ public class RC_Entity : Entity
                 break;
             case MovementMode.FOLLOW_TARGET:
                 FollowTarget();
+                break;
+            case MovementMode.COLLECT_RESOURCE:
+                CollectResource();
+                break;
+            case MovementMode.RETURN_HOME:
+                ReturnHome();
                 break;
         }
     }
@@ -120,6 +181,36 @@ public class RC_Entity : Entity
     {
         Idle();
         movementDirection += TargetAttraction();
+    }
+
+    void CollectResource()
+    {
+        FollowPath();
+    }
+
+    void ReturnHome()
+    {
+
+    }
+
+    public void RotateTowards(Vector3 pos)
+    {
+        pos += transform.position;
+
+
+        if (lockHorizontalRotation)
+        {
+            pos.y = transform.position.y;
+        }
+
+        Quaternion rotation = transform.rotation;
+
+        Vector3 direction = pos - transform.position;
+        var lookRotation = Quaternion.LookRotation(direction);
+
+
+        rotation = Quaternion.Slerp(rotation, lookRotation, Time.deltaTime * rotateSpeed);
+        transform.rotation = rotation;
     }
 
 }

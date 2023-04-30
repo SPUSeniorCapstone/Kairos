@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StructureController : MonoBehaviour
@@ -7,9 +8,14 @@ public class StructureController : MonoBehaviour
 
     public List<Structure> masterStructure;
 
+    public List<Structure> previewList;
+
     // don't know how else to do this
     public GameObject PlayerStructures;
     public GameObject EnemyStructures;
+
+    public GameObject PlayerUnits;
+    public GameObject EnemyUnits;
 
     
 
@@ -27,6 +33,14 @@ public class StructureController : MonoBehaviour
     // PLEASE FIX THIS
     public GameObject infantry;
     public GameObject archer;
+    public GameObject builder;
+    public GameObject resourceCollector;
+
+    // previews
+    public GameObject sp;
+    public GameObject bp;
+    public GameObject at;
+    public GameObject rs;
 
     public Material valid;
     public Material invalid;
@@ -34,6 +48,9 @@ public class StructureController : MonoBehaviour
     private void Start()
     {
         StrongholdActual = PlaceStructure(StrongholdPrefab, GameController.Main.WorldController.WorldGenerator.strongholdPos);
+        Vector3 spawn = StrongholdActual.transform.position;
+        spawn.x += 6;
+        Instantiate(builder, spawn, Quaternion.identity, PlayerUnits.transform);
         foreach (var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
         {
             CorruptionNodes.Add(PlaceStructure(corruptionNode, pos));
@@ -70,21 +87,42 @@ public class StructureController : MonoBehaviour
             }
            
 
-            if (GameController.Main.inputController.Select.Pressed())
+            if (GameController.Main.inputController.Select.Pressed() && GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>() != null)
             {
                 StructurePlacementMode = false;
                 GameController.Main.SelectionController.testCooldown = false;
                 GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>().BuildTask(pos);
-                PlaceStructure(StructureToSpawn, pos);
+                var s = PlaceStructure(StructureToSpawn, pos);
+                s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
                 structurePreview.transform.position = Vector3.zero;
                 GameController.Main.SelectionController.testCooldown = true;
             }
         }
     }
 
-    public void BuildOrder()
+    public void BuildOrder(string name)
     {
         StructurePlacementMode = true;
+        sp.SetActive(false);
+        bp.SetActive(false);
+        at.SetActive(false);
+        if(name == sp.name)
+        {
+            sp.SetActive(true);
+            StructureToSpawn = previewList.ElementAt(0);
+
+        }
+        else if(name == bp.name)
+        {
+            bp.SetActive(true);
+            StructureToSpawn = previewList.ElementAt(1);
+        }
+        else if (name == at.name)
+        {
+            Debug.Log("AKDKA");
+            at.SetActive(true);
+            StructureToSpawn = previewList.ElementAt(2);
+        }
         
     }
 
@@ -95,6 +133,14 @@ public class StructureController : MonoBehaviour
     public void TrainInfantry()
     {
         selected.QueueUnits(infantry);
+    }
+    public void TrainBuilder()
+    {
+        selected.QueueUnits(builder);
+    }
+    public void TrainCollector()
+    {
+        selected.QueueUnits(resourceCollector);
     }
 
     public Structure PlaceStructure(Structure structure, Vector3Int position)
@@ -110,10 +156,19 @@ public class StructureController : MonoBehaviour
 
         position.y = w.World.GetHeight(position);
 
-        var s = Instantiate<Structure>(structure, PlayerStructures.transform);
+        Structure s;
+        if (structure.GetComponent<Selectable>().faction)
+        {
+             s = Instantiate<Structure>(structure, EnemyStructures.transform);
+        }
+        else
+        {
+             s = Instantiate<Structure>(structure, PlayerStructures.transform);
+        }
+     
         s.transform.position = position;
         // need to fix, enemy buildings call this with no builder
-        //s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
+ 
 
         for (int x = 0; x < structure.Size.x; x++)
         {

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3b92590d31a0744bbd3f8f5e6f0cf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
   model: {fileID: 8191931722333577144}
   corruptedModel: {fileID: 1778765198344022630}
 --- !u!1001 &82626513554519535
@@ -99,6 +100,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7858982309795864417, guid: b029cf039571bb34a9d43f5a50646c39, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5170ac008006afe4395e3d93f8587103, type: 2}
     - target: {fileID: 8109322803649473111, guid: b029cf039571bb34a9d43f5a50646c39, type: 3}
       propertyPath: m_Name
       value: Spruce_Tree
@@ -178,6 +183,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7858982309795864417, guid: 48c90dc7638d7e447878fb2d49f2d0a3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5170ac008006afe4395e3d93f8587103, type: 2}
     - target: {fileID: 8109322803649473111, guid: 48c90dc7638d7e447878fb2d49f2d0a3, type: 3}
       propertyPath: m_Name
       value: Spruce_Tree_Dead

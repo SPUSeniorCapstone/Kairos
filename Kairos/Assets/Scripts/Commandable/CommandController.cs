@@ -42,6 +42,16 @@ public class CommandController : MonoBehaviour
                         AttackWithSelected(GameController.Main.SelectionController.actionTarget);
                     }
                 }
+                else if (GameController.Main.SelectionController.actionTarget != null)
+                {
+                    foreach (var s in GameController.Main.SelectionController.currentlySelect)
+                    {
+                        if (s.GetComponent<Unit>() != null)
+                        {
+                            s.GetComponent<Unit>().PerformTaskOn(GameController.Main.SelectionController.actionTarget.GetComponent<Selectable>());
+                        }
+                    }
+                }
                 else
                 {
                     RaycastHit hit;

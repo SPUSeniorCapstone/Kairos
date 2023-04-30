@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(RC_Entity))]
 public class RC_Unit : Unit
@@ -10,6 +11,8 @@ public class RC_Unit : Unit
 
     public float personalDistance = 1;
 
+
+
     // if certain stance, flee when enemy detected
     public Vector3 display;
 
@@ -17,8 +20,8 @@ public class RC_Unit : Unit
 
     public Damageable target;
 
-    public GameObject Stronghold;
-    public GameObject ResourceNode;
+    public Stronghold Stronghold;
+    public ResourceNode ResourceNode;
 
     // should this be public? protected?
     public RC_Entity entity;
@@ -49,6 +52,10 @@ public class RC_Unit : Unit
                 command = null;
             }
         }
+        else
+        {
+            entity.RotateTowards(entity.movementDirection);
+        }
     }
 
     public override void OnSelect()
@@ -64,15 +71,47 @@ public class RC_Unit : Unit
 
     public override void PerformTaskOn(Selectable selectable)
     {
-        var tar = selectable.GetComponent<Damageable>();
-        if (tar != null)
+
+        var target = selectable.GetComponent<ResourceNode>();
+        if (target != null && !target.taken)
         {
-            SetTarget(tar, true);
+            Debug.Log("Resource Found");
+            entity.TargetVector = target.transform.position;
+            target.unit = this;
+            target.taken = true;
+            ResourceNode = target;
         }
         else
         {
-            Debug.Log("TAR IS NULL! => " + selectable);
+            
+            var home = selectable.GetComponent<Stronghold>();
+            Debug.Log(home);
+            if (home != null)
+            {
+                Debug.Log("PLZ WORK");
+                entity.HomeVector = home.transform.position;
+                Stronghold = home;
+            }
         }
+        if (Stronghold != null && ResourceNode != null)
+        {
+            if (entity.count == entity.maxHold)
+            {
+                MoveTo(Stronghold.transform.position);
+            }
+            else
+            {
+                MoveTo(ResourceNode.transform.position);
+            }
+        }
+    }
+
+    public void MoveToTask()
+    {
+        entity.retrievingPath = true;
+        //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
+        //entity.movementMode = RC_Entity.MovementMode.COLLECT_RESOURCE;
+        entity.pathingTask = SetPath(entity.TargetVector);
     }
 
     public override void MoveTo(Vector3 position)

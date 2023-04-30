@@ -59,7 +59,7 @@ public class ProductionStructure : Structure
     //Spawn unit function
     public virtual void SpawnUnits(GameObject unit)
     {
-        GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity);
+        GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity, GameController.Main.StructureController.PlayerUnits.transform);
         // does this work?
         if (rallyPoint != null && rallyPoint != Vector3.zero)
         {

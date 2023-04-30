@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class ResourceNode : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Vector2Int position;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public RC_Unit unit;
+
+    public bool taken = false;
+
+   
 }

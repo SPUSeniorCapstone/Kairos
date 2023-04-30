@@ -46,6 +46,10 @@ public class Builder_Unit : Unit
                 command = null;
             }
         }
+        else
+        {
+            entity.RotateTowards(entity.movementDirection);
+        }
     }
 
     public override void OnSelect()

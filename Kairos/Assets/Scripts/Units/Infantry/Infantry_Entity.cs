@@ -15,6 +15,10 @@ public class Infantry_Entity : Entity
     List<Vector3> path;
     int pathIndex = -1;
 
+    public bool lockHorizontalRotation = true;
+
+    public float rotateSpeed = 10f;
+
 
     new void Update()
     {
@@ -35,19 +39,20 @@ public class Infantry_Entity : Entity
             else if (pathingTask.IsCompleted)
             {
                 var tempPath = pathingTask.Result;
-                if (tempPath != null)
+                if (tempPath != null && tempPath.Count > 0)
                 {
                     path = tempPath;
+
+                    movementMode = MovementMode.FOLLOW_PATH;
+                    targetPos = path[0];
+                    pathIndex = 1;
+                    pathingTask = null;
                 }
                 else
                 {
                     Debug.Log("Path not found");
                 }
-                movementMode = MovementMode.FOLLOW_PATH;
-                targetPos = path[0];
-                pathIndex = 1;
                 retrievingPath = false;
-                pathingTask = null;
             }
         }
 
@@ -66,6 +71,7 @@ public class Infantry_Entity : Entity
             transform.position = new Vector3(transform.position.x, height, transform.position.z);
 
         }
+
     }
 
     protected override void CalculateMovementDirection()
@@ -128,7 +134,7 @@ public class Infantry_Entity : Entity
     void AttackFollow()
     {
         Idle();
-        if (Vector3.Distance(transform.position.Flat(), GetComponent<Infantry_Unit>().target.transform.position.Flat()) <= GetComponent<Infantry_Unit>().attackDistance)
+        if (GetComponent<Infantry_Unit>().target != null && Vector3.Distance(transform.position.Flat(), GetComponent<Infantry_Unit>().target.transform.position.Flat()) <= GetComponent<Infantry_Unit>().attackDistance)
         {
             movementMode = MovementMode.ATTACK_FOLLOW;
             Debug.Log("IN RANGE!!");
@@ -137,6 +143,27 @@ public class Infantry_Entity : Entity
         {
             movementDirection += TargetAttraction();
         }
+    }
+
+
+    public void RotateTowards(Vector3 pos)
+    {
+        pos += transform.position;
+
+
+        if (lockHorizontalRotation)
+        {
+            pos.y = transform.position.y;
+        }
+
+        Quaternion rotation = transform.rotation;
+
+        Vector3 direction = pos - transform.position;
+        var lookRotation = Quaternion.LookRotation(direction);
+
+
+        rotation = Quaternion.Slerp(rotation, lookRotation, Time.deltaTime * rotateSpeed);
+        transform.rotation = rotation;
     }
 
 }

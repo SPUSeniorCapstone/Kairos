@@ -8,6 +8,7 @@ public class Selectable : MonoBehaviour
     public Material selectedMaterial;
     private Unit unit;
     private Structure structure;
+    public GameObject highlight;
    
     void Start()
     {
@@ -30,7 +31,14 @@ public class Selectable : MonoBehaviour
     {
        if (GameController.Main.SelectionController.testCooldown)
         {
-            GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+            if (highlight != null)
+            {
+                highlight.SetActive(true);
+            }
+            else
+            {
+                GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+            }
             if (unit != null)
             {
                 unit.OnSelect();
@@ -45,7 +53,14 @@ public class Selectable : MonoBehaviour
     {
         if (GameController.Main.SelectionController.testCooldown)
         {
-            GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
+            if (highlight != null)
+            {
+                highlight.SetActive(false);
+            }
+            else
+            {
+                GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
+            }
             if (unit != null)
             {
                 unit.OnDeselect();
@@ -78,6 +93,8 @@ public class Selectable : MonoBehaviour
         }
         else
         {
+
+            GameController.Main.SelectionController.actionTarget = this.gameObject;
             // set cursor other
             //Cursor.SetCursor(GameController.Main.capture, Vector2.zero, CursorMode.Auto);
 

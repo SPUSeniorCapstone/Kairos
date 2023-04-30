@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using static UnityEditor.PlayerSettings;
 
 /// <summary>
@@ -54,7 +59,52 @@ public class Chunk : MonoBehaviour
 
     public float[,] corruptionMap = new float[width, length];
 
+
+    Task<bool> UpdateTask = null;
+    ChunkMesh chunkMesh = null;
+    int[,] heightsUpdate = null;
+
     //Methods
+
+    private void Update()
+    {
+        if(UpdateTask != null)
+        {
+            if (UpdateTask.IsCompleted)
+            {
+                if (!UpdateTask.Result)
+                {
+                    Debug.LogError("ERROR: Update Failed");
+                }
+                else
+                {
+                    var meshFilter = GetComponent<MeshFilter>();
+                    Mesh mesh = new Mesh();
+
+                    mesh.SetVertices(chunkMesh.vertices);
+                    mesh.SetTriangles(chunkMesh.triangles, 0);
+                    mesh.SetUVs(0, chunkMesh.uvs);
+                    mesh.SetUVs(3, chunkMesh.corruption);
+                    mesh.RecalculateNormals();
+                    mesh.RecalculateBounds();
+
+                    meshFilter.sharedMesh = mesh;
+                    GetComponent<MeshCollider>().convex = false;
+                    GetComponent<MeshCollider>().sharedMesh = mesh;
+
+                    GetComponent<MeshCollider>().sharedMesh = mesh;
+
+                    transform.position = new Vector3(position.x * width, 0, position.z * length);
+
+                    heights = heightsUpdate;
+
+                    ReloadDecorations();
+                }
+                UpdateTask = null;
+            }
+
+        }
+    }
 
     /// <summary>
     /// Gets the top level (non-air) Block at the given local coordinate
@@ -108,6 +158,30 @@ public class Chunk : MonoBehaviour
         ReloadMesh();
         ReloadHeights();
         ReloadDecorations();
+    }
+
+    public void BeginAsyncUpdate()
+    {
+        if (UpdateTask == null)
+        {
+            UpdateTask = UpdateChunkAsync();
+        }
+        else
+            Debug.LogError("ERROR: Update in Progress");
+    }
+
+    async Task<bool> UpdateChunkAsync()
+    {
+        chunkMesh = await Task.Run(ReloadMeshAsync);
+        heightsUpdate = await Task.Run(ReloadHeightsAsync);
+
+        if (chunkMesh == null || heightsUpdate == null)
+        {
+            chunkMesh = null;
+            heightsUpdate = null;
+            return false;
+        }
+        return true;
     }
 
     public void ReloadDecorations()
@@ -274,30 +348,84 @@ public class Chunk : MonoBehaviour
         }
     }
 
-    //public void UpdateCorruptionUV()
-    //{
-    //    List<Vector2> corruption = new List<Vector2>();
-    //    for (int x = 0; x < width; x++)
-    //    {
-    //        for (int y = 0; y < height; y++)
-    //        {
-    //            for (int z = 0; z < length; z++)
-    //            {
-    //                if(blocks[x, y, z].blockID == 0)
-    //                {
-    //                    continue;
-    //                }
+    public int[,] ReloadHeightsAsync()
+    {
+        int[,] h = new int[width, length];
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < length; z++)
+            {
+                int y = 0;
+                while (y < height && blocks[x, y, z].blockID != 0)
+                {
+                    y++;
+                }
+                h[x, z] = y - 1;
+            }
+        }
+        return h;
+    }
 
-    //                float corruptStrength = corruptionMap[x, z];
-    //                corruption.Add(new Vector2(corruptStrength, 0));
-    //                corruption.Add(new Vector2(corruptStrength, 0));
-    //                corruption.Add(new Vector2(corruptStrength, 0));
-    //                corruption.Add(new Vector2(corruptStrength, 0));
-    //            }
-    //        }
-    //    }
-    //    GetComponent<MeshFilter>().sharedMesh.SetUVs(3, corruption);
-    //}
+    public ChunkMesh ReloadMeshAsync()
+    {
+
+        int index = 0;
+        List<Vector3> vertices = new List<Vector3>();
+        List<int> triangles = new List<int>();
+        List<Vector2> uvs = new List<Vector2>();
+        List<Vector2> corruption = new List<Vector2>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int z = 0; z < length; z++)
+                {
+                    DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID, corruptionMap[x, z]);
+                }
+            }
+        }
+
+        return new ChunkMesh(vertices, triangles, uvs, corruption);
+
+        void DrawVoxel(Vector3Int pos, int blockID, float corruptStrength = 0f)
+        {
+            if (blockID == 0)
+            {
+                return;
+            }
+            ///
+            /// 
+            /// Help from https://github.com/b3agz/Code-A-Game-Like-Minecraft-In-Unity/blob/master/01-the-first-voxel/Assets/Scripts/Chunk.cs
+            for (int i = 0; i < 6; i++)
+            {
+                if (!CheckVoxel(pos + VoxelData.faceChecks[i]))
+                {
+                    Vector2 UVOffsett = BlockManager.Main.GetBlockUVOffset(blockID, i);
+
+                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 0]]);
+                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 1]]);
+                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 2]]);
+                    vertices.Add(pos + VoxelData.Vertices[VoxelData.Triangles[i, 3]]);
+                    uvs.Add((VoxelData.UVs[0] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
+                    uvs.Add((VoxelData.UVs[1] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
+                    uvs.Add((VoxelData.UVs[2] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
+                    uvs.Add((VoxelData.UVs[3] * BlockManager.Main.TextureAtlas.NormalizedBlockTextureSize) + UVOffsett);
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    corruption.Add(new Vector2(corruptStrength, 0));
+                    triangles.Add(index);
+                    triangles.Add(index + 1);
+                    triangles.Add(index + 2);
+                    triangles.Add(index + 2);
+                    triangles.Add(index + 1);
+                    triangles.Add(index + 3);
+                    index += 4;
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Returns the Blok at the given local position
@@ -340,5 +468,21 @@ public class Chunk : MonoBehaviour
         {
             return true;
         }
+    }
+}
+
+public class ChunkMesh
+{
+    public List<Vector3> vertices;
+    public List<int> triangles;
+    public List<Vector2> uvs;
+    public List<Vector2> corruption;
+
+    public ChunkMesh(List<Vector3> vertices, List<int> triangles, List<Vector2> uvs, List<Vector2> corruption)
+    {
+        this.vertices = vertices;
+        this.triangles = triangles;
+        this.uvs = uvs;
+        this.corruption = corruption;
     }
 }
