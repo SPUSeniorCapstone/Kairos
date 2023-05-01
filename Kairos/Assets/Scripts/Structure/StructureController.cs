@@ -55,6 +55,7 @@ public class StructureController : MonoBehaviour
         {
             CorruptionNodes.Add(PlaceStructure(corruptionNode, pos));
         }
+        GameController.Main.UIController.gameUI.UpdateNodes(CorruptionNodes.Count);
     }
 
     void Update()

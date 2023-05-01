@@ -96,6 +96,8 @@ public class RC_Entity : Entity
                 //Body.Play();
                 count--;
                 GameController.Main.resouceCount += 40;
+                //dont call this here
+                GameController.Main.UIController.gameUI.UpdateResource(GameController.Main.resouceCount);
                 lastcollectTime = Time.time;
 
                 // neccessary? doesn't work all the time (race condition)

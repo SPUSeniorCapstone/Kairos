@@ -115,7 +115,7 @@ public class CommandController : MonoBehaviour
                 ////entity.idle = false;
             }
 
-            if (production != null)
+            if (production != null && unit == null)
             {
                 Debug.Log("Structure not null");
                 production.rallyPoint = wayPoint.transform.position;
