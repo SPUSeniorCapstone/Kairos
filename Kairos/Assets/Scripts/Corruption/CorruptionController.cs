@@ -14,6 +14,9 @@ public class CorruptionController : MonoBehaviour
     public float corruptionStrength = 0.1f;
 
     [Range(0, 1)]
+    public float purificationStrength = 0.1f;
+
+    [Range(0, 1)]
     public float minimumCorruptionSpread = 0.3f;
 
     [Range(0, 1000)]
@@ -33,6 +36,8 @@ public class CorruptionController : MonoBehaviour
 
     [Range(0, 100)]
     public float veinChance = 1;
+
+    List<Purifier> purifiers = new List<Purifier>();
 
     private void Start()
     {
@@ -70,6 +75,24 @@ public class CorruptionController : MonoBehaviour
             {
                 var pos = new Vector2Int(c.Position.x * Chunk.width, c.Position.z * Chunk.length) + position;
 
+                Purifier purifier = null;
+                foreach(Purifier pure in purifiers)
+                {
+                    if ((purifier == null || pure.strength > purifier.strength) && pure.InRange(pos))
+                    {
+                        purifier = pure;
+                    }
+                }
+
+
+                if (purifier != null)
+                {
+                    var currCorr = WorldController.Main.World.GetCorruption(pos.x, pos.y);
+                    WorldController.Main.World.SetCorruption(pos.x, pos.y, currCorr - purifier.strength * purificationStrength);
+                    continue;
+                }
+
+
                 var corr = WorldController.Main.World.GetCorruption(pos.x, pos.y);
 
                 if (corr < minimumCorruptionSpread)
@@ -80,7 +103,7 @@ public class CorruptionController : MonoBehaviour
                 foreach (var point in GetNeighbors(pos.x, pos.y))
                 {
                     var currCorr = WorldController.Main.World.GetCorruption(point.x, point.y);
-                    WorldController.Main.World.SetCorruption(point.x, point.y, currCorr + corr * corruptionStrength * Time.deltaTime);
+                    WorldController.Main.World.SetCorruption(point.x, point.y, currCorr + corr * corruptionStrength);
                 }
 
             }
@@ -88,6 +111,11 @@ public class CorruptionController : MonoBehaviour
 
 
         }
+    }
+
+    public void RegisterPurifier(Purifier purifier)
+    {
+        purifiers.Add(purifier);
     }
 
     public void AverageSpreadUpdate()
@@ -197,7 +225,7 @@ public class CorruptionController : MonoBehaviour
                 int c = 0;
                 while (curr > 0 && c < stepsPerVein)
                 {
-                    curr -= Random.Range(0, 0.01f);
+                    curr -= 1 / stepsPerVein;
                     Vector2Int next = prev + dir + new Vector2Int(Random.Range(-1, 2), Random.Range(-1, 2));
                     if (prev == next || !IsValidPosition(next.x, next.y))
                     {
