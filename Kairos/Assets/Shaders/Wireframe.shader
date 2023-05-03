@@ -7,6 +7,7 @@ Shader "Custom/Geometry/Wireframe"
         _FrontColor("Front color", color) = (1., 1., 1., 1.)
         _BackColor("Back color", color) = (1., 1., 1., 1.)
         [Toggle] _RemoveDiag("Remove diagonals?", Float) = 0.
+        [Toggle] _SolidColor("Solid Color?", Float) = 0.
     }
         SubShader
         {
@@ -97,16 +98,19 @@ Shader "Custom/Geometry/Wireframe"
 
                 struct v2g {
                     float4 worldPos : SV_POSITION;
+                    float4 color : COLOR;
                 };
 
                 struct g2f {
                     float4 pos : SV_POSITION;
                     float3 bary : TEXCOORD0;
+                    float4 color : COLOR;
                 };
 
-                v2g vert(appdata_base v) {
+                v2g vert(appdata_full v) {
                     v2g o;
                     o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                    o.color = v.color;
                     return o;
                 }
 
@@ -130,23 +134,31 @@ Shader "Custom/Geometry/Wireframe"
                     g2f o;
                     o.pos = mul(UNITY_MATRIX_VP, IN[0].worldPos);
                     o.bary = float3(1., 0., 0.) + param;
+                    o.color = IN[0].color;
                     triStream.Append(o);
                     o.pos = mul(UNITY_MATRIX_VP, IN[1].worldPos);
                     o.bary = float3(0., 0., 1.) + param;
+                    o.color = IN[1].color;
                     triStream.Append(o);
                     o.pos = mul(UNITY_MATRIX_VP, IN[2].worldPos);
                     o.bary = float3(0., 1., 0.) + param;
+                    o.color = IN[2].color;
                     triStream.Append(o);
                 }
 
                 float _WireframeVal;
                 fixed4 _FrontColor;
+                float _SolidColor;
 
                 fixed4 frag(g2f i) : SV_Target {
                 if (!any(bool3(i.bary.x <= _WireframeVal, i.bary.y <= _WireframeVal, i.bary.z <= _WireframeVal)))
                      discard;
-
-                    return _FrontColor;
+                     if (!_SolidColor){
+                         return i.color;
+                         }
+                    else{
+                        return _FrontColor;
+                        }
                 }
 
                 ENDCG

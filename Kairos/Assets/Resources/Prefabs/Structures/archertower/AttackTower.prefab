@@ -184,6 +184,9 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 500
   <Health>k__BackingField: 500
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 8976185539237567742}
+  deathTimer: 1.5
+  DeathTime: -1
   healthBarPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1086162981530056874
 MonoBehaviour:

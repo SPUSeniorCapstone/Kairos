@@ -4,14 +4,14 @@ public class Selectable : MonoBehaviour
 {
     public bool selected;
     public bool faction;
-    public Material unSelectedMaterial;
-    public Material selectedMaterial;
+    private Material unSelectedMaterial;
+    private Material selectedMaterial;
     private Unit unit;
     private Structure structure;
-    public GameObject highlight;
    
     void Start()
     {
+        selectedMaterial = GetComponentInChildren<MeshRenderer>().material;
         // write function to handles this or modify public list directly?
         GameController.Main.SelectionController.masterSelect.Add(this);
 
@@ -31,12 +31,10 @@ public class Selectable : MonoBehaviour
     {
        if (GameController.Main.SelectionController.testCooldown)
         {
-            if (highlight != null)
+            if (selected)
             {
-                highlight.SetActive(true);
-            }
-            else
-            {
+                Debug.Log("PLEASE SEE");
+                selectedMaterial.shader = GameController.Main.highlight;
                 GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
             }
             if (unit != null)
@@ -53,14 +51,8 @@ public class Selectable : MonoBehaviour
     {
         if (GameController.Main.SelectionController.testCooldown)
         {
-            if (highlight != null)
-            {
-                highlight.SetActive(false);
-            }
-            else
-            {
-                GetComponentInChildren<MeshRenderer>().material = unSelectedMaterial;
-            }
+            selectedMaterial.shader = GameController.Main.unHighlight;
+            GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
             if (unit != null)
             {
                 unit.OnDeselect();

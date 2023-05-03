@@ -195,7 +195,7 @@ public class GameController : MonoBehaviour
                 playerCount--;
             }
             // does second clause ensure survival while builder lives?
-            if (playerCount <= 0 && FindAnyObjectByType<Builder_Unit>() != null)
+            if (playerCount <= 0 && FindAnyObjectByType<Builder_Unit>() == null)
             {
                 lost = true;
                 menuController.Defeat();
@@ -215,4 +215,7 @@ public class GameController : MonoBehaviour
 
     public bool paused;
     public CursorLockMode defaultLockMode = CursorLockMode.None;
+    public Material DeathMaterial;
+    public Shader highlight;
+    public Shader unHighlight;
 }

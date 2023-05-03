@@ -185,7 +185,7 @@ MonoBehaviour:
   faction: 1
   unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
   selectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  highlight: {fileID: 0}
+  highlight: {fileID: 7282038047103503533}
 --- !u!114 &4246573733965678293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +201,9 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 8688661801594632603}
+  deathTimer: 1.5
+  DeathTime: -1
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!114 &6882701815510906992
 MonoBehaviour:
@@ -457,5 +460,15 @@ PrefabInstance:
 --- !u!4 &1126828885671478526 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1884661872563757572, guid: 6e16bb8bf884d6e44b2f56302fb6e56a, type: 3}
+  m_PrefabInstance: {fileID: 1550616073281971962}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7282038047103503533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8109322803649473111, guid: 6e16bb8bf884d6e44b2f56302fb6e56a, type: 3}
+  m_PrefabInstance: {fileID: 1550616073281971962}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8688661801594632603 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7858982309795864417, guid: 6e16bb8bf884d6e44b2f56302fb6e56a, type: 3}
   m_PrefabInstance: {fileID: 1550616073281971962}
   m_PrefabAsset: {fileID: 0}

@@ -42,6 +42,10 @@ public class Infantry_Unit : Unit
 
     private void Update()
     {
+        if (GetComponent<Damageable>().Dead)
+        {
+            return;
+        }
         // will this work if target is "missing"?
         if (target == null && entity.movementMode == Infantry_Entity.MovementMode.ATTACK_FOLLOW)
         {
