@@ -24,6 +24,11 @@ public static class Extensions
         return new Vector2(vec.x, vec.z);
     }
 
+    public static Vector2 ToVector2(this Vector2Int vec)
+    {
+        return new Vector2(vec.x, vec.y);
+    }
+
     public static Vector2Int ToVector2Int(this Vector3Int vec)
     {
         Vector2Int ret = new Vector2Int();

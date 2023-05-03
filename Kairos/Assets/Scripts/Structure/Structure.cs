@@ -19,6 +19,7 @@ public class Structure : MonoBehaviour
 
     public GameObject directory;
 
+
     protected void Start()
     {
         if (!example)
