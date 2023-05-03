@@ -30,7 +30,7 @@ public class EnemyProd : ProductionStructure
             timeLeft -= Time.deltaTime;
             if (timeLeft <= 0)
             {
-                int rand = Random.Range(0, 2);
+                int rand = Random.Range(0, 3);
                 timeLeft = originialTime;
                 SpawnUnits(base.unitTypes[rand]);
                 unitsQueued--;

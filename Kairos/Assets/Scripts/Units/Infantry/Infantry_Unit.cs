@@ -84,6 +84,10 @@ public class Infantry_Unit : Unit
                 // neccessary ?
                 if (target != null)
                 {
+                    Debug.Log("Should be rotating towards");
+                    //entity.RotateTowards(target.transform.position.normalized);
+                    transform.LookAt(target.transform);
+                    //transform.rotation = Quaternion.LookRotation(target.transform.position);
                     if (Time.time - lastAttackTime > attackCoolDown)
                     {
                         //Body.clip = BodySounds.ElementAt(10);
@@ -101,8 +105,10 @@ public class Infantry_Unit : Unit
                 }
             }
         }
-       if (entity.movementMode != Infantry_Entity.MovementMode.IDLE)
+        // these rotate towards are fighting each other, causing jittering. need exclusive
+       else if (entity.movementMode != Infantry_Entity.MovementMode.IDLE)
         {
+            Debug.Log("WASDIA");
             entity.RotateTowards(entity.movementDirection);
         }     
     }
@@ -223,7 +229,7 @@ public class Infantry_Unit : Unit
     }
     public override void ClearTarget()
     {
-        Debug.Log("CLEAR");
+        //Debug.Log("CLEAR");
         target = null;
     }
 }

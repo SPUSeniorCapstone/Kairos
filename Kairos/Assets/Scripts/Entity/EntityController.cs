@@ -38,7 +38,7 @@ public class EntityController : MonoBehaviour
     {
         if (entityHash.Contains(entity))
         {
-            Debug.Log("Entity Controller does not contain: " + entity);
+            //Debug.Log("Entity Controller does not contain: " + entity);
             return;
         }
         entityHash.Remove(entity);

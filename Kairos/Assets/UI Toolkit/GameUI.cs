@@ -12,9 +12,20 @@ public class GameUI : MonoBehaviour
 
     public ProductionMenu ProductionMenu;
 
+    public Label ResourceCounter;
+
+    public Label NodeCounter;
+
     private void Awake()
     {
         document = GetComponent<UIDocument>();
+        ResourceCounter = document.rootVisualElement.Q("numberResource") as Label;
+        NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
+     
+
+     
+        ResourceCounter.text = FormatNum(GameController.Main.resouceCount, true);
+        NodeCounter.text = FormatNum(GameController.Main.StructureController.CorruptionNodes.Count, false);
     }
 
     private void OnEnable()
@@ -24,8 +35,38 @@ public class GameUI : MonoBehaviour
         ProductionMenu = new ProductionMenu(document.rootVisualElement.Q("ProductionMenu"));
     }
 
+    public string FormatNum(int num, bool greater)
+    {
+        if (num < 10 && greater)
+        {
+            return "000" + num.ToString();
+        }
+        else if (num < 100 && greater)
+        {
+            return "00" + num.ToString();
+        }
+        else if ((num < 1000 && greater ) || (num < 10 && !greater))
+        {
+            return "0" + num.ToString();
+        }
+        else
+        {
+            return num.ToString();
+        }
+    }
 
+    public void UpdateResource(int count)
+    {
+        ResourceCounter.text = FormatNum(count, true);
+    }
+
+    public void UpdateNodes(int count)
+    {
+        NodeCounter.text = FormatNum(count, false);
+    }
 }
+
+
 
 public class BuildMenu
 {
@@ -70,7 +111,7 @@ public class BuildMenu
         strongholdButton.visible = enable;
         barracksButton.visible = enable;
         archerTowerButton.visible = enable;
-        resourceButton.visible = enable;
+        //resourceButton.visible = enable;
         mainElement.SetEnabled(enable);
     }
 

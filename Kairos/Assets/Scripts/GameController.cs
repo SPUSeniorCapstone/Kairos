@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -150,6 +151,7 @@ public class GameController : MonoBehaviour
     }
     CorruptionController corruptionController;
 
+    // misnomar, simply cleans up any lists it might be in before letting the original caller destroy itself
     public void MasterDestory(GameObject item)
     {
         if (EntityController == null || SelectionController == null)
@@ -183,15 +185,17 @@ public class GameController : MonoBehaviour
     {
         if (!WinConDebug)
         {
-            if (structure.GetComponent<Selectable>().faction)
+            if (structure.enemy)
             {
                 enemyCount--;
+                UIController.gameUI.UpdateNodes(enemyCount);
             }
             else
             {
                 playerCount--;
             }
-            if (playerCount <= 0)
+            // does second clause ensure survival while builder lives?
+            if (playerCount <= 0 && FindAnyObjectByType<Builder_Unit>() != null)
             {
                 lost = true;
                 menuController.Defeat();

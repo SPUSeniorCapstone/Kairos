@@ -137,7 +137,7 @@ public class Infantry_Entity : Entity
         if (GetComponent<Infantry_Unit>().target != null && Vector3.Distance(transform.position.Flat(), GetComponent<Infantry_Unit>().target.transform.position.Flat()) <= GetComponent<Infantry_Unit>().attackDistance)
         {
             movementMode = MovementMode.ATTACK_FOLLOW;
-            Debug.Log("IN RANGE!!");
+            //Debug.Log("IN RANGE!!");
         }
         else
         {
