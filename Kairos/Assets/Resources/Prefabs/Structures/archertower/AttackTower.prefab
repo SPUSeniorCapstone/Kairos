@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 3423161522806090367}
   - component: {fileID: 1086162981530056874}
   - component: {fileID: -8378788251425018323}
+  - component: {fileID: 8993958709022590271}
   m_Layer: 6
   m_Name: AttackTower
   m_TagString: Untagged
@@ -140,6 +141,7 @@ MonoBehaviour:
   example: 0
   builder: {fileID: 0}
   directory: {fileID: 0}
+  rallyPoint: {fileID: 0}
 --- !u!136 &8976185539307826759
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -149,7 +151,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 8976185539307826752}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 1
   m_Height: 4
   m_Direction: 1
@@ -214,6 +216,8 @@ MonoBehaviour:
   attackDistance: 1
   attackCoolDown: 1
   attackDamage: 10
+  projectile: {fileID: -1099659423685669661, guid: 657a37f35adf2dd46a164c7392caeceb, type: 3}
+  projectileSpeed: 0.5
 --- !u!114 &-8378788251425018323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +233,19 @@ MonoBehaviour:
   cleans: 1
   radius: 15
   strength: 0.3
+--- !u!65 &8993958709022590271
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976185539307826752}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 13, z: 4}
+  m_Center: {x: 1, y: 6.5, z: 1}
 --- !u!1001 &7717032382536641970
 PrefabInstance:
   m_ObjectHideFlags: 0

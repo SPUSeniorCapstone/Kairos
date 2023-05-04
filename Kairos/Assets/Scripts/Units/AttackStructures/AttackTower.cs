@@ -14,6 +14,8 @@ public class AttackTower : Unit
     public float attackCoolDown = 1;
     public float attackDamage = 10f;
     private float lastAttackTime = 0;
+    public projectileArrow projectile;
+    public float projectileSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +53,11 @@ public class AttackTower : Unit
                 {
                     //Body.clip = BodySounds.ElementAt(10);
                     //Body.Play();
+                    Vector3 offset = new Vector3(0, 10, 0);
+                    Instantiate(projectile.gameObject, transform, false);
+                    projectile.transform.position = offset;
+                    projectile.speed = projectileSpeed;
+                    projectile.target = target.gameObject;
                     target.Damage(attackDamage);
                     lastAttackTime = Time.time;
 
