@@ -107,7 +107,8 @@ public class Infantry_Unit : Unit
             entity.targetPos = target.transform.position;
             //when within attack range
             // bootleg combat
-            if (entity.movementDirection == Vector3.zero && archer || !archer)
+            // && Vector3.Distance(transform.position, target.transform.position) < attackDistance
+            if ((entity.movementDirection == Vector3.zero && archer || !archer))
             {
                 // neccessary ?
                 if (target != null)
@@ -120,7 +121,16 @@ public class Infantry_Unit : Unit
                     {
                         //Body.clip = BodySounds.ElementAt(10);
                         //Body.Play();
-                        target.Damage(attackDamage);
+                        if (GameController.Main.randomDamageModifier)
+                        {
+                            float rand = Random.Range(1f, 2f);
+                            target.Damage(attackDamage * rand);
+                        }
+                        else
+                        {
+                            target.Damage(attackDamage);
+                        }
+
                         lastAttackTime = Time.time;
 
                         // neccessary? doesn't work all the time (race condition)

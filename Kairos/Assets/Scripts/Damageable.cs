@@ -8,7 +8,7 @@ public class Damageable : MonoBehaviour
     [field: SerializeField] public bool Invulnerable { get; private set; }
 
     private MeshRenderer model;
-    public float deathTimer = 1.5f;
+    public float deathTimer = 1;
     [SerializeField]
     [Disable]
     private float DeathTime = -1f;

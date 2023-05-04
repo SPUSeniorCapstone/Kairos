@@ -15,14 +15,17 @@ public class MenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
+            if (!((victoryMenuUI != null && victoryMenuUI.gameObject.activeSelf) || (defeatMenuUI != null && defeatMenuUI.gameObject.activeSelf)))
             {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
+                if (GameIsPaused)
+                {
+                    Resume();
+                }
+                else
+                {
+                    Pause();
+                }
+            }  
         }
     }
 
