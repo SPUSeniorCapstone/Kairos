@@ -69,4 +69,15 @@ public class EnemyProd : ProductionStructure
             
         }
     }
+    // overwrites problem in production strucuter script
+    public override void OnSelect()
+    {
+
+        //GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
+    }
+    public override void OnDeselect()
+    {
+       
+        //GameController.Main.UIController.MenuController.structureMenuUI.SetActive(false);
+    }
 }
