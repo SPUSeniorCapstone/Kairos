@@ -42,6 +42,7 @@ public class StructurePreview : Structure
       
         base.Start();
         damageable = GetComponent<Damageable>();
+        distanceToBuild = Size.x * 6 + 2;
     }
 
    

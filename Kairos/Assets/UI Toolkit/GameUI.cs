@@ -19,6 +19,7 @@ public class GameUI : MonoBehaviour
     public Label Framerate;
     float deltaTime = 0;
     int count = 0;
+    public Button destroyBuildingButton;
 
     private void Awake()
     {
@@ -26,6 +27,8 @@ public class GameUI : MonoBehaviour
         ResourceCounter = document.rootVisualElement.Q("numberResource") as Label;
         NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
         Framerate = document.rootVisualElement.Q("Framerate") as Label;
+        destroyBuildingButton = document.rootVisualElement.Q("DestroyButton") as Button;
+        destroyBuildingButton.visible = false;
      
 
      
@@ -84,6 +87,11 @@ public class GameUI : MonoBehaviour
     {
         NodeCounter.text = FormatNum(count, false);
     }
+
+    public void OnStruture(bool enable)
+    {
+        destroyBuildingButton.visible = enable;
+    }
 }
 
 
@@ -99,7 +107,7 @@ public class BuildMenu
 
     public Button archerTowerButton;
 
-    public Button resourceButton;
+    public Button purifierButton;
 
   
 
@@ -121,8 +129,8 @@ public class BuildMenu
         archerTowerButton = element.Q("ArcherTowerButton") as Button;
         archerTowerButton.RegisterCallback<ClickEvent>(ArcherTowerButton_OnClick);
 
-        resourceButton = element.Q("ResourceButton") as Button;
-        resourceButton.RegisterCallback<ClickEvent>(ResourceButton_OnClick);
+        purifierButton = element.Q("PurifierButton") as Button;
+        purifierButton.RegisterCallback<ClickEvent>(ResourceButton_OnClick);
     }
 
     public void EnableBuildMenu(bool enable)
@@ -131,7 +139,7 @@ public class BuildMenu
         strongholdButton.visible = enable;
         barracksButton.visible = enable;
         archerTowerButton.visible = enable;
-        //resourceButton.visible = enable;
+        purifierButton.visible = enable;
         mainElement.SetEnabled(enable);
     }
 
@@ -149,7 +157,7 @@ public class BuildMenu
     }
     private void ResourceButton_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.BuildOrder("resource");
+        GameController.Main.StructureController.BuildOrder("purifier");
     }
 }
 

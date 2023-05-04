@@ -69,6 +69,7 @@ public class CommandController : MonoBehaviour
                 }
             }
         }
+
     }
     public void MoveSelected(Vector3 target)
     {
@@ -123,7 +124,8 @@ public class CommandController : MonoBehaviour
             if (production != null && unit == null)
             {
                 Debug.Log("Structure not null");
-                production.rallyPoint = wayPoint.transform.position;
+                production.rallyPoint.GetComponentInChildren<MeshRenderer>().enabled = true;
+                production.rallyPoint.transform.position = wayPoint.transform.position;
             }
         }
 
@@ -201,7 +203,8 @@ public class CommandController : MonoBehaviour
             if (production != null)
             {
                 Debug.Log("Structure not null");
-                production.rallyPoint = wayPoint.transform.position;
+                production.rallyPoint.GetComponentInChildren<MeshRenderer>().enabled = true;
+                production.rallyPoint.transform.position = wayPoint.transform.position;
             }
         }
 

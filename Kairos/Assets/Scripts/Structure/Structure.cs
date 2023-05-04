@@ -16,6 +16,8 @@ public class Structure : MonoBehaviour
 
     public GameObject directory;
 
+    public GameObject rallyPoint;
+
 
     protected void Start()
     {

@@ -257,12 +257,14 @@ MonoBehaviour:
   Head: {fileID: 0}
   Body: {fileID: 0}
   Feet: {fileID: 0}
+  badGuy: 0
   personalDistance: 1
   attackDistance: 1
   attackCoolDown: 1
   attackDamage: 10
   autoAttack: 1
   archer: 0
+  guard: 0
   target: {fileID: 0}
   HeadSounds: []
   BodySounds: []

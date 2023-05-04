@@ -84,6 +84,12 @@ public class Builder_Unit : Unit
         }
     }
 
+    public void OnDestroy()
+    {
+        base.OnDestroy();
+        GameController.Main.CheckVictory(null);
+    }
+
     public override void MoveTo(Vector3 position)
     {
         entity.retrievingPath = true;
