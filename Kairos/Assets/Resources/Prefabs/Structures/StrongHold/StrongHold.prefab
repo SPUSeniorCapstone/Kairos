@@ -139,6 +139,9 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 1000
   <Health>k__BackingField: 1000
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 7808401512600962932}
+  deathTimer: 1.5
+  DeathTime: -1
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!114 &1658738869
 MonoBehaviour:
@@ -212,5 +215,10 @@ PrefabInstance:
 --- !u!4 &1975423235526801937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1884661872563757572, guid: 06120f3cc11f9cc4bb56205107bca0a6, type: 3}
+  m_PrefabInstance: {fileID: 93930229067814933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7808401512600962932 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7858982309795864417, guid: 06120f3cc11f9cc4bb56205107bca0a6, type: 3}
   m_PrefabInstance: {fileID: 93930229067814933}
   m_PrefabAsset: {fileID: 0}

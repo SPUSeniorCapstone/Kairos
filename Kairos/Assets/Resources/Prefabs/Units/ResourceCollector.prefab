@@ -185,9 +185,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
-  unSelectedMaterial: {fileID: 2100000, guid: e0f1dc1dddaec344c84df02ecb8f6924, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
-  highlight: {fileID: 3629827798672614863}
 --- !u!114 &4414594709870812646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +200,8 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
+  deathTimer: 1.5
+  DeathTime: -1
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!136 &5679588891513688378
 CapsuleCollider:
@@ -251,7 +250,7 @@ MonoBehaviour:
   AvoidWallRadius: 3
   stepHeight: 1
   movementSpeed: 10
-  stopFollowDistance: 1
+  stopFollowDistance: 2
   avoidStrength: 1
   followStrength: 1
   viewDebugInfo: 0
@@ -267,7 +266,7 @@ MonoBehaviour:
   collectCoolDown: 1
   count: 0
   maxHold: 4
-  collectDistance: 6
+  collectDistance: 5
   lockHorizontalRotation: 1
   rotateSpeed: 10
 --- !u!114 &3509812374533679609

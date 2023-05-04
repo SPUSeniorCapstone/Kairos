@@ -12,8 +12,7 @@ public class Infantry_Unit : Unit
     public float attackDamage = 10f;
     public bool autoAttack = false;
     private float lastAttackTime = 0;
-
-
+    public bool archer = false;
 
     public Damageable target;
 
@@ -42,20 +41,27 @@ public class Infantry_Unit : Unit
 
     private void Update()
     {
+        if (GetComponent<Damageable>().Dead)
+        {
+            return;
+        }
         // will this work if target is "missing"?
         if (target == null && entity.movementMode == Infantry_Entity.MovementMode.ATTACK_FOLLOW)
         {
             entity.movementMode = Infantry_Entity.MovementMode.IDLE;
         }
-        if (entity.movementMode == Infantry_Entity.MovementMode.IDLE)
+        if (commandGroup != null && commandGroup.path.Count == 1)
         {
-            // if idle, should be done path finding, so remove self from cg
-            if (command != null)
-            {
-                command.unitList.Remove(this);
-                command = null;
-            }
+            Debug.Log("I SHOULD BE GONE");
+            commandGroup.unitList.Remove(this);
+            commandGroup = null;
+            entity.movementMode = Infantry_Entity.MovementMode.IDLE;
         }
+        //if (entity.movementMode == Infantry_Entity.MovementMode.IDLE)
+        //{
+        //    // if idle, should be done path finding, so remove self from cg
+            
+        //}
 
         if (autoAttack)
         {
@@ -79,11 +85,15 @@ public class Infantry_Unit : Unit
             entity.targetPos = target.transform.position;
             //when within attack range
             // bootleg combat
-            if (entity.movementDirection == Vector3.zero)
+            if (entity.movementDirection == Vector3.zero && archer || !archer)
             {
                 // neccessary ?
                 if (target != null)
                 {
+                    Debug.Log("Should be rotating towards");
+                    //entity.RotateTowards(target.transform.position.normalized);
+                    transform.LookAt(target.transform);
+                    //transform.rotation = Quaternion.LookRotation(target.transform.position);
                     if (Time.time - lastAttackTime > attackCoolDown)
                     {
                         //Body.clip = BodySounds.ElementAt(10);
@@ -101,8 +111,10 @@ public class Infantry_Unit : Unit
                 }
             }
         }
-       if (entity.movementMode != Infantry_Entity.MovementMode.IDLE)
+        // these rotate towards are fighting each other, causing jittering. need exclusive
+       else if (entity.movementMode != Infantry_Entity.MovementMode.IDLE)
         {
+            Debug.Log("WASDIA");
             entity.RotateTowards(entity.movementDirection);
         }     
     }
@@ -125,14 +137,37 @@ public class Infantry_Unit : Unit
         entity.retrievingPath = true;
         //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
         entity.movementMode = Infantry_Entity.MovementMode.FOLLOW_PATH;
+ 
         entity.pathingTask = SetPath(position);
+    }
+
+    public override void MoveToTarget(Vector3 pos)
+    {
+        //if (commandGroup != null)
+        
+            entity.movementMode = Infantry_Entity.MovementMode.FOLLOW_TARGET;
+            entity.targetPos = pos;
+        entity.AvoidEntityRadius = commandGroup.AvoidEntityRadius;
+
+
+        entity.AvoidWallRadius = commandGroup.AvoidWallRadius;
+
+        entity.stepHeight = commandGroup.stepHeight;
+
+        entity.movementSpeed = commandGroup.movementSpeed;
+
+        entity.stopFollowDistance = commandGroup.stopFollowDistance;
+
+        entity.avoidStrength = commandGroup.avoidStrength;
+        entity.followStrength = commandGroup.followStrength;
+
     }
 
     public Task<List<Vector3>> SetPath(Vector3 position)
     {
-        if (command != null)
+        if (commandGroup != null)
         {
-            return GameController.Main.PathFinder.FindPath(command.centerVector, position, entity.stepHeight, false);
+            return GameController.Main.PathFinder.FindPath(commandGroup.centerVector, position, entity.stepHeight, false);
         }
         else
         {
@@ -223,7 +258,7 @@ public class Infantry_Unit : Unit
     }
     public override void ClearTarget()
     {
-        Debug.Log("CLEAR");
+        //Debug.Log("CLEAR");
         target = null;
     }
 }

@@ -1,7 +1,6 @@
 using B83.MeshTools;
 using System.IO;
 using UnityEngine;
-using static VoxelImporter;
 
 public static class Extensions
 {
@@ -22,6 +21,11 @@ public static class Extensions
     public static Vector2 ToVector2(this Vector3 vec)
     {
         return new Vector2(vec.x, vec.z);
+    }
+
+    public static Vector2 ToVector2(this Vector2Int vec)
+    {
+        return new Vector2(vec.x, vec.y);
     }
 
     public static Vector2Int ToVector2Int(this Vector3Int vec)
@@ -198,11 +202,5 @@ public static class BinaryReaderWriterUnityExt
         return w;
     }
 
-    public static Voxel ReadVoxel(this BinaryReader reader)
-    {
-        Voxel v = new Voxel();
-        v.solid = reader.ReadBoolean();
-        v.color = reader.ReadColor32();
-        return v;
-    }
+
 }

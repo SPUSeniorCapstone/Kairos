@@ -107,9 +107,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
-  unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
-  highlight: {fileID: 0}
 --- !u!114 &996657134919577154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +122,8 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 1000
   <Health>k__BackingField: 1000
   <Invulnerable>k__BackingField: 0
+  deathTimer: 1.5
+  DeathTime: -1
   healthBarPosition: {x: 0, y: 0, z: 0}
 --- !u!65 &996657134919577155
 BoxCollider:
@@ -152,15 +151,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884661872563757572, guid: acba5b286bad4214d8664fa9fea42dc7, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1884661872563757572, guid: acba5b286bad4214d8664fa9fea42dc7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1884661872563757572, guid: acba5b286bad4214d8664fa9fea42dc7, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1884661872563757572, guid: acba5b286bad4214d8664fa9fea42dc7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -168,7 +167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884661872563757572, guid: acba5b286bad4214d8664fa9fea42dc7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1884661872563757572, guid: acba5b286bad4214d8664fa9fea42dc7, type: 3}
       propertyPath: m_LocalPosition.z

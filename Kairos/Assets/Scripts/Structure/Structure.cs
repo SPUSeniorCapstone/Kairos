@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.IMGUI.Controls;
+
 using UnityEngine;
 
 //[RequireComponent(typeof(Selectable))]
@@ -18,6 +15,7 @@ public class Structure : MonoBehaviour
     public Builder_Unit builder;
 
     public GameObject directory;
+
 
     protected void Start()
     {

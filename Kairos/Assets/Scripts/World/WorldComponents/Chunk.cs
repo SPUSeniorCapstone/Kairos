@@ -7,7 +7,6 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
-using static UnityEditor.PlayerSettings;
 
 /// <summary>
 /// A 3D World Voxel Chunk

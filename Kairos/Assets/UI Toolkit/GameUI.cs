@@ -12,9 +12,40 @@ public class GameUI : MonoBehaviour
 
     public ProductionMenu ProductionMenu;
 
+    public Label ResourceCounter;
+
+    public Label NodeCounter;
+
+    public Label Framerate;
+    float deltaTime = 0;
+    int count = 0;
+
     private void Awake()
     {
         document = GetComponent<UIDocument>();
+        ResourceCounter = document.rootVisualElement.Q("numberResource") as Label;
+        NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
+        Framerate = document.rootVisualElement.Q("Framerate") as Label;
+     
+
+     
+        ResourceCounter.text = FormatNum(GameController.Main.resouceCount, true);
+        NodeCounter.text = FormatNum(GameController.Main.StructureController.CorruptionNodes.Count, false);
+    }
+
+    private void Update()
+    {
+        if(count == 10)
+        {
+            Framerate.text = Helpers.FloatToString(1 / (deltaTime / 10));
+            count = 0;
+            deltaTime = 0;
+        }
+        else
+        {
+            deltaTime += Time.deltaTime;
+            count++;
+        }
     }
 
     private void OnEnable()
@@ -24,8 +55,38 @@ public class GameUI : MonoBehaviour
         ProductionMenu = new ProductionMenu(document.rootVisualElement.Q("ProductionMenu"));
     }
 
+    public string FormatNum(int num, bool greater)
+    {
+        if (num < 10 && greater)
+        {
+            return "000" + num.ToString();
+        }
+        else if (num < 100 && greater)
+        {
+            return "00" + num.ToString();
+        }
+        else if ((num < 1000 && greater ) || (num < 10 && !greater))
+        {
+            return "0" + num.ToString();
+        }
+        else
+        {
+            return num.ToString();
+        }
+    }
 
+    public void UpdateResource(int count)
+    {
+        ResourceCounter.text = FormatNum(count, true);
+    }
+
+    public void UpdateNodes(int count)
+    {
+        NodeCounter.text = FormatNum(count, false);
+    }
 }
+
+
 
 public class BuildMenu
 {
@@ -70,7 +131,7 @@ public class BuildMenu
         strongholdButton.visible = enable;
         barracksButton.visible = enable;
         archerTowerButton.visible = enable;
-        resourceButton.visible = enable;
+        //resourceButton.visible = enable;
         mainElement.SetEnabled(enable);
     }
 
@@ -143,7 +204,14 @@ public class ProductionMenu
 
     private void InfantryButton_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.TrainInfantry();
+        if (cl.button == 0)
+        {
+            GameController.Main.StructureController.TrainInfantry();
+        } 
+        else if (cl.button == 1)
+        {
+            Debug.Log("Right click to cancel");
+        }
     }
 
     private void ArcherButton_OnClick(ClickEvent cl)

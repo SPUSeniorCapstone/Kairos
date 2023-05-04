@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -150,6 +151,7 @@ public class GameController : MonoBehaviour
     }
     CorruptionController corruptionController;
 
+    // misnomar, simply cleans up any lists it might be in before letting the original caller destroy itself
     public void MasterDestory(GameObject item)
     {
         if (EntityController == null || SelectionController == null)
@@ -159,12 +161,18 @@ public class GameController : MonoBehaviour
 
         Entity entity = item.GetComponent<Entity>();
         Selectable selectable = item.GetComponent<Selectable>();
+        Unit unit = item.GetComponent<Unit>();
 
         if (selectable == null)
         {
             selectable = item.GetComponentInChildren<Selectable>();
         }
-        EntityController.Entities.Remove(entity);
+        if (unit != null)
+        {
+            EntityController.Entities.Remove(entity);
+            Destroy(unit);
+            Destroy(entity);
+        }
         // un comment to put back as master destroy
         SelectionController.masterSelect.Remove(selectable);
         SelectionController.currentlySelect.Remove(selectable);
@@ -183,15 +191,17 @@ public class GameController : MonoBehaviour
     {
         if (!WinConDebug)
         {
-            if (structure.GetComponent<Selectable>().faction)
+            if (structure.enemy)
             {
                 enemyCount--;
+                UIController.gameUI.UpdateNodes(enemyCount);
             }
             else
             {
                 playerCount--;
             }
-            if (playerCount <= 0)
+            // does second clause ensure survival while builder lives?
+            if (playerCount <= 0 && FindAnyObjectByType<Builder_Unit>() == null)
             {
                 lost = true;
                 menuController.Defeat();
@@ -211,4 +221,8 @@ public class GameController : MonoBehaviour
 
     public bool paused;
     public CursorLockMode defaultLockMode = CursorLockMode.None;
+    public Material DeathMaterial;
+    public Shader highlight;
+    public Shader unHighlight;
+    public CommandGroup CGSettings;
 }

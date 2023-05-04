@@ -7,6 +7,12 @@ public class Damageable : MonoBehaviour
     public float HealthRatio { get { return Mathf.Clamp(Health / MaxHealth, 0, 1); } }
     [field: SerializeField] public bool Invulnerable { get; private set; }
 
+    private MeshRenderer model;
+    public float deathTimer = 1;
+    [SerializeField]
+    [Disable]
+    private float DeathTime = -1f;
+
 
 
     public Vector3 healthBarPosition;
@@ -23,22 +29,32 @@ public class Damageable : MonoBehaviour
     private void Start()
     {
         GameController.Main.UIController.HealthBarController.CreateHealthBar(this);
+        model = gameObject.GetComponentInChildren<MeshRenderer>();
     }
 
     private void OnDestroy()
     {
-        if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
-            GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
+        //if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
+        //GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
     }
 
     private void Update()
     {
 
-        if (Health <= 0)
+        if (dead)
         {
-            dead = true;
-            GameController.Main.MasterDestory(this.gameObject);
-            Destroy(this.gameObject);
+            if (Time.time - DeathTime > deathTimer)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                model.material.SetFloat("_WireframeVal", 0.5f - (Time.time - DeathTime) / (deathTimer * 2));
+                if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
+                {
+                    GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
+                }
+            }
         }
     }
 
@@ -49,12 +65,15 @@ public class Damageable : MonoBehaviour
     /// <param name="damage">The raw damage value</param>
     public float Damage(float damage)
     {
-        if (!Invulnerable)
+        if (!Invulnerable && !dead)
         {
             Health -= damage;
-            if (Health < 0)
+            if (Health <= 0)
             {
                 dead = true;
+                DeathTime = Time.time;
+                model.material = GameController.Main.DeathMaterial;
+                GameController.Main.MasterDestory(this.gameObject);
             }
         }
         return Health;

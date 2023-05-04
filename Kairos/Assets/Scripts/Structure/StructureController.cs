@@ -55,6 +55,7 @@ public class StructureController : MonoBehaviour
         {
             CorruptionNodes.Add(PlaceStructure(corruptionNode, pos));
         }
+        GameController.Main.UIController.gameUI.UpdateNodes(CorruptionNodes.Count);
     }
 
     void Update()
@@ -141,6 +142,10 @@ public class StructureController : MonoBehaviour
     public void TrainCollector()
     {
         selected.QueueUnits(resourceCollector);
+    }
+    public void Untrain()
+    {
+        selected.DequeueUnits();
     }
 
     public Structure PlaceStructure(Structure structure, Vector3Int position)

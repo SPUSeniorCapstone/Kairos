@@ -152,9 +152,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 1
-  unSelectedMaterial: {fileID: 2100000, guid: 534da761beeb4f9459ca9c3039fe737e, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
-  highlight: {fileID: 0}
 --- !u!114 &6032963940185719506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +167,8 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
+  deathTimer: 1
+  DeathTime: -1
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!114 &3950778543917710455
 MonoBehaviour:
@@ -195,6 +194,13 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   perch: 0
   idle: 1
+  OldAvoidEntityRadius: 3
+  OldAvoidWallRadius: 3
+  OldstepHeight: 1
+  OldmovementSpeed: 10
+  OldstopFollowDistance: 1
+  OldavoidStrength: 1
+  OldfollowStrength: 1
   movementMode: 0
   retrievingPath: 0
   lockHorizontalRotation: 1
@@ -211,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: {fileID: 0}
+  commandGroup: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
   layerMask:
@@ -221,10 +227,11 @@ MonoBehaviour:
   Body: {fileID: 0}
   Feet: {fileID: 0}
   personalDistance: 1
-  attackDistance: 10
+  attackDistance: 1
   attackCoolDown: 1
   attackDamage: 10
   autoAttack: 1
+  archer: 0
   target: {fileID: 0}
   HeadSounds: []
   BodySounds: []
