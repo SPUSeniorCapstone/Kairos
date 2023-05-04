@@ -7,7 +7,7 @@ public class Damageable : MonoBehaviour
     public float HealthRatio { get { return Mathf.Clamp(Health / MaxHealth, 0, 1); } }
     [field: SerializeField] public bool Invulnerable { get; private set; }
 
-    public MeshRenderer model;
+    private MeshRenderer model;
     public float deathTimer = 1;
     [SerializeField]
     [Disable]
@@ -29,12 +29,13 @@ public class Damageable : MonoBehaviour
     private void Start()
     {
         GameController.Main.UIController.HealthBarController.CreateHealthBar(this);
+        model = gameObject.GetComponentInChildren<MeshRenderer>();
     }
 
     private void OnDestroy()
     {
-        if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
-            GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
+        //if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
+        //GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
     }
 
     private void Update()
@@ -48,7 +49,11 @@ public class Damageable : MonoBehaviour
             }
             else
             {
-                model.material.SetFloat("_WireframeVal", 0.5f - (Time.time - DeathTime) / (deathTimer * 2));;
+                model.material.SetFloat("_WireframeVal", 0.5f - (Time.time - DeathTime) / (deathTimer * 2));
+                if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
+                {
+                    GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
+                }
             }
         }
     }

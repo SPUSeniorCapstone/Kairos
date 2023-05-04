@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -48,6 +49,34 @@ public class Entity : MonoBehaviour
     [ConditionalHide(nameof(viewDebugInfo), true)]
     public bool idle = true;
 
+
+    [Range(0, 10)]
+    public float OldAvoidEntityRadius = 3;
+
+    /// <summary>
+    /// Distance at which the entity looks for collisions with walls and structures
+    /// </summary>
+    [Range(0, 10)]
+    public int OldAvoidWallRadius = 3;
+
+    public int OldstepHeight = 1;
+
+    /// <summary>
+    /// How fast the entity moves 
+    /// </summary>
+    [Tooltip("Speed of movement after calculating direction")]
+    public float OldmovementSpeed = 10;
+
+    [Tooltip("The distance at which the entity will stop following it's target")]
+    public float OldstopFollowDistance = 1;
+
+    [Range(0, 10)]
+    public float OldavoidStrength = 1;
+    [Range(0, 10)]
+    public float OldfollowStrength = 1;
+
+
+
     #endregion
 
     #region Object Cache
@@ -87,6 +116,24 @@ public class Entity : MonoBehaviour
     }
 
     #endregion
+
+    protected void SetOldValues()
+    {
+        
+        AvoidEntityRadius = OldAvoidEntityRadius;
+
+       
+      AvoidWallRadius = OldAvoidWallRadius;
+
+    stepHeight = OldstepHeight;
+
+    movementSpeed = OldmovementSpeed;
+
+    stopFollowDistance = OldstopFollowDistance;
+
+    avoidStrength = OldavoidStrength;
+    followStrength = OldfollowStrength;
+}
 
     #region MovementFunctions
     /// <summary>

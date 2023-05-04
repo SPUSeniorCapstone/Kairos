@@ -143,6 +143,10 @@ public class StructureController : MonoBehaviour
     {
         selected.QueueUnits(resourceCollector);
     }
+    public void Untrain()
+    {
+        selected.DequeueUnits();
+    }
 
     public Structure PlaceStructure(Structure structure, Vector3Int position)
     {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using UnityEditor.TextCore.Text;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -18,7 +19,7 @@ public class CommandController : MonoBehaviour
     {
         get { return commandGroups; }
     }
-    List<CommandGroup> commandGroups = new List<CommandGroup>();
+    public List<CommandGroup> commandGroups = new List<CommandGroup>();
 
     public bool attackCommand = false;
 
@@ -78,6 +79,11 @@ public class CommandController : MonoBehaviour
             var u = t.GetComponent<Unit>();
             if (u != null)
             {
+                CommandGroup old = u.commandGroup;
+                if (old != null)
+                {
+                    old.unitList.Remove(u);
+                }
                 u.ClearTarget();                
                 u.MoveTo(target);
             }
@@ -100,12 +106,12 @@ public class CommandController : MonoBehaviour
             {
                 //Debug.Log("entity does not = null (MOVESELECTED)");
                 //entity.pathindex = 0;
-                CommandGroup old = unit.command;
+                CommandGroup old = unit.commandGroup;
                 if (old != null)
                 {
                     old.unitList.Remove(unit);
                 }
-                unit.command = cg;
+                unit.commandGroup = cg;
                 cg.unitList.Add(unit);
                 //if (entity.movementSpeed < cg.followSpeed || cg.followSpeed == -1)
                 //{
@@ -125,6 +131,7 @@ public class CommandController : MonoBehaviour
         cg.CalculateCenter();
         //Debug.Log("AFTER LOOP: cg.entites = " + cg.entities[0].name);
         cg.pathTask = GameController.Main.PathFinder.FindPath(cg.transform.position, target, stepHeight, false);
+        cg.retrievingPath = true;
 
         //DEBUG
         if (GetComponent<CheckPathFinding>() != null)
@@ -132,11 +139,8 @@ public class CommandController : MonoBehaviour
 
 
         commandGroups.Add(cg);
-        foreach (Unit unit in cg.unitList)
-        {
-            unit.ClearTarget();
-            unit.MoveTo(target);
-        }
+        Debug.Log("Added cg");
+
 
         //cg.SetGroupTarget(target);
 
@@ -179,12 +183,12 @@ public class CommandController : MonoBehaviour
             {
                 //Debug.Log("entity does not = null (MOVESELECTED)");
                 //entity.pathindex = 0;
-                CommandGroup old = unit.command;
+                CommandGroup old = unit.commandGroup;
                 if (old != null)
                 {
                     old.unitList.Remove(unit);
                 }
-                unit.command = cg;
+                unit.commandGroup = cg;
                 cg.unitList.Add(unit);
                 unit.ClearTarget();
                 //if (entity.movementSpeed < cg.followSpeed || cg.followSpeed == -1)

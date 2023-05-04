@@ -161,12 +161,18 @@ public class GameController : MonoBehaviour
 
         Entity entity = item.GetComponent<Entity>();
         Selectable selectable = item.GetComponent<Selectable>();
+        Unit unit = item.GetComponent<Unit>();
 
         if (selectable == null)
         {
             selectable = item.GetComponentInChildren<Selectable>();
         }
-        EntityController.Entities.Remove(entity);
+        if (unit != null)
+        {
+            EntityController.Entities.Remove(entity);
+            Destroy(unit);
+            Destroy(entity);
+        }
         // un comment to put back as master destroy
         SelectionController.masterSelect.Remove(selectable);
         SelectionController.currentlySelect.Remove(selectable);
@@ -218,4 +224,5 @@ public class GameController : MonoBehaviour
     public Material DeathMaterial;
     public Shader highlight;
     public Shader unHighlight;
+    public CommandGroup CGSettings;
 }

@@ -184,7 +184,14 @@ public class ProductionMenu
 
     private void InfantryButton_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.TrainInfantry();
+        if (cl.button == 0)
+        {
+            GameController.Main.StructureController.TrainInfantry();
+        } 
+        else if (cl.button == 1)
+        {
+            Debug.Log("Right click to cancel");
+        }
     }
 
     private void ArcherButton_OnClick(ClickEvent cl)

@@ -154,9 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
-  unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
-  highlight: {fileID: 612765044266595988}
 --- !u!114 &548469208533061309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +220,7 @@ MonoBehaviour:
   AvoidWallRadius: 3
   stepHeight: 1
   movementSpeed: 10
-  stopFollowDistance: 1
+  stopFollowDistance: 6
   avoidStrength: 1
   followStrength: 1
   viewDebugInfo: 0

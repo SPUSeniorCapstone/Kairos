@@ -56,6 +56,15 @@ public class ProductionStructure : Structure
         unitsQueued++;
     }
 
+    public void DequeueUnits()
+    {
+        if (buildQue.Count != 0)
+        {
+            buildQue.Dequeue();
+            unitsQueued--;
+        }
+    }
+
     //Spawn unit function
     public virtual void SpawnUnits(GameObject unit)
     {
@@ -63,9 +72,9 @@ public class ProductionStructure : Structure
         // does this work?
         if (rallyPoint != null && rallyPoint != Vector3.zero)
         {
-            if (tree.GetComponent<Infantry_Unit>() != null)
+            if (tree.GetComponent<Unit>() != null)
             {
-                tree.GetComponent<Infantry_Unit>().MoveTo(rallyPoint);
+                tree.GetComponent<Unit>().MoveTo(rallyPoint);
             }
         }
     }

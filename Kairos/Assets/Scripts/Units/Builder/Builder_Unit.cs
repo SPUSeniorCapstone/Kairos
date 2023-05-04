@@ -40,10 +40,10 @@ public class Builder_Unit : Unit
         if (entity.movementMode == Builder_Entity.MovementMode.IDLE)
         {
             // if idle, should be done path finding, so remove self from cg
-            if (command != null)
+            if (commandGroup != null)
             {
-                command.unitList.Remove(this);
-                command = null;
+                commandGroup.unitList.Remove(this);
+                commandGroup = null;
             }
         }
         else
@@ -94,9 +94,9 @@ public class Builder_Unit : Unit
 
     public Task<List<Vector3>> SetPath(Vector3 position)
     {
-        if (command != null)
+        if (commandGroup != null)
         {
-            return GameController.Main.PathFinder.FindPath(command.centerVector, position, entity.stepHeight, false);
+            return GameController.Main.PathFinder.FindPath(commandGroup.centerVector, position, entity.stepHeight, false);
         }
         else
         {

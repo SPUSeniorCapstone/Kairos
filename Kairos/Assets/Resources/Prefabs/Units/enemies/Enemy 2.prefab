@@ -183,9 +183,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 1
-  unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  highlight: {fileID: 7282038047103503533}
 --- !u!114 &4246573733965678293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +198,6 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
-  model: {fileID: 8688661801594632603}
   deathTimer: 1.5
   DeathTime: -1
   healthBarPosition: {x: 0, y: 2, z: 0}
@@ -229,6 +225,13 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   perch: 0
   idle: 1
+  OldAvoidEntityRadius: 3
+  OldAvoidWallRadius: 3
+  OldstepHeight: 1
+  OldmovementSpeed: 10
+  OldstopFollowDistance: 1
+  OldavoidStrength: 1
+  OldfollowStrength: 1
   movementMode: 0
   retrievingPath: 0
   lockHorizontalRotation: 1
@@ -245,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: {fileID: 0}
+  commandGroup: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
   layerMask:
@@ -255,10 +258,11 @@ MonoBehaviour:
   Body: {fileID: 0}
   Feet: {fileID: 0}
   personalDistance: 1
-  attackDistance: 10
+  attackDistance: 1
   attackCoolDown: 1
   attackDamage: 10
   autoAttack: 1
+  archer: 0
   target: {fileID: 0}
   HeadSounds: []
   BodySounds: []
@@ -460,15 +464,5 @@ PrefabInstance:
 --- !u!4 &1126828885671478526 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1884661872563757572, guid: 6e16bb8bf884d6e44b2f56302fb6e56a, type: 3}
-  m_PrefabInstance: {fileID: 1550616073281971962}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7282038047103503533 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8109322803649473111, guid: 6e16bb8bf884d6e44b2f56302fb6e56a, type: 3}
-  m_PrefabInstance: {fileID: 1550616073281971962}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &8688661801594632603 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7858982309795864417, guid: 6e16bb8bf884d6e44b2f56302fb6e56a, type: 3}
   m_PrefabInstance: {fileID: 1550616073281971962}
   m_PrefabAsset: {fileID: 0}

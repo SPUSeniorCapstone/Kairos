@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Selectable), typeof(Damageable))]
 public class Unit : MonoBehaviour
 {
-    public CommandGroup command;
+    public CommandGroup commandGroup;
     public float searchRadius = 15f;
     public bool isPerformingTask = false;
     public LayerMask layerMask;
@@ -20,6 +20,10 @@ public class Unit : MonoBehaviour
     }
 
     virtual public void MoveTo(Vector3 position)
+    {
+
+    }
+    virtual public void MoveToTarget(Vector3 pos)
     {
 
     }
@@ -41,9 +45,9 @@ public class Unit : MonoBehaviour
     }
     public void OnDestroy()
     {
-        if (command != null)
+        if (commandGroup != null)
         {
-            command.unitList.Remove(this);
+            commandGroup.unitList.Remove(this);
         }
         // calls master destroy
         if (GameController.Main != null)

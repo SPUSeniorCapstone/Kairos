@@ -8,10 +8,12 @@ public class Selectable : MonoBehaviour
     private Material selectedMaterial;
     private Unit unit;
     private Structure structure;
+    private Shader unHighlight;
    
     void Start()
     {
         selectedMaterial = GetComponentInChildren<MeshRenderer>().material;
+        unHighlight = GetComponentInChildren<MeshRenderer>().material.shader;
         // write function to handles this or modify public list directly?
         GameController.Main.SelectionController.masterSelect.Add(this);
 
@@ -33,7 +35,6 @@ public class Selectable : MonoBehaviour
         {
             if (selected)
             {
-                Debug.Log("PLEASE SEE");
                 selectedMaterial.shader = GameController.Main.highlight;
                 GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
             }
@@ -51,7 +52,7 @@ public class Selectable : MonoBehaviour
     {
         if (GameController.Main.SelectionController.testCooldown)
         {
-            selectedMaterial.shader = GameController.Main.unHighlight;
+            selectedMaterial.shader = unHighlight;
             GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
             if (unit != null)
             {

@@ -12,8 +12,7 @@ public class Infantry_Unit : Unit
     public float attackDamage = 10f;
     public bool autoAttack = false;
     private float lastAttackTime = 0;
-
-
+    public bool archer = false;
 
     public Damageable target;
 
@@ -51,15 +50,18 @@ public class Infantry_Unit : Unit
         {
             entity.movementMode = Infantry_Entity.MovementMode.IDLE;
         }
-        if (entity.movementMode == Infantry_Entity.MovementMode.IDLE)
+        if (commandGroup != null && commandGroup.path.Count == 1)
         {
-            // if idle, should be done path finding, so remove self from cg
-            if (command != null)
-            {
-                command.unitList.Remove(this);
-                command = null;
-            }
+            Debug.Log("I SHOULD BE GONE");
+            commandGroup.unitList.Remove(this);
+            commandGroup = null;
+            entity.movementMode = Infantry_Entity.MovementMode.IDLE;
         }
+        //if (entity.movementMode == Infantry_Entity.MovementMode.IDLE)
+        //{
+        //    // if idle, should be done path finding, so remove self from cg
+            
+        //}
 
         if (autoAttack)
         {
@@ -83,7 +85,7 @@ public class Infantry_Unit : Unit
             entity.targetPos = target.transform.position;
             //when within attack range
             // bootleg combat
-            if (entity.movementDirection == Vector3.zero)
+            if (entity.movementDirection == Vector3.zero && archer || !archer)
             {
                 // neccessary ?
                 if (target != null)
@@ -135,14 +137,37 @@ public class Infantry_Unit : Unit
         entity.retrievingPath = true;
         //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
         entity.movementMode = Infantry_Entity.MovementMode.FOLLOW_PATH;
+ 
         entity.pathingTask = SetPath(position);
+    }
+
+    public override void MoveToTarget(Vector3 pos)
+    {
+        //if (commandGroup != null)
+        
+            entity.movementMode = Infantry_Entity.MovementMode.FOLLOW_TARGET;
+            entity.targetPos = pos;
+        entity.AvoidEntityRadius = commandGroup.AvoidEntityRadius;
+
+
+        entity.AvoidWallRadius = commandGroup.AvoidWallRadius;
+
+        entity.stepHeight = commandGroup.stepHeight;
+
+        entity.movementSpeed = commandGroup.movementSpeed;
+
+        entity.stopFollowDistance = commandGroup.stopFollowDistance;
+
+        entity.avoidStrength = commandGroup.avoidStrength;
+        entity.followStrength = commandGroup.followStrength;
+
     }
 
     public Task<List<Vector3>> SetPath(Vector3 position)
     {
-        if (command != null)
+        if (commandGroup != null)
         {
-            return GameController.Main.PathFinder.FindPath(command.centerVector, position, entity.stepHeight, false);
+            return GameController.Main.PathFinder.FindPath(commandGroup.centerVector, position, entity.stepHeight, false);
         }
         else
         {
