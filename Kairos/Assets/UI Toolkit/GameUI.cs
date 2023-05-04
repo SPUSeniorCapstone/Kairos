@@ -16,16 +16,36 @@ public class GameUI : MonoBehaviour
 
     public Label NodeCounter;
 
+    public Label Framerate;
+    float deltaTime = 0;
+    int count = 0;
+
     private void Awake()
     {
         document = GetComponent<UIDocument>();
         ResourceCounter = document.rootVisualElement.Q("numberResource") as Label;
         NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
+        Framerate = document.rootVisualElement.Q("Framerate") as Label;
      
 
      
         ResourceCounter.text = FormatNum(GameController.Main.resouceCount, true);
         NodeCounter.text = FormatNum(GameController.Main.StructureController.CorruptionNodes.Count, false);
+    }
+
+    private void Update()
+    {
+        if(count == 10)
+        {
+            Framerate.text = Helpers.FloatToString(1 / (deltaTime / 10));
+            count = 0;
+            deltaTime = 0;
+        }
+        else
+        {
+            deltaTime += Time.deltaTime;
+            count++;
+        }
     }
 
     private void OnEnable()
