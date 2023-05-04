@@ -8,7 +8,7 @@ public class Damageable : MonoBehaviour
     [field: SerializeField] public bool Invulnerable { get; private set; }
 
     private MeshRenderer model;
-    public float deathTimer = 1;
+    public float deathTimer = 1.5f;
     [SerializeField]
     [Disable]
     private float DeathTime = -1f;
@@ -50,10 +50,7 @@ public class Damageable : MonoBehaviour
             else
             {
                 model.material.SetFloat("_WireframeVal", 0.5f - (Time.time - DeathTime) / (deathTimer * 2));
-                if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
-                {
-                    GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
-                }
+               
             }
         }
     }
@@ -71,6 +68,10 @@ public class Damageable : MonoBehaviour
             if (Health <= 0)
             {
                 dead = true;
+                if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
+                {
+                    GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
+                }
                 DeathTime = Time.time;
                 model.material = GameController.Main.DeathMaterial;
                 GameController.Main.MasterDestory(this.gameObject);

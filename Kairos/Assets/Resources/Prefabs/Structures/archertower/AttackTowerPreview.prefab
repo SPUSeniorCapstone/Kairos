@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8737570124226496462}
   - component: {fileID: 8655736953595436222}
   - component: {fileID: 2937696260286636637}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackTowerPreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,6 +162,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: tower
       objectReference: {fileID: 0}
+    - target: {fileID: 8109322803649473111, guid: fe915ccceeb5f994cab54705344cf470, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4129305450542123762, guid: fe915ccceeb5f994cab54705344cf470, type: 3}
 --- !u!4 &1535094119956489678 stripped
@@ -223,6 +227,10 @@ PrefabInstance:
     - target: {fileID: 388737516141962147, guid: cd2cbb022565a72459a9240e804124a3, type: 3}
       propertyPath: m_Name
       value: Cylinder
+      objectReference: {fileID: 0}
+    - target: {fileID: 388737516141962147, guid: cd2cbb022565a72459a9240e804124a3, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 388737516141962147, guid: cd2cbb022565a72459a9240e804124a3, type: 3}
       propertyPath: m_IsActive

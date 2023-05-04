@@ -43,11 +43,13 @@ public class EnemyProd : ProductionStructure
     {
         GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity, GameController.Main.StructureController.EnemyUnits.transform);
         // does this work?
+        tree.GetComponent<Unit>().badGuy = true;
         if ( guard.Count < guardNumber)
         {
             if (tree.GetComponent<Infantry_Unit>() != null)
             {
                 tree.GetComponent<Infantry_Unit>().MoveTo(RallyPoint.transform.position);
+                tree.GetComponent<Infantry_Unit>().guard = true;
                 guard.Add(tree);
             }
         }
@@ -56,7 +58,15 @@ public class EnemyProd : ProductionStructure
             // something like this
             //tree.GetComponent<Unit>().MoveTo(GameObject.Find(Regex.Match(GameObject.Find("Stronghold").name, "Stronghold").Value).transform.position);
             //Debug.Log(Regex.Match(GameObject.Find("Stronghold").name, "Stronghold").Value);
-            tree.GetComponent<Unit>().MoveTo(GameObject.Find("StrongHold(Clone)").transform.position);
+           // tree.GetComponent<Unit>().MoveTo(GameObject.Find("StrongHold(Clone)").transform.position);
+           if (GameController.Main.StructureController.PlayerStructures.GetComponentInChildren<Stronghold>() != null){
+               tree.GetComponent<Unit>().MoveTo(GameController.Main.StructureController.PlayerStructures.GetComponentInChildren<Stronghold>().transform.position);     
+           }
+           else if (GameController.Main.StructureController.PlayerUnits.GetComponentInChildren<Builder_Unit>())
+           {
+               tree.GetComponent<Unit>().MoveTo(GameController.Main.StructureController.PlayerUnits.GetComponentInChildren<Builder_Unit>().transform.position);
+           }
+            
         }
     }
 }

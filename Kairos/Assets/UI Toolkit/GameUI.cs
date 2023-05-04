@@ -16,11 +16,15 @@ public class GameUI : MonoBehaviour
 
     public Label NodeCounter;
 
+    public Button destroyBuildingButton;
+
     private void Awake()
     {
         document = GetComponent<UIDocument>();
         ResourceCounter = document.rootVisualElement.Q("numberResource") as Label;
         NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
+        destroyBuildingButton = document.rootVisualElement.Q("DestroyButton") as Button;
+        destroyBuildingButton.visible = false;
      
 
      
@@ -64,6 +68,11 @@ public class GameUI : MonoBehaviour
     {
         NodeCounter.text = FormatNum(count, false);
     }
+
+    public void OnStruture(bool enable)
+    {
+        destroyBuildingButton.visible = enable;
+    }
 }
 
 
@@ -79,7 +88,7 @@ public class BuildMenu
 
     public Button archerTowerButton;
 
-    public Button resourceButton;
+    public Button purifierButton;
 
   
 
@@ -101,8 +110,8 @@ public class BuildMenu
         archerTowerButton = element.Q("ArcherTowerButton") as Button;
         archerTowerButton.RegisterCallback<ClickEvent>(ArcherTowerButton_OnClick);
 
-        resourceButton = element.Q("ResourceButton") as Button;
-        resourceButton.RegisterCallback<ClickEvent>(ResourceButton_OnClick);
+        purifierButton = element.Q("PurifierButton") as Button;
+        purifierButton.RegisterCallback<ClickEvent>(ResourceButton_OnClick);
     }
 
     public void EnableBuildMenu(bool enable)
@@ -111,7 +120,7 @@ public class BuildMenu
         strongholdButton.visible = enable;
         barracksButton.visible = enable;
         archerTowerButton.visible = enable;
-        //resourceButton.visible = enable;
+        purifierButton.visible = enable;
         mainElement.SetEnabled(enable);
     }
 
@@ -129,7 +138,7 @@ public class BuildMenu
     }
     private void ResourceButton_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.BuildOrder("resource");
+        GameController.Main.StructureController.BuildOrder("purifier");
     }
 }
 

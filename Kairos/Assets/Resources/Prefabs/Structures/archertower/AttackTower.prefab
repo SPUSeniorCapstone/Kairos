@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8976185539237567736}
   - component: {fileID: 8976185539237567741}
   - component: {fileID: 8976185539237567742}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 3423161522806090367}
   - component: {fileID: 1086162981530056874}
   - component: {fileID: -8378788251425018323}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,6 +207,7 @@ MonoBehaviour:
   Head: {fileID: 0}
   Body: {fileID: 0}
   Feet: {fileID: 0}
+  badGuy: 0
   autoAttack: 1
   target: {fileID: 0}
   personalDistance: 1
@@ -282,6 +283,10 @@ PrefabInstance:
     - target: {fileID: 8109322803649473111, guid: fe915ccceeb5f994cab54705344cf470, type: 3}
       propertyPath: m_Name
       value: tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109322803649473111, guid: fe915ccceeb5f994cab54705344cf470, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4129305450542123762, guid: fe915ccceeb5f994cab54705344cf470, type: 3}

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectionController : MonoBehaviour
 {
@@ -20,16 +21,76 @@ public class SelectionController : MonoBehaviour
     Vector3 lowerRight;
     Vector3 upperLeft;
 
-    void Start()
-    {
 
-    }
+    public Dictionary<KeyCode, List<Selectable>> hotKeys = new Dictionary<KeyCode, List<Selectable>>();
+    private KeyCode[] keyCodes = {
+         KeyCode.Alpha1,
+         KeyCode.Alpha2,
+         KeyCode.Alpha3,
+         KeyCode.Alpha4,
+         KeyCode.Alpha5,
+         KeyCode.Alpha6,
+         KeyCode.Alpha7,
+         KeyCode.Alpha8,
+         KeyCode.Alpha9,
+     };
 
     // Update is called once per frame
     void Update()
     {
         if (!GameController.Main.paused)
         {
+            // logic for hot keying units (needs add buildings and prioritizing units over buildings in selection)
+            // as of right now, allows for a unit to be hot keyed to multiple keys, allowing for "sub hot keys" 
+            // i.e. '2' is your swordsman hot key, but perhaps '3' is for your two handed swords and '4' is for your shield and swords men, whil '2' selects both of them
+            if (Input.GetKey(KeyCode.LeftControl))/*&&
+            Input.GetKeyDown(KeyCode.Alpha2))*/
+            {
+                /*
+                foreach (Entity entity in selectedEntityList)           //<- is it faster to do a massive OR statment than iterate through the key array?
+                        {
+                            entity.hoykey = KeyCode.Alpha2;
+                        }*/
+                foreach (KeyCode keyCode in keyCodes)
+                {
+                    if (Input.GetKeyDown(keyCode))
+                    {
+                        hotKeys.Remove(keyCode);
+                        List<Selectable> list = new List<Selectable>(currentlySelect);
+                        // no need to local store hot jey right?
+                        //foreach (Entity entity in list)
+                        //{
+                        //    entity.hotkey = keyCode;
+                        //}
+                        hotKeys.Add(keyCode, list);
+                    }
+                }
+            }
+            foreach (KeyCode keyCode in keyCodes)
+            {
+                if (Input.GetKeyDown(keyCode))
+                {
+                    // try catch instead? need null checking here
+                    
+                    // don't add hot key to total list (does this cancel shift?) <-yes
+                    foreach (Selectable hotSelect in hotKeys[keyCode])
+                    {
+                        if (hotSelect != null)
+                        {
+                            //selectable.SetSelectedVisible(true);
+                            //selectedEntityList.Add(entity);
+                            if (!hotSelect.selected)
+                            {
+                                currentlySelect.Add(hotSelect);
+                                GameController.Main.UIController.StratView.SetUnitView(hotSelect.gameObject);
+                            }
+                            hotSelect.selected = true;
+                            hotSelect.Activate();
+                            
+                        }
+                    }
+                } 
+            }
             // on mouse 2, attack enemy or path find to location
             //if (GameController.Main.InputController.Command.Down())
             //{

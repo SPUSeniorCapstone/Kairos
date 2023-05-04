@@ -40,7 +40,7 @@ public class StructureController : MonoBehaviour
     public GameObject sp;
     public GameObject bp;
     public GameObject at;
-    public GameObject rs;
+    public GameObject p;
 
     public Material valid;
     public Material invalid;
@@ -62,41 +62,55 @@ public class StructureController : MonoBehaviour
     {
         if (StructurePlacementMode)
         {
-
-            Vector3Int pos = Vector3Int.zero;
-
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
+            structurePreview.SetActive(true);
+            // weird, if multiple asking for input controller, doesnt work
+            // GameController.Main.InputController.Command.Down()
+            if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                Vector3 point = hit.point;
-                var w = GameController.Main.WorldController;
-                pos = w.WorldToBlockPosition(point);
-                pos.y = w.World.GetHeight(pos);
-            }
+                Debug.Log("why no work?");
+                StructurePlacementMode = false;
+                structurePreview.transform.position = Vector3.zero;
+                structurePreview.SetActive(false);
 
-
-
-            // i want this code to have active feedback for good placement
-            structurePreview.transform.position = pos;
-            if (!IsValidPlacement(structurePreview.GetComponent<Structure>(), pos))
-            {
-                structurePreview.GetComponentInChildren<MeshRenderer>().material = invalid;
             }
             else
             {
-                structurePreview.GetComponentInChildren<MeshRenderer>().material = valid;
-            }
-           
 
-            if (GameController.Main.inputController.Select.Pressed() && GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>() != null)
-            {
-                StructurePlacementMode = false;
-                GameController.Main.SelectionController.testCooldown = false;
-                GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>().BuildTask(pos);
-                var s = PlaceStructure(StructureToSpawn, pos);
-                s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
-                structurePreview.transform.position = Vector3.zero;
-                GameController.Main.SelectionController.testCooldown = true;
+                Vector3Int pos = Vector3Int.zero;
+
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
+                {
+                    Vector3 point = hit.point;
+                    var w = GameController.Main.WorldController;
+                    pos = w.WorldToBlockPosition(point);
+                    pos.y = w.World.GetHeight(pos);
+                }
+
+
+
+                // i want this code to have active feedback for good placement
+                structurePreview.transform.position = pos;
+                if (!IsValidPlacement(structurePreview.GetComponent<Structure>(), pos))
+                {
+                   structurePreview.GetComponentInChildren<MeshRenderer>().material = invalid;
+                }
+                else
+                {
+                    structurePreview.GetComponentInChildren<MeshRenderer>().material = valid;
+                }
+
+
+                if (GameController.Main.inputController.Select.Pressed() && GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>() != null)
+                {
+                    StructurePlacementMode = false;
+                    GameController.Main.SelectionController.testCooldown = false;
+                    GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>().BuildTask(pos);
+                    var s = PlaceStructure(StructureToSpawn, pos);
+                    s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
+                    structurePreview.transform.position = Vector3.zero;
+                    GameController.Main.SelectionController.testCooldown = true;
+                }
             }
         }
     }
@@ -107,6 +121,7 @@ public class StructureController : MonoBehaviour
         sp.SetActive(false);
         bp.SetActive(false);
         at.SetActive(false);
+        p.SetActive(false);
         if(name == sp.name)
         {
             sp.SetActive(true);
@@ -120,9 +135,13 @@ public class StructureController : MonoBehaviour
         }
         else if (name == at.name)
         {
-            Debug.Log("AKDKA");
             at.SetActive(true);
             StructureToSpawn = previewList.ElementAt(2);
+        } 
+        else if (name == p.name)
+        {
+            p.SetActive(true);
+            StructureToSpawn = previewList.ElementAt(3);
         }
         
     }
