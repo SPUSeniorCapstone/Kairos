@@ -32,7 +32,7 @@ public class RC_Entity : Entity
     public float rotateSpeed = 10f;
 
 
-    private void Start()
+    new private void Start()
     {
         base.Start();
         rcUnit = GetComponent<RC_Unit>();

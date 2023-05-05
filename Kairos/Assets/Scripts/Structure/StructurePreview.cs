@@ -38,7 +38,7 @@ public class StructurePreview : Structure
         }
         
     }
-    public void Start()
+    new public void Start()
     {
       
         base.Start();

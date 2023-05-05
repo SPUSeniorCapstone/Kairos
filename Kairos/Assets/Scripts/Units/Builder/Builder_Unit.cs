@@ -20,7 +20,7 @@ public class Builder_Unit : Unit
     // should this be public? protected?
     public Builder_Entity entity;
 
-    private void Start()
+    new private void Start()
     {
         base.Start();
         // is this supposed to be for on spawn moving to way point?
@@ -84,10 +84,11 @@ public class Builder_Unit : Unit
         }
     }
 
-    public void OnDestroy()
+    new public void OnDestroy()
     {
         base.OnDestroy();
-        GameController.Main.CheckVictory(null);
+        if(GameController.Main != null)
+            GameController.Main.CheckVictory(null);
     }
 
     public override void MoveTo(Vector3 position)
