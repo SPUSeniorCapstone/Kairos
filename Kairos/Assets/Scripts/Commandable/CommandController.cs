@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEditor.TextCore.Text;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -9,6 +11,8 @@ public class CommandController : MonoBehaviour
 {
     public GameObject wayPoint;
     public float debugY;
+    public float fadeTime;
+    public float fadeTimer = 5f;
 
     public int stepHeight = 1;
 
@@ -30,6 +34,15 @@ public class CommandController : MonoBehaviour
     {
         if (!GameController.Main.paused)
         {
+            if (wayPoint.activeSelf)
+            {
+                if (Time.time - fadeTime > fadeTimer)
+                {
+                    wayPoint.SetActive(false);
+                }
+                
+            }
+
             if (GameController.Main.InputController.Command.Down())
             {
                 Debug.Log("Mouse1 down");
@@ -58,6 +71,8 @@ public class CommandController : MonoBehaviour
                     RaycastHit hit;
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
                     {
+                        wayPoint.SetActive(true);
+                        fadeTime = Time.time;
                         Vector3 point = hit.point;
                         point.y = GameController.Main.WorldController.World.GetHeight(point.x, point.z) + 0.05f;
                         wayPoint.transform.position = point;
