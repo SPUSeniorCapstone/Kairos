@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commandGroup: {fileID: 0}
-  searchRadius: 15
+  searchRadius: 20
   isPerformingTask: 0
   layerMask:
     serializedVersion: 2
@@ -213,11 +213,11 @@ MonoBehaviour:
   autoAttack: 1
   target: {fileID: 0}
   personalDistance: 1
-  attackDistance: 1
+  attackDistance: 20
   attackCoolDown: 1
   attackDamage: 10
   projectile: {fileID: -1099659423685669661, guid: 657a37f35adf2dd46a164c7392caeceb, type: 3}
-  projectileSpeed: 0.5
+  projectileSpeed: 0.8
 --- !u!114 &-8378788251425018323
 MonoBehaviour:
   m_ObjectHideFlags: 0
