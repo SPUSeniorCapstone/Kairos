@@ -87,8 +87,7 @@ public class CommandController : MonoBehaviour
     }
     public void MoveSelected(Vector3 target)
     {
-        //&& GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null
-        if (GameController.Main.SelectionController.currentlySelect.Count == 1 )
+        if (GameController.Main.SelectionController.currentlySelect.Count == 1 && GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null)
         {
             var t = GameController.Main.SelectionController.currentlySelect[0];
             var u = t.GetComponent<Unit>();
