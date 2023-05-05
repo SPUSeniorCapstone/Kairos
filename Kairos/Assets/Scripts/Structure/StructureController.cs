@@ -5,6 +5,7 @@ using UnityEngine;
 public class StructureController : MonoBehaviour
 {
     public bool StructurePlacementMode = false;
+    public bool cancel;
 
     public List<Structure> masterStructure;
 
@@ -76,9 +77,11 @@ public class StructureController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 Debug.Log("why no work?");
-                StructurePlacementMode = false;
+                
                 structurePreview.transform.position = Vector3.zero;
                 structurePreview.SetActive(false);
+                StructurePlacementMode = false;
+                cancel = true;
 
             }
             else
@@ -109,7 +112,7 @@ public class StructureController : MonoBehaviour
                 }
 
 
-                if (GameController.Main.inputController.Select.Pressed() && GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>() != null)
+                if (GameController.Main.inputController.Select.Pressed() && GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>() != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                 {
                     StructurePlacementMode = false;
                     GameController.Main.SelectionController.testCooldown = false;
@@ -120,6 +123,10 @@ public class StructureController : MonoBehaviour
                     GameController.Main.SelectionController.testCooldown = true;
                 }
             }
+        }
+        else
+        {
+            cancel = false;
         }
     }
 

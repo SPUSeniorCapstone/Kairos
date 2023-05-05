@@ -29,7 +29,7 @@ public class Structure : MonoBehaviour
                 GameController.Main.enemyCount++;
                 enemy = true;
             }
-            else
+            else if(GetComponent<ProductionStructure>())
             {
                 GameController.Main.playerCount++;
             }
@@ -46,7 +46,7 @@ public class Structure : MonoBehaviour
     private void OnDestroy()
     {
         // last two conditions prevent checking again after game end
-        if(GameController.Main != null && GameController.Main.StructureController != null && GameController.Main.won == false && GameController.Main.lost == false)
+        if(GetComponent<ProductionStructure>() != null && GameController.Main != null && GameController.Main.StructureController != null && GameController.Main.won == false && GameController.Main.lost == false)
         {
             GameController.Main.StructureController.masterStructure.Remove(this);
             GameController.Main.MasterDestory(gameObject);

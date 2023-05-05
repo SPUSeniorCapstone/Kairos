@@ -32,58 +32,61 @@ public class CommandController : MonoBehaviour
     {
         if (!GameController.Main.paused)
         {
-            if (wayPoint.activeSelf)
+            if (!GameController.Main.StructureController.cancel)
             {
-                if (Time.time - fadeTime > fadeTimer)
-                {
-                    wayPoint.SetActive(false);
-                }
-                
-            }
 
-            if (GameController.Main.InputController.Command.Down())
-            {
-                Debug.Log("Mouse1 down");
-                if (GameController.Main.SelectionController.onEnemy)
+                if (wayPoint.activeSelf)
                 {
-                    //-----------------------------
-                    // less ugly way to get this, change later
-                    attackCommand = true;
-                    if (GameController.Main.SelectionController.currentlySelect.Count > 0)
+                    if (Time.time - fadeTime > fadeTimer)
                     {
-                        AttackWithSelected(GameController.Main.SelectionController.actionTarget);
+                        wayPoint.SetActive(false);
                     }
+
                 }
-                else if (GameController.Main.SelectionController.actionTarget != null)
+
+                if (GameController.Main.InputController.Command.Down())
                 {
-                    foreach (var s in GameController.Main.SelectionController.currentlySelect)
+                    Debug.Log("Mouse1 down");
+                    if (GameController.Main.SelectionController.onEnemy)
                     {
-                        if (s.GetComponent<Unit>() != null)
-                        {
-                            s.GetComponent<Unit>().PerformTaskOn(GameController.Main.SelectionController.actionTarget.GetComponent<Selectable>());
-                        }
-                    }
-                }
-                else
-                {
-                    RaycastHit hit;
-                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
-                    {
-                        wayPoint.SetActive(true);
-                        fadeTime = Time.time;
-                        Vector3 point = hit.point;
-                        point.y = GameController.Main.WorldController.World.GetHeight(point.x, point.z) + 0.05f;
-                        wayPoint.transform.position = point;
-                        attackCommand = false;
+                        //-----------------------------
+                        // less ugly way to get this, change later
+                        attackCommand = true;
                         if (GameController.Main.SelectionController.currentlySelect.Count > 0)
                         {
-                            MoveSelected(point);
+                            AttackWithSelected(GameController.Main.SelectionController.actionTarget);
+                        }
+                    }
+                    else if (GameController.Main.SelectionController.actionTarget != null)
+                    {
+                        foreach (var s in GameController.Main.SelectionController.currentlySelect)
+                        {
+                            if (s.GetComponent<Unit>() != null)
+                            {
+                                s.GetComponent<Unit>().PerformTaskOn(GameController.Main.SelectionController.actionTarget.GetComponent<Selectable>());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        RaycastHit hit;
+                        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
+                        {
+                            wayPoint.SetActive(true);
+                            fadeTime = Time.time;
+                            Vector3 point = hit.point;
+                            point.y = GameController.Main.WorldController.World.GetHeight(point.x, point.z) + 0.05f;
+                            wayPoint.transform.position = point;
+                            attackCommand = false;
+                            if (GameController.Main.SelectionController.currentlySelect.Count > 0)
+                            {
+                                MoveSelected(point);
+                            }
                         }
                     }
                 }
             }
         }
-
     }
     public void MoveSelected(Vector3 target)
     {
@@ -98,7 +101,7 @@ public class CommandController : MonoBehaviour
                 {
                     old.unitList.Remove(u);
                 }
-                u.ClearTarget();                
+                u.ClearTarget();
                 u.MoveTo(target);
             }
             return;

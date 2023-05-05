@@ -103,6 +103,7 @@ public class Builder_Unit : Unit
 
     new public void OnDestroy()
     {
+        GameController.Main.masterBuilder.Remove(this);
         base.OnDestroy();
         if(GameController.Main != null)
             GameController.Main.CheckVictory(null);
