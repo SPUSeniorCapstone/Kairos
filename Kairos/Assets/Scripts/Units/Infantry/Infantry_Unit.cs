@@ -15,6 +15,8 @@ public class Infantry_Unit : Unit
     private float lastAttackTime = 0;
     public bool archer = false;
     public bool guard = false;
+    public projectileArrow projectile;
+    public float projectileSpeed;
 
     public Damageable target;
 
@@ -128,6 +130,14 @@ public class Infantry_Unit : Unit
                         }
                         else
                         {
+                            if (archer)
+                            {
+                                Vector3 offset = new Vector3(0, 2, 0);
+                                Instantiate(projectile.gameObject, transform, false);
+                                projectile.transform.position = offset;
+                                projectile.speed = projectileSpeed;
+                                projectile.target = target.gameObject;
+                            }
                             target.Damage(attackDamage);
                         }
 

@@ -155,9 +155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
-  unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  selectedMaterial: {fileID: 0}
-  highlight: {fileID: 728878513437725283}
 --- !u!114 &360578774360517194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +170,6 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
-  model: {fileID: 2394242169719531786}
   deathTimer: 1.5
   DeathTime: -1
   healthBarPosition: {x: 0, y: 2, z: 0}
@@ -201,6 +197,13 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   perch: 0
   idle: 1
+  OldAvoidEntityRadius: 3
+  OldAvoidWallRadius: 3
+  OldstepHeight: 1
+  OldmovementSpeed: 10
+  OldstopFollowDistance: 1
+  OldavoidStrength: 1
+  OldfollowStrength: 1
   movementMode: 0
   retrievingPath: 0
   lockHorizontalRotation: 1
@@ -217,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: {fileID: 0}
+  commandGroup: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
   layerMask:
@@ -226,11 +229,16 @@ MonoBehaviour:
   Head: {fileID: 0}
   Body: {fileID: 0}
   Feet: {fileID: 0}
+  badGuy: 0
   personalDistance: 1
   attackDistance: 15
   attackCoolDown: 2
   attackDamage: 24
   autoAttack: 1
+  archer: 1
+  guard: 0
+  projectile: {fileID: -1099659423685669661, guid: 657a37f35adf2dd46a164c7392caeceb, type: 3}
+  projectileSpeed: 0.5
   target: {fileID: 0}
   HeadSounds: []
   BodySounds: []
@@ -564,11 +572,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4129305450542123762, guid: b6f817460e54dee4eb1cb6af8632b6f4, type: 3}
---- !u!23 &2394242169719531786 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7858982309795864417, guid: b6f817460e54dee4eb1cb6af8632b6f4, type: 3}
-  m_PrefabInstance: {fileID: 5488401770429462123}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6200631675428279407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1884661872563757572, guid: b6f817460e54dee4eb1cb6af8632b6f4, type: 3}
