@@ -13,7 +13,7 @@ public class HealthBarController : MonoBehaviour
         }
     }
 
-    public enum HealthBarMode { NONE, SELECTED, ALL }
+    public enum HealthBarMode { NONE, SELECTED, ALL, DAMAGED }
     public HealthBarMode healthBarMode;
     Dictionary<Damageable, HealthBar> healthBars = new Dictionary<Damageable, HealthBar>();
     public GameObject HealthBar;
@@ -21,13 +21,19 @@ public class HealthBarController : MonoBehaviour
     {
         if (healthBarMode == HealthBarMode.NONE)
         {
-            healthBarMode = HealthBarMode.SELECTED;
+            // need better toggle
+            //healthBarMode = HealthBarMode.SELECTED;
+            healthBarMode = HealthBarMode.DAMAGED;
         }
         else if (healthBarMode == HealthBarMode.SELECTED)
         {
             healthBarMode = HealthBarMode.ALL;
         }
         else if (healthBarMode == HealthBarMode.ALL)
+        {
+            healthBarMode = HealthBarMode.NONE;
+        }
+        else if (healthBarMode == HealthBarMode.DAMAGED)
         {
             healthBarMode = HealthBarMode.NONE;
         }
