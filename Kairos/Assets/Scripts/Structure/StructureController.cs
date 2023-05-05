@@ -123,6 +123,15 @@ public class StructureController : MonoBehaviour
         }
     }
 
+    public void SellStructure()
+    {
+        if (GameController.Main.UIController.StratView.inspectee != null && GameController.Main.UIController.StratView.inspectee.GetComponent<Structure>() != null && GameController.Main.UIController.StratView.inspectee.GetComponent<Damageable>() != null)
+        {
+            Damageable damageable = GameController.Main.UIController.StratView.inspectee.GetComponent<Damageable>();
+            damageable.Damage(damageable.MaxHealth);
+        }
+    }
+
     public void BuildOrder(string name)
     {
         StructurePlacementMode = true;
