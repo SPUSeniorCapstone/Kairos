@@ -226,6 +226,13 @@ public class ProductionMenu
     {
         if (cl.button == 0)
         {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    GameController.Main.StructureController.TrainInfantry();
+                }
+            }
             GameController.Main.StructureController.TrainInfantry();
         } 
         else if (cl.button == 1)
@@ -236,14 +243,35 @@ public class ProductionMenu
 
     private void ArcherButton_OnClick(ClickEvent cl)
     {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                GameController.Main.StructureController.TrainArcher();
+            }
+        }
         GameController.Main.StructureController.TrainArcher();
     }
     private void RCButton_OnClick(ClickEvent cl)
     {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                GameController.Main.StructureController.TrainCollector();
+            }
+        }
         GameController.Main.StructureController.TrainCollector();
     }
     private void BuilderButton_OnClick(ClickEvent cl)
     {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                GameController.Main.StructureController.TrainBuilder();
+            }
+        }
         GameController.Main.StructureController.TrainBuilder();
     }
 }

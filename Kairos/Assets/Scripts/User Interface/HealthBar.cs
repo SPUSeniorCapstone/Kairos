@@ -28,6 +28,19 @@ public class HealthBar : MonoBehaviour
             healthBarImage.gameObject.SetActive(false);
             background.gameObject.SetActive(false);
         }
+        else if (GameController.Main.UIController.HealthBarController.healthBarMode == HealthBarController.HealthBarMode.DAMAGED)
+        {
+            if (damageble.Health < damageble.MaxHealth)
+            {
+                healthBarImage.gameObject.SetActive(true);
+                background.gameObject.SetActive(true);
+            }
+            else
+            {
+                healthBarImage.gameObject.SetActive(damageble.GetComponent<Selectable>().selected);
+                background.gameObject.SetActive(damageble.GetComponent<Selectable>().selected);
+            }
+        }
         else
         {
             healthBarImage.gameObject.SetActive(true);
