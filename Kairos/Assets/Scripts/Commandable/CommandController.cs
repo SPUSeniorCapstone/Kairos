@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,6 +9,8 @@ public class CommandController : MonoBehaviour
 {
     public GameObject wayPoint;
     public float debugY;
+    public float fadeTime;
+    public float fadeTimer = 5f;
 
     public int stepHeight = 1;
 
@@ -29,6 +32,15 @@ public class CommandController : MonoBehaviour
     {
         if (!GameController.Main.paused)
         {
+            if (wayPoint.activeSelf)
+            {
+                if (Time.time - fadeTime > fadeTimer)
+                {
+                    wayPoint.SetActive(false);
+                }
+                
+            }
+
             if (GameController.Main.InputController.Command.Down())
             {
                 Debug.Log("Mouse1 down");
@@ -57,6 +69,8 @@ public class CommandController : MonoBehaviour
                     RaycastHit hit;
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 1000, LayerMask.GetMask("Terrain")))
                     {
+                        wayPoint.SetActive(true);
+                        fadeTime = Time.time;
                         Vector3 point = hit.point;
                         point.y = GameController.Main.WorldController.World.GetHeight(point.x, point.z) + 0.05f;
                         wayPoint.transform.position = point;
@@ -73,7 +87,8 @@ public class CommandController : MonoBehaviour
     }
     public void MoveSelected(Vector3 target)
     {
-        if (GameController.Main.SelectionController.currentlySelect.Count == 1 && GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null)
+        //&& GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null
+        if (GameController.Main.SelectionController.currentlySelect.Count == 1 )
         {
             var t = GameController.Main.SelectionController.currentlySelect[0];
             var u = t.GetComponent<Unit>();
@@ -104,8 +119,6 @@ public class CommandController : MonoBehaviour
             //}
             if (unit != null)
             {
-                //Debug.Log("entity does not = null (MOVESELECTED)");
-                //entity.pathindex = 0;
                 CommandGroup old = unit.commandGroup;
                 if (old != null)
                 {
@@ -113,12 +126,6 @@ public class CommandController : MonoBehaviour
                 }
                 unit.commandGroup = cg;
                 cg.unitList.Add(unit);
-                //if (entity.movementSpeed < cg.followSpeed || cg.followSpeed == -1)
-                //{
-                //    cg.followSpeed = entity.movementSpeed;
-                //}
-                //entity.GetComponent<Unit>().isAttacking = false;
-                ////entity.idle = false;
             }
 
             if (production != null && unit == null)

@@ -40,7 +40,7 @@ public class Builder_Unit : Unit
         if (entity.movementMode == Builder_Entity.MovementMode.IDLE)
         {
             // if idle, should be done path finding, so remove self from cg
-            if (commandGroup != null)
+            if (commandGroup != null && commandGroup.path.Count == 1)
             {
                 commandGroup.unitList.Remove(this);
                 commandGroup = null;
@@ -97,6 +97,27 @@ public class Builder_Unit : Unit
         //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
         entity.movementMode = Builder_Entity.MovementMode.FOLLOW_PATH;
         entity.pathingTask = SetPath(position);
+    }
+
+    public override void MoveToTarget(Vector3 pos)
+    {
+        //if (commandGroup != null)
+        entity.movementMode = Builder_Entity.MovementMode.FOLLOW_TARGET;
+        entity.targetPos = pos;
+        entity.AvoidEntityRadius = commandGroup.AvoidEntityRadius;
+
+
+        entity.AvoidWallRadius = commandGroup.AvoidWallRadius;
+
+        entity.stepHeight = commandGroup.stepHeight;
+
+        entity.movementSpeed = commandGroup.movementSpeed;
+
+        entity.stopFollowDistance = commandGroup.stopFollowDistance;
+
+        entity.avoidStrength = commandGroup.avoidStrength;
+        entity.followStrength = commandGroup.followStrength;
+
     }
 
     public Task<List<Vector3>> SetPath(Vector3 position)
