@@ -10,7 +10,6 @@ public class ProductionStructure : Structure
     public GameObject unitToSpawn;
     public List<GameObject> unitTypes;
     public GameObject spawnPoint;
-    public Vector3 rallyPoint;
     public Queue<GameObject> buildQue;
 
 
@@ -28,11 +27,14 @@ public class ProductionStructure : Structure
             }
         }
     }
-    public void Start()
+    new public void Start()
     {
         base.Start();
         buildQue = new Queue<GameObject>();
-        Destroy(Preview);
+        if (Preview != null)
+        {
+            Destroy(Preview);
+        }
     }
 
     //Function for when stronghold is clicked activate structureMenuUI
@@ -70,11 +72,11 @@ public class ProductionStructure : Structure
     {
         GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity, GameController.Main.StructureController.PlayerUnits.transform);
         // does this work?
-        if (rallyPoint != null && rallyPoint != Vector3.zero)
+        if (rallyPoint.activeSelf)
         {
             if (tree.GetComponent<Unit>() != null)
             {
-                tree.GetComponent<Unit>().MoveTo(rallyPoint);
+                tree.GetComponent<Unit>().MoveTo(rallyPoint.transform.position);
             }
         }
     }
@@ -82,12 +84,14 @@ public class ProductionStructure : Structure
     {
         GameController.Main.StructureController.selected = this;
         GameController.Main.UIController.EnableProductionMenu(true);
+        rallyPoint.GetComponentInChildren<MeshRenderer>().material.shader = GameController.Main.highlight;
         //GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
     }
     public override void OnDeselect()
     {
         GameController.Main.StructureController.selected = null;
         GameController.Main.UIController.EnableProductionMenu(false);
+        rallyPoint.GetComponentInChildren<MeshRenderer>().material.shader = GameController.Main.unHighlight;
         //GameController.Main.UIController.MenuController.structureMenuUI.SetActive(false);
     }
 }

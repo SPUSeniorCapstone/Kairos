@@ -191,17 +191,17 @@ public class GameController : MonoBehaviour
     {
         if (!WinConDebug)
         {
-            if (structure.enemy)
+            if (structure != null && structure.enemy)
             {
                 enemyCount--;
                 UIController.gameUI.UpdateNodes(enemyCount);
             }
             else
-            {
+            { 
                 playerCount--;
             }
             // does second clause ensure survival while builder lives?
-            if (playerCount <= 0 && FindAnyObjectByType<Builder_Unit>() == null)
+            if (playerCount <= 0 && FindAnyObjectByType<Builder_Unit>() != null && FindAnyObjectByType<Builder_Unit>().GetComponent<Damageable>() != null && FindAnyObjectByType<Builder_Unit>().GetComponent<Damageable>().Dead)
             {
                 lost = true;
                 menuController.Defeat();
@@ -214,9 +214,32 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    public void Pause(bool pause)
+    {
+        if (pause)
+        {
+            Time.timeScale = 0f;
+            paused = true;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            paused = false;
+        }
+    }
+
     public void Start()
     {
         GameController.Main.menuController.Resume();
+    }
+
+    private void Update()
+    {
+        if (InputController.Pause.Down())
+        {
+            Pause(!paused);
+        }
     }
 
     public bool paused;
@@ -225,4 +248,5 @@ public class GameController : MonoBehaviour
     public Shader highlight;
     public Shader unHighlight;
     public CommandGroup CGSettings;
+    public bool randomDamageModifier = false;
 }

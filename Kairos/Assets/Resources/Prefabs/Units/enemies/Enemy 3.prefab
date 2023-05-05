@@ -257,7 +257,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9021786559248497074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 100.26828, y: 8, z: 161.25056}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -355,12 +355,14 @@ MonoBehaviour:
   Head: {fileID: 0}
   Body: {fileID: 0}
   Feet: {fileID: 0}
+  badGuy: 0
   personalDistance: 1
   attackDistance: 1
   attackCoolDown: 1
   attackDamage: 10
   autoAttack: 1
   archer: 0
+  guard: 0
   target: {fileID: 0}
   HeadSounds: []
   BodySounds: []

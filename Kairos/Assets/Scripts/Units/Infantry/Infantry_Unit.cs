@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 
 [RequireComponent(typeof(Infantry_Entity))]
@@ -13,6 +14,9 @@ public class Infantry_Unit : Unit
     public bool autoAttack = false;
     private float lastAttackTime = 0;
     public bool archer = false;
+    public bool guard = false;
+    public projectileArrow projectile;
+    public float projectileSpeed;
 
     public Damageable target;
 
@@ -25,7 +29,7 @@ public class Infantry_Unit : Unit
 
     Infantry_Entity entity;
 
-    private void Start()
+    new private void Start()
     {
         base.Start();
         if (GetComponent<CheckPathFinding>() != null)
@@ -69,13 +73,33 @@ public class Infantry_Unit : Unit
             var enemy = EnemyDetection();
             if (enemy != null)
             {
-            
-                if (autoAttack && entity.movementMode == Infantry_Entity.MovementMode.IDLE)
+                if (badGuy)
                 {
+                    Debug.Log("enemy detects opponent");
+                }
+                
+
+                if (autoAttack && (entity.movementMode == Infantry_Entity.MovementMode.IDLE || badGuy))
+                {
+                    if (!badGuy)
+                    {
+                        Debug.Log("HELPELPELPELPELPLE");
+                    }
                     SetTarget(enemy);
                     entity.movementMode = Infantry_Entity.MovementMode.ATTACK_FOLLOW;
                 }
 
+            } 
+            else if (target == null && badGuy && !guard && entity.movementMode == Infantry_Entity.MovementMode.IDLE)
+            {
+                if (GameController.Main.StructureController.PlayerStructures.GetComponentInChildren<Stronghold>() != null)
+                {
+                    MoveTo(GameController.Main.StructureController.PlayerStructures.GetComponentInChildren<Stronghold>().transform.position);
+                }
+                else if (GameController.Main.StructureController.PlayerUnits.GetComponentInChildren<Builder_Unit>())
+                {
+                    MoveTo(GameController.Main.StructureController.PlayerUnits.GetComponentInChildren<Builder_Unit>().transform.position);
+                }
             }
         }
 
@@ -85,7 +109,8 @@ public class Infantry_Unit : Unit
             entity.targetPos = target.transform.position;
             //when within attack range
             // bootleg combat
-            if (entity.movementDirection == Vector3.zero && archer || !archer)
+            // && Vector3.Distance(transform.position, target.transform.position) < attackDistance
+            if ((entity.movementDirection == Vector3.zero && archer || !archer))
             {
                 // neccessary ?
                 if (target != null)
@@ -98,7 +123,24 @@ public class Infantry_Unit : Unit
                     {
                         //Body.clip = BodySounds.ElementAt(10);
                         //Body.Play();
-                        target.Damage(attackDamage);
+                        if (GameController.Main.randomDamageModifier)
+                        {
+                            float rand = Random.Range(1f, 2f);
+                            target.Damage(attackDamage * rand);
+                        }
+                        else
+                        {
+                            if (archer)
+                            {
+                                Vector3 offset = new Vector3(0, 2, 0);
+                                Instantiate(projectile.gameObject, transform, false);
+                                projectile.transform.position = offset;
+                                projectile.speed = projectileSpeed;
+                                projectile.target = target.gameObject;
+                            }
+                            target.Damage(attackDamage);
+                        }
+
                         lastAttackTime = Time.time;
 
                         // neccessary? doesn't work all the time (race condition)
@@ -114,7 +156,6 @@ public class Infantry_Unit : Unit
         // these rotate towards are fighting each other, causing jittering. need exclusive
        else if (entity.movementMode != Infantry_Entity.MovementMode.IDLE)
         {
-            Debug.Log("WASDIA");
             entity.RotateTowards(entity.movementDirection);
         }     
     }
@@ -219,6 +260,7 @@ public class Infantry_Unit : Unit
 
                 if (Visible(selectable))
                 {
+                    Debug.Log("Visiible");
                     if (damageable == null || Vector3.Distance(temp.transform.position, transform.position) < Vector3.Distance(damageable.transform.position, transform.position))
                     {
                         damageable = temp;
@@ -236,6 +278,7 @@ public class Infantry_Unit : Unit
         // if within square bounds
         if (Helpers.InSquareRadius(searchRadius, transform.position.ToVector2(), selectable.transform.position.ToVector2()))
         {
+            Debug.Log("in the square");
             Ray ray;
             // need the vector up or else only works in postive quadrant
             ray = new Ray(transform.position + Vector3.up, selectable.transform.position - transform.position);

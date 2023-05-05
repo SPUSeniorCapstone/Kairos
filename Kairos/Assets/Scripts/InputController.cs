@@ -21,6 +21,9 @@ public class InputController
     public InputType ToggleHealthBars = new InputType(KeyCode.H, KeyCode.None);
 
 
+    public InputType Pause = new InputType(KeyCode.Escape, KeyCode.None);
+
+
     [Serializable]
     public struct InputType
     {

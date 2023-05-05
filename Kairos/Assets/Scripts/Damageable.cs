@@ -50,10 +50,7 @@ public class Damageable : MonoBehaviour
             else
             {
                 model.material.SetFloat("_WireframeVal", 0.5f - (Time.time - DeathTime) / (deathTimer * 2));
-                if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
-                {
-                    GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
-                }
+               
             }
         }
     }
@@ -70,7 +67,11 @@ public class Damageable : MonoBehaviour
             Health -= damage;
             if (Health <= 0)
             {
-                dead = true;
+                if (GameController.Main != null && GameController.Main.UIController != null && GameController.Main.UIController.HealthBarController != null)
+                {
+                    GameController.Main.UIController.HealthBarController.RemoveHealthBar(this);
+                }
+                dead = true;        
                 DeathTime = Time.time;
                 model.material = GameController.Main.DeathMaterial;
                 GameController.Main.MasterDestory(this.gameObject);

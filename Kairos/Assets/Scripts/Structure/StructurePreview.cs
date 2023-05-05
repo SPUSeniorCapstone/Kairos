@@ -32,16 +32,19 @@ public class StructurePreview : Structure
                 var s = Instantiate<Structure>(structure, directory.transform);
                 s.transform.position = transform.position;
                 s.Preview = gameObject;
-                Destroy(gameObject);
+                damageable.Damage(damageable.MaxHealth);
+                //Destroy(gameObject);
             }
         }
         
     }
-    public void Start()
+    new public void Start()
     {
       
         base.Start();
         damageable = GetComponent<Damageable>();
+        damageable.deathTimer = 0;
+        distanceToBuild = Size.x * 6 + 2;
     }
 
    

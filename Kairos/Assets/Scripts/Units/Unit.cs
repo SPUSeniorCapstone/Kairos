@@ -13,6 +13,7 @@ public class Unit : MonoBehaviour
     public AudioSource Head;
     public AudioSource Body;
     public AudioSource Feet;
+    public bool badGuy = false;
 
     virtual public void PerformTaskOn(Selectable selectable)
     {

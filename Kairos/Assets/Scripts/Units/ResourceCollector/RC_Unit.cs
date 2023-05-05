@@ -26,7 +26,7 @@ public class RC_Unit : Unit
     // should this be public? protected?
     public RC_Entity entity;
 
-    private void Start()
+    new private void Start()
     {
         base.Start();
         // is this supposed to be for on spawn moving to way point?
@@ -43,7 +43,7 @@ public class RC_Unit : Unit
 
     private void Update()
     {
-        if (entity.movementMode == RC_Entity.MovementMode.IDLE)
+        if (entity.movementMode == RC_Entity.MovementMode.IDLE && commandGroup.path.Count == 1)
         {
             // if idle, should be done path finding, so remove self from cg
             if (commandGroup != null)
@@ -120,6 +120,28 @@ public class RC_Unit : Unit
         //entity.pathingTask = GameController.Main.PathFinder.FindPath(transform.position, position, entity.stepHeight, false);
         entity.movementMode = RC_Entity.MovementMode.FOLLOW_PATH;
         entity.pathingTask = SetPath(position);
+    }
+
+    public override void MoveToTarget(Vector3 pos)
+    {
+        //if (commandGroup != null)
+
+        entity.movementMode = RC_Entity.MovementMode.FOLLOW_TARGET;
+        entity.targetPos = pos;
+        entity.AvoidEntityRadius = commandGroup.AvoidEntityRadius;
+
+
+        entity.AvoidWallRadius = commandGroup.AvoidWallRadius;
+
+        entity.stepHeight = commandGroup.stepHeight;
+
+        entity.movementSpeed = commandGroup.movementSpeed;
+
+        entity.stopFollowDistance = commandGroup.stopFollowDistance;
+
+        entity.avoidStrength = commandGroup.avoidStrength;
+        entity.followStrength = commandGroup.followStrength;
+
     }
 
     public Task<List<Vector3>> SetPath(Vector3 position)
