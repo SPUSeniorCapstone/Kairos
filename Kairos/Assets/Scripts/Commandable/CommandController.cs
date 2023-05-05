@@ -74,7 +74,8 @@ public class CommandController : MonoBehaviour
     }
     public void MoveSelected(Vector3 target)
     {
-        if (GameController.Main.SelectionController.currentlySelect.Count == 1 && GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null)
+        //&& GameController.Main.SelectionController.currentlySelect[0].GetComponent<ProductionStructure>() == null
+        if (GameController.Main.SelectionController.currentlySelect.Count == 1 )
         {
             var t = GameController.Main.SelectionController.currentlySelect[0];
             var u = t.GetComponent<Unit>();
@@ -105,8 +106,6 @@ public class CommandController : MonoBehaviour
             //}
             if (unit != null)
             {
-                //Debug.Log("entity does not = null (MOVESELECTED)");
-                //entity.pathindex = 0;
                 CommandGroup old = unit.commandGroup;
                 if (old != null)
                 {
@@ -114,12 +113,6 @@ public class CommandController : MonoBehaviour
                 }
                 unit.commandGroup = cg;
                 cg.unitList.Add(unit);
-                //if (entity.movementSpeed < cg.followSpeed || cg.followSpeed == -1)
-                //{
-                //    cg.followSpeed = entity.movementSpeed;
-                //}
-                //entity.GetComponent<Unit>().isAttacking = false;
-                ////entity.idle = false;
             }
 
             if (production != null && unit == null)
