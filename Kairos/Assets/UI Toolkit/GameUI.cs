@@ -24,16 +24,7 @@ public class GameUI : MonoBehaviour
     private void Awake()
     {
         document = GetComponent<UIDocument>();
-        ResourceCounter = document.rootVisualElement.Q("numberResource") as Label;
-        NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
-        Framerate = document.rootVisualElement.Q("Framerate") as Label;
-        destroyBuildingButton = document.rootVisualElement.Q("DestroyButton") as Button;
-        destroyBuildingButton.visible = false;
-     
 
-     
-        ResourceCounter.text = FormatNum(GameController.Main.resouceCount, true);
-        NodeCounter.text = FormatNum(GameController.Main.StructureController.CorruptionNodes.Count, false);
     }
 
     private void Update()
@@ -54,8 +45,24 @@ public class GameUI : MonoBehaviour
     private void OnEnable()
     {
         if (document != null)
-        BuildMenu = new BuildMenu(document.rootVisualElement.Q("BuildMenu"));
-        ProductionMenu = new ProductionMenu(document.rootVisualElement.Q("ProductionMenu"));
+        {
+            BuildMenu = new BuildMenu(document.rootVisualElement.Q("BuildMenu"));
+            ProductionMenu = new ProductionMenu(document.rootVisualElement.Q("ProductionMenu"));
+            ResourceCounter = document.rootVisualElement.Q("numberResource") as Label;
+            NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
+            Framerate = document.rootVisualElement.Q("Framerate") as Label;
+            //destroyBuildingButton = document.rootVisualElement.Q("DestroyButton") as Button;
+            ///destroyBuildingButton.visible = false;
+
+
+
+            ResourceCounter.text = FormatNum(GameController.Main.resouceCount, true);
+            NodeCounter.text = FormatNum(GameController.Main.StructureController.CorruptionNodes.Count, false);
+        }
+        else
+        {
+            Debug.LogError("Missing Game UI");
+        }
     }
 
     public string FormatNum(int num, bool greater)

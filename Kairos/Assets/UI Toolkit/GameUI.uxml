@@ -27,7 +27,7 @@
                 <ui:Button text="Stronghold" display-tooltip-when-elided="true" name="StrongholdButton" enable-rich-text="true" style="width: 25%; height: auto; visibility: visible; display: flex; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; align-items: stretch; justify-content: flex-start; font-size: 30%; white-space: normal; -unity-font-style: normal;" />
                 <ui:Button text="Barracks" display-tooltip-when-elided="true" name="BarracksButton" style="width: 25%; height: auto; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; overflow: hidden; visibility: visible; font-size: 30%; white-space: normal;" />
                 <ui:Button text="Archer Tower" display-tooltip-when-elided="true" name="ArcherTowerButton" style="width: 25%; height: auto; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; overflow: hidden; font-size: 30%; white-space: normal;" />
-                <ui:Button text="Resource" display-tooltip-when-elided="true" name="ResourceButton" style="width: 25%; height: auto; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; overflow: hidden; font-size: 30%; white-space: normal;" />
+                <ui:Button text="Purifier" display-tooltip-when-elided="true" name="PurifierButton" style="width: 25%; height: auto; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; overflow: hidden; font-size: 30%; white-space: normal;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
