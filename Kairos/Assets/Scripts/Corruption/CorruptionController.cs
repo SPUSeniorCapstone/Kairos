@@ -38,6 +38,10 @@ public class CorruptionController : MonoBehaviour
 
     List<Purifier> purifiers = new List<Purifier>();
 
+    public bool doCorruptionDamage = true;
+    public float damageTick = 2;
+    public float corruptionDamage = 20;
+
     private void Start()
     {
         //var max = new Vector2Int(WorldController.Main.World.WidthInBlocks, WorldController.Main.World.LengthInBlocks);

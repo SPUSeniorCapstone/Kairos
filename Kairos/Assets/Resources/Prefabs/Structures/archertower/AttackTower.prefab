@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 405021383244580052}
   - component: {fileID: 3423161522806090367}
   - component: {fileID: 1086162981530056874}
-  - component: {fileID: -8378788251425018323}
   - component: {fileID: 8993958709022590271}
   m_Layer: 6
   m_Name: AttackTower
@@ -187,6 +186,7 @@ MonoBehaviour:
   <Invulnerable>k__BackingField: 0
   deathTimer: 1.5
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1086162981530056874
 MonoBehaviour:
@@ -218,21 +218,6 @@ MonoBehaviour:
   attackDamage: 10
   projectile: {fileID: -1099659423685669661, guid: 657a37f35adf2dd46a164c7392caeceb, type: 3}
   projectileSpeed: 0.8
---- !u!114 &-8378788251425018323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976185539307826752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5f987eb418972e48933c6fb65fd0aa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cleans: 1
-  radius: 15
-  strength: 0.3
 --- !u!65 &8993958709022590271
 BoxCollider:
   m_ObjectHideFlags: 0

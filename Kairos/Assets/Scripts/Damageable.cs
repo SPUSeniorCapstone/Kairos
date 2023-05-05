@@ -13,7 +13,7 @@ public class Damageable : MonoBehaviour
     [Disable]
     private float DeathTime = -1f;
 
-
+    public float corruptionDamageTime = 0;
 
     public Vector3 healthBarPosition;
     public bool Dead
@@ -40,7 +40,6 @@ public class Damageable : MonoBehaviour
 
     private void Update()
     {
-
         if (dead)
         {
             if (Time.time - DeathTime > deathTimer)
@@ -51,6 +50,18 @@ public class Damageable : MonoBehaviour
             {
                 model.material.SetFloat("_WireframeVal", 0.5f - (Time.time - DeathTime) / (deathTimer * 2));
                
+            }
+        }
+        else
+        {
+            if (GameController.Main.CorruptionController.doCorruptionDamage && GetComponent<Selectable>().faction == false)
+            {
+                var position = WorldController.Main.WorldToBlockPosition(transform.position);
+                if(WorldController.Main.World.GetCorruption(position.x,position.z) >= 1 && Time.time - corruptionDamageTime > GameController.Main.CorruptionController.damageTick)
+                {
+                    Damage(GameController.Main.CorruptionController.corruptionDamage * 0.01f * MaxHealth);
+                    corruptionDamageTime = Time.time;
+                }
             }
         }
     }

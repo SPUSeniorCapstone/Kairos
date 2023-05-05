@@ -20,7 +20,6 @@ public class GameUI : MonoBehaviour
     float deltaTime = 0;
     int count = 0;
     public Button destroyBuildingButton;
-
     private void Awake()
     {
         document = GetComponent<UIDocument>();
@@ -51,9 +50,10 @@ public class GameUI : MonoBehaviour
             ResourceCounter = document.rootVisualElement.Q("numberResource") as Label;
             NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
             Framerate = document.rootVisualElement.Q("Framerate") as Label;
-            //destroyBuildingButton = document.rootVisualElement.Q("DestroyButton") as Button;
+            destroyBuildingButton = document.rootVisualElement.Q("DeleteButton") as Button;
             ///destroyBuildingButton.visible = false;
 
+            destroyBuildingButton.RegisterCallback<ClickEvent>(DeleteStructure);
 
 
             ResourceCounter.text = FormatNum(GameController.Main.resouceCount, true);
@@ -98,6 +98,11 @@ public class GameUI : MonoBehaviour
     public void OnStruture(bool enable)
     {
         destroyBuildingButton.visible = enable;
+    }
+
+    public void DeleteStructure(ClickEvent click)
+    {
+        GameController.Main.StructureController.SellStructure();
     }
 }
 
