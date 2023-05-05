@@ -26,7 +26,7 @@ public class RC_Unit : Unit
     // should this be public? protected?
     public RC_Entity entity;
 
-    private void Start()
+    new private void Start()
     {
         base.Start();
         // is this supposed to be for on spawn moving to way point?

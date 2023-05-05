@@ -29,7 +29,7 @@ public class Infantry_Unit : Unit
 
     Infantry_Entity entity;
 
-    private void Start()
+    new private void Start()
     {
         base.Start();
         if (GetComponent<CheckPathFinding>() != null)

@@ -27,7 +27,7 @@ public class ProductionStructure : Structure
             }
         }
     }
-    public void Start()
+    new public void Start()
     {
         base.Start();
         buildQue = new Queue<GameObject>();
@@ -72,7 +72,7 @@ public class ProductionStructure : Structure
     {
         GameObject tree = Instantiate(unit, spawnPoint.transform.position, Quaternion.identity, GameController.Main.StructureController.PlayerUnits.transform);
         // does this work?
-        if (rallyPoint.active)
+        if (rallyPoint.activeSelf)
         {
             if (tree.GetComponent<Unit>() != null)
             {

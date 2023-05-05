@@ -17,7 +17,7 @@ public class AttackTower : Unit
     public projectileArrow projectile;
     public float projectileSpeed;
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         base.Start();
     }
