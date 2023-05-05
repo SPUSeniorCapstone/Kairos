@@ -115,7 +115,6 @@ public class Infantry_Unit : Unit
                 // neccessary ?
                 if (target != null)
                 {
-                    Debug.Log("Should be rotating towards");
                     //entity.RotateTowards(target.transform.position.normalized);
                     transform.LookAt(target.transform);
                     //transform.rotation = Quaternion.LookRotation(target.transform.position);
@@ -260,7 +259,6 @@ public class Infantry_Unit : Unit
 
                 if (Visible(selectable))
                 {
-                    Debug.Log("Visiible");
                     if (damageable == null || Vector3.Distance(temp.transform.position, transform.position) < Vector3.Distance(damageable.transform.position, transform.position))
                     {
                         damageable = temp;
@@ -278,7 +276,6 @@ public class Infantry_Unit : Unit
         // if within square bounds
         if (Helpers.InSquareRadius(searchRadius, transform.position.ToVector2(), selectable.transform.position.ToVector2()))
         {
-            Debug.Log("in the square");
             Ray ray;
             // need the vector up or else only works in postive quadrant
             ray = new Ray(transform.position + Vector3.up, selectable.transform.position - transform.position);
