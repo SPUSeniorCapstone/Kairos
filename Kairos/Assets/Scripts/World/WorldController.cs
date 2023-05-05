@@ -94,4 +94,11 @@ public class WorldController : MonoBehaviour
         Vector3Int position = (pos / blockScale).ToVector3Int();
         return position;
     }
+
+
+    public float GetHeight(Vector3 pos)
+    {
+        var ipos = WorldToBlockPosition(pos);
+        return world.GetHeight(ipos.x, ipos.z);
+    }
 }

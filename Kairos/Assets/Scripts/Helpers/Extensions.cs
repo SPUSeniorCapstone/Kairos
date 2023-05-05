@@ -1,7 +1,6 @@
 using B83.MeshTools;
 using System.IO;
 using UnityEngine;
-using static VoxelImporter;
 
 public static class Extensions
 {
@@ -203,11 +202,5 @@ public static class BinaryReaderWriterUnityExt
         return w;
     }
 
-    public static Voxel ReadVoxel(this BinaryReader reader)
-    {
-        Voxel v = new Voxel();
-        v.solid = reader.ReadBoolean();
-        v.color = reader.ReadColor32();
-        return v;
-    }
+
 }

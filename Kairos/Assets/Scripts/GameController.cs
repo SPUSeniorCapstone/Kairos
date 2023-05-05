@@ -214,9 +214,32 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    public void Pause(bool pause)
+    {
+        if (pause)
+        {
+            Time.timeScale = 0f;
+            paused = true;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            paused = false;
+        }
+    }
+
     public void Start()
     {
         GameController.Main.menuController.Resume();
+    }
+
+    private void Update()
+    {
+        if (InputController.Pause.Down())
+        {
+            Pause(!paused);
+        }
     }
 
     public bool paused;

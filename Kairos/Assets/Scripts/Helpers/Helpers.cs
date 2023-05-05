@@ -28,4 +28,12 @@ public static class Helpers
         //Debug.Log(center.x+ " - "+ target.x+ " <= "+ radius + " and " + center.y + " - " + target.y + " <= " + radius);
         return Mathf.Abs(center.x - target.x) <= radius && Mathf.Abs(center.y - target.y) <= radius;
     }
+
+    public static string FloatToString(float val, int round = 1)
+    {
+        string ret = ((int)val).ToString();
+        ret += '.';
+        ret += (int)(val * Mathf.Pow(10, round));
+        return ret;
+    }
 }

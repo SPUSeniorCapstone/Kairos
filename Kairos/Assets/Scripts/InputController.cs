@@ -15,9 +15,13 @@ public class InputController
     // camera
     public InputType ZoomIn = new InputType(KeyCode.E, KeyCode.None);
     public InputType ZoomOut = new InputType(KeyCode.Q, KeyCode.None);
+    public InputType RotateCamera = new InputType(KeyCode.Mouse2, KeyCode.None);
 
     //HealthBars
     public InputType ToggleHealthBars = new InputType(KeyCode.H, KeyCode.None);
+
+
+    public InputType Pause = new InputType(KeyCode.Escape, KeyCode.None);
 
 
     [Serializable]

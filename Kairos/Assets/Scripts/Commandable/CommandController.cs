@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography;
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
