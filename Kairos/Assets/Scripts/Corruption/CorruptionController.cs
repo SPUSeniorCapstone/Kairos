@@ -36,7 +36,7 @@ public class CorruptionController : MonoBehaviour
     [Range(0, 100)]
     public float veinChance = 1;
 
-    List<Purifier> purifiers = new List<Purifier>();
+    public List<Purifier> purifiers = new List<Purifier>();
 
     private void Start()
     {
