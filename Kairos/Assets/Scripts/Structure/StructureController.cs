@@ -24,7 +24,7 @@ public class StructureController : MonoBehaviour
 
     public Structure corruptionNode;
 
-    public ProductionStructure selected;
+    public List<ProductionStructure> selected = new List<ProductionStructure>();
 
     public List<Structure> CorruptionNodes = new List<Structure>();
     public Structure StrongholdActual;
@@ -60,6 +60,14 @@ public class StructureController : MonoBehaviour
 
     void Update()
     {
+        if (selected.Count == 0)
+        {
+            GameController.Main.UIController.EnableProductionMenu(false);
+        }
+        else
+        {
+            GameController.Main.UIController.EnableProductionMenu(true);
+        }
         if (StructurePlacementMode)
         {
             structurePreview.SetActive(true);
@@ -148,23 +156,38 @@ public class StructureController : MonoBehaviour
 
     public void TrainArcher()
     {
-        selected.QueueUnits(archer);
+        foreach(ProductionStructure s in selected)
+        {
+            s.QueueUnits(archer);
+        }
     }
     public void TrainInfantry()
     {
-        selected.QueueUnits(infantry);
+        foreach (ProductionStructure s in selected)
+        {
+            s.QueueUnits(infantry);
+        }
     }
     public void TrainBuilder()
     {
-        selected.QueueUnits(builder);
+        foreach (ProductionStructure s in selected)
+        {
+            s.QueueUnits(builder);
+        }
     }
     public void TrainCollector()
     {
-        selected.QueueUnits(resourceCollector);
+        foreach (ProductionStructure s in selected)
+        {
+            s.QueueUnits(resourceCollector);
+        }
     }
     public void Untrain()
     {
-        selected.DequeueUnits();
+        foreach (ProductionStructure s in selected)
+        {
+            s.DequeueUnits();
+        }
     }
 
     public Structure PlaceStructure(Structure structure, Vector3Int position)

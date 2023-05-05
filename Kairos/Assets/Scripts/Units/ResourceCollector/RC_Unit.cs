@@ -43,16 +43,13 @@ public class RC_Unit : Unit
 
     private void Update()
     {
-        if (entity.movementMode == RC_Entity.MovementMode.IDLE && commandGroup.path.Count == 1)
+        if (commandGroup != null && commandGroup.path.Count == 1)
         {
-            // if idle, should be done path finding, so remove self from cg
-            if (commandGroup != null)
-            {
-                commandGroup.unitList.Remove(this);
-                commandGroup = null;
-            }
+            commandGroup.unitList.Remove(this);
+            commandGroup = null;
+            entity.movementMode = RC_Entity.MovementMode.IDLE;
         }
-        else
+        if (entity.movementMode != RC_Entity.MovementMode.IDLE)
         {
             entity.RotateTowards(entity.movementDirection);
         }

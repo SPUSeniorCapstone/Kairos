@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -249,4 +250,6 @@ public class GameController : MonoBehaviour
     public Shader unHighlight;
     public CommandGroup CGSettings;
     public bool randomDamageModifier = false;
+
+    public List<Builder_Unit> masterBuilder = new List<Builder_Unit>();
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Selectable), typeof(Damageable))]
@@ -14,6 +15,8 @@ public class Unit : MonoBehaviour
     public AudioSource Body;
     public AudioSource Feet;
     public bool badGuy = false;
+ 
+    public bool doubleClicked = false;
 
     virtual public void PerformTaskOn(Selectable selectable)
     {
@@ -38,7 +41,7 @@ public class Unit : MonoBehaviour
     }
     public virtual void OnSelect()
     {
-
+       
     }
     public virtual void OnDeselect()
     {

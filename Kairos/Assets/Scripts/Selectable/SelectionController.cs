@@ -10,6 +10,7 @@ public class SelectionController : MonoBehaviour
     private Vector3 startPosition;
     public List<Selectable> masterSelect = new List<Selectable>();
     public List<Selectable> currentlySelect = new List<Selectable>();
+    public bool AllowDoubleClicks = false;
 
     // this only exists to try and fix clicking on something that just got instantiated (trying to prevent it, works only sometimes)
     public bool testCooldown = true;
@@ -151,6 +152,8 @@ public class SelectionController : MonoBehaviour
                         //        currentlySelect.Remove(selectable);
                         //    }
                         //}
+
+                        // I NEED A CONDITION TO NOT DESELECT IF THE DOUBLE CLICK IS DONE
                         if (selectable.selected == true && selectable.gameObject != GameController.Main.UIController.StratView.inspectee)
                         {
                             selectable.selected = false;

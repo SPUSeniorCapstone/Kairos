@@ -82,16 +82,15 @@ public class ProductionStructure : Structure
     }
     public override void OnSelect()
     {
-        GameController.Main.StructureController.selected = this;
-        GameController.Main.UIController.EnableProductionMenu(true);
         rallyPoint.GetComponentInChildren<MeshRenderer>().material.shader = GameController.Main.highlight;
-        //GameController.Main.UIController.MenuController.structureMenuUI.SetActive(true);
+        if (!GameController.Main.StructureController.selected.Contains(this))
+        {
+            GameController.Main.StructureController.selected.Add(this);
+        }
     }
     public override void OnDeselect()
     {
-        GameController.Main.StructureController.selected = null;
-        GameController.Main.UIController.EnableProductionMenu(false);
         rallyPoint.GetComponentInChildren<MeshRenderer>().material.shader = GameController.Main.unHighlight;
-        //GameController.Main.UIController.MenuController.structureMenuUI.SetActive(false);
+        GameController.Main.StructureController.selected.Remove(this);
     }
 }

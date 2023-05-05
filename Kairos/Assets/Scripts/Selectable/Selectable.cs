@@ -9,7 +9,12 @@ public class Selectable : MonoBehaviour
     private Unit unit;
     private Structure structure;
     private Shader unHighlight;
-   
+
+    public int clickCount;
+    public float clickTime;
+    public float clickDelay = .5f;
+    public bool selectDoubleClick = false;
+
     void Start()
     {
         selectedMaterial = GetComponentInChildren<MeshRenderer>().material;
@@ -31,7 +36,27 @@ public class Selectable : MonoBehaviour
     }
     public void Activate()
     {
-       if (GameController.Main.SelectionController.testCooldown)
+        if (GameController.Main.SelectionController.AllowDoubleClicks)
+        {
+            clickCount++;
+            if (clickCount == 1)
+            {
+                clickTime = Time.time;
+            }
+            else if (clickCount > 1 && Time.time - clickTime < clickDelay)
+            {
+          
+                //clickCount = 0;
+                //clickTime = 0;
+                selectDoubleClick = true;
+            }
+            else
+            {
+                clickTime = 0;
+                clickCount = 0;
+            }
+        }
+        if (GameController.Main.SelectionController.testCooldown)
         {
             if (selected)
             {
@@ -40,10 +65,22 @@ public class Selectable : MonoBehaviour
             }
             if (unit != null)
             {
+                if (selectDoubleClick)
+                {
+                    Debug.Log("DOUBLE CLICK!!!---" + clickCount);
+                    unit.doubleClicked = true;
+                    selectDoubleClick = false;
+                    clickCount = 0;
+                    clickTime = 0;
+                }
                 unit.OnSelect();
             }
             else if (structure != null)
             {
+                //if (selectDoubleClick)
+                //{
+                //    unit.doubleClicked = true;
+                //}
                 structure.OnSelect();
             }
         }
@@ -52,6 +89,8 @@ public class Selectable : MonoBehaviour
     {
         if (GameController.Main.SelectionController.testCooldown)
         {
+            clickTime = 0;
+            clickCount = 0;
             selectedMaterial.shader = unHighlight;
             GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
             if (unit != null)

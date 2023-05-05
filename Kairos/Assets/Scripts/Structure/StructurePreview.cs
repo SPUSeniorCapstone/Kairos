@@ -16,12 +16,23 @@ public class StructurePreview : Structure
 
     private void Update()
     {
+        foreach (Builder_Unit b in GameController.Main.masterBuilder)
+        {
+            if (builder == null)
+            {
+                builder = b;
+            } 
+            else if (Vector3.Distance(transform.position, builder.transform.position) > Vector3.Distance(transform.position, b.transform.position))
+            {
+                builder = b;
+            }
+        }
        
         
            if (!example)
         {
             timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0 && builder != null && Vector3.Distance(transform.position, builder.transform.position) < distanceToBuild && builder.entity.movementMode == Builder_Entity.MovementMode.IDLE)
+            if (timeLeft <= 0 && Vector3.Distance(transform.position, builder.transform.position) < distanceToBuild && builder.entity.movementMode == Builder_Entity.MovementMode.IDLE)
             {
                 timeLeft = originialTime;
                 damageable.Heal(100);

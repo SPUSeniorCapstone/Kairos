@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -33,20 +34,19 @@ public class Builder_Unit : Unit
     private void Awake()
     {
         entity = GetComponent<Builder_Entity>();
+        GameController.Main.masterBuilder.Add(this);
     }
 
     private void Update()
     {
-        if (entity.movementMode == Builder_Entity.MovementMode.IDLE)
+        if (commandGroup != null && commandGroup.path.Count == 1)
         {
-            // if idle, should be done path finding, so remove self from cg
-            if (commandGroup != null && commandGroup.path.Count == 1)
-            {
-                commandGroup.unitList.Remove(this);
-                commandGroup = null;
-            }
+            commandGroup.unitList.Remove(this);
+            commandGroup = null;
+            entity.movementMode = Builder_Entity.MovementMode.IDLE;
         }
-        else
+        // remove condition to allow snap to attention
+        if (entity.movementMode != Builder_Entity.MovementMode.IDLE)
         {
             entity.RotateTowards(entity.movementDirection);
         }
@@ -54,13 +54,30 @@ public class Builder_Unit : Unit
 
     public override void OnSelect()
     {
+
+       
+       if (doubleClicked)
+        {
+            doubleClicked = false;
+            var temp = FindObjectsByType<Builder_Unit>(FindObjectsSortMode.None);
+            Debug.Log(temp.Count());
+            foreach (Builder_Unit builder in temp)
+            {
+                GameController.Main.SelectionController.currentlySelect.Add(builder.GetComponent<Selectable>());
+                builder.GetComponent<Selectable>().selected = true;
+                builder.GetComponent<Selectable>().Activate();
+            }
+ 
+        }
         // neccessary?
         if (GameController.Main.UIController.StratView.inspectee == gameObject)
             GameController.Main.UIController.EnableBuildMenu(true);
     }
     public override void OnDeselect()
     {
-        GameController.Main.UIController.EnableBuildMenu(false);
+        Debug.Log("BUILDER DESELECT");
+        if (GameController.Main.UIController.StratView.inspectee == gameObject || (GameController.Main.UIController.StratView.inspectee!= null && GameController.Main.UIController.StratView.inspectee.GetComponent<Structure>() != null))
+            GameController.Main.UIController.EnableBuildMenu(false);
     }
 
     public void BuildTask(Vector3 pos)
