@@ -106,7 +106,7 @@ public class SelectionController : MonoBehaviour
             //    }
             //}
             // single click select, or click and drag let go
-            if (GameController.Main.InputController.Select.KeyUp() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            if (GameController.Main.InputController.Select.KeyUp())
             {
                 selectionAreaTransform.gameObject.SetActive(false);
                 foreach (Selectable selectable in masterSelect)
@@ -114,16 +114,19 @@ public class SelectionController : MonoBehaviour
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
                     if (point.x > lowerLeft.x && point.x < upperRight.x && point.y > lowerLeft.y && point.y < upperRight.y && !selectable.faction)
                     {
-                        if (selectable.selected == false)
+                        if (selectable.GetComponent<Structure>() == null)
                         {
-                            currentlySelect.Add(selectable);
-                            
-                            // what to add so this only fires if the current unit view isn't part of currentlyselect after new selection occurs?
-                            GameController.Main.UIController.StratView.SetUnitView(selectable.gameObject);
-                            
+                            if (selectable.selected == false)
+                            {
+                                currentlySelect.Add(selectable);
+
+                                // what to add so this only fires if the current unit view isn't part of currentlyselect after new selection occurs?
+                                GameController.Main.UIController.StratView.SetUnitView(selectable.gameObject);
+
+                            }
+                            selectable.selected = true;
+                            selectable.Activate();
                         }
-                        selectable.selected = true;
-                        selectable.Activate();
                     }
                     // this will check if the mouse click ray hit a selectable (uses oneclick instead of selectable)
                     // does this work as intended? what if you flick the mouse?
@@ -154,14 +157,14 @@ public class SelectionController : MonoBehaviour
                         //}
 
                         // I NEED A CONDITION TO NOT DESELECT IF THE DOUBLE CLICK IS DONE
-                        if (selectable.selected == true && selectable.gameObject != GameController.Main.UIController.StratView.inspectee)
+                        if (selectable.selected == true && selectable.gameObject != GameController.Main.UIController.StratView.inspectee && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                         {
                             selectable.selected = false;
                             selectable.Deactivate();
                             currentlySelect.Remove(selectable);
                         }
                         Selectable oneClick = GetMouseWorldPosition3D();
-                        if (oneClick == null)
+                        if (oneClick == null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                         {
                             if (selectable.selected == false)
                             {
@@ -178,6 +181,7 @@ public class SelectionController : MonoBehaviour
                     //GameController.Main.UIController.StratView.SetUnitView(currentlySelect[0].gameObject);
                 else GameController.Main.UIController.StratView.SetUnitView(null);
             }
+
             // click and drag box
             if (GameController.Main.InputController.Select.Pressed())
             {

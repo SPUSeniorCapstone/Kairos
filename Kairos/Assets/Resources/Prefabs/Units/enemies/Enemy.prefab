@@ -111,7 +111,6 @@ GameObject:
   - component: {fileID: 6032963940185719506}
   - component: {fileID: 3950778543917710455}
   - component: {fileID: 5943920391052618387}
-  - component: {fileID: 2318046230472838670}
   - component: {fileID: 7796538286990898836}
   m_Layer: 7
   m_Name: Enemy
@@ -152,6 +151,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 1
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
 --- !u!114 &6032963940185719506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +172,7 @@ MonoBehaviour:
   <Invulnerable>k__BackingField: 0
   deathTimer: 1
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!114 &3950778543917710455
 MonoBehaviour:
@@ -227,6 +231,7 @@ MonoBehaviour:
   Body: {fileID: 0}
   Feet: {fileID: 0}
   badGuy: 0
+  doubleClicked: 0
   personalDistance: 1
   attackDistance: 1
   attackCoolDown: 1
@@ -234,24 +239,12 @@ MonoBehaviour:
   autoAttack: 1
   archer: 0
   guard: 0
+  projectile: {fileID: 0}
+  projectileSpeed: 0
   target: {fileID: 0}
   HeadSounds: []
   BodySounds: []
   FeetSounds: []
---- !u!136 &2318046230472838670
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8169230732344282633}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 1
-  m_Height: 4
-  m_Direction: 1
-  m_Center: {x: 0, y: 2, z: 0}
 --- !u!65 &7796538286990898836
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -263,8 +256,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 4, z: 1.5}
-  m_Center: {x: -0.35, y: 2, z: 0}
+  m_Size: {x: 4.26514, y: 1.1812496, z: 4.4206057}
+  m_Center: {x: -0.19607544, y: 0.5906248, z: 0.092158064}
 --- !u!1 &8915646630854929825
 GameObject:
   m_ObjectHideFlags: 0

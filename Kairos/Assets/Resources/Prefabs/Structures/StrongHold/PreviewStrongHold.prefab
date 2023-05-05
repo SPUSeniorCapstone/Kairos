@@ -48,8 +48,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 1, y: 1, z: 1}
+  m_Size: {x: 8, y: 11.554674, z: 7.960204}
+  m_Center: {x: 0.61500454, y: 5, z: 1.227457}
 --- !u!114 &894272694490731707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +64,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
 --- !u!114 &156672671965586176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +85,7 @@ MonoBehaviour:
   <Invulnerable>k__BackingField: 0
   deathTimer: 1.5
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!114 &7449997359375875407
 MonoBehaviour:

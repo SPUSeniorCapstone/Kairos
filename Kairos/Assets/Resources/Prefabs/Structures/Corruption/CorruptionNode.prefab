@@ -111,8 +111,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 1, y: 1, z: 1}
+  m_Size: {x: 6.347566, y: 5.230842, z: 5.4104967}
+  m_Center: {x: 0.96972775, y: 2.615421, z: 1.5996766}
 --- !u!114 &1445774268486989596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,9 +127,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 1
-  unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  highlight: {fileID: 0}
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
 --- !u!114 &1897678701477724327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,9 +146,9 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 1000
   <Health>k__BackingField: 1000
   <Invulnerable>k__BackingField: 0
-  model: {fileID: 1491037260354842343}
   deathTimer: 1
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!114 &6542148412012091935
 MonoBehaviour:
@@ -167,6 +168,7 @@ MonoBehaviour:
   example: 0
   builder: {fileID: 0}
   directory: {fileID: 0}
+  rallyPoint: {fileID: 0}
   unitsQueued: 0
   unitToSpawn: {fileID: 8169230732344282633, guid: c0d64a8195cd6ed4593ff464c3dd8f53, type: 3}
   unitTypes:
@@ -174,7 +176,6 @@ MonoBehaviour:
   - {fileID: 1731995671655893518, guid: 563f67d649590be4097d90aab9a4ad00, type: 3}
   - {fileID: 9021786559248497074, guid: b109b954e97d2de47b4a069f04bf246f, type: 3}
   spawnPoint: {fileID: 4784923547611459183}
-  rallyPoint: {x: 0, y: 0, z: 0}
   RallyPoint: {fileID: 5086277857375823974}
   guard: []
   guardNumber: 3
@@ -195,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884661872563757572, guid: 14c59336810cc6c4eb94f8560360b1c7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1884661872563757572, guid: 14c59336810cc6c4eb94f8560360b1c7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -235,11 +236,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4129305450542123762, guid: 14c59336810cc6c4eb94f8560360b1c7, type: 3}
---- !u!23 &1491037260354842343 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7858982309795864417, guid: 14c59336810cc6c4eb94f8560360b1c7, type: 3}
-  m_PrefabInstance: {fileID: 8764441074646413702}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7171460432614839170 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1884661872563757572, guid: 14c59336810cc6c4eb94f8560360b1c7, type: 3}

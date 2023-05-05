@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 2700780413798338308}
   - component: {fileID: 4514925555918820031}
   - component: {fileID: 548469208533061309}
-  - component: {fileID: 8362819093570306657}
   - component: {fileID: 6818425480220162011}
   - component: {fileID: 3768060847104558126}
   - component: {fileID: 5113807028992209960}
@@ -129,7 +128,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2700780413798662758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 112.94, y: 5.000001, z: 56.04}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -154,6 +153,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
 --- !u!114 &548469208533061309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,24 +172,10 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
-  model: {fileID: 2488032070016594396}
   deathTimer: 1.5
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
---- !u!136 &8362819093570306657
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2700780413798662758}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 1
-  m_Height: 4
-  m_Direction: 1
-  m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &6818425480220162011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +217,13 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   perch: 0
   idle: 1
+  OldAvoidEntityRadius: 3
+  OldAvoidWallRadius: 3
+  OldstepHeight: 1
+  OldmovementSpeed: 10
+  OldstopFollowDistance: 1
+  OldavoidStrength: 1
+  OldfollowStrength: 1
   movementMode: 0
   retrievingPath: 0
   lockHorizontalRotation: 1
@@ -244,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa74b9ef9ee77f46bdd8311cae1cf41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: {fileID: 0}
+  commandGroup: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
   layerMask:
@@ -253,6 +249,8 @@ MonoBehaviour:
   Head: {fileID: 0}
   Body: {fileID: 0}
   Feet: {fileID: 0}
+  badGuy: 0
+  doubleClicked: 0
   Task: 
   personalDistance: 1
   display: {x: 0, y: 0, z: 0}
@@ -552,11 +550,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4129305450542123762, guid: 5368d3f0e8044d2449beb257ff33b63f, type: 3}
---- !u!23 &2488032070016594396 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7858982309795864417, guid: 5368d3f0e8044d2449beb257ff33b63f, type: 3}
-  m_PrefabInstance: {fileID: 5735322279607824061}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6174537091235105977 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1884661872563757572, guid: 5368d3f0e8044d2449beb257ff33b63f, type: 3}

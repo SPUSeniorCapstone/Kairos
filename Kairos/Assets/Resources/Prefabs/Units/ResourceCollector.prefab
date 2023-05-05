@@ -140,7 +140,6 @@ GameObject:
   - component: {fileID: 2280051571707944031}
   - component: {fileID: 321861645757219300}
   - component: {fileID: 4414594709870812646}
-  - component: {fileID: 5679588891513688378}
   - component: {fileID: 7223965599939945600}
   - component: {fileID: 7935511443617527479}
   - component: {fileID: 3509812374533679609}
@@ -185,6 +184,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
 --- !u!114 &4414594709870812646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,21 +205,8 @@ MonoBehaviour:
   <Invulnerable>k__BackingField: 0
   deathTimer: 1.5
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
---- !u!136 &5679588891513688378
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2280051571708137789}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 1
-  m_Height: 4
-  m_Direction: 1
-  m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &7223965599939945600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +248,13 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   perch: 0
   idle: 1
+  OldAvoidEntityRadius: 3
+  OldAvoidWallRadius: 3
+  OldstepHeight: 1
+  OldmovementSpeed: 10
+  OldstopFollowDistance: 1
+  OldavoidStrength: 1
+  OldfollowStrength: 1
   movementMode: 0
   retrievingPath: 0
   rcUnit: {fileID: 0}
@@ -281,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 121d623b27b260b4eab655539d07d400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: {fileID: 0}
+  commandGroup: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
   layerMask:
@@ -290,6 +287,8 @@ MonoBehaviour:
   Head: {fileID: 0}
   Body: {fileID: 0}
   Feet: {fileID: 0}
+  badGuy: 0
+  doubleClicked: 0
   Task: 
   personalDistance: 1
   display: {x: 0, y: 0, z: 0}

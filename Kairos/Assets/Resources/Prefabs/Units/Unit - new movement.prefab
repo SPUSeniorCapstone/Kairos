@@ -111,7 +111,6 @@ GameObject:
   - component: {fileID: 547667637956704709}
   - component: {fileID: 7130091334124373856}
   - component: {fileID: 458765143053193604}
-  - component: {fileID: 8361929613854930201}
   - component: {fileID: 6816990643186172067}
   - component: {fileID: 826742863915913560}
   m_Layer: 6
@@ -157,9 +156,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
-  unSelectedMaterial: {fileID: 2100000, guid: 466de96a339b5eb4ba38ed26b7276886, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: 4a66a1456fe48114eaa6f0c165e4afa3, type: 2}
-  highlight: {fileID: 614111920973267436}
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
 --- !u!114 &547667637956704709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,9 +175,9 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
-  model: {fileID: 6172922726332138759}
   deathTimer: 1.5
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
 --- !u!114 &7130091334124373856
 MonoBehaviour:
@@ -203,6 +203,13 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   perch: 0
   idle: 1
+  OldAvoidEntityRadius: 3
+  OldAvoidWallRadius: 3
+  OldstepHeight: 1
+  OldmovementSpeed: 10
+  OldstopFollowDistance: 1
+  OldavoidStrength: 1
+  OldfollowStrength: 1
   movementMode: 0
   retrievingPath: 0
   lockHorizontalRotation: 1
@@ -219,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  command: {fileID: 0}
+  commandGroup: {fileID: 0}
   searchRadius: 15
   isPerformingTask: 0
   layerMask:
@@ -228,11 +235,17 @@ MonoBehaviour:
   Head: {fileID: 1245642248622170686}
   Body: {fileID: 3007637093835193737}
   Feet: {fileID: 3461932696817876635}
+  badGuy: 0
+  doubleClicked: 0
   personalDistance: 1
   attackDistance: 1
   attackCoolDown: 1
   attackDamage: 12
   autoAttack: 1
+  archer: 0
+  guard: 0
+  projectile: {fileID: 0}
+  projectileSpeed: 0
   target: {fileID: 0}
   HeadSounds:
   - {fileID: 0}
@@ -256,20 +269,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ee6a685739fb58644917be39bde22153, type: 3}
   - {fileID: 8300000, guid: fe00175a30ea40a4588ec669755b3f1a, type: 3}
   - {fileID: 8300000, guid: b99b28417847aba43b8a2b8e62b7ecc0, type: 3}
---- !u!136 &8361929613854930201
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2701632545085584670}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 1
-  m_Height: 4
-  m_Direction: 1
-  m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &6816990643186172067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,10 +915,5 @@ PrefabInstance:
 --- !u!4 &2494360578049587298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1884661872563757572, guid: fa06d58db10bb8a40ba46b0de6f38f6b, type: 3}
-  m_PrefabInstance: {fileID: 4087604102761060966}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &6172922726332138759 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 7858982309795864417, guid: fa06d58db10bb8a40ba46b0de6f38f6b, type: 3}
   m_PrefabInstance: {fileID: 4087604102761060966}
   m_PrefabAsset: {fileID: 0}
