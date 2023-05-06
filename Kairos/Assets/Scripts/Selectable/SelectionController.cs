@@ -159,9 +159,12 @@ public class SelectionController : MonoBehaviour
                         // I NEED A CONDITION TO NOT DESELECT IF THE DOUBLE CLICK IS DONE
                         if (selectable.selected == true && selectable.gameObject != GameController.Main.UIController.StratView.inspectee && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                         {
-                            selectable.selected = false;
-                            selectable.Deactivate();
-                            currentlySelect.Remove(selectable);
+                            if (!selectable.massSelected)
+                            {
+                                selectable.selected = false;
+                                selectable.Deactivate();
+                                currentlySelect.Remove(selectable);
+                            }                         
                         }
                         Selectable oneClick = GetMouseWorldPosition3D();
                         if (oneClick == null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())

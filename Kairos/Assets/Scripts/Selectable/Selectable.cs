@@ -14,6 +14,7 @@ public class Selectable : MonoBehaviour
     public float clickTime;
     public float clickDelay = .5f;
     public bool selectDoubleClick = false;
+    public bool massSelected = false;
 
     void Start()
     {
@@ -91,6 +92,7 @@ public class Selectable : MonoBehaviour
         {
             clickTime = 0;
             clickCount = 0;
+            massSelected = false;
             selectedMaterial.shader = unHighlight;
             GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
             if (unit != null)

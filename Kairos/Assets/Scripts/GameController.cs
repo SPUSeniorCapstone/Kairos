@@ -151,6 +151,18 @@ public class GameController : MonoBehaviour
         }
     }
     CorruptionController corruptionController;
+    public CameraController CameraController
+    {
+        get
+        {
+            if (cameraController == null)
+            {
+                cameraController = FindObjectOfType<CameraController>();
+            }
+            return cameraController;
+        }
+    }
+    CameraController cameraController;
 
     // misnomar, simply cleans up any lists it might be in before letting the original caller destroy itself
     public void MasterDestory(GameObject item)

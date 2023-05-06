@@ -63,9 +63,11 @@ public class Builder_Unit : Unit
             Debug.Log(temp.Count());
             foreach (Builder_Unit builder in temp)
             {
-                GameController.Main.SelectionController.currentlySelect.Add(builder.GetComponent<Selectable>());
-                builder.GetComponent<Selectable>().selected = true;
-                builder.GetComponent<Selectable>().Activate();
+                var s = builder.GetComponent<Selectable>();
+                s.massSelected = true;
+                GameController.Main.SelectionController.currentlySelect.Add(s);
+                s.selected = true;
+                s.Activate();
             }
  
         }
@@ -104,9 +106,11 @@ public class Builder_Unit : Unit
     new public void OnDestroy()
     {
         GameController.Main.masterBuilder.Remove(this);
-        base.OnDestroy();
-        if(GameController.Main != null)
+        if (GameController.Main != null)
+        {
             GameController.Main.CheckVictory(null);
+        }          
+        base.OnDestroy();
     }
 
     public override void MoveTo(Vector3 position)
