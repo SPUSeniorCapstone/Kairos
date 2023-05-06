@@ -64,7 +64,8 @@ public class RTSCamera : MonoBehaviour
             }
 
             MoveTowardsPosition();
-            RotateTowardsPlayer();
+            if(rotateCamera)
+                RotateTowardsPosition();
         }
     }
 
@@ -90,7 +91,7 @@ public class RTSCamera : MonoBehaviour
         transform.RotateAround(position, Vector3.up, rotateAmount);
     }
 
-    void RotateTowardsPlayer()
+    void RotateTowardsPosition()
     {
         Quaternion rotation = transform.rotation;
 
