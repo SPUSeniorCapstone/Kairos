@@ -169,7 +169,21 @@ public class SelectionController : MonoBehaviour
 
                             //(oneClick != selectable && !oneClick.massSelected)
                             // !selectable.massSelected || selectable.massSelected && currentlySelect.Contains(selectable)
-                            else if (!oneClick.massSelected && oneClick != selectable)
+                            // ||    (Input.GetKey(KeyCode.LeftShift) && GameController.Main.UIController.StratView.inspectee.GetComponent<ProductionStructure>() != null && oneClick.GetComponent<Unit>() == null)
+                            //else if ((Input.GetKey(KeyCode.LeftShift) && GameController.Main.UIController.StratView.inspectee.GetComponent<Unit>() != null && oneClick.GetComponent<ProductionStructure>() != null))
+                            //{
+                            //    selectable.selected = false;
+                            //    selectable.Deactivate();
+                            //    currentlySelect.Remove(selectable);
+                            //}
+                            //||
+                            //    (GameController.Main.UIController.StratView.inspectee.GetComponent<ProductionStructure>() == null && oneClick.GetComponent<Unit>() != null
+
+                            else if (!oneClick.massSelected && oneClick != selectable && !Input.GetKey(KeyCode.LeftShift) ||
+                                (Input.GetKey(KeyCode.LeftShift) && oneClick != selectable &&
+                                (GameController.Main.UIController.StratView.inspectee.GetComponent<ProductionStructure>() == null && oneClick.GetComponent<Unit>() != null 
+                                || GameController.Main.UIController.StratView.inspectee.GetComponent<Unit>() == null && oneClick.GetComponent<ProductionStructure>() != null)))
+                                 
                             {
                                 selectable.selected = false;
                                 selectable.Deactivate();

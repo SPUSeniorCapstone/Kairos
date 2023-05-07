@@ -35,6 +35,14 @@ public class InputController
     public InputType Eight = new InputType(KeyCode.Alpha8, KeyCode.None);
     public InputType Nine = new InputType(KeyCode.Alpha9, KeyCode.None);
 
+    public InputType Stop = new InputType(KeyCode.S, KeyCode.None);
+    public InputType AttackMove = new InputType(KeyCode.A, KeyCode.None);
+    public InputType AllFightingUnits = new InputType(KeyCode.Q, KeyCode.None);
+    public InputType SameUnitsOnMap = new InputType(KeyCode.E, KeyCode.None);
+    // avoid corruption squares?
+    public InputType Scatter = new InputType(KeyCode.X, KeyCode.None);
+    public InputType SeeStronghold = new InputType(KeyCode.H, KeyCode.None);
+
 
     [Serializable]
     public struct InputType
