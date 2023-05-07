@@ -109,8 +109,8 @@ GameObject:
   - component: {fileID: 2701632545085257852}
   - component: {fileID: 4516272432036144583}
   - component: {fileID: 547667637956704709}
+  - component: {fileID: 2642011420575370212}
   - component: {fileID: 7130091334124373856}
-  - component: {fileID: 458765143053193604}
   - component: {fileID: 6816990643186172067}
   - component: {fileID: 826742863915913560}
   m_Layer: 6
@@ -160,6 +160,7 @@ MonoBehaviour:
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &547667637956704709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +180,7 @@ MonoBehaviour:
   DeathTime: -1
   corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
---- !u!114 &7130091334124373856
+--- !u!114 &2642011420575370212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,42 +189,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2701632545085584670}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5993626fb2756e74b986a996cf7740ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AvoidEntityRadius: 3
-  AvoidWallRadius: 2
-  stepHeight: 1
-  movementSpeed: 10
-  stopFollowDistance: 4
-  avoidStrength: 1
-  followStrength: 1.71
-  viewDebugInfo: 1
-  movementDirection: {x: 0, y: 0, z: 0}
-  targetPos: {x: 0, y: 0, z: 0}
-  perch: 0
-  idle: 1
-  OldAvoidEntityRadius: 3
-  OldAvoidWallRadius: 3
-  OldstepHeight: 1
-  OldmovementSpeed: 10
-  OldstopFollowDistance: 1
-  OldavoidStrength: 1
-  OldfollowStrength: 1
-  movementMode: 0
-  retrievingPath: 0
-  lockHorizontalRotation: 1
-  rotateSpeed: 10
---- !u!114 &458765143053193604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2701632545085584670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
+  m_Script: {fileID: 11500000, guid: cb4b2ba0e399d2f48b4bd64ac74f57e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   commandGroup: {fileID: 0}
@@ -263,12 +229,42 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9231129e185bbdb41ac5a4baee899e4f, type: 3}
   - {fileID: 8300000, guid: c1dffa11fb7c498499ef62d70de7b435, type: 3}
   - {fileID: 8300000, guid: b6a8e22a32b48b14f879afd78dcc481b, type: 3}
-  FeetSounds:
-  - {fileID: 8300000, guid: 19524eb3a20b2e345a197fc6aa0bc088, type: 3}
-  - {fileID: 8300000, guid: 061b59c28d0be584e8d705c2168a4e1a, type: 3}
-  - {fileID: 8300000, guid: ee6a685739fb58644917be39bde22153, type: 3}
-  - {fileID: 8300000, guid: fe00175a30ea40a4588ec669755b3f1a, type: 3}
-  - {fileID: 8300000, guid: b99b28417847aba43b8a2b8e62b7ecc0, type: 3}
+  FeetSounds: []
+--- !u!114 &7130091334124373856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701632545085584670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5993626fb2756e74b986a996cf7740ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AvoidEntityRadius: 3
+  AvoidWallRadius: 2
+  stepHeight: 1
+  movementSpeed: 10
+  stopFollowDistance: 4
+  avoidStrength: 1
+  followStrength: 1.71
+  viewDebugInfo: 1
+  movementDirection: {x: 0, y: 0, z: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+  perch: 0
+  idle: 1
+  OldAvoidEntityRadius: 3
+  OldAvoidWallRadius: 3
+  OldstepHeight: 1
+  OldmovementSpeed: 10
+  OldstopFollowDistance: 1
+  OldavoidStrength: 1
+  OldfollowStrength: 1
+  movementMode: 0
+  retrievingPath: 0
+  lockHorizontalRotation: 1
+  rotateSpeed: 10
 --- !u!114 &6816990643186172067
 MonoBehaviour:
   m_ObjectHideFlags: 0

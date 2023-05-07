@@ -23,6 +23,18 @@ public class InputController
 
     public InputType Pause = new InputType(KeyCode.Escape, KeyCode.None);
 
+    // hotkeys
+    public InputType Zero = new InputType(KeyCode.Alpha0, KeyCode.None);
+    public InputType One = new InputType(KeyCode.Alpha1, KeyCode.None);
+    public InputType Two = new InputType(KeyCode.Alpha2, KeyCode.None);
+    public InputType Three = new InputType(KeyCode.Alpha3, KeyCode.None);
+    public InputType Four = new InputType(KeyCode.Alpha4, KeyCode.None);
+    public InputType Five = new InputType(KeyCode.Alpha5, KeyCode.None);
+    public InputType Six = new InputType(KeyCode.Alpha6, KeyCode.None);
+    public InputType Seven = new InputType(KeyCode.Alpha7, KeyCode.None);
+    public InputType Eight = new InputType(KeyCode.Alpha8, KeyCode.None);
+    public InputType Nine = new InputType(KeyCode.Alpha9, KeyCode.None);
+
 
     [Serializable]
     public struct InputType

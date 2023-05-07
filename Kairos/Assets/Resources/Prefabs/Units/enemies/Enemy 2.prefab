@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 277654475232172759}
   - component: {fileID: 4246573733965678293}
   - component: {fileID: 6882701815510906992}
-  - component: {fileID: 4263418909574688404}
+  - component: {fileID: 3930387144859160606}
   - component: {fileID: 388829854203032211}
   m_Layer: 7
   m_Name: Enemy 2
@@ -186,6 +186,7 @@ MonoBehaviour:
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &4246573733965678293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,7 +241,7 @@ MonoBehaviour:
   retrievingPath: 0
   lockHorizontalRotation: 1
   rotateSpeed: 10
---- !u!114 &4263418909574688404
+--- !u!114 &3930387144859160606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +250,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1731995671655893518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 7888aadb611acc24cbda11b7971ad87a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   commandGroup: {fileID: 0}

@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Selectable), typeof(Damageable))]
@@ -41,11 +44,32 @@ public class Unit : MonoBehaviour
     }
     public virtual void OnSelect()
     {
-       
+        if (doubleClicked)
+        {
+            doubleClicked = false;
+            DoubleClick(GetType());
+        }
     }
     public virtual void OnDeselect()
     {
 
+    }
+    public void DoubleClick(Type t)
+    {
+        UnityEngine.Object[] temp = FindObjectsByType(t, FindObjectsSortMode.None);
+        //Debug.Log(temp.Count());
+        foreach (var obj in temp)
+        {
+            var selectable = obj.GetComponent<Selectable>();
+            selectable.massSelected = true;
+            //!GameController.Main.SelectionController.currentlySelect.Contains(selectable)
+            if (!selectable.selected)
+            {
+                GameController.Main.SelectionController.currentlySelect.Add(selectable);
+            }  
+            selectable.selected = true;
+            selectable.Activate();
+        }
     }
     public void OnDestroy()
     {

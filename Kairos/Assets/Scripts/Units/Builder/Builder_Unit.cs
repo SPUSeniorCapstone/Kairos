@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,23 +55,7 @@ public class Builder_Unit : Unit
 
     public override void OnSelect()
     {
-
-       
-       if (doubleClicked)
-        {
-            doubleClicked = false;
-            var temp = FindObjectsByType<Builder_Unit>(FindObjectsSortMode.None);
-            Debug.Log(temp.Count());
-            foreach (Builder_Unit builder in temp)
-            {
-                var s = builder.GetComponent<Selectable>();
-                s.massSelected = true;
-                GameController.Main.SelectionController.currentlySelect.Add(s);
-                s.selected = true;
-                s.Activate();
-            }
- 
-        }
+        base.OnSelect();
         // neccessary?
         if (GameController.Main.UIController.StratView.inspectee == gameObject)
             GameController.Main.UIController.EnableBuildMenu(true);

@@ -71,44 +71,41 @@ public class SelectionController : MonoBehaviour
             {
                 if (Input.GetKeyDown(keyCode))
                 {
-                    // try catch instead? need null checking here
-                    
-                    // don't add hot key to total list (does this cancel shift?) <-yes
-                    foreach (Selectable hotSelect in hotKeys[keyCode])
+                    // to prevent error about list being modifed while doing stuff
+                    // make a new hard copy, not a reference
+                    List<Selectable> temp = new List<Selectable>(currentlySelect);
+                    foreach (Selectable selectable in temp)
                     {
-                        if (hotSelect != null)
-                        {
-                            //selectable.SetSelectedVisible(true);
-                            //selectedEntityList.Add(entity);
-                            if (!hotSelect.selected)
-                            {
-                                currentlySelect.Add(hotSelect);
-                                GameController.Main.UIController.StratView.SetUnitView(hotSelect.gameObject);
-                            }
-                            hotSelect.selected = true;
-                            hotSelect.Activate();
-                            
-                        }
+                        selectable.selected = false;
+                        selectable.Deactivate();
+                        currentlySelect.Remove(selectable);
                     }
+                    // don't add hot key to total list (does this cancel shift?) <-yes
+                    if (hotKeys.ContainsKey(keyCode))
+                    {
+                        foreach (Selectable hotSelect in hotKeys[keyCode])
+                        {
+                            if (hotSelect != null)
+                            {
+                                if (!hotSelect.selected)
+                                {
+                                    currentlySelect.Add(hotSelect);
+                                    GameController.Main.UIController.StratView.SetUnitView(hotSelect.gameObject);
+                                }
+                                hotSelect.selected = true;
+                                hotSelect.Activate();
+                            }
+                        }
+                    }     
                 } 
             }
-            // on mouse 2, attack enemy or path find to location
-            //if (GameController.Main.InputController.Command.Down())
-            //{
-            //    Debug.Log("Mouse1 down");
-            //    if (onEnemy)
-            //    {
-            //        //-----------------------------
-            //    }
-            //    else
-            //    {
-            //        GameController.Main.CommandController.MoveSelected(currentlySelect);
-            //    }
-            //}
+
             // single click select, or click and drag let go
             if (GameController.Main.InputController.Select.KeyUp())
             {
                 selectionAreaTransform.gameObject.SetActive(false);
+
+                // can make this better by only looking through a list of player units instead of master select
                 foreach (Selectable selectable in masterSelect)
                 {
                     var point = Camera.main.WorldToScreenPoint(selectable.transform.position);
@@ -132,50 +129,52 @@ public class SelectionController : MonoBehaviour
                     // does this work as intended? what if you flick the mouse?
                     else
                     {
-                        //Selectable oneClick = GetMouseWorldPosition3D();
-                        //if (oneClick != null && !oneClick.faction)
-                        //{
-                        //    if (oneClick.selected == false)
-                        //    {
-                        //        currentlySelect.Add(oneClick);
-                        //    }
-                        //    GameController.Main.UIController.StratView.SetUnitView(oneClick.gameObject);
-                        //    oneClick.selected = true;
-                        //    oneClick.Activate();
-                        //    Debug.Log(oneClick + " activate");
-                        //}
-                        //// otherwise deactivate
-                        //else
-                        //{
-                        //    if (selectable.selected == true)
-                        //    {
-                        //        Debug.Log(selectable + " deactivate");
-                        //        selectable.selected = false;
-                        //        selectable.Deactivate();
-                        //        currentlySelect.Remove(selectable);
-                        //    }
-                        //}
-
                         // I NEED A CONDITION TO NOT DESELECT IF THE DOUBLE CLICK IS DONE
                         if (selectable.selected == true && selectable.gameObject != GameController.Main.UIController.StratView.inspectee && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                         {
                             if (!selectable.massSelected)
                             {
+                                //selectable.selected = false;
+                                //selectable.Deactivate();
+                                //currentlySelect.Remove(selectable);
+                            }
+                        }
+
+                        Selectable oneClick = GetMouseWorldPosition3D();
+                        Debug.Log("Oneclick + " + oneClick);
+                        // this if detects if cliked on terrain
+                        if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                        {
+                            Debug.Log("try deselect");
+                            // unneccesary?
+                            //if (selectable.selected == false)
+                            //{
+                            //    currentlySelect.Remove(selectable);
+                            //}
+                            // terrain
+                            if (oneClick == null)
+                            {
                                 selectable.selected = false;
                                 selectable.Deactivate();
                                 currentlySelect.Remove(selectable);
-                            }                         
-                        }
-                        Selectable oneClick = GetMouseWorldPosition3D();
-                        if (oneClick == null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-                        {
-                            if (selectable.selected == false)
-                            {
-                                currentlySelect.Remove(selectable);
                             }
-                            selectable.selected = false;
-                            selectable.Deactivate();
-                            currentlySelect.Remove(selectable);
+                            ////different mass select
+                            //else if (selectable.massSelected)
+                            //{
+                            //    selectable.selected = false;
+                            //    selectable.Deactivate();
+                            //    currentlySelect.Remove(selectable);
+                            //}
+                            // different selectable
+
+                            //(oneClick != selectable && !oneClick.massSelected)
+                            // !selectable.massSelected || selectable.massSelected && currentlySelect.Contains(selectable)
+                            else if (!oneClick.massSelected && oneClick != selectable)
+                            {
+                                selectable.selected = false;
+                                selectable.Deactivate();
+                                currentlySelect.Remove(selectable);
+                            } 
                         }
                     }
                 }
@@ -231,6 +230,13 @@ public class SelectionController : MonoBehaviour
             }
         }
     }
+
+
+    public void Deselect()
+    {
+
+    }
+
     // should this be in a helper class?
     // returns a screen to world point with a constant vector.z
     private Vector3 MouseToWorld(Vector3 vector)
