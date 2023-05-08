@@ -29,6 +29,7 @@ public class CommandGroup : MonoBehaviour
     public float minimumCenterDistance = 7;
     public bool retrievingPath = false;
     public float rejoinDistance = 5f;
+    public bool merge;
     /// <summary>
     /// Distance at which the entity looks for collisions with other entities
     /// </summary>
@@ -82,18 +83,38 @@ public class CommandGroup : MonoBehaviour
             //    unitList.Clear();
             //}
         }
-       
-        if (ParentCommandGroup != null && !ParentCommandGroup.retrievingPath && centerVector != Vector3.zero && ParentCommandGroup.centerVector != Vector3.zero && Vector3.Distance(centerVector, ParentCommandGroup.centerVector) < rejoinDistance)
+        if (merge)
         {
-            Debug.Log("child center " + centerVector + " is within " + rejoinDistance + " of parent center " + ParentCommandGroup.centerVector);
-            foreach (Unit unit in unitList)
+            foreach (CommandGroup group in GameController.Main.CommandController.CommandGroups)
             {
-                unit.commandGroup = ParentCommandGroup;
-                ParentCommandGroup.AddUnit(unit);
+                if (group != this && ParentCommandGroup != null && ParentCommandGroup == group.ParentCommandGroup && !group.retrievingPath && !retrievingPath && centerVector != Vector3.zero && group.centerVector != Vector3.zero && Vector3.Distance(centerVector, group.centerVector) < rejoinDistance)
+                {
+                    //Debug.Log("child center " + centerVector + " is within " + rejoinDistance + " of parent center " + group.centerVector);
+                    Debug.Log("Join Attempt");
+                    if (group.unitList.Count > unitList.Count)
+                    {
+                        foreach (Unit unit in unitList)
+                        {
+                            unit.commandGroup = group;
+                            group.AddUnit(unit);
+                        }
+                        unitList.Clear();
+                    }
+                    else
+                    {
+                        foreach (Unit unit in group.unitList)
+                        {
+                            unit.commandGroup = this;
+                            AddUnit(unit);
+                        }
+                        group.unitList.Clear();
+                    }
+                }
             }
-            Debug.Log("Parent Rejoin");
-            unitList.Clear();
         }
+        
+       
+      
         if (retrievingPath)
         {
             if (pathTask == null)
@@ -153,6 +174,7 @@ public class CommandGroup : MonoBehaviour
             avoidStrength = settings.avoidStrength;
             followStrength = settings.followStrength;
             rejoinDistance = settings.rejoinDistance;
+            merge = settings.merge;
         }
     }
 
@@ -192,7 +214,7 @@ public class CommandGroup : MonoBehaviour
     {
         if (unitList.Count == 0)
         {
-            Debug.Log("Was that supposed to happen?");
+            //Debug.Log("Was that supposed to happen?");
             GameController.Main.CommandController.CommandGroups.Remove(this);
             Destroy(gameObject);
         }

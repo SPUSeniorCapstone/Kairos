@@ -128,7 +128,12 @@ public class CommandController : MonoBehaviour
                 CommandGroup old = unit.commandGroup;
                 if (old != null)
                 {
-                    old.unitList.Remove(unit);
+                    // here, a unit is set to null, but doesnt set to idle
+                    foreach(Unit lunit in old.unitList)
+                    {
+                        lunit.commandGroup = null;
+                    }
+                    old.unitList.Clear();
                 }
                 // makes more command groups
                 if (Vector3.Distance(unit.transform.position, CG.centerVector) > groupJoinDistance && CG.unitList.Count != 0)
@@ -138,14 +143,14 @@ public class CommandController : MonoBehaviour
                         var subCG = Instantiate<CommandGroup>(commandGroup, playerFaction.transform);
                         subCG.ParentCommandGroup = CG;
                         unit.commandGroup = subCG;
-                                   subCG.AddUnit(unit);
+                        subCG.AddUnit(unit);
                         tempList.Add(subCG);
                     }
                     else
                     {
                         foreach(CommandGroup group in tempList)
                         {
-                            if (Vector3.Distance(unit.transform.position, group.centerVector) < groupJoinDistance)
+                            if (Vector3.Distance(unit.transform.position, group.centerVector) <= groupJoinDistance)
                             {
                                 unit.commandGroup = group;
                                 group.AddUnit(unit);
@@ -153,6 +158,7 @@ public class CommandController : MonoBehaviour
                         }
                         if (unit.commandGroup == null)
                         {
+                            Debug.Log("MAKING NEW GROUP");
                             var subCG = Instantiate<CommandGroup>(commandGroup, playerFaction.transform);
                             subCG.ParentCommandGroup = CG;
                             unit.commandGroup = subCG;
@@ -181,10 +187,13 @@ public class CommandController : MonoBehaviour
         //Debug.Log("AFTER LOOP: cg.entites = " + cg.entities[0].name);
         CG.pathTask = GameController.Main.PathFinder.FindPath(CG.transform.position, target, stepHeight, false);
         CG.retrievingPath = true;
+        commandGroups.Add(CG);
         foreach (CommandGroup group in tempList)
         {
+            group.CalculateCenter();
             group.pathTask = GameController.Main.PathFinder.FindPath(group.transform.position, target, stepHeight, false);
             group.retrievingPath = true;
+            commandGroups.Add(group);
         }
    
 
@@ -193,8 +202,6 @@ public class CommandController : MonoBehaviour
         if (GetComponent<CheckPathFinding>() != null)
             GetComponent<CheckPathFinding>().task = CG.pathTask;
 
-
-        commandGroups.Add(CG);
         Debug.Log(tempList + " list and list count " + tempList.Count);
 
 

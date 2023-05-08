@@ -57,7 +57,6 @@ public class Infantry_Unit : Unit
         }
         if (commandGroup != null && commandGroup.path.Count == 0 && commandGroup.retrievingPath == false)
         {
-            Debug.Log("Either success or failure");
             commandGroup.unitList.Remove(this);
             commandGroup = null;
             entity.movementMode = Infantry_Entity.MovementMode.IDLE;
