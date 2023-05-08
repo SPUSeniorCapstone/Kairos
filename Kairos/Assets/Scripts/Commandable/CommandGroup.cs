@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -14,6 +15,7 @@ public class CommandGroup : MonoBehaviour
     public Vector3 nextPoint;
 
     public CommandGroup settings;
+    public CommandGroup ParentCommandGroup;
 
     public int speedLimit;
     public Vector3 max, min;
@@ -26,7 +28,7 @@ public class CommandGroup : MonoBehaviour
     public bool needsPath = true;
     public float minimumCenterDistance = 7;
     public bool retrievingPath = false;
-
+    public float rejoinDistance = 5f;
     /// <summary>
     /// Distance at which the entity looks for collisions with other entities
     /// </summary>
@@ -75,7 +77,22 @@ public class CommandGroup : MonoBehaviour
                 SetGroupTarget(path.ElementAt(0));
                 path.RemoveAt(0);
             }
-   
+            //if (path.Count == 0 && !retrievingPath)
+            //{
+            //    unitList.Clear();
+            //}
+        }
+       
+        if (ParentCommandGroup != null && !ParentCommandGroup.retrievingPath && centerVector != Vector3.zero && ParentCommandGroup.centerVector != Vector3.zero && Vector3.Distance(centerVector, ParentCommandGroup.centerVector) < rejoinDistance)
+        {
+            Debug.Log("child center " + centerVector + " is within " + rejoinDistance + " of parent center " + ParentCommandGroup.centerVector);
+            foreach (Unit unit in unitList)
+            {
+                unit.commandGroup = ParentCommandGroup;
+                ParentCommandGroup.AddUnit(unit);
+            }
+            Debug.Log("Parent Rejoin");
+            unitList.Clear();
         }
         if (retrievingPath)
         {
@@ -107,47 +124,6 @@ public class CommandGroup : MonoBehaviour
                 retrievingPath = false;
             }
         }
-        //if (pathTask != null && pathTask.IsCompleted && needsPath)
-        //{
-        //    path = pathTask.Result;
-        //    if (path == null)
-        //    {
-        //        Debug.Log("null path");
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("path = " + pathTask.Result);
-        //        needsPath = false;
-
-        //        foreach (Entity entity in entities)
-        //        {
-        //            //entity.NextPoint();
-        //            entity.idle = false;
-        //        }
-        //    }
-
-        //    // if null no path
-        //}
-        //// is there a better way?
-        //if (destroyOnEmpty)
-        //{
-        //    CheckIfEmpty();
-        //}
-        //else 
-        //{
-        //    foreach (CommandGroup group in GameController.Main.CommandController.CommandGroups)
-        //    {
-        //        if (group != this)
-        //        {
-        //            group.effectiveDistance = effectiveDistance;
-        //            group.distanceFromTarget = distanceFromTarget;
-        //            group.cohesionFactor = cohesionFactor;
-        //            group.alignmentFactor = alignmentFactor;
-        //            group.followSpeed = followSpeed;
-        //            group.followStr = followStr;
-        //        }
-        //    }
-        //}
     }
 
     private void Start()
@@ -176,6 +152,7 @@ public class CommandGroup : MonoBehaviour
 
             avoidStrength = settings.avoidStrength;
             followStrength = settings.followStrength;
+            rejoinDistance = settings.rejoinDistance;
         }
     }
 
@@ -210,36 +187,20 @@ public class CommandGroup : MonoBehaviour
         {
             unit.MoveToTarget(pos);
         }
-        //foreach (Unit units in unitList)
-        //{
-        //entity.targetObject = groupTargetObj;
-        //if (gameObject == GameController.Main.CommandController.wayPoint)
-        //{
-        //    Debug.Log("GAMEOBJECT WAYPOINT");
-        //    entity.pathing = true;
-        //    entity.NextPoint();
-        //    //entity.SetTargetPos();
-        //}
-        //else
-        //{
-        //    Debug.Log("NOT WAYPOINT");
-        //    entity.pathing = true;
-        //    entity.NextPoint();
-        //    //entity.SetTargetPos();
-        //    //entity.idle = false;
-        //}
-        //entity.SetTargetPos();
-        //entity.idle = false;
-
-        //}
     }
     public void CheckIfEmpty()
     {
         if (unitList.Count == 0)
         {
+            Debug.Log("Was that supposed to happen?");
             GameController.Main.CommandController.CommandGroups.Remove(this);
             Destroy(gameObject);
         }
+    }
+    public void AddUnit(Unit unit)
+    {
+        unitList.Add(unit);
+        CalculateCenter();
     }
 
 

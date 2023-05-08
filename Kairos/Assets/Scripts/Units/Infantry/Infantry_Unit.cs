@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
@@ -54,9 +55,9 @@ public class Infantry_Unit : Unit
         {
             entity.movementMode = Infantry_Entity.MovementMode.IDLE;
         }
-        if (commandGroup != null && commandGroup.path.Count == 1)
+        if (commandGroup != null && commandGroup.path.Count == 0 && commandGroup.retrievingPath == false)
         {
-            Debug.Log("I SHOULD BE GONE");
+            Debug.Log("Either success or failure");
             commandGroup.unitList.Remove(this);
             commandGroup = null;
             entity.movementMode = Infantry_Entity.MovementMode.IDLE;

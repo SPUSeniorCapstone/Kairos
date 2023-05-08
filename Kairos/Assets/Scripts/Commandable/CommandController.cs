@@ -14,6 +14,8 @@ public class CommandController : MonoBehaviour
 
     public int stepHeight = 1;
 
+    public float groupJoinDistance = 4f;
+
     /// <summary>
     /// Command Group Master List
     /// </summary>
@@ -107,9 +109,11 @@ public class CommandController : MonoBehaviour
             return;
         }
 
-        var cg = Instantiate<CommandGroup>(commandGroup, playerFaction.transform);
+        var CG = Instantiate<CommandGroup>(commandGroup, playerFaction.transform);
 
-        cg.followSpeed = -1;
+        List<CommandGroup> tempList = new List<CommandGroup>();
+
+        CG.followSpeed = -1;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
         {
             Debug.Log("Try strucute");
@@ -126,8 +130,43 @@ public class CommandController : MonoBehaviour
                 {
                     old.unitList.Remove(unit);
                 }
-                unit.commandGroup = cg;
-                cg.unitList.Add(unit);
+                // makes more command groups
+                if (Vector3.Distance(unit.transform.position, CG.centerVector) > groupJoinDistance && CG.unitList.Count != 0)
+                {
+                    if (tempList.Count == 0)
+                    {
+                        var subCG = Instantiate<CommandGroup>(commandGroup, playerFaction.transform);
+                        subCG.ParentCommandGroup = CG;
+                        unit.commandGroup = subCG;
+                                   subCG.AddUnit(unit);
+                        tempList.Add(subCG);
+                    }
+                    else
+                    {
+                        foreach(CommandGroup group in tempList)
+                        {
+                            if (Vector3.Distance(unit.transform.position, group.centerVector) < groupJoinDistance)
+                            {
+                                unit.commandGroup = group;
+                                group.AddUnit(unit);
+                            }
+                        }
+                        if (unit.commandGroup == null)
+                        {
+                            var subCG = Instantiate<CommandGroup>(commandGroup, playerFaction.transform);
+                            subCG.ParentCommandGroup = CG;
+                            unit.commandGroup = subCG;
+                            subCG.AddUnit(unit);
+                            tempList.Add(subCG);
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    unit.commandGroup = CG;
+                    CG.AddUnit(unit);
+                }     
             }
 
             if (production != null && unit == null)
@@ -138,18 +177,25 @@ public class CommandController : MonoBehaviour
             }
         }
 
-        cg.CalculateCenter();
+        CG.CalculateCenter();
         //Debug.Log("AFTER LOOP: cg.entites = " + cg.entities[0].name);
-        cg.pathTask = GameController.Main.PathFinder.FindPath(cg.transform.position, target, stepHeight, false);
-        cg.retrievingPath = true;
+        CG.pathTask = GameController.Main.PathFinder.FindPath(CG.transform.position, target, stepHeight, false);
+        CG.retrievingPath = true;
+        foreach (CommandGroup group in tempList)
+        {
+            group.pathTask = GameController.Main.PathFinder.FindPath(group.transform.position, target, stepHeight, false);
+            group.retrievingPath = true;
+        }
+   
+
 
         //DEBUG
         if (GetComponent<CheckPathFinding>() != null)
-            GetComponent<CheckPathFinding>().task = cg.pathTask;
+            GetComponent<CheckPathFinding>().task = CG.pathTask;
 
 
-        commandGroups.Add(cg);
-        Debug.Log("Added cg");
+        commandGroups.Add(CG);
+        Debug.Log(tempList + " list and list count " + tempList.Count);
 
 
         //cg.SetGroupTarget(target);
