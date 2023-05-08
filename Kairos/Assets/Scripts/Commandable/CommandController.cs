@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -116,30 +117,32 @@ public class CommandController : MonoBehaviour
         CG.followSpeed = -1;
         foreach (Selectable selectable in GameController.Main.SelectionController.currentlySelect)
         {
-            Debug.Log("Try strucute");
             Unit unit = selectable.GetComponent<Unit>();
             ProductionStructure production = selectable.GetComponent<ProductionStructure>();
-            //if (entity == null)
-            //{
-            //    entity = selectable.GetComponentInParent<Entity>();
-            //}
             if (unit != null)
             {
-                CommandGroup old = unit.commandGroup;
-                if (old != null)
+                //CommandGroup old = unit.commandGroup;
+                if (unit.commandGroup != null)
                 {
                     // here, a unit is set to null, but doesnt set to idle
-                    foreach(Unit lunit in old.unitList)
-                    {
-                        lunit.commandGroup = null;
-                    }
-                    old.unitList.Clear();
+                    //foreach(Unit lunit in old.unitList)
+                    //{
+                    //    lunit.commandGroup = null;
+                    //}
+                    unit.commandGroup.unitList.Remove(unit);
+                    unit.commandGroup = null;
+                    //old.unitList.Clear();
+                }
+                if (unit.commandGroup != null)
+                {
+                    Debug.Log("WHAT THE HELL HAPPENED???");
                 }
                 // makes more command groups
                 if (Vector3.Distance(unit.transform.position, CG.centerVector) > groupJoinDistance && CG.unitList.Count != 0)
                 {
                     if (tempList.Count == 0)
                     {
+                        Debug.Log("Making first new group");
                         var subCG = Instantiate<CommandGroup>(commandGroup, playerFaction.transform);
                         subCG.ParentCommandGroup = CG;
                         unit.commandGroup = subCG;
@@ -154,6 +157,7 @@ public class CommandController : MonoBehaviour
                             {
                                 unit.commandGroup = group;
                                 group.AddUnit(unit);
+                                Debug.Log("Joining already made group");
                             }
                         }
                         if (unit.commandGroup == null)
@@ -170,19 +174,22 @@ public class CommandController : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log("joining cg");
                     unit.commandGroup = CG;
                     CG.AddUnit(unit);
-                }     
+                }  
+                if (unit.commandGroup == null)
+                {
+                    Debug.Log("AHAHAHAHAHAH");
+                }
             }
 
             if (production != null && unit == null)
             {
-                Debug.Log("Structure not null");
                 production.rallyPoint.GetComponentInChildren<MeshRenderer>().enabled = true;
                 production.rallyPoint.transform.position = wayPoint.transform.position;
             }
         }
-
         CG.CalculateCenter();
         //Debug.Log("AFTER LOOP: cg.entites = " + cg.entities[0].name);
         CG.pathTask = GameController.Main.PathFinder.FindPath(CG.transform.position, target, stepHeight, false);
