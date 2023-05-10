@@ -8,6 +8,8 @@ public class TutorialMenuController : MonoBehaviour
     public Button nextButton;
     public Button backButton;
     public Label tutorialText;
+    public int currentText = 0;
+    public string[] tutorials = { "Use 'WASD' to move around", "Use 'E' to move Up and 'Q' to move down" };
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +26,17 @@ public class TutorialMenuController : MonoBehaviour
 
     void NextButtonPressed()
     {
-        tutorialText.text = "Use 'WASD' to move the camera";
-        tutorialText.style.display = DisplayStyle.Flex;
+        currentText++;
+        tutorialText.text = tutorials[currentText];
+        if (currentText > tutorials.Length)
+        {
+            currentText = 0;
+        }
     }
     
     void BackButtonPressed()
     {
-        tutorialText.text = "Use 'WASD' to move the camera";
-        tutorialText.style.display = DisplayStyle.None;
+        currentText--;
+        tutorialText.text = tutorials[currentText];
     }
 }
