@@ -93,6 +93,7 @@ public class MenuController : MonoBehaviour
     {
         SceneManager.LoadScene("Credits");
     }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -131,5 +132,10 @@ public class MenuController : MonoBehaviour
         structureMenuUI.SetActive(true);
         GameIsPaused = true;
         Time.timeScale = 0f;
+    }
+    public void LoadTutorial()
+    {
+        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+        //Resume();
     }
 }
