@@ -136,6 +136,9 @@ public class MenuController : MonoBehaviour
     public void LoadTutorial()
     {
         SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-        //Resume();
+    }
+    public void LoadMode()
+    {
+        SceneManager.LoadScene("Mode", LoadSceneMode.Single);
     }
 }

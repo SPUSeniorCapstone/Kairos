@@ -1,8 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/Style.uss?fileID=7433441132597879392&amp;guid=a9dbb8c4bc136da4b8af278aff85a6a0&amp;type=3#Style" />
-    <ui:VisualElement name="Background" style="flex-grow: 1; justify-content: center; align-items: center;">
+    <ui:VisualElement name="Background" picking-mode="Ignore" style="flex-grow: 1; justify-content: center; align-items: center;">
         <ui:Label text="Use &apos;WASD&apos; to move around" display-tooltip-when-elided="true" name="Tutorial-Text" style="width: 1110px; font-size: 50px; -unity-text-align: middle-center; color: rgb(255, 255, 255); -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Anton.ttf?fileID=12800000&amp;guid=997a43b767814dd0a7642ec9b78cba41&amp;type=3#Anton&apos;); -unity-font-style: bold; position: relative; top: 145px; left: 0; display: flex; right: 0; justify-content: flex-start; align-items: center; bottom: 533px; white-space: normal;" />
         <ui:Button text="Back" display-tooltip-when-elided="true" name="Back" class="button-style red-button-style" style="top: 470px; left: 85px; position: absolute; -unity-text-align: middle-center;" />
         <ui:Button text="Next" display-tooltip-when-elided="true" name="Next" class="button-style" style="top: 470px; position: absolute; align-items: flex-end; right: 85px; left: auto; -unity-text-align: middle-center; white-space: normal;" />
+        <ui:Button text="Start Game" display-tooltip-when-elided="true" name="Start-Game" class="button-style" style="top: 220px; position: absolute; align-items: flex-end; right: auto; left: auto; -unity-text-align: middle-center; white-space: normal; width: 300px; display: none;" />
     </ui:VisualElement>
 </ui:UXML>
