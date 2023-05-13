@@ -11,6 +11,10 @@ public class MenuController : MonoBehaviour
     public GameObject tutorialMenuUI;
     public GameObject defeatMenuUI;
 
+
+    // DOESNT REALLY PAUSE THE GAME (TRUE CONTROL IS IN GAMECONTROLLER)
+
+
     // Update is called once per frame
     void Update()
     {
