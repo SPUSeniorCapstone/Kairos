@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 8993958709022590271}
   m_Layer: 7
   m_Name: Obelisk
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Size: {x: 1, y: 1, z: 1}
   Preview: {fileID: 0}
-  enemy: 0
+  enemy: 1
   example: 0
   builder: {fileID: 0}
   directory: {fileID: 0}
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selected: 0
-  faction: 0
+  faction: 1
   clickCount: 0
   clickTime: 0
   clickDelay: 0.5
@@ -185,8 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3fbe181f4a4944eb17e7828ed0e0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 250
-  <Health>k__BackingField: 250
+  <MaxHealth>k__BackingField: 100
+  <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
   deathTimer: 1.5
   DeathTime: -1
