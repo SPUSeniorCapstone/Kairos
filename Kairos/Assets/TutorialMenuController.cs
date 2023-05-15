@@ -14,9 +14,20 @@ public class TutorialMenuController : MonoBehaviour
     public string[] tutorials = {"Use 'WASD' to move around", "Use 'E' to move Up and 'Q' to move down", "Open up the Build Menu by 'Left Clicking' the Builder Unit", "Watch out! The corruption is speading.\nBuild a Purifier near the corruption to begin purifying the land", 
         "Build a Barracks from the Build Menu", "Open the Barracks Menu by 'Left Clicking' the Barracks", "Train a unit by 'Left Clicking' the infantry button", "Queue 5 units by holding 'Shift' and 'Left Clicking' one of the unit buttons", "To select multiple units hold 'Left Click' and drag your mouse", 
         "When you have multiple units selected, 'Right Click' on a point where you want the units to go", "Keep in mind units will take damage when standing in the corruption", "Send out units to defeat the corrupted nodes and achieve Victory"};
+<<<<<<< Updated upstream
     private void OnEnable()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
+=======
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        var root = GetComponent<UIDocument>().rootVisualElement;
+
+        nextButton = root.Q<Button>("Next");
+        backButton = root.Q<Button>("Back");
+>>>>>>> Stashed changes
         tutorialText = root.Q<Label>("Tutorial-Text");
         hideTutorialButton = root.Q<Button>("Hide-Tutorial");
         showTutorialButton = root.Q<Button>("Show-Tutorial");
@@ -32,6 +43,9 @@ public class TutorialMenuController : MonoBehaviour
         hideTutorialButton.clicked += HideTutorialPressed;
         showTutorialButton.clicked += ShowTutorialPressed;
 
+    }
+    void Update()
+    {
         if (GameController.Main.paused)
         {
             nextButton.style.display = DisplayStyle.None;
@@ -39,6 +53,7 @@ public class TutorialMenuController : MonoBehaviour
             tutorialText.style.display = DisplayStyle.None;
             hideTutorialButton.style.display = DisplayStyle.None;
             showTutorialButton.style.display = DisplayStyle.None;
+
         }
         else if (!GameController.Main.paused)
         {

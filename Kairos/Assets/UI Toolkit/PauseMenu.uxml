@@ -3,7 +3,6 @@
         <ui:VisualElement name="MainPanel" style="width: 50%; height: auto; align-items: center; padding-left: 5%; padding-right: 5%; padding-top: 2%; padding-bottom: 2%;">
             <ui:Label text="Pause" display-tooltip-when-elided="true" name="PauseLabel" style="font-size: 200%; color: rgb(255, 255, 255); -unity-font-style: bold; -unity-text-align: middle-center; margin-left: 5%; margin-right: 5%; margin-top: 5%; margin-bottom: 5%; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Bangers.ttf?fileID=12800000&amp;guid=5dd49b3eacc540408c98eee0de38e0f1&amp;type=3#Bangers&apos;);" />
             <ui:Button text="Exit" display-tooltip-when-elided="true" name="ExitButton" style="font-size: 100%; width: 40%; background-color: rgb(128, 0, 0); color: rgb(255, 255, 255);" />
-            <ui:Button text="Start Game" display-tooltip-when-elided="true" name="StartButton" style="font-size: 49%; width: 40%; background-color: rgb(0, 128, 32); color: rgb(255, 255, 255); -unity-text-align: middle-center; left: auto; align-items: stretch; justify-content: flex-start; height: 113px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
