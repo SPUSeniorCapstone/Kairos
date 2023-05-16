@@ -21,8 +21,8 @@ public class PauseMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        var exitButton = document.rootVisualElement.Q("ExitButton") as Button;
-        exitButton.RegisterCallback<ClickEvent>(ExitToMainMenu);
+        pauseLabel = document.rootVisualElement.Q<Label>("PauseLabel");
+        confirmationLabel = document.rootVisualElement.Q<Label>("ConfirmationLabel");
 
         exitButton = document.rootVisualElement.Q<Button>("ExitButton");
         exitButton.RegisterCallback<ClickEvent>(ExitToConfirmationScreen);
