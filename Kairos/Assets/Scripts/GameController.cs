@@ -186,7 +186,7 @@ public class GameController : MonoBehaviour
     public int enemyCount = 0;
     public bool WinConDebug = false;
 
-    public int resouceCount = 0;
+    public int resourceCount = 0;
 
     public void CheckVictory(Structure structure)
     {
@@ -256,8 +256,8 @@ public class GameController : MonoBehaviour
 
         public void UpdateResource(int count)
     {
-        resouceCount += count;
-        Main.UIController.gameUI.ResourceCounter.text = Main.UIController.gameUI.FormatNum(resouceCount, true);
+        resourceCount -= count;
+        Main.UIController.gameUI.ResourceCounter.text = Main.UIController.gameUI.FormatNum(resourceCount, true);
 /*        ResourceCounter.text = FormatNum(count, true);
 */    }
 }

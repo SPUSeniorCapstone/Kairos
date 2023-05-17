@@ -95,7 +95,7 @@ public class RC_Entity : Entity
                 //Body.clip = BodySounds.ElementAt(10);
                 //Body.Play();
                 count--;
-                GameController.Main.UpdateResource(40);
+                GameController.Main.UpdateResource(-40);
                 //GameController.Main.resouceCount += 40;
                 //dont call this here
                 //GameController.Main.UIController.gameUI.UpdateResource(GameController.Main.resouceCount);
