@@ -12,6 +12,13 @@ public class ProductionStructure : Structure
     public GameObject spawnPoint;
     public Queue<GameObject> buildQue;
 
+    public int infantryCount;
+    public int archerCount;
+    public int builderCount;
+    public int rcCount;
+
+    //public struct QueItem(GameObject unit, count)
+
 
 
     private void Update()
@@ -22,6 +29,7 @@ public class ProductionStructure : Structure
             if (timeLeft <= 0)
             {
                 timeLeft = originialTime;
+                UpdateCount(buildQue.Peek());
                 SpawnUnits(buildQue.Dequeue());
                 unitsQueued--;
             }
@@ -92,5 +100,28 @@ public class ProductionStructure : Structure
     {
         rallyPoint.GetComponentInChildren<MeshRenderer>().material.shader = GameController.Main.unHighlight;
         GameController.Main.StructureController.selected.Remove(this);
+    }
+    public void UpdateCount(GameObject unit)
+    {
+        if (unit == GameController.Main.StructureController.archer)
+        {
+            archerCount--;
+        } 
+        else if (unit == GameController.Main.StructureController.infantry)
+        {
+            infantryCount--;
+        }
+        else if (unit == GameController.Main.StructureController.builder)
+        {
+            builderCount--;
+        }
+        else if (unit == GameController.Main.StructureController.resourceCollector)
+        {
+            rcCount--;
+        }
+        else
+        {
+            Debug.Log("This shouldn't happen");
+        }
     }
 }

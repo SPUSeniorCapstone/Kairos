@@ -174,6 +174,7 @@ public class StructureController : MonoBehaviour
     {
         foreach(ProductionStructure s in selected)
         {
+            s.archerCount++;
             s.QueueUnits(archer);
         }
     }
@@ -181,6 +182,7 @@ public class StructureController : MonoBehaviour
     {
         foreach (ProductionStructure s in selected)
         {
+            s.infantryCount++;
             s.QueueUnits(infantry);
         }
     }
@@ -188,6 +190,7 @@ public class StructureController : MonoBehaviour
     {
         foreach (ProductionStructure s in selected)
         {
+            s.builderCount++;
             s.QueueUnits(builder);
         }
     }
@@ -195,6 +198,7 @@ public class StructureController : MonoBehaviour
     {
         foreach (ProductionStructure s in selected)
         {
+            s.rcCount++;
             s.QueueUnits(resourceCollector);
         }
     }
