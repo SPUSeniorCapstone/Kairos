@@ -62,6 +62,8 @@ public class World : MonoBehaviour
 
     public bool enable = true;
 
+    bool meshUpdate = false;
+
     public void Init(Vector2Int size)
     {
         Helpers.DeleteAllChildren(gameObject);
@@ -73,8 +75,16 @@ public class World : MonoBehaviour
 
     private void Update()
     {
-        if(enable)
-            UpdateNext(); 
+        if(enable && !meshUpdate)
+            UpdateNext();
+        else if (meshUpdate)
+        {
+            foreach(Chunk c in chunks)
+            {
+                c.PushChunkMesh();
+            }
+            meshUpdate = false;
+        }
     }
 
     public void UpdateNext()
@@ -92,6 +102,7 @@ public class World : MonoBehaviour
             if(currUpdate.y >= lengthInChunks)
             {
                 currUpdate.y = 0;
+                meshUpdate = true;
             }
         }
     }

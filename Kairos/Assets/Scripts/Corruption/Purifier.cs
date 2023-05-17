@@ -28,6 +28,11 @@ public class Purifier : MonoBehaviour, IComparable<Purifier>
 
     public int CompareTo(Purifier other)
     {
+        if(other == null)
+        {
+            return 1;
+        }
+
         if(strength < other.strength)
         {
             return -1;
