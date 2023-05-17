@@ -85,10 +85,7 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    public void UpdateResource(int count)
-    {
-        ResourceCounter.text = FormatNum(count, true);
-    }
+
 
     public void UpdateNodes(int count)
     {
@@ -120,6 +117,15 @@ public class BuildMenu
     public Button archerTowerButton;
 
     public Button purifierButton;
+
+    static int STRONGHOLD_COST = 50000;
+
+    static int BARRACKS_COST = 160;
+
+    static int ARCHER_TOWER_COST = 300;
+
+    static int PURIFIER_COST = 500;
+
 
   
 
@@ -157,24 +163,45 @@ public class BuildMenu
 
     private void StrongholdButton_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.BuildOrder("stronghold");
+
+        if (GameController.Main.resouceCount >= STRONGHOLD_COST)
+        {
+            GameController.Main.UpdateResource(STRONGHOLD_COST);
+            GameController.Main.StructureController.BuildOrder("stronghold");
+
+        }
     }
     private void Barracks_Button_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.BuildOrder("barracks");
+        if (GameController.Main.resouceCount >= BARRACKS_COST)
+        {
+            GameController.Main.UpdateResource(BARRACKS_COST);
+            GameController.Main.StructureController.BuildOrder("barracks");
+
+        }
     }
     private void ArcherTowerButton_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.BuildOrder("archertower");
+        if (GameController.Main.resouceCount >= ARCHER_TOWER_COST)
+        {
+            GameController.Main.UpdateResource(ARCHER_TOWER_COST);
+            GameController.Main.StructureController.BuildOrder("archertower");
+        }
     }
     private void ResourceButton_OnClick(ClickEvent cl)
     {
-        GameController.Main.StructureController.BuildOrder("purifier");
+        if (GameController.Main.resouceCount >= PURIFIER_COST)
+        {
+            GameController.Main.UpdateResource(PURIFIER_COST);
+            GameController.Main.StructureController.BuildOrder("purifier");
+        }
     }
 }
 
 public class ProductionMenu 
 {
+
+
     public VisualElement mainElement;
 
     public Button infantryButton;
@@ -184,6 +211,15 @@ public class ProductionMenu
     public Button collectorButton;
 
     public Button builderButton;
+
+    static int INFANTRY_COST = 10;
+
+    static int ARCHER_COST = 20;
+
+    static int BUILDER_COST = 50;
+
+    static int RC_COST = 25;
+
 
     public ProductionMenu(VisualElement element)
     {
@@ -226,15 +262,20 @@ public class ProductionMenu
     {
         if (cl.button == 0)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resouceCount >= INFANTRY_COST * 5)
             {
                 for (int i = 0; i < 4; i++)
                 {
+                    GameController.Main.UpdateResource(INFANTRY_COST);
                     GameController.Main.StructureController.TrainInfantry();
                 }
             }
-            GameController.Main.StructureController.TrainInfantry();
-        } 
+            if (GameController.Main.resouceCount >= INFANTRY_COST)
+            {
+                GameController.Main.UpdateResource(INFANTRY_COST);
+                GameController.Main.StructureController.TrainInfantry();
+            }
+        }
         else if (cl.button == 1)
         {
             Debug.Log("Right click to cancel");
@@ -243,35 +284,51 @@ public class ProductionMenu
 
     private void ArcherButton_OnClick(ClickEvent cl)
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+
+        if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resouceCount >= ARCHER_COST * 5)
         {
             for (int i = 0; i < 4; i++)
             {
+                GameController.Main.UpdateResource(ARCHER_COST);
                 GameController.Main.StructureController.TrainArcher();
             }
         }
-        GameController.Main.StructureController.TrainArcher();
+        if (GameController.Main.resouceCount >= ARCHER_COST)
+        {
+            GameController.Main.UpdateResource(ARCHER_COST);
+            GameController.Main.StructureController.TrainArcher();
+        }
     }
     private void RCButton_OnClick(ClickEvent cl)
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resouceCount >= RC_COST * 5)
         {
             for (int i = 0; i < 4; i++)
             {
+                GameController.Main.UpdateResource(RC_COST);
                 GameController.Main.StructureController.TrainCollector();
             }
         }
-        GameController.Main.StructureController.TrainCollector();
+        if (GameController.Main.resouceCount >= RC_COST)
+        {
+            GameController.Main.UpdateResource(RC_COST);
+            GameController.Main.StructureController.TrainCollector();
+        }
     }
     private void BuilderButton_OnClick(ClickEvent cl)
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resouceCount >= BUILDER_COST * 5)
         {
             for (int i = 0; i < 4; i++)
             {
+                GameController.Main.UpdateResource(BUILDER_COST);
                 GameController.Main.StructureController.TrainBuilder();
             }
         }
-        GameController.Main.StructureController.TrainBuilder();
+        if (GameController.Main.resouceCount >= BUILDER_COST)
+        {
+            GameController.Main.UpdateResource(BUILDER_COST);
+            GameController.Main.StructureController.TrainBuilder();
+        }
     }
 }

@@ -253,4 +253,11 @@ public class GameController : MonoBehaviour
     public bool randomDamageModifier = false;
 
     public List<Builder_Unit> masterBuilder = new List<Builder_Unit>();
+
+        public void UpdateResource(int count)
+    {
+        resouceCount += count;
+        Main.UIController.gameUI.ResourceCounter.text = Main.UIController.gameUI.FormatNum(resouceCount, true);
+/*        ResourceCounter.text = FormatNum(count, true);
+*/    }
 }
