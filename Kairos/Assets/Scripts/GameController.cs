@@ -164,6 +164,19 @@ public class GameController : MonoBehaviour
     }
     CameraController cameraController;
 
+    public TutorialMenuController TutorialMenuController
+    {
+        get
+        {
+            if (tutorialMenuController == null)
+            {
+                tutorialMenuController = FindObjectOfType<TutorialMenuController>();
+            }
+            return tutorialMenuController;
+        }
+    }
+    TutorialMenuController tutorialMenuController;
+
     // misnomar, simply cleans up any lists it might be in before letting the original caller destroy itself
     public void MasterDestory(GameObject item)
     {
