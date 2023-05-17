@@ -8,7 +8,12 @@ public class MenuController : MonoBehaviour
     public GameObject optionsMenuUI;
     public GameObject structureMenuUI;
     public GameObject victoryMenuUI;
+    public GameObject tutorialMenuUI;
     public GameObject defeatMenuUI;
+
+
+    // DOESNT REALLY PAUSE THE GAME (TRUE CONTROL IS IN GAMECONTROLLER)
+
 
     // Update is called once per frame
     void Update()
@@ -61,6 +66,7 @@ public class MenuController : MonoBehaviour
 
         victoryMenuUI.SetActive(true);
         optionsMenuUI.SetActive(false);
+        tutorialMenuUI.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
@@ -93,6 +99,7 @@ public class MenuController : MonoBehaviour
     {
         SceneManager.LoadScene("Credits");
     }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -131,5 +138,13 @@ public class MenuController : MonoBehaviour
         structureMenuUI.SetActive(true);
         GameIsPaused = true;
         Time.timeScale = 0f;
+    }
+    public void LoadTutorial()
+    {
+        SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+    }
+    public void LoadMode()
+    {
+        SceneManager.LoadScene("Mode", LoadSceneMode.Single);
     }
 }
