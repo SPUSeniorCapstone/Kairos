@@ -67,7 +67,12 @@ public class Chunk : MonoBehaviour
 
     private void Update()
     {
-        if(UpdateTask != null)
+        
+    }
+
+    public void PushChunkMesh()
+    {
+        if (UpdateTask != null)
         {
             if (UpdateTask.IsCompleted)
             {

@@ -18,6 +18,9 @@ public class PauseMenu : MonoBehaviour
         var exitButton = document.rootVisualElement.Q("ExitButton") as Button;
         exitButton.RegisterCallback<ClickEvent>(ExitToMainMenu);
 
+        var startButton = document.rootVisualElement.Q("StartButton") as Button;
+        startButton.RegisterCallback<ClickEvent>(StartGame);
+
     }
 
     public void ExitToMainMenu(ClickEvent click)
@@ -25,11 +28,17 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void StartGame(ClickEvent click)
+    {
+        SceneManager.LoadScene("Game");
+    }
+
     void Update()
     {
         if (GameController.Main.paused)
         {
             document.rootVisualElement.style.display = DisplayStyle.Flex;
+
         }
         else
         {
