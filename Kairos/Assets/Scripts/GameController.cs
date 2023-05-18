@@ -211,7 +211,7 @@ public class GameController : MonoBehaviour
     public int enemyCount = 0;
     public bool WinConDebug = false;
 
-    public int resouceCount = 0;
+    public int resourceCount = 0;
 
     public void CheckVictory(Structure structure)
     {
@@ -278,4 +278,11 @@ public class GameController : MonoBehaviour
     public bool randomDamageModifier = false;
 
     public List<Builder_Unit> masterBuilder = new List<Builder_Unit>();
+
+        public void UpdateResource(int count)
+    {
+        resourceCount -= count;
+        Main.UIController.gameUI.ResourceCounter.text = Main.UIController.gameUI.FormatNum(resourceCount, true);
+/*        ResourceCounter.text = FormatNum(count, true);
+*/    }
 }

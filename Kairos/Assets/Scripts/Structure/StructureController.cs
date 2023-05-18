@@ -52,6 +52,8 @@ public class StructureController : MonoBehaviour
         Vector3 spawn = StrongholdActual.transform.position;
         spawn.x += 6;
         Instantiate(builder, spawn, Quaternion.identity, PlayerUnits.transform);
+        spawn.x += 1;
+        Instantiate(resourceCollector, spawn, Quaternion.identity, PlayerUnits.transform);
         foreach (var pos in GameController.Main.WorldController.WorldGenerator.corruptionNodePositions)
         {
             CorruptionNodes.Add(PlaceStructure(corruptionNode, pos));
