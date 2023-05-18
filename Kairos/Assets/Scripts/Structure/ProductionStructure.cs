@@ -26,6 +26,11 @@ public class ProductionStructure : Structure
                 unitsQueued--;
             }
         }
+
+        if (damaging != null && damaging.MaxHealth > damaging.Health)
+        {
+            RepairStructure();
+        }
     }
     new public void Start()
     {
