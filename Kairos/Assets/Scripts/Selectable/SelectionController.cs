@@ -124,6 +124,16 @@ public class SelectionController : MonoBehaviour
                             selectable.selected = true;
                             selectable.Activate();
                         }
+                        // structure not equal null
+                        else
+                        {
+                            if (selectable.selected)
+                            {
+                                selectable.selected = false;
+                                selectable.Deactivate();
+                                currentlySelect.Remove(selectable);
+                            }
+                        }
                     }
                     // this will check if the mouse click ray hit a selectable (uses oneclick instead of selectable)
                     // does this work as intended? what if you flick the mouse?

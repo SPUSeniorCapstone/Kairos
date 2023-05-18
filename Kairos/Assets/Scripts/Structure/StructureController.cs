@@ -63,14 +63,8 @@ public class StructureController : MonoBehaviour
 
     void Update()
     {
-        if (selected.Count == 0)
-        {
-            GameController.Main.UIController.EnableProductionMenu(false);
-        }
-        else
-        {
-            GameController.Main.UIController.EnableProductionMenu(true);
-        }
+        // this is stupid, only check if value is updated, not every frame
+       
         if (StructurePlacementMode)
         {
             structurePreview.SetActive(true);

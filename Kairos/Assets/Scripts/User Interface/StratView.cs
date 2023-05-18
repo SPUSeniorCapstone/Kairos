@@ -21,6 +21,7 @@ public class StratView : MonoBehaviour
             inspectee = null;
             unitView.text = "New Text";
             GameController.Main.UIController.EnableBuildMenu(false);
+            GameController.Main.UIController.gameUI.ProductionMenu.EnableProductionMenu(false);
             GameController.Main.UIController.gameUI.destroyBuildingButton.visible = false;
             //BuildMenu.SetActive(false);
         }
@@ -31,6 +32,21 @@ public class StratView : MonoBehaviour
             if (gameObject.GetComponent<Structure>() != null && !gameObject.GetComponent<Selectable>().faction)
             {
                 GameController.Main.UIController.gameUI.destroyBuildingButton.visible = true;
+                if (gameObject.GetComponent<ProductionStructure>())
+                {
+                    GameController.Main.UIController.EnableProductionMenu(true);
+                    gameObject.GetComponent<ProductionStructure>().SetProdUI();
+                }
+                GameController.Main.UIController.gameUI.BuildMenu.EnableBuildMenu(false);
+            } 
+            else if (gameObject.GetComponent<Unit>() != null && !gameObject.GetComponent<Selectable>().faction)
+            {
+                GameController.Main.UIController.gameUI.destroyBuildingButton.visible = false;
+                GameController.Main.UIController.gameUI.ProductionMenu.EnableProductionMenu(false);
+                if (gameObject.GetComponent<Builder_Unit>() == null)
+                {
+                    GameController.Main.UIController.gameUI.BuildMenu.EnableBuildMenu(false);
+                }
             }
         }
     }

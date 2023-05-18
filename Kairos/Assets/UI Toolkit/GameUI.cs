@@ -111,12 +111,16 @@ public class BuildMenu
     public VisualElement mainElement;
 
     public Button strongholdButton;
+    public LabelAutoFit strongholdInfo;
 
     public Button barracksButton;
+    public LabelAutoFit barracksInfo; 
 
     public Button archerTowerButton;
+    public LabelAutoFit archerTowerInfo;
 
     public Button purifierButton;
+    public LabelAutoFit purifierInfo;
 
     static int STRONGHOLD_COST = 50000;
 
@@ -158,7 +162,15 @@ public class BuildMenu
         barracksButton.visible = enable;
         archerTowerButton.visible = enable;
         purifierButton.visible = enable;
-        mainElement.SetEnabled(enable);
+        if (enable)
+        {
+            mainElement.style.display = (DisplayStyle.Flex);
+        }
+        else
+        {
+            mainElement.style.display = (DisplayStyle.None);
+        }
+        //mainElement.SetEnabled(enable);
     }
 
     private void StrongholdButton_OnClick(ClickEvent cl)
@@ -205,12 +217,16 @@ public class ProductionMenu
     public VisualElement mainElement;
 
     public Button infantryButton;
+    public LabelAutoFit infantryInfo;
 
     public Button archerButton;
+    public LabelAutoFit archerInfo;
 
     public Button collectorButton;
+    public LabelAutoFit collectorInfo;
 
     public Button builderButton;
+    public LabelAutoFit builderInfo;
 
     static int INFANTRY_COST = 10;
 
@@ -232,30 +248,56 @@ public class ProductionMenu
 
         infantryButton = element.Q("InfantryButton") as Button;
         infantryButton.RegisterCallback<MouseUpEvent>(InfantryButton_OnClick);
+        infantryInfo = element.Q("InfantryInfo") as LabelAutoFit;
+        if (infantryInfo == null)
+        {
+            Debug.Log("Help me");
+        }
 
         archerButton = element.Q("ArcherButton") as Button;
         archerButton.RegisterCallback<MouseUpEvent>(ArcherButton_OnClick);
+        archerInfo = element.Q("ArcherInfo") as LabelAutoFit;
 
         collectorButton = element.Q("RCButton") as Button;
         collectorButton.RegisterCallback<MouseUpEvent>(RCButton_OnClick);
+        collectorInfo = element.Q("CollectorInfo") as LabelAutoFit;
 
         builderButton = element.Q("BuilderButton") as Button;
         builderButton.RegisterCallback<MouseUpEvent>(BuilderButton_OnClick);
+        builderInfo = element.Q("BuilderInfo") as LabelAutoFit;
 
-        archerButton.visible = false;
-        infantryButton.visible = false;
-        collectorButton.visible = false;
-        builderButton.visible = false;
+        // neccessary?
+        //archerButton.visible = false;
+        //archerInfo.visible = false;
+        //infantryButton.visible = false;
+        //infantryInfo.visible = false;
+        //collectorButton.visible = false;
+        //collectorInfo.visible = false;
+        //builderButton.visible = false;
+        //builderInfo.visible = false;
     }
 
     public void EnableProductionMenu(bool enable)
     {
         mainElement.visible = enable;
         infantryButton.visible = enable;
+        infantryInfo.parent.visible = enable;
         archerButton.visible = enable;
+        archerInfo.parent.visible = enable;
         collectorButton.visible = enable;
+        collectorInfo.parent.visible = enable;
         builderButton.visible = enable;
-        mainElement.SetEnabled(enable);
+        builderInfo.parent.visible = enable;
+
+        if (enable)
+        {
+            mainElement.style.display = (DisplayStyle.Flex);
+        }
+        else
+        {
+            mainElement.style.display = (DisplayStyle.None);
+        }
+     
     }
 
     private void InfantryButton_OnClick(MouseUpEvent cl)

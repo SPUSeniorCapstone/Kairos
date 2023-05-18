@@ -94,7 +94,6 @@ public class RedInfantry_Unit : Infantry_Unit
             //Body.Play();
 
 
-            Debug.Log("ITS TIME BITCH");
             neutral.SetActive(false);
             frame1.SetActive(false);
             frame2.SetActive(true);
