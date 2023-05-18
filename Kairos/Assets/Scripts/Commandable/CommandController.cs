@@ -35,7 +35,7 @@ public class CommandController : MonoBehaviour
     {
         if (!GameController.Main.paused)
         {
-            if (!GameController.Main.StructureController.cancel)
+            if (!GameController.Main.StructureController.cancel && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
             {
 
                 if (wayPoint.activeSelf)

@@ -51,7 +51,7 @@ public class GameUI : MonoBehaviour
             NodeCounter = document.rootVisualElement.Q("numberNodes") as Label;
             Framerate = document.rootVisualElement.Q("Framerate") as Label;
             destroyBuildingButton = document.rootVisualElement.Q("DeleteButton") as Button;
-            ///destroyBuildingButton.visible = false;
+            destroyBuildingButton.visible = false;
 
             destroyBuildingButton.RegisterCallback<ClickEvent>(DeleteStructure);
 
@@ -231,16 +231,16 @@ public class ProductionMenu
         mainElement = element;
 
         infantryButton = element.Q("InfantryButton") as Button;
-        infantryButton.RegisterCallback<ClickEvent>(InfantryButton_OnClick);
+        infantryButton.RegisterCallback<MouseUpEvent>(InfantryButton_OnClick);
 
         archerButton = element.Q("ArcherButton") as Button;
-        archerButton.RegisterCallback<ClickEvent>(ArcherButton_OnClick);
+        archerButton.RegisterCallback<MouseUpEvent>(ArcherButton_OnClick);
 
         collectorButton = element.Q("RCButton") as Button;
-        collectorButton.RegisterCallback<ClickEvent>(RCButton_OnClick);
+        collectorButton.RegisterCallback<MouseUpEvent>(RCButton_OnClick);
 
         builderButton = element.Q("BuilderButton") as Button;
-        builderButton.RegisterCallback<ClickEvent>(BuilderButton_OnClick);
+        builderButton.RegisterCallback<MouseUpEvent>(BuilderButton_OnClick);
 
         archerButton.visible = false;
         infantryButton.visible = false;
@@ -258,7 +258,7 @@ public class ProductionMenu
         mainElement.SetEnabled(enable);
     }
 
-    private void InfantryButton_OnClick(ClickEvent cl)
+    private void InfantryButton_OnClick(MouseUpEvent cl)
     {
         if (cl.button == 0)
         {
@@ -278,57 +278,78 @@ public class ProductionMenu
         }
         else if (cl.button == 1)
         {
-            Debug.Log("Right click to cancel");
+            GameController.Main.StructureController.UntrainInfantry(INFANTRY_COST);
         }
     }
 
-    private void ArcherButton_OnClick(ClickEvent cl)
+    private void ArcherButton_OnClick(MouseUpEvent cl)
     {
 
-        if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resourceCount >= ARCHER_COST * 5)
+        if (cl.button == 0)
         {
-            for (int i = 0; i < 4; i++)
+            if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resourceCount >= ARCHER_COST * 5)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    GameController.Main.UpdateResource(ARCHER_COST);
+                    GameController.Main.StructureController.TrainArcher();
+                }
+            }
+            if (GameController.Main.resourceCount >= ARCHER_COST)
             {
                 GameController.Main.UpdateResource(ARCHER_COST);
                 GameController.Main.StructureController.TrainArcher();
             }
         }
-        if (GameController.Main.resourceCount >= ARCHER_COST)
+        else if (cl.button == 1)
         {
-            GameController.Main.UpdateResource(ARCHER_COST);
-            GameController.Main.StructureController.TrainArcher();
+            GameController.Main.StructureController.UntrainArcher(ARCHER_COST);
         }
     }
-    private void RCButton_OnClick(ClickEvent cl)
+    private void RCButton_OnClick(MouseUpEvent cl)
     {
-        if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resourceCount >= RC_COST * 5)
+        if (cl.button == 0)
         {
-            for (int i = 0; i < 4; i++)
+            if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resourceCount >= RC_COST * 5)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    GameController.Main.UpdateResource(RC_COST);
+                    GameController.Main.StructureController.TrainCollector();
+                }
+            }
+            if (GameController.Main.resourceCount >= RC_COST)
             {
                 GameController.Main.UpdateResource(RC_COST);
                 GameController.Main.StructureController.TrainCollector();
             }
         }
-        if (GameController.Main.resourceCount >= RC_COST)
+        else if (cl.button == 1)
         {
-            GameController.Main.UpdateResource(RC_COST);
-            GameController.Main.StructureController.TrainCollector();
+            GameController.Main.StructureController.UntrainCollector(RC_COST);
         }
     }
-    private void BuilderButton_OnClick(ClickEvent cl)
+    private void BuilderButton_OnClick(MouseUpEvent cl)
     {
-        if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resourceCount >= BUILDER_COST * 5)
+       if (cl.button == 0)
         {
-            for (int i = 0; i < 4; i++)
+            if (Input.GetKey(KeyCode.LeftShift) && GameController.Main.resourceCount >= BUILDER_COST * 5)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    GameController.Main.UpdateResource(BUILDER_COST);
+                    GameController.Main.StructureController.TrainBuilder();
+                }
+            }
+            if (GameController.Main.resourceCount >= BUILDER_COST)
             {
                 GameController.Main.UpdateResource(BUILDER_COST);
                 GameController.Main.StructureController.TrainBuilder();
             }
         }
-        if (GameController.Main.resourceCount >= BUILDER_COST)
+        else if (cl.button == 1)
         {
-            GameController.Main.UpdateResource(BUILDER_COST);
-            GameController.Main.StructureController.TrainBuilder();
+            GameController.Main.StructureController.UntrainBuilder(BUILDER_COST);
         }
     }
 }

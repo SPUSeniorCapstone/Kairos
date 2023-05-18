@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ProductionStructure : Structure
@@ -66,12 +67,16 @@ public class ProductionStructure : Structure
         unitsQueued++;
     }
 
-    public void DequeueUnits()
+    public void DequeueUnits(GameObject unit)
     {
         if (buildQue.Count != 0)
         {
-            buildQue.Dequeue();
+            timeLeft = originialTime;
+            List<GameObject> see = buildQue.ToList<GameObject>();
+            see.Remove(unit);
+            var queue = new Queue<GameObject>(see);
             unitsQueued--;
+            buildQue = queue;
         }
     }
 

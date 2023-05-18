@@ -14,12 +14,6 @@ public class StratView : MonoBehaviour
         GameController.Main.UIController.EnableBuildMenu(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SetUnitView(GameObject gameObject)
     {
         if (gameObject == null)
@@ -27,12 +21,17 @@ public class StratView : MonoBehaviour
             inspectee = null;
             unitView.text = "New Text";
             GameController.Main.UIController.EnableBuildMenu(false);
+            GameController.Main.UIController.gameUI.destroyBuildingButton.visible = false;
             //BuildMenu.SetActive(false);
         }
         else
         {
             inspectee = gameObject;
             unitView.text = inspectee.name;
+            if (gameObject.GetComponent<Structure>() != null && !gameObject.GetComponent<Selectable>().faction)
+            {
+                GameController.Main.UIController.gameUI.destroyBuildingButton.visible = true;
+            }
         }
     }
     public void BuilderSelected()

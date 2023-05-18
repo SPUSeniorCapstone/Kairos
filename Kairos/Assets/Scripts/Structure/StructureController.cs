@@ -204,11 +204,52 @@ public class StructureController : MonoBehaviour
             s.QueueUnits(resourceCollector);
         }
     }
-    public void Untrain()
+    public void UntrainInfantry(int refund)
     {
         foreach (ProductionStructure s in selected)
         {
-            s.DequeueUnits();
+            if (s.infantryCount > 0)
+            {
+                s.infantryCount--;
+                s.DequeueUnits(infantry);
+                GameController.Main.UpdateResource(-refund);
+            }
+        }
+    }
+    public void UntrainArcher(int refund)
+    {
+        foreach (ProductionStructure s in selected)
+        {
+            if (s.archerCount > 0)
+            {
+                s.archerCount--;
+                s.DequeueUnits(archer);
+                GameController.Main.UpdateResource(-refund);
+            }
+        }
+    }
+    public void UntrainBuilder(int refund)
+    {
+        foreach (ProductionStructure s in selected)
+        {
+            if (s.builderCount > 0)
+            {
+                s.builderCount--;
+                s.DequeueUnits(builder);
+                GameController.Main.UpdateResource(-refund);
+            }
+        }
+    }
+    public void UntrainCollector(int refund)
+    {
+        foreach (ProductionStructure s in selected)
+        {
+            if (s.rcCount > 0)
+            {
+                s.rcCount--;
+                s.DequeueUnits(resourceCollector);
+                GameController.Main.UpdateResource(-refund);
+            }
         }
     }
 
