@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4236691350587211133}
   - component: {fileID: 7954610035766813466}
   - component: {fileID: 2702061936770769498}
+  - component: {fileID: -776358990442004048}
+  - component: {fileID: -3967926654578317681}
   m_Layer: 0
   m_Name: CorruptedAttackTower
   m_TagString: Untagged
@@ -71,6 +73,40 @@ MonoBehaviour:
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+--- !u!65 &-776358990442004048
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303135136910105357}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 13, z: 4}
+  m_Center: {x: 1, y: 6.5, z: 1}
+--- !u!114 &-3967926654578317681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303135136910105357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8e5ea8ec043f43438e3a7c48509239d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Size: {x: 1, y: 1, z: 1}
+  Preview: {fileID: 0}
+  enemy: 0
+  example: 0
+  builder: {fileID: 0}
+  directory: {fileID: 0}
+  rallyPoint: {fileID: 0}
+  structure: {fileID: 8976185539307826758, guid: ade338ac11f48184c95917292943a717, type: 3}
+  distanceToBuild: 0
 --- !u!1001 &5806864078241391230
 PrefabInstance:
   m_ObjectHideFlags: 0
