@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
     public bool isPerformingTask = false;
     public LayerMask layerMask;
     // best way to do this?
-    private Selectable goal;
+    protected Selectable mySelectable;
 
     public AudioSource Head;
     public AudioSource Body;
@@ -85,6 +85,7 @@ public class Unit : MonoBehaviour
     public void Start()
     {
         var faction = GetComponent<Selectable>();
+        mySelectable = GetComponent<Selectable>();
         // faction is enemy or player?
         if (faction.faction)
         {

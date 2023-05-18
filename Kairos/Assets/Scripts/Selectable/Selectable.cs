@@ -4,11 +4,11 @@ public class Selectable : MonoBehaviour
 {
     public bool selected;
     public bool faction;
-    private Material unSelectedMaterial;
-    private Material selectedMaterial;
+    protected Material unSelectedMaterial;
+    protected Material selectedMaterial;
     private Unit unit;
     private Structure structure;
-    private Shader unHighlight;
+    public Shader unHighlight;
 
     public int clickCount;
     public float clickTime;

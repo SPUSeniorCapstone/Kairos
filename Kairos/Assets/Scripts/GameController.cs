@@ -276,6 +276,7 @@ public class GameController : MonoBehaviour
     public Shader unHighlight;
     public CommandGroup CGSettings;
     public bool randomDamageModifier = false;
+    public bool randomAttackCooldown = false;
 
     public List<Builder_Unit> masterBuilder = new List<Builder_Unit>();
 

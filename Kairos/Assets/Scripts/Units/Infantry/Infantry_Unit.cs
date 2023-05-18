@@ -10,14 +10,16 @@ public class Infantry_Unit : Unit
 {
     public float personalDistance = 1;
     public float attackDistance = 1;
-    public float attackCoolDown = 1;
+    public float attackCoolDown = 4;
     public float attackDamage = 10f;
     public bool autoAttack = false;
-    private float lastAttackTime = 0;
+    protected float lastAttackTime = 0;
     public bool archer = false;
     public bool guard = false;
     public projectileArrow projectile;
     public float projectileSpeed;
+    public float animationCoolDown = 2;
+    public float lastAnimationFrame = 0;
 
     public Damageable target;
 
@@ -28,7 +30,7 @@ public class Infantry_Unit : Unit
     // i want to move this to base unit class
     //public CommandGroup command;
 
-    Infantry_Entity entity;
+    protected Infantry_Entity entity;
 
     new private void Start()
     {
@@ -90,6 +92,7 @@ public class Infantry_Unit : Unit
                 }
 
             } 
+            // enemy code to attack player stuff
             else if (target == null && badGuy && !guard && entity.movementMode == Infantry_Entity.MovementMode.IDLE)
             {
                 if (GameController.Main.StructureController.PlayerStructures.GetComponentInChildren<Stronghold>() != null)
@@ -106,22 +109,52 @@ public class Infantry_Unit : Unit
         // is this neccesary? why not update all the time?
         if (entity.movementMode == Infantry_Entity.MovementMode.ATTACK_FOLLOW && target != null && Visible(target.GetComponent<Selectable>()) && autoAttack)
         {
-            entity.targetPos = target.transform.position;
-            //when within attack range
-            // bootleg combat
-            // && Vector3.Distance(transform.position, target.transform.position) < attackDistance
-            if ((entity.movementDirection == Vector3.zero && archer || !archer))
+            Attack();
+        }
+        // these rotate towards are fighting each other, causing jittering. need exclusive
+       else if (entity.movementMode != Infantry_Entity.MovementMode.IDLE)
+        {
+            entity.RotateTowards(entity.movementDirection);
+        }     
+    }
+
+    /* if (GameController.Main.randomAttackCooldown)
+                    {
+                        attackCoolDown
+                    }*/
+
+    public virtual void Attack()
+    {
+        entity.targetPos = target.transform.position;
+        //when within attack range
+        // bootleg combat
+        // && Vector3.Distance(transform.position, target.transform.position) < attackDistance
+        if ((entity.movementDirection == Vector3.zero && archer || !archer))
+        {
+            // neccessary ?
+            if (target != null)
             {
-                // neccessary ?
-                if (target != null)
+                //entity.RotateTowards(target.transform.position.normalized);
+                transform.LookAt(target.transform);
+                //transform.rotation = Quaternion.LookRotation(target.transform.position);
+                if (GameController.Main.randomAttackCooldown)
                 {
-                    //entity.RotateTowards(target.transform.position.normalized);
-                    transform.LookAt(target.transform);
-                    //transform.rotation = Quaternion.LookRotation(target.transform.position);
+                    RandomAttack();
+                }
+                else
+                {
                     if (Time.time - lastAttackTime > attackCoolDown)
                     {
                         //Body.clip = BodySounds.ElementAt(10);
                         //Body.Play();
+                        if (archer)
+                        {
+                            Vector3 offset = new Vector3(0, 2, 0);
+                            Instantiate(projectile.gameObject, transform, false);
+                            projectile.transform.position = offset;
+                            projectile.speed = projectileSpeed;
+                            projectile.target = target.gameObject;
+                        }
                         if (GameController.Main.randomDamageModifier)
                         {
                             float rand = Random.Range(1f, 2f);
@@ -129,14 +162,6 @@ public class Infantry_Unit : Unit
                         }
                         else
                         {
-                            if (archer)
-                            {
-                                Vector3 offset = new Vector3(0, 2, 0);
-                                Instantiate(projectile.gameObject, transform, false);
-                                projectile.transform.position = offset;
-                                projectile.speed = projectileSpeed;
-                                projectile.target = target.gameObject;
-                            }
                             target.Damage(attackDamage);
                         }
 
@@ -152,11 +177,45 @@ public class Infantry_Unit : Unit
                 }
             }
         }
-        // these rotate towards are fighting each other, causing jittering. need exclusive
-       else if (entity.movementMode != Infantry_Entity.MovementMode.IDLE)
+    }
+
+    public virtual void RandomAttack()
+    {
+        if (Time.time - lastAttackTime > attackCoolDown * Random.Range(1f, 1.2f))
         {
-            entity.RotateTowards(entity.movementDirection);
-        }     
+            //Body.clip = BodySounds.ElementAt(10);
+            //Body.Play();
+
+
+            if (archer)
+            {
+                Vector3 offset = new Vector3(0, 2, 0);
+                Instantiate(projectile.gameObject, transform, false);
+                projectile.transform.position = offset;
+                projectile.speed = projectileSpeed;
+                projectile.target = target.gameObject;
+            }
+            if (GameController.Main.randomDamageModifier)
+            {
+                float rand = Random.Range(1f, 2f);
+                target.Damage(attackDamage * rand);
+            }
+            else
+            {
+                target.Damage(attackDamage);
+            }
+
+
+
+            lastAttackTime = Time.time;
+
+            // neccessary? doesn't work all the time (race condition)
+            if (target.Health <= 0)
+            {
+                entity.movementMode = Infantry_Entity.MovementMode.IDLE;
+                target = null;
+            }
+        }
     }
 
     public override void PerformTaskOn(Selectable selectable)
