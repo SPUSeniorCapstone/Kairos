@@ -215,9 +215,10 @@ public class Chunk : MonoBehaviour
 
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+
+            for (int z = 0; z < length; z++)
             {
-                for (int z = 0; z < length; z++)
+                for (int y = 0; y < height; y++)
                 {
                     if (CheckVoxel(new Vector3Int(x, y, z)))
                     {
@@ -232,6 +233,10 @@ public class Chunk : MonoBehaviour
                                 corruption.Add(new Vector2(corruptStrength, 0));
                             }
                         }
+                    }
+                    else
+                    {
+                        break;
                     }
 
                 }
@@ -287,10 +292,15 @@ public class Chunk : MonoBehaviour
 
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+
+            for (int z = 0; z < length; z++)
             {
-                for (int z = 0; z < length; z++)
+                for (int y = 0; y < height; y++)
                 {
+                    if (blocks[x, y, z].blockID == 0)
+                    {
+                        break;
+                    }
                     DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID, corruptionMap[x,z]);
                 }
             }
