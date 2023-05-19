@@ -4,6 +4,8 @@ using UnityEngine;
 //[RequireComponent(typeof(Selectable))]
 public class Structure : MonoBehaviour
 {
+    public string structureName;
+
     public Vector3Int Size = Vector3Int.one;
 
     public GameObject Preview;

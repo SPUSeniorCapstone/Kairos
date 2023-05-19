@@ -127,13 +127,13 @@ public class BuildMenu
     public Button purifierButton;
     public LabelAutoFit purifierInfo;
 
-    static int STRONGHOLD_COST = 50000;
+    public int STRONGHOLD_COST = 50000;
 
-    static int BARRACKS_COST = 160;
+    public int BARRACKS_COST = 160;
 
-    static int ARCHER_TOWER_COST = 300;
+    public int ARCHER_TOWER_COST = 300;
 
-    static int PURIFIER_COST = 500;
+    public int PURIFIER_COST = 500;
 
 
   
@@ -183,7 +183,6 @@ public class BuildMenu
 
         if (GameController.Main.resourceCount >= STRONGHOLD_COST) 
         {
-            GameController.Main.UpdateResource(STRONGHOLD_COST);
             GameController.Main.StructureController.BuildOrder("stronghold");
 
         }
@@ -193,15 +192,12 @@ public class BuildMenu
         if (GameController.Main.resourceCount >= BARRACKS_COST)
         {
             GameController.Main.StructureController.BuildOrder("barracks");
-            GameController.Main.UpdateResource(BARRACKS_COST);
-
         }
     }
     private void ArcherTowerButton_OnClick(ClickEvent cl)
     {
         if (GameController.Main.resourceCount >= ARCHER_TOWER_COST)
         {
-            GameController.Main.UpdateResource(ARCHER_TOWER_COST);
             GameController.Main.StructureController.BuildOrder("archertower");
         }
     }
@@ -209,7 +205,6 @@ public class BuildMenu
     {
         if (GameController.Main.resourceCount >= PURIFIER_COST)
         {
-            GameController.Main.UpdateResource(PURIFIER_COST);
             GameController.Main.StructureController.BuildOrder("purifier");
         }
     }

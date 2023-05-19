@@ -21,6 +21,7 @@ public class StructureController : MonoBehaviour
     
 
     public Structure StructureToSpawn;
+    public string spawnName;
     public GameObject structurePreview;
 
     public Structure corruptionNode;
@@ -114,6 +115,7 @@ public class StructureController : MonoBehaviour
                     GameController.Main.SelectionController.testCooldown = false;
                     GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>().BuildTask(pos);
                     var s = PlaceStructure(StructureToSpawn, pos);
+                    GameController.Main.UpdateResource(GetCost(spawnName));
                     s.builder = GameController.Main.UIController.StratView.inspectee.GetComponent<Builder_Unit>();
                     structurePreview.transform.position = Vector3.zero;
                     GameController.Main.SelectionController.testCooldown = true;
@@ -128,15 +130,45 @@ public class StructureController : MonoBehaviour
 
     public void SellStructure()
     {
-        if (GameController.Main.UIController.StratView.inspectee != null && GameController.Main.UIController.StratView.inspectee.GetComponent<Structure>() != null && GameController.Main.UIController.StratView.inspectee.GetComponent<Damageable>() != null)
+        GameObject gameObject = GameController.Main.UIController.StratView.inspectee;
+        if (gameObject != null)
         {
+            StructurePreview structurePreview = gameObject.GetComponent<StructurePreview>();
+            Structure structure = gameObject.GetComponent<Structure>();
+            if (structurePreview != null)
+            {
+                GameController.Main.UpdateResource(-GetCost(structurePreview.structureName));
+            }
+            else if (structure != null)
+            {
+                GameController.Main.UpdateResource(-GetCost(structure.structureName) /2);
+            }
             Damageable damageable = GameController.Main.UIController.StratView.inspectee.GetComponent<Damageable>();
             damageable.Damage(damageable.MaxHealth);
         }
     }
 
+    public int GetCost(string name)
+    {
+        switch (name)
+        {
+            case "stronghold":
+                return GameController.Main.UIController.gameUI.BuildMenu.STRONGHOLD_COST;
+            case "barracks":
+                return GameController.Main.UIController.gameUI.BuildMenu.BARRACKS_COST;
+            case "archertower":
+                return GameController.Main.UIController.gameUI.BuildMenu.ARCHER_TOWER_COST;
+            case "purifier":
+                return GameController.Main.UIController.gameUI.BuildMenu.PURIFIER_COST;
+            default:
+                Debug.LogError("THIS SHOULD NEVER HAPPEN -- " + name);
+                return -1;
+        }
+    }
+
     public void BuildOrder(string name)
     {
+        spawnName = name;
         StructurePlacementMode = true;
         sp.SetActive(false);
         bp.SetActive(false);

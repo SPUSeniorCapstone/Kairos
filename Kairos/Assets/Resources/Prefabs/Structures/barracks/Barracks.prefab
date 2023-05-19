@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1966314bed5d1cc4f9c865bc680a926a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  structureName: barracks
   Size: {x: 6, y: 6, z: 6}
   Preview: {fileID: 0}
   enemy: 0
@@ -94,6 +95,10 @@ MonoBehaviour:
   - {fileID: 2701632545085584670, guid: 556bd51a97a71624e8e2bd8159bddadc, type: 3}
   - {fileID: 2875157832969938577, guid: 9d784b3cac64d67409ff2d94d28a8ab2, type: 3}
   spawnPoint: {fileID: 996657134770467678}
+  infantryCount: 0
+  archerCount: 0
+  builderCount: 0
+  rcCount: 0
 --- !u!114 &996657134919577181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +113,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  unHighlight: {fileID: 0}
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &996657134919577154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,8 +134,10 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 1000
   <Health>k__BackingField: 1000
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1.5
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 0, z: 0}
 --- !u!65 &996657134919577155
 BoxCollider:

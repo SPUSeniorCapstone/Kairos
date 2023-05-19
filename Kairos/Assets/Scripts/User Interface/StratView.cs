@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StratView : MonoBehaviour
@@ -31,13 +32,16 @@ public class StratView : MonoBehaviour
             unitView.text = inspectee.name;
             if (gameObject.GetComponent<Structure>() != null && !gameObject.GetComponent<Selectable>().faction)
             {
-                GameController.Main.UIController.gameUI.destroyBuildingButton.visible = true;
+                if (gameObject.GetComponent<Stronghold>() == null || (gameObject.GetComponent<Stronghold>() != null && FindObjectsByType<Stronghold>(FindObjectsSortMode.None).Length > 1))
+                { 
+                    GameController.Main.UIController.gameUI.destroyBuildingButton.visible = true;
+                }
                 if (gameObject.GetComponent<ProductionStructure>())
                 {
                     GameController.Main.UIController.EnableProductionMenu(true);
                     gameObject.GetComponent<ProductionStructure>().SetProdUI();
                 }
-                GameController.Main.UIController.gameUI.BuildMenu.EnableBuildMenu(false);
+                    GameController.Main.UIController.gameUI.BuildMenu.EnableBuildMenu(false);
             } 
             else if (gameObject.GetComponent<Unit>() != null && !gameObject.GetComponent<Selectable>().faction)
             {

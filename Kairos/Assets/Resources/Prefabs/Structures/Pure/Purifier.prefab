@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9a72410c9c5741498b5fe11fadaf334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  structureName: purifier
   Size: {x: 1, y: 1, z: 1}
   Preview: {fileID: 0}
   enemy: 0
@@ -71,6 +72,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  unHighlight: {fileID: 0}
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &7212589811179830169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,8 +108,10 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 1000
   <Health>k__BackingField: 1000
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1.5
   DeathTime: -1
+  corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 0, z: 0}
 --- !u!65 &-528701057310288167
 BoxCollider:
