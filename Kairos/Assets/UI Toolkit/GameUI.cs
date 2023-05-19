@@ -16,6 +16,9 @@ public class GameUI : MonoBehaviour
 
     public Label NodeCounter;
 
+    public VisualElement BottomBar;
+    public VisualElement TopBar;
+
     public Label Framerate;
     float deltaTime = 0;
     int count = 0;
@@ -52,6 +55,8 @@ public class GameUI : MonoBehaviour
             Framerate = document.rootVisualElement.Q("Framerate") as Label;
             destroyBuildingButton = document.rootVisualElement.Q("DeleteButton") as Button;
             destroyBuildingButton.visible = false;
+            BottomBar = document.rootVisualElement.Q("BottomBar");
+            TopBar = document.rootVisualElement.Q("Top");
 
             destroyBuildingButton.RegisterCallback<ClickEvent>(DeleteStructure);
 

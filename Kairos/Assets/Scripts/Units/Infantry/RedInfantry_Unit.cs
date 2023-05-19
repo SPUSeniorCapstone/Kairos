@@ -35,6 +35,7 @@ public class RedInfantry_Unit : Infantry_Unit
                         neutral.SetActive(false);
                         frame1.SetActive(true);
                         frame2.SetActive(false);
+                        damageable.model = frame1.GetComponent<MeshRenderer>();
 
                     }
                     if (Time.time - lastAttackTime > attackCoolDown)
@@ -48,6 +49,7 @@ public class RedInfantry_Unit : Infantry_Unit
                             neutral.SetActive(false);
                             frame1.SetActive(false);
                             frame2.SetActive(true);
+                        damageable.model = frame2.GetComponent<MeshRenderer>();
                         if (GameController.Main.randomDamageModifier)
                         {
                             float rand = Random.Range(1f, 2f);
@@ -68,6 +70,7 @@ public class RedInfantry_Unit : Infantry_Unit
                             neutral.SetActive(true);
                             frame1.SetActive(false);
                             frame2.SetActive(false);
+                            damageable.model = neutral.GetComponent<MeshRenderer>();
                             entity.movementMode = Infantry_Entity.MovementMode.IDLE;
                             target = null;
                         }
@@ -86,6 +89,7 @@ public class RedInfantry_Unit : Infantry_Unit
             neutral.SetActive(false);
             frame1.SetActive(true);
             frame2.SetActive(false);
+            damageable.model = frame1.GetComponent<MeshRenderer>();
 
         }
         if (Time.time - lastAttackTime > attackCoolDown * randCoolDown)
@@ -97,6 +101,7 @@ public class RedInfantry_Unit : Infantry_Unit
             neutral.SetActive(false);
             frame1.SetActive(false);
             frame2.SetActive(true);
+            damageable.model = frame2.GetComponent<MeshRenderer>();
             if (GameController.Main.randomDamageModifier)
             {
                 float rand = Random.Range(1f, 2f);
@@ -115,6 +120,7 @@ public class RedInfantry_Unit : Infantry_Unit
                 neutral.SetActive(true);
                 frame1.SetActive(false);
                 frame2.SetActive(false);
+                damageable.model = neutral.GetComponent<MeshRenderer>();
                 entity.movementMode = Infantry_Entity.MovementMode.IDLE;
                 target = null;
             }

@@ -228,7 +228,7 @@ public class GameController : MonoBehaviour
             }
             // does second clause ensure survival while builder lives?
             //&& FindAnyObjectByType<Builder_Unit>().GetComponent<Damageable>() != null && FindAnyObjectByType<Builder_Unit>().GetComponent<Damageable>().Dead
-            if (playerCount <= 0 && FindAnyObjectByType<Builder_Unit>() == null)
+            if (playerCount <= 0 && masterBuilder.Count == 0)
             {
                 lost = true;
                 menuController.Defeat();

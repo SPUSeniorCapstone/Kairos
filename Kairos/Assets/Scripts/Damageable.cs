@@ -7,7 +7,7 @@ public class Damageable : MonoBehaviour
     public float HealthRatio { get { return Mathf.Clamp(Health / MaxHealth, 0, 1); } }
     [field: SerializeField] public bool Invulnerable { get; private set; }
 
-    private MeshRenderer model;
+    public MeshRenderer model;
     public float deathTimer = 1;
     [SerializeField]
     [Disable]

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -90,9 +91,10 @@ public class Builder_Unit : Unit
 
     new public void OnDestroy()
     {
-        GameController.Main.masterBuilder.Remove(this);
+        
         if (GameController.Main != null)
         {
+            GameController.Main.masterBuilder.Remove(this);
             GameController.Main.CheckVictory(null);
         }          
         base.OnDestroy();
