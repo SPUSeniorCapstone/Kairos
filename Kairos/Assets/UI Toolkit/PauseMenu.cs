@@ -33,8 +33,9 @@ public class PauseMenu : MonoBehaviour
         backButton = document.rootVisualElement.Q<Button>("BackButton");
         backButton.RegisterCallback<ClickEvent>(BackToPause);
 
-        //startButton = document.rootVisualElement.Q<Button>("StartButton");
-        //startButton.RegisterCallback<ClickEvent>(StartGame);
+        startButton = document.rootVisualElement.Q<Button>("StartButton");
+        if(startButton != null)
+            startButton.RegisterCallback<ClickEvent>(StartGame);
     }
 
     public void ExitToConfirmationScreen(ClickEvent click)
