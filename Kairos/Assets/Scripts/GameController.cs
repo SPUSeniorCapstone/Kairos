@@ -151,6 +151,18 @@ public class GameController : MonoBehaviour
         }
     }
     CorruptionController corruptionController;
+    public CameraController CameraController
+    {
+        get
+        {
+            if (cameraController == null)
+            {
+                cameraController = FindObjectOfType<CameraController>();
+            }
+            return cameraController;
+        }
+    }
+    CameraController cameraController;
 
     public TutorialMenuController TutorialMenuController
     {
@@ -216,7 +228,7 @@ public class GameController : MonoBehaviour
             }
             // does second clause ensure survival while builder lives?
             //&& FindAnyObjectByType<Builder_Unit>().GetComponent<Damageable>() != null && FindAnyObjectByType<Builder_Unit>().GetComponent<Damageable>().Dead
-            if (playerCount <= 0 && FindAnyObjectByType<Builder_Unit>() == null)
+            if (playerCount <= 0 && masterBuilder.Count == 0)
             {
                 lost = true;
                 menuController.Defeat();
@@ -264,6 +276,7 @@ public class GameController : MonoBehaviour
     public Shader unHighlight;
     public CommandGroup CGSettings;
     public bool randomDamageModifier = false;
+    public bool randomAttackCooldown = false;
 
     public List<Builder_Unit> masterBuilder = new List<Builder_Unit>();
 

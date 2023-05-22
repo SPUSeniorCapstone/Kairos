@@ -23,6 +23,26 @@ public class InputController
 
     public InputType Pause = new InputType(KeyCode.Escape, KeyCode.None);
 
+    // hotkeys
+    public InputType Zero = new InputType(KeyCode.Alpha0, KeyCode.None);
+    public InputType One = new InputType(KeyCode.Alpha1, KeyCode.None);
+    public InputType Two = new InputType(KeyCode.Alpha2, KeyCode.None);
+    public InputType Three = new InputType(KeyCode.Alpha3, KeyCode.None);
+    public InputType Four = new InputType(KeyCode.Alpha4, KeyCode.None);
+    public InputType Five = new InputType(KeyCode.Alpha5, KeyCode.None);
+    public InputType Six = new InputType(KeyCode.Alpha6, KeyCode.None);
+    public InputType Seven = new InputType(KeyCode.Alpha7, KeyCode.None);
+    public InputType Eight = new InputType(KeyCode.Alpha8, KeyCode.None);
+    public InputType Nine = new InputType(KeyCode.Alpha9, KeyCode.None);
+
+    public InputType Stop = new InputType(KeyCode.S, KeyCode.None);
+    public InputType AttackMove = new InputType(KeyCode.A, KeyCode.None);
+    public InputType AllFightingUnits = new InputType(KeyCode.Q, KeyCode.None);
+    public InputType SameUnitsOnMap = new InputType(KeyCode.E, KeyCode.None);
+    // avoid corruption squares?
+    public InputType Scatter = new InputType(KeyCode.X, KeyCode.None);
+    public InputType SeeStronghold = new InputType(KeyCode.H, KeyCode.None);
+
 
     [Serializable]
     public struct InputType

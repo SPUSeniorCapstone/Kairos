@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 4338577732436260424}
   - component: {fileID: 360578774360517194}
   - component: {fileID: 6947806168114533615}
-  - component: {fileID: 343787441136288267}
+  - component: {fileID: 5270767037337292861}
   - component: {fileID: 6629980844841308972}
   - component: {fileID: 6924745267988156979}
   m_Layer: 6
@@ -158,6 +158,7 @@ MonoBehaviour:
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &360578774360517194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +213,7 @@ MonoBehaviour:
   retrievingPath: 0
   lockHorizontalRotation: 1
   rotateSpeed: 10
---- !u!114 &343787441136288267
+--- !u!114 &5270767037337292861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,7 +222,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2875157832969938577}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 241928aad9bb3014dadb6ea8522a21e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   commandGroup: {fileID: 0}

@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9a72410c9c5741498b5fe11fadaf334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  structureName: archertower
   Size: {x: 1, y: 1, z: 1}
   Preview: {fileID: 0}
   enemy: 0
@@ -169,6 +170,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  unHighlight: {fileID: 0}
+  clickCount: 0
+  clickTime: 0
+  clickDelay: 0.5
+  selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &3423161522806090367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +191,7 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 500
   <Health>k__BackingField: 500
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1.5
   DeathTime: -1
   corruptionDamageTime: 0
@@ -210,6 +218,7 @@ MonoBehaviour:
   Body: {fileID: 0}
   Feet: {fileID: 0}
   badGuy: 0
+  doubleClicked: 0
   autoAttack: 1
   target: {fileID: 0}
   personalDistance: 1

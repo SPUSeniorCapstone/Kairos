@@ -54,18 +54,6 @@ public class RC_Unit : Unit
             entity.RotateTowards(entity.movementDirection);
         }
     }
-
-    public override void OnSelect()
-    {
-        // neccessary?
-
-    }
-    public override void OnDeselect()
-    {
-
-    }
-
-
     public override void PerformTaskOn(Selectable selectable)
     {
 

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ProductionStructure : Structure
@@ -12,6 +14,13 @@ public class ProductionStructure : Structure
     public GameObject spawnPoint;
     public Queue<GameObject> buildQue;
 
+    public int infantryCount;
+    public int archerCount;
+    public int builderCount;
+    public int rcCount;
+
+    //public struct QueItem(GameObject unit, count)
+
 
 
     private void Update()
@@ -22,6 +31,7 @@ public class ProductionStructure : Structure
             if (timeLeft <= 0)
             {
                 timeLeft = originialTime;
+                UpdateCount(buildQue.Peek(), 0);
                 SpawnUnits(buildQue.Dequeue());
                 unitsQueued--;
             }
@@ -59,16 +69,22 @@ public class ProductionStructure : Structure
         {
             Debug.Log("WHY NULL?!");
         }
-        buildQue.Enqueue(unit);
         unitsQueued++;
+        UpdateCount(unit, 1);
+        buildQue.Enqueue(unit);
     }
 
-    public void DequeueUnits()
+    public void DequeueUnits(GameObject unit)
     {
         if (buildQue.Count != 0)
         {
-            buildQue.Dequeue();
+            timeLeft = originialTime;
+            List<GameObject> see = buildQue.ToList<GameObject>();
+            see.Remove(unit);
+            var queue = new Queue<GameObject>(see);
             unitsQueued--;
+            UpdateCount(unit, 1);
+            buildQue = queue;
         }
     }
 
@@ -97,5 +113,94 @@ public class ProductionStructure : Structure
     {
         rallyPoint.GetComponentInChildren<MeshRenderer>().material.shader = GameController.Main.unHighlight;
         GameController.Main.StructureController.selected.Remove(this);
+    }
+    public void UpdateCount(GameObject unit, int index)
+    {
+        if (unit == GameController.Main.StructureController.archer)
+        {
+            if (index == 0)
+            {
+                archerCount--;
+            }
+            
+                string sub = GameController.Main.UIController.gameUI.ProductionMenu.archerInfo.text;
+                sub = sub.Substring(0, sub.IndexOf("("));
+                sub += "(" + archerCount + ")";
+                GameController.Main.UIController.gameUI.ProductionMenu.archerInfo.text = sub;
+            
+        }
+        else if (unit == GameController.Main.StructureController.infantry)
+        {
+            if (index == 0)
+            {
+                infantryCount--;
+            }
+            
+                string sub = GameController.Main.UIController.gameUI.ProductionMenu.infantryInfo.text;
+                sub = sub.Substring(0, sub.IndexOf("("));
+                sub += "(" + infantryCount + ")";
+                GameController.Main.UIController.gameUI.ProductionMenu.infantryInfo.text = sub;
+            
+        }
+        else if (unit == GameController.Main.StructureController.builder)
+        {
+            if (index == 0)
+            {
+                builderCount--;
+            }
+            
+                string sub = GameController.Main.UIController.gameUI.ProductionMenu.builderInfo.text;
+                sub = sub.Substring(0, sub.IndexOf("("));
+                sub += "(" + builderCount + ")";
+                GameController.Main.UIController.gameUI.ProductionMenu.builderInfo.text = sub;
+            
+        }
+        else if (unit == GameController.Main.StructureController.resourceCollector)
+        {
+            if (index == 0)
+            {
+                rcCount--;
+            }
+            
+                string sub = GameController.Main.UIController.gameUI.ProductionMenu.collectorInfo.text;
+                sub = sub.Substring(0, sub.IndexOf("("));
+                sub += "(" + rcCount + ")";
+                GameController.Main.UIController.gameUI.ProductionMenu.collectorInfo.text = sub;
+            
+        }
+        else
+        {
+            Debug.Log("This shouldn't happen");
+        }
+    }
+
+    public void SetProdUI()
+    {
+        string sub = GameController.Main.UIController.gameUI.ProductionMenu.archerInfo.text;
+        sub = sub.Substring(0, sub.IndexOf("("));
+        sub += "(" + archerCount + ")";
+        GameController.Main.UIController.gameUI.ProductionMenu.archerInfo.text = sub;
+
+
+
+        sub = GameController.Main.UIController.gameUI.ProductionMenu.infantryInfo.text;
+        sub = sub.Substring(0, sub.IndexOf("("));
+        sub += "(" + infantryCount + ")";
+        GameController.Main.UIController.gameUI.ProductionMenu.infantryInfo.text = sub;
+
+
+
+        sub = GameController.Main.UIController.gameUI.ProductionMenu.builderInfo.text;
+        sub = sub.Substring(0, sub.IndexOf("("));
+        sub += "(" + builderCount + ")";
+        GameController.Main.UIController.gameUI.ProductionMenu.builderInfo.text = sub;
+
+
+
+        sub = GameController.Main.UIController.gameUI.ProductionMenu.collectorInfo.text;
+        sub = sub.Substring(0, sub.IndexOf("("));
+        sub += "(" + rcCount + ")";
+        GameController.Main.UIController.gameUI.ProductionMenu.collectorInfo.text = sub;
+
     }
 }
