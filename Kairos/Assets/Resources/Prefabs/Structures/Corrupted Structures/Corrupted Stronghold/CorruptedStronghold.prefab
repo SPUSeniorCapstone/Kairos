@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2763793370201956432}
   - component: {fileID: -8523066798055968881}
   - component: {fileID: 3537102922715729316}
+  - component: {fileID: 1256918898650269699}
   m_Layer: 0
   m_Name: CorruptedStronghold
   m_TagString: Untagged
@@ -47,9 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3fbe181f4a4944eb17e7828ed0e0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 250
-  <Health>k__BackingField: 250
+  <MaxHealth>k__BackingField: 500
+  <Health>k__BackingField: 1
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1
   DeathTime: -1
   corruptionDamageTime: 0
@@ -68,10 +70,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 1
+  unHighlight: {fileID: 0}
   clickCount: 0
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+  massSelected: 0
 --- !u!65 &3537102922715729316
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85,6 +89,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 7, y: 12.0345, z: 7}
   m_Center: {x: 1, y: 5.01729, z: 2}
+--- !u!114 &1256918898650269699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779162735855372867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8e5ea8ec043f43438e3a7c48509239d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  structureName: 
+  Size: {x: 1, y: 1, z: 1}
+  Preview: {fileID: 0}
+  enemy: 0
+  example: 0
+  builder: {fileID: 0}
+  directory: {fileID: 0}
+  rallyPoint: {fileID: 0}
+  healTime: 0
+  originalHeal: 1
+  buildDistance: 6
+  damaging: {fileID: 0}
+  structure: {fileID: 8181554048383060575, guid: f8a9c1a1bec5c3a4181e86d1577e0846, type: 3}
+  distanceToBuild: 0
 --- !u!1001 &7790558765165370394
 PrefabInstance:
   m_ObjectHideFlags: 0

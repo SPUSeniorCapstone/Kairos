@@ -48,9 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3fbe181f4a4944eb17e7828ed0e0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHealth>k__BackingField: 250
-  <Health>k__BackingField: 250
+  <MaxHealth>k__BackingField: 500
+  <Health>k__BackingField: 1
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1
   DeathTime: -1
   corruptionDamageTime: 0
@@ -69,10 +70,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 1
+  unHighlight: {fileID: 0}
   clickCount: 0
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+  massSelected: 0
 --- !u!65 &-776358990442004048
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93,11 +96,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1303135136910105357}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8e5ea8ec043f43438e3a7c48509239d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  structureName: 
   Size: {x: 1, y: 1, z: 1}
   Preview: {fileID: 0}
   enemy: 0
@@ -105,6 +109,10 @@ MonoBehaviour:
   builder: {fileID: 0}
   directory: {fileID: 0}
   rallyPoint: {fileID: 0}
+  healTime: 0
+  originalHeal: 1
+  buildDistance: 6
+  damaging: {fileID: 0}
   structure: {fileID: 8976185539307826758, guid: ade338ac11f48184c95917292943a717, type: 3}
   distanceToBuild: 0
 --- !u!1001 &5806864078241391230
