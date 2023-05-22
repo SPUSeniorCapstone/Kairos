@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 7413196249680374123}
   - component: {fileID: 6905223017474913641}
   - component: {fileID: 4233066052977724364}
-  - component: {fileID: 6777969221853240616}
+  - component: {fileID: 2868097909945005006}
   - component: {fileID: 6944547607370826031}
   m_Layer: 7
   m_Name: Enemy 3
@@ -284,6 +284,7 @@ MonoBehaviour:
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &6905223017474913641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +339,7 @@ MonoBehaviour:
   retrievingPath: 0
   lockHorizontalRotation: 1
   rotateSpeed: 10
---- !u!114 &6777969221853240616
+--- !u!114 &2868097909945005006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,7 +348,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9021786559248497074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3d44f52d3f8969408f84d2a3973f0f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 7888aadb611acc24cbda11b7971ad87a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   commandGroup: {fileID: 0}

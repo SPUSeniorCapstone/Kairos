@@ -18,20 +18,20 @@ public class MenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!((victoryMenuUI != null && victoryMenuUI.gameObject.activeSelf) || (defeatMenuUI != null && defeatMenuUI.gameObject.activeSelf)))
-            {
-                if (GameIsPaused)
-                {
-                    Resume();
-                }
-                else
-                {
-                    Pause();
-                }
-            }  
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    if (!((victoryMenuUI != null && victoryMenuUI.gameObject.activeSelf) || (defeatMenuUI != null && defeatMenuUI.gameObject.activeSelf)))
+        //    {
+        //        if (GameIsPaused)
+        //        {
+        //            Resume();
+        //        }
+        //        else
+        //        {
+        //            Pause();
+        //        }
+        //    }  
+        //}
     }
 
     public void Resume()
@@ -52,7 +52,7 @@ public class MenuController : MonoBehaviour
 
     public void Pause()
     {
-        pauseMenuUI.SetActive(true);
+        //pauseMenuUI.SetActive(true);
         optionsMenuUI.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;

@@ -63,6 +63,7 @@ public class World : MonoBehaviour
     public bool enable = true;
 
     bool meshUpdate = false;
+    bool showMeshUpdate = false;
 
     public void Init(Vector2Int size)
     {
@@ -77,13 +78,24 @@ public class World : MonoBehaviour
     {
         if(enable && !meshUpdate)
             UpdateNext();
-        else if (meshUpdate)
+        else if (meshUpdate && !showMeshUpdate)
+        {
+            PushNext();
+            //foreach(Chunk c in chunks)
+            //{
+            //    c.PushChunkMesh();
+            //}
+            //meshUpdate = false;
+        }
+        else if (showMeshUpdate)
         {
             foreach(Chunk c in chunks)
             {
-                c.PushChunkMesh();
+                c.EndChunkUpdate();
             }
+            showMeshUpdate = false;
             meshUpdate = false;
+
         }
     }
 
@@ -103,6 +115,26 @@ public class World : MonoBehaviour
             {
                 currUpdate.y = 0;
                 meshUpdate = true;
+            }
+        }
+    }
+
+    public void PushNext()
+    {
+        chunks[currUpdate.x, currUpdate.y].PushChunkMesh();
+        //chunks[currUpdate.x, currUpdate.y].UpdateCorruption();
+        //chunks[currUpdate.x, currUpdate.y].ReloadDecorations();
+
+        currUpdate.x += 1;
+        if (currUpdate.x >= widthInChunks)
+        {
+            currUpdate.x = 0;
+            currUpdate.y++;
+
+            if (currUpdate.y >= lengthInChunks)
+            {
+                currUpdate.y = 0;
+                showMeshUpdate = true;
             }
         }
     }

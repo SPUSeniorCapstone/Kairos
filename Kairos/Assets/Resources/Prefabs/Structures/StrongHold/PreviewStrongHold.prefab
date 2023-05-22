@@ -64,10 +64,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  unHighlight: {fileID: 0}
   clickCount: 0
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &156672671965586176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +85,7 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 1000
   <Health>k__BackingField: 1
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1.5
   DeathTime: -1
   corruptionDamageTime: 0
@@ -99,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e5ea8ec043f43438e3a7c48509239d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  structureName: stronghold
   Size: {x: 2, y: 2, z: 2}
   Preview: {fileID: 0}
   enemy: 0
