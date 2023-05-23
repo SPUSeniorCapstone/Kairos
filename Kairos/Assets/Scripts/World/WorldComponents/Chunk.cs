@@ -58,12 +58,19 @@ public class Chunk : MonoBehaviour
 
     public float[,] corruptionMap = new float[width, length];
 
+    Mesh mesh;
 
     Task<bool> UpdateTask = null;
     ChunkMesh chunkMesh = null;
     int[,] heightsUpdate = null;
 
     //Methods
+
+    private void Start()
+    {
+        mesh = new Mesh();
+    }
+
 
     private void Update()
     {
@@ -82,9 +89,7 @@ public class Chunk : MonoBehaviour
                 }
                 else
                 {
-                    var meshFilter = GetComponent<MeshFilter>();
-                    Mesh mesh = new Mesh();
-
+                    mesh = new Mesh();
                     mesh.SetVertices(chunkMesh.vertices);
                     mesh.SetTriangles(chunkMesh.triangles, 0);
                     mesh.SetUVs(0, chunkMesh.uvs);
@@ -92,22 +97,41 @@ public class Chunk : MonoBehaviour
                     mesh.RecalculateNormals();
                     mesh.RecalculateBounds();
 
-                    meshFilter.sharedMesh = mesh;
-                    GetComponent<MeshCollider>().convex = false;
-                    GetComponent<MeshCollider>().sharedMesh = mesh;
+                    //meshFilter.sharedMesh = mesh;
 
-                    GetComponent<MeshCollider>().sharedMesh = mesh;
+                    //GetComponent<MeshCollider>().convex = false;
+                    //GetComponent<MeshCollider>().sharedMesh = mesh;
 
-                    transform.position = new Vector3(position.x * width, 0, position.z * length);
+                    //GetComponent<MeshCollider>().sharedMesh = mesh;
 
-                    heights = heightsUpdate;
+                    //transform.position = new Vector3(position.x * width, 0, position.z * length);
 
-                    ReloadDecorations();
+                    //heights = heightsUpdate;
+
+                    //ReloadDecorations();
                 }
                 UpdateTask = null;
             }
 
         }
+    }
+
+    public void EndChunkUpdate()
+    {
+        var meshFilter = GetComponent<MeshFilter>();
+
+        meshFilter.sharedMesh = mesh;
+
+        //GetComponent<MeshCollider>().convex = false;
+        //GetComponent<MeshCollider>().sharedMesh = mesh;
+
+        //GetComponent<MeshCollider>().sharedMesh = mesh;
+
+        //transform.position = new Vector3(position.x * width, 0, position.z * length);
+
+        heights = heightsUpdate;
+
+        //ReloadDecorations();
     }
 
     /// <summary>
@@ -215,9 +239,10 @@ public class Chunk : MonoBehaviour
 
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+
+            for (int z = 0; z < length; z++)
             {
-                for (int z = 0; z < length; z++)
+                for (int y = 0; y < height; y++)
                 {
                     if (CheckVoxel(new Vector3Int(x, y, z)))
                     {
@@ -232,6 +257,10 @@ public class Chunk : MonoBehaviour
                                 corruption.Add(new Vector2(corruptStrength, 0));
                             }
                         }
+                    }
+                    else
+                    {
+                        break;
                     }
 
                 }
@@ -287,10 +316,15 @@ public class Chunk : MonoBehaviour
 
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+
+            for (int z = 0; z < length; z++)
             {
-                for (int z = 0; z < length; z++)
+                for (int y = 0; y < height; y++)
                 {
+                    if (blocks[x, y, z].blockID == 0)
+                    {
+                        break;
+                    }
                     DrawVoxel(new Vector3Int(x, y, z), blocks[x, y, z].blockID, corruptionMap[x,z]);
                 }
             }

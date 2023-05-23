@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -54,21 +56,7 @@ public class Builder_Unit : Unit
 
     public override void OnSelect()
     {
-
-       
-       if (doubleClicked)
-        {
-            doubleClicked = false;
-            var temp = FindObjectsByType<Builder_Unit>(FindObjectsSortMode.None);
-            Debug.Log(temp.Count());
-            foreach (Builder_Unit builder in temp)
-            {
-                GameController.Main.SelectionController.currentlySelect.Add(builder.GetComponent<Selectable>());
-                builder.GetComponent<Selectable>().selected = true;
-                builder.GetComponent<Selectable>().Activate();
-            }
- 
-        }
+        base.OnSelect();
         // neccessary?
         if (GameController.Main.UIController.StratView.inspectee == gameObject)
             GameController.Main.UIController.EnableBuildMenu(true);
@@ -103,10 +91,13 @@ public class Builder_Unit : Unit
 
     new public void OnDestroy()
     {
-        GameController.Main.masterBuilder.Remove(this);
-        base.OnDestroy();
-        if(GameController.Main != null)
+        
+        if (GameController.Main != null)
+        {
+            GameController.Main.masterBuilder.Remove(this);
             GameController.Main.CheckVictory(null);
+        }          
+        base.OnDestroy();
     }
 
     public override void MoveTo(Vector3 position)

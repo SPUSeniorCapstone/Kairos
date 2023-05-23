@@ -1,0 +1,16 @@
+"AppBuild"
+{
+	"AppID" "2224090" // Your AppID
+	"Desc" "Kairos Build 0.3.0" // internal description for this build
+	"Preview" "0" // make this a preview build only, nothing is uploaded
+	"Local" "" // put content on local content server instead of uploading to Steam
+	"SetLive" "default" 
+	"ContentRoot" "..\Kairos\Build\" // content root folder relative to this script file
+	"BuildOutput" "C:\Development\build_output\" // put build cache and log files on different drive for better performance
+	"Depots"
+	{
+		// file mapping instructions for each depot are in separate script files
+		"2224091" "depot_build_2224091-windows.vdf"
+		//"2224092" "depot_build_2224092-macOS.vdf"
+	}
+}

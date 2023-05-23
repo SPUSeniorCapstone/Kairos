@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    public Camera RTSCamera;
+    public Camera OverviewCamera;
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            RTSCamera.gameObject.SetActive(!RTSCamera.gameObject.activeSelf);
+            OverviewCamera.gameObject.SetActive(!OverviewCamera.gameObject.activeSelf);        
+        }
     }
 }
