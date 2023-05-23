@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class PauseMenu : MonoBehaviour
 {
     UIDocument document;
+    public GameObject minimap;
     public Label pauseLabel;
     public Label confirmationLabel;
     public Button exitButton;
@@ -73,11 +74,13 @@ public class PauseMenu : MonoBehaviour
         if (GameController.Main.paused)
         {
             document.rootVisualElement.style.display = DisplayStyle.Flex;
+            minimap.SetActive(false);
 
         }
         else
         {
             document.rootVisualElement.style.display = DisplayStyle.None;
+            minimap.SetActive(true);
         }
     }
 }

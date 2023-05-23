@@ -10,6 +10,8 @@ public class MenuController : MonoBehaviour
     public GameObject victoryMenuUI;
     public GameObject tutorialMenuUI;
     public GameObject defeatMenuUI;
+    public GameObject miniMap;
+
 
 
     // DOESNT REALLY PAUSE THE GAME (TRUE CONTROL IS IN GAMECONTROLLER)
@@ -54,6 +56,7 @@ public class MenuController : MonoBehaviour
     {
         //pauseMenuUI.SetActive(true);
         optionsMenuUI.SetActive(false);
+        miniMap.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
@@ -65,6 +68,7 @@ public class MenuController : MonoBehaviour
         }
 
         victoryMenuUI.SetActive(true);
+        miniMap.SetActive(false);
         optionsMenuUI.SetActive(false);
         tutorialMenuUI.SetActive(false);
         Time.timeScale = 0f;
@@ -74,8 +78,10 @@ public class MenuController : MonoBehaviour
     {
         defeatMenuUI.SetActive(true);
         optionsMenuUI.SetActive(false);
+        miniMap.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
+
     }
 
     public void NewGame()
