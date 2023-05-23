@@ -97,8 +97,8 @@ public class WorldGenerator : MonoBehaviour
     public List<DecorationObject> decorStructPrefab;
     public float structRadius;
     public int structSpawnLayer = 4;
-    [Range(0, 1)]
-    //public float structMin;
+    [Range(0, 10)]
+    public int structCountMax;
 
     [Header("World Layers")]
     public WorldLayer[] layers;
@@ -480,48 +480,55 @@ public class WorldGenerator : MonoBehaviour
 
         if(decorStructPrefab != null)
         {
-            // get the positions via Poisson
+            // get the positions via Poisson and check for the amount of structures on the map
             var positions = PoissonDiscSampling.GeneratePoints(structRadius, new Vector2(world.WidthInBlocks, world.LengthInBlocks));
+            var structCount = 0;
 
             // go through every position on the map
             foreach(var pos in positions)
             {
-                // get the current position
-                var position = pos.ToVector2Int();
-
-                // if the position is between 0 and the max world width/length
-                if(position.x < world.WidthInBlocks && position.x >= 0 && position.y < world.LengthInBlocks && position.y >= 0)
+                if(structCount < structCountMax)
                 {
-                    // check to see if the position is in the resource layer
-                    if (layerMap[position.x, position.y] == resourceLayer)
+                    // get the current position
+                    var position = pos.ToVector2Int();
+
+                    // if the position is between 0 and the max world width/length
+                    if (position.x < world.WidthInBlocks && position.x >= 0 && position.y < world.LengthInBlocks && position.y >= 0)
                     {
-                        // check to see if the position conflicts with a Stronghold, Corruption Node, or Tree
-                        var currentPos = position.ToVector3Int();
-                        if(currentPos != strongholdPos && !corruptionNodePositions.Contains(currentPos) && !treeDecorationPositions.Contains(currentPos))
+                        // check to see if the position is in the resource layer
+                        if (layerMap[position.x, position.y] == resourceLayer)
                         {
-                            var cp = world.WorldToChunkPosition(position);
-                            var wp = position.ToVector3(world.GetHeight(currentPos));
+                            // check to see if the position conflicts with a Stronghold, Corruption Node, or Tree
+                            var currentPos = position.ToVector3Int();
+                            if (currentPos != strongholdPos && !corruptionNodePositions.Contains(currentPos) && !treeDecorationPositions.Contains(currentPos))
+                            {
+                                var cp = world.WorldToChunkPosition(position);
+                                var wp = position.ToVector3(world.GetHeight(currentPos));
 
-                            // choose random structure
-                            var randStruct = Random.Range(0, 100);
-                            var chosenStruct = 0;
-                            if(randStruct >= 0 && randStruct <= 50)
-                            {
-                                chosenStruct = 0;
-                            }else if(randStruct > 50 && randStruct <= 70)
-                            {
-                                chosenStruct = 1;
-                            }else if(randStruct > 70 && randStruct <= 90)
-                            {
-                                chosenStruct = 2;
-                            }
-                            else
-                            {
-                                chosenStruct = 3;
-                            }
+                                // choose random structure
+                                var randStruct = Random.Range(0, 100);
+                                var chosenStruct = 0;
+                                if (randStruct >= 0 && randStruct <= 50)
+                                {
+                                    chosenStruct = 0;
+                                }
+                                else if (randStruct >= 51 && randStruct <= 70)
+                                {
+                                    chosenStruct = 1;
+                                }
+                                else if (randStruct >= 71 && randStruct <= 90)
+                                {
+                                    chosenStruct = 2;
+                                }
+                                else
+                                {
+                                    chosenStruct = 3;
+                                }
 
-                            var obj = Instantiate<DecorationObject>(decorStructPrefab[chosenStruct], wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
-                            obj.position = position - new Vector2Int(cp.x * Chunk.width, cp.y * Chunk.length);
+                                var obj = Instantiate<DecorationObject>(decorStructPrefab[chosenStruct], wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
+                                obj.position = position - new Vector2Int(cp.x * Chunk.width, cp.y * Chunk.length);
+                                structCount++;
+                            }
                         }
                     }
                 }
