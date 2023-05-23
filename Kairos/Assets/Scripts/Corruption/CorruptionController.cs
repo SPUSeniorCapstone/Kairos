@@ -54,18 +54,21 @@ public class CorruptionController : MonoBehaviour
 
     private void Update()
     {
-        if(corruptionMode == CorruptionMode.AVERAGE_SPREAD)
+        if (!GameController.Main.paused)
         {
-            AverageSpreadUpdate();
-        }
-        else
-        {
-            PointSpreadUpdate();
-        }
+            if (corruptionMode == CorruptionMode.AVERAGE_SPREAD)
+            {
+                AverageSpreadUpdate();
+            }
+            else
+            {
+                PointSpreadUpdate();
+            }
 
-        if (DoCorruptionVeins)
-        {
-            CorruptionVeins();
+            if (DoCorruptionVeins)
+            {
+                CorruptionVeins();
+            }
         }
     }
 
