@@ -86,11 +86,19 @@ public class WorldGenerator : MonoBehaviour
 
     [Header("Tree Decorations")]
     public List<DecorationObject> treePrefabs;
-    public List<DecorationObject> decorStructPrefabs;
     public float forestRadius;
     public int treeSpawnLayer = 4;
     [Range(0, 1)]
     public float forestMin;
+    [HideInInspector]
+    public List<Vector3Int> treeDecorationPositions = new List<Vector3Int>();
+
+    [Header("Structure Decorations")]
+    public List<DecorationObject> decorStructPrefab;
+    public float structRadius;
+    public int structSpawnLayer = 4;
+    [Range(0, 1)]
+    //public float structMin;
 
     [Header("World Layers")]
     public WorldLayer[] layers;
@@ -140,6 +148,8 @@ public class WorldGenerator : MonoBehaviour
 
 
         PlaceDecorations();
+
+        PlaceStructures();
 
         if (loadMeshes)
         {
@@ -428,6 +438,7 @@ public class WorldGenerator : MonoBehaviour
                         var wp = position.ToVector3(world.GetHeight(position.ToVector3Int()));
                         var obj = Instantiate<DecorationObject>(treePrefabs[Random.Range(0,treePrefabs.Count)], wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
                         obj.position = position - new Vector2Int(cp.x * Chunk.width, cp.y * Chunk.length);
+                        treeDecorationPositions.Add(position.ToVector3Int());
                     }
                 }
             }
@@ -447,7 +458,7 @@ public class WorldGenerator : MonoBehaviour
 
                 if (position.x < world.WidthInBlocks && position.x >= 0 && position.y < world.LengthInBlocks && position.y >= 0)
                 {
-                    if(layerMap[position.x, position.y] == resourceLayer)
+                    if(layerMap[position.x, position.y] == structSpawnLayer)
                     {
                         var cp = world.WorldToChunkPosition(position);
                         var wp = position.ToVector3(world.GetHeight(position.ToVector3Int()));
@@ -455,6 +466,64 @@ public class WorldGenerator : MonoBehaviour
                         obj.position = position - new Vector2Int(cp.x * Chunk.width, cp.y * Chunk.length);
                     }
 
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// <c>PlaceStructures</c> places the Corrupted Structures and pure Decoration Structures onto the map.
+    /// </summary>
+    public void PlaceStructures()
+    {
+        Debug.Log("Placing Structures");
+
+        if(decorStructPrefab != null)
+        {
+            // get the positions via Poisson
+            var positions = PoissonDiscSampling.GeneratePoints(structRadius, new Vector2(world.WidthInBlocks, world.LengthInBlocks));
+
+            // go through every position on the map
+            foreach(var pos in positions)
+            {
+                // get the current position
+                var position = pos.ToVector2Int();
+
+                // if the position is between 0 and the max world width/length
+                if(position.x < world.WidthInBlocks && position.x >= 0 && position.y < world.LengthInBlocks && position.y >= 0)
+                {
+                    // check to see if the position is in the resource layer
+                    if (layerMap[position.x, position.y] == resourceLayer)
+                    {
+                        // check to see if the position conflicts with a Stronghold, Corruption Node, or Tree
+                        var currentPos = position.ToVector3Int();
+                        if(currentPos != strongholdPos && !corruptionNodePositions.Contains(currentPos) && !treeDecorationPositions.Contains(currentPos))
+                        {
+                            var cp = world.WorldToChunkPosition(position);
+                            var wp = position.ToVector3(world.GetHeight(currentPos));
+
+                            // choose random structure
+                            var randStruct = Random.Range(0, 100);
+                            var chosenStruct = 0;
+                            if(randStruct >= 0 && randStruct <= 50)
+                            {
+                                chosenStruct = 0;
+                            }else if(randStruct > 50 && randStruct <= 70)
+                            {
+                                chosenStruct = 1;
+                            }else if(randStruct > 70 && randStruct <= 90)
+                            {
+                                chosenStruct = 2;
+                            }
+                            else
+                            {
+                                chosenStruct = 3;
+                            }
+
+                            var obj = Instantiate<DecorationObject>(decorStructPrefab[chosenStruct], wp, Quaternion.identity, world.Chunks[cp.x, cp.y].transform);
+                            obj.position = position - new Vector2Int(cp.x * Chunk.width, cp.y * Chunk.length);
+                        }
+                    }
                 }
             }
         }
