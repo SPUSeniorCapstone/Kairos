@@ -86,6 +86,7 @@ public class WorldGenerator : MonoBehaviour
 
     [Header("Tree Decorations")]
     public List<DecorationObject> treePrefabs;
+    public List<DecorationObject> decorStructPrefabs;
     public float forestRadius;
     public int treeSpawnLayer = 4;
     [Range(0, 1)]
