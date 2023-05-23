@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 using System.Drawing;
 using UnityEngine.UIElements;
 
