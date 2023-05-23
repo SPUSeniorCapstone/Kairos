@@ -56,6 +56,7 @@ public class MenuController : MonoBehaviour
     {
         pauseMenuUI.SetActive(true);
         optionsMenuUI.SetActive(false);
+        miniMap.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
