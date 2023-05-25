@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2702061936770769498}
   - component: {fileID: -776358990442004048}
   - component: {fileID: -3967926654578317681}
+  - component: {fileID: 8312518566894576377}
   m_Layer: 0
   m_Name: CorruptedAttackTower
   m_TagString: Untagged
@@ -115,6 +116,21 @@ MonoBehaviour:
   damaging: {fileID: 0}
   structure: {fileID: 8976185539307826758, guid: ade338ac11f48184c95917292943a717, type: 3}
   distanceToBuild: 0
+--- !u!114 &8312518566894576377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303135136910105357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d3b92590d31a0744bbd3f8f5e6f0cf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  model: {fileID: 8109322803649473111, guid: 80d7d31bddb11d24f922d2ff0d991407, type: 3}
+  corruptedModel: {fileID: 8109322803649473111, guid: 80d7d31bddb11d24f922d2ff0d991407, type: 3}
 --- !u!1001 &5806864078241391230
 PrefabInstance:
   m_ObjectHideFlags: 0
