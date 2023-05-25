@@ -15,7 +15,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:VisualElement style="align-items: flex-end; width: auto; height: 40%;">
+    <ui:VisualElement picking-mode="Ignore" style="align-items: flex-end; width: auto; height: 40%;">
         <ui:VisualElement name="MiniMap" style="width: 17%; height: 75%; background-image: resource(&apos;Textures/MiniMap Texture&apos;); flex-basis: auto; -unity-background-scale-mode: scale-to-fit; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; background-color: rgba(255, 255, 255, 0); border-left-color: rgb(103, 68, 34); border-right-color: rgb(103, 68, 34); border-top-color: rgb(103, 68, 34); border-bottom-color: rgb(103, 68, 34); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; align-items: flex-end; position: relative; top: auto; left: auto; -unity-background-image-tint-color: rgb(255, 255, 255); opacity: 1;" />
     </ui:VisualElement>
     <ui:VisualElement name="Bottom" picking-mode="Ignore" style="flex-direction: row; align-items: flex-end; position: relative; bottom: auto; height: 50%; width: 100%;">
