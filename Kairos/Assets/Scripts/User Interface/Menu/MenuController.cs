@@ -31,7 +31,7 @@ public class MenuController : MonoBehaviour
 
         for(int i = 0; i < resolutions.Length; i++)
         {
-            if (resolutions[i].width >= 1400 && (!options.Contains(resolutions[i].width.ToString()) || !options.Contains(resolutions[i].height.ToString())))
+            if (resolutions[i].width >= 1400 && (!options.Contains(resolutions[i].height.ToString())))
             {
                 string option = resolutions[i].width + "x" + resolutions[i].height;
                 options.Add(option);
