@@ -22,6 +22,7 @@ public class InputController
 
 
     public InputType Pause = new InputType(KeyCode.Escape, KeyCode.None);
+    public InputType HideUI = new InputType(KeyCode.Semicolon, KeyCode.None);
 
     // hotkeys
     public InputType Zero = new InputType(KeyCode.Alpha0, KeyCode.None);
