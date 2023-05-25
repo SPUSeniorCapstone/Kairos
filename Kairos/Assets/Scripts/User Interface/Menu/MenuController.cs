@@ -25,44 +25,31 @@ public class MenuController : MonoBehaviour
     {
         resolutions = Screen.resolutions;
 
-        resolutionDropdown.ClearOptions();
-
         List<string> options = new List<string>();
 
         int currentResolutionIndex = 0;
+
         for(int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + "x" + resolutions[i].height;
-            options.Add(option);
-
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            if (resolutions[i].width >= 1400 && (!options.Contains(resolutions[i].width.ToString()) || !options.Contains(resolutions[i].height.ToString())))
             {
-                currentResolutionIndex = i;
+                string option = resolutions[i].width + "x" + resolutions[i].height;
+                options.Add(option);
+
+                if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+                {
+                    currentResolutionIndex = i;
+                }
+            }
+            else
+            {
+                continue;
             }
         }
 
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    if (!((victoryMenuUI != null && victoryMenuUI.gameObject.activeSelf) || (defeatMenuUI != null && defeatMenuUI.gameObject.activeSelf)))
-        //    {
-        //        if (GameIsPaused)
-        //        {
-        //            Resume();
-        //        }
-        //        else
-        //        {
-        //            Pause();
-        //        }
-        //    }  
-        //}
     }
 
     public void Resume()
@@ -119,7 +106,6 @@ public class MenuController : MonoBehaviour
         Resume();
     }
 
-    //Loads Option Scene
     public void LoadOptions()
     {
         SceneManager.LoadScene("OptionsMenu");
@@ -167,7 +153,7 @@ public class MenuController : MonoBehaviour
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-}
+    }
 
     public void StructureMenu()
     {
