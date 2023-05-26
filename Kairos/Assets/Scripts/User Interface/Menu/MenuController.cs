@@ -25,25 +25,20 @@ public class MenuController : MonoBehaviour
     {
         resolutions = Screen.resolutions;
 
+        resolutionDropdown.ClearOptions();
+
         List<string> options = new List<string>();
 
         int currentResolutionIndex = 0;
 
         for(int i = 0; i < resolutions.Length; i++)
         {
-            if (resolutions[i].width >= 1400 && (!options.Contains(resolutions[i].height.ToString())))
-            {
-                string option = resolutions[i].width + "x" + resolutions[i].height;
-                options.Add(option);
+            string option = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
+            options.Add(option);
 
-                if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
-                {
-                    currentResolutionIndex = i;
-                }
-            }
-            else
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
             {
-                continue;
+                currentResolutionIndex = i;
             }
         }
 
