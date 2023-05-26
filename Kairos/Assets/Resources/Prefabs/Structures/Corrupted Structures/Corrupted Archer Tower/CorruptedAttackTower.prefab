@@ -57,6 +57,8 @@ MonoBehaviour:
   DeathTime: -1
   corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 0, z: 0}
+  OnDamage: {fileID: 0}
+  AudioSource: {fileID: 0}
 --- !u!114 &2702061936770769498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +187,10 @@ PrefabInstance:
     - target: {fileID: 8109322803649473111, guid: 80d7d31bddb11d24f922d2ff0d991407, type: 3}
       propertyPath: m_Name
       value: corrupted_tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109322803649473111, guid: 80d7d31bddb11d24f922d2ff0d991407, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 4129305450542123762, guid: 80d7d31bddb11d24f922d2ff0d991407, type: 3}

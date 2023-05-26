@@ -256,9 +256,15 @@ public class SelectionController : MonoBehaviour
     }
 
 
-    public void Deselect()
+    public void DeselectAll()
     {
-
+        List<Selectable> temp = new List<Selectable>(currentlySelect);
+        foreach (Selectable selectable in temp)
+        {
+            selectable.selected = false;
+            selectable.Deactivate();
+            currentlySelect.Remove(selectable);
+        }
     }
 
     // should this be in a helper class?

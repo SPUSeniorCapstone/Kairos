@@ -42,8 +42,7 @@ public class Selectable : MonoBehaviour
         {
             if (selected)
             {
-                selectedMaterial.shader = GameController.Main.highlight;
-                GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+                Highlight();
             }
             if (unit != null)
             {
@@ -75,8 +74,7 @@ public class Selectable : MonoBehaviour
             clickTime = 0;
             clickCount = 0;
             massSelected = false;
-            selectedMaterial.shader = unHighlight;
-            GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+            UnHighlight();
             if (unit != null)
             {
                 unit.OnDeselect();
@@ -86,6 +84,17 @@ public class Selectable : MonoBehaviour
                 structure.OnDeselect();
             }
         }
+    }
+
+    public void Highlight()
+    {
+        selectedMaterial.shader = GameController.Main.highlight;
+        GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
+    }
+    public void UnHighlight()
+    {
+        selectedMaterial.shader = unHighlight;
+        GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
     }
 
     // Next two functions do with hover over triggers
@@ -128,7 +137,7 @@ public class Selectable : MonoBehaviour
         // Debug.Log("off");
     }
 
-    private void OnMouseDown()
+    public void OnClick()
     {
         if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
@@ -159,6 +168,11 @@ public class Selectable : MonoBehaviour
             selected = true;
             Activate();
         }
+    }
+
+    private void OnMouseDown()
+    {
+        OnClick();
     }
 
     // master destroy should deal with this?

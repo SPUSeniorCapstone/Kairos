@@ -182,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 1
+  unHighlight: {fileID: 0}
   clickCount: 0
   clickTime: 0
   clickDelay: 0.5
@@ -202,6 +203,7 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1.5
   DeathTime: -1
   corruptionDamageTime: 0
@@ -264,8 +266,8 @@ MonoBehaviour:
   Feet: {fileID: 0}
   badGuy: 0
   doubleClicked: 0
-  personalDistance: 1
-  attackDistance: 1
+  personalDistance: 0.5
+  attackDistance: 0.5
   attackCoolDown: 1
   attackDamage: 10
   autoAttack: 1
@@ -273,6 +275,8 @@ MonoBehaviour:
   guard: 0
   projectile: {fileID: 0}
   projectileSpeed: 0
+  animationCoolDown: 2
+  lastAnimationFrame: 0
   target: {fileID: 0}
   HeadSounds: []
   BodySounds: []

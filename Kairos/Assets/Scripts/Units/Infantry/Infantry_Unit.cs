@@ -20,6 +20,7 @@ public class Infantry_Unit : Unit
     public float projectileSpeed;
     public float animationCoolDown = 2;
     public float lastAnimationFrame = 0;
+    public bool retaliate = false;
 
     public Damageable target;
 

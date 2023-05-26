@@ -39,6 +39,7 @@ public class RC_Unit : Unit
     private void Awake()
     {
         entity = GetComponent<RC_Entity>();
+        GameController.Main.masterCollector.Add(this);
     }
 
     private void Update()
@@ -54,29 +55,59 @@ public class RC_Unit : Unit
             entity.RotateTowards(entity.movementDirection);
         }
     }
+    public override void OnSelect()
+    {
+        base.OnSelect();
+        if (ResourceNode != null)
+        {
+            ResourceNode.GetComponent<Selectable>().Highlight();
+        }
+        if (Stronghold != null)
+        {
+            Stronghold.GetComponent<Selectable>().Highlight();
+        }       
+    }
+    public override void OnDeselect()
+    {
+        base.OnDeselect();
+        if (ResourceNode != null)
+        {
+            ResourceNode.GetComponent<Selectable>().UnHighlight();
+        }
+        if (Stronghold != null)
+        {
+            Stronghold.GetComponent<Selectable>().UnHighlight();
+        }
+    }
     public override void PerformTaskOn(Selectable selectable)
     {
 
         var target = selectable.GetComponent<ResourceNode>();
         if (target != null && !target.taken)
         {
+            if (ResourceNode != null)
+            {
+                ResourceNode.GetComponent<Selectable>().UnHighlight();
+                ResourceNode.taken = false;
+            }
             Debug.Log("Resource Found");
             entity.TargetVector = target.transform.position;
             target.unit = this;
             target.taken = true;
             ResourceNode = target;
+            ResourceNode.GetComponent<Selectable>().Highlight();
         }
-        else
+        else if (selectable.GetComponent<Stronghold>() != null)
         {
-            
+            if (Stronghold != null)
+            {
+                Stronghold.GetComponent<Selectable>().UnHighlight();
+            }
             var home = selectable.GetComponent<Stronghold>();
             Debug.Log(home);
-            if (home != null)
-            {
-                Debug.Log("PLZ WORK");
-                entity.HomeVector = home.transform.position;
-                Stronghold = home;
-            }
+            entity.HomeVector = home.transform.position;
+            Stronghold = home;
+            Stronghold.GetComponent<Selectable>().Highlight();
         }
         if (Stronghold != null && ResourceNode != null)
         {
@@ -221,5 +252,18 @@ public class RC_Unit : Unit
     public override void ClearTarget()
     {
         target = null;
+    }
+
+    new public void OnDestroy()
+    {
+        if (ResourceNode != null)
+        {
+            ResourceNode.taken = false;
+        }
+        if (GameController.Main != null)
+        {
+            GameController.Main.masterCollector.Remove(this);
+        }
+        base.OnDestroy();
     }
 }

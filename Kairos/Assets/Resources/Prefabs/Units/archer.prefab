@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  unHighlight: {fileID: 0}
   clickCount: 0
   clickTime: 0
   clickDelay: 0.5
@@ -174,6 +175,7 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1.5
   DeathTime: -1
   corruptionDamageTime: 0
@@ -226,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commandGroup: {fileID: 0}
-  searchRadius: 15
+  searchRadius: 25
   isPerformingTask: 0
   layerMask:
     serializedVersion: 2
@@ -237,7 +239,7 @@ MonoBehaviour:
   badGuy: 0
   doubleClicked: 0
   personalDistance: 1
-  attackDistance: 15
+  attackDistance: 25
   attackCoolDown: 2
   attackDamage: 24
   autoAttack: 1
@@ -245,6 +247,9 @@ MonoBehaviour:
   guard: 0
   projectile: {fileID: -1099659423685669661, guid: 657a37f35adf2dd46a164c7392caeceb, type: 3}
   projectileSpeed: 0.5
+  animationCoolDown: 2
+  lastAnimationFrame: 0
+  retaliate: 0
   target: {fileID: 0}
   HeadSounds: []
   BodySounds: []
