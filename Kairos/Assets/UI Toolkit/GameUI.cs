@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,6 +21,7 @@ public class GameUI : MonoBehaviour
 
     public VisualElement BottomBar;
     public VisualElement TopBar;
+    public AspectRatioPanel MiniMap;
 
     public Label Framerate;
     float deltaTime = 0;
@@ -27,6 +29,7 @@ public class GameUI : MonoBehaviour
     public Button destroyBuildingButton;
 
     public bool HideUI = false;
+    public bool hideMiniMap = false;
 
     private void Awake()
     {
@@ -62,6 +65,19 @@ public class GameUI : MonoBehaviour
             }
 
         }
+        if (GameController.Main.InputController.ToggleMiniMap.Down())
+        {
+            if (!hideMiniMap)
+            {
+                MiniMap.style.display = DisplayStyle.None;
+                hideMiniMap = true;
+            }
+            else
+            {
+                MiniMap.style.display = DisplayStyle.Flex;
+                hideMiniMap = false;
+            }
+        }
     }
 
     private void OnEnable()
@@ -77,6 +93,7 @@ public class GameUI : MonoBehaviour
             destroyBuildingButton.visible = false;
             BottomBar = document.rootVisualElement.Q("BottomBar");
             TopBar = document.rootVisualElement.Q("Top");
+            MiniMap = document.rootVisualElement.Q("MiniMap") as AspectRatioPanel;
             VersionLabel = document.rootVisualElement.Q("VersionLabel") as Label;
             VersionLabel.text = "Kairos-" + Application.version;
 

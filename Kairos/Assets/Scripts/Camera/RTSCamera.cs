@@ -48,6 +48,52 @@ public class RTSCamera : MonoBehaviour
     {
         if (!GameController.Main.paused)
         {
+            // shenanigans
+            if (GameController.Main.InputController.NearestBuilder.Down() && GameController.Main.masterBuilder.Count > 0)
+            {
+                GameController.Main.SelectionController.DeselectAll();
+                Builder_Unit nearest = null;
+                float minDistance = -1f;
+                foreach (Builder_Unit builder in GameController.Main.masterBuilder)
+                {
+                    if (nearest == null)
+                    {
+                        nearest = builder;
+                        minDistance = Vector3.Distance(builder.transform.position, listener.transform.position);
+                    }
+                    if (Vector3.Distance(builder.transform.position, listener.transform.position) < minDistance)
+                    {
+                        nearest = builder;
+                        minDistance = Vector3.Distance(builder.transform.position, listener.transform.position);
+                    }
+                }
+                nearest.GetComponent<Selectable>().OnClick();
+                FocusOnPosition(nearest.transform.position);
+
+            }
+            else if (GameController.Main.InputController.NearestCollector.Down() && GameController.Main.masterCollector.Count > 0)
+            {
+                GameController.Main.SelectionController.DeselectAll();
+                RC_Unit nearest = null;
+                float minDistance = -1f;
+                foreach (RC_Unit collector in GameController.Main.masterCollector)
+                {
+                    if (nearest == null)
+                    {
+                        nearest = collector;
+                        minDistance = Vector3.Distance(collector.transform.position, listener.transform.position);
+                    }
+                    if (Vector3.Distance(collector.transform.position, listener.transform.position) < minDistance)
+                    {
+                        nearest = collector;
+                        minDistance = Vector3.Distance(collector.transform.position, listener.transform.position);
+                    }
+                }            
+                nearest.GetComponent<Selectable>().OnClick();
+                FocusOnPosition(nearest.transform.position);
+            }
+
+
             if (Input.GetKeyDown(KeyCode.C))
             {
 

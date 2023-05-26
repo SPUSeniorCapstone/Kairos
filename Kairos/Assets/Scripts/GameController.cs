@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -275,10 +276,12 @@ public class GameController : MonoBehaviour
     public Shader highlight;
     public Shader unHighlight;
     public CommandGroup CGSettings;
+    public SoundManager soundManager;
     public bool randomDamageModifier = false;
     public bool randomAttackCooldown = false;
 
     public List<Builder_Unit> masterBuilder = new List<Builder_Unit>();
+    public List<RC_Unit> masterCollector = new List<RC_Unit>();
 
         public void UpdateResource(int count)
     {
