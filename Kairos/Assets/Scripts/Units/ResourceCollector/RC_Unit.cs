@@ -222,4 +222,13 @@ public class RC_Unit : Unit
     {
         target = null;
     }
+
+    new public void OnDestroy()
+    {
+        if (ResourceNode != null)
+        {
+            ResourceNode.taken = false;
+        }
+        base.OnDestroy();
+    }
 }

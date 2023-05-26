@@ -19,6 +19,7 @@ public class RTSCamera : MonoBehaviour
     public float maxHeight = 50;
     public float minHeight = 8;
 
+    public GameObject listener;
     
     public float cameraHeight = 20;
     [DisableOnPlay]
@@ -66,6 +67,11 @@ public class RTSCamera : MonoBehaviour
             MoveTowardsPosition();
             if(rotateCamera)
                 RotateTowardsPosition();
+            Vector3 middle = new Vector3(0.5f,0.5f,0.5f);
+            listener.transform.position = Camera.main.ViewportToWorldPoint(middle);
+            var vestor = listener.transform.position;
+            vestor.y = GameController.Main.WorldController.GetHeight(listener.transform.position);
+            listener.transform.position = vestor;
         }
     }
 

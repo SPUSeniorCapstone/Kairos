@@ -149,9 +149,9 @@ public class BuildMenu
     public Button purifierButton;
     public LabelAutoFit purifierInfo;
 
-    public int STRONGHOLD_COST = 50000;
+    public int STRONGHOLD_COST = 1000;
 
-    public int BARRACKS_COST = 160;
+    public int BARRACKS_COST = 150;
 
     public int ARCHER_TOWER_COST = 300;
 
