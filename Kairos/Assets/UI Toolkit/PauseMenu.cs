@@ -74,13 +74,13 @@ public class PauseMenu : MonoBehaviour
         if (GameController.Main.paused)
         {
             document.rootVisualElement.style.display = DisplayStyle.Flex;
-            minimap.SetActive(false);
+            //minimap.SetActive(false);
 
         }
         else
         {
             document.rootVisualElement.style.display = DisplayStyle.None;
-            minimap.SetActive(true);
+            //minimap.SetActive(true);
         }
     }
 }

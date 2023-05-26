@@ -16,6 +16,8 @@ public class GameUI : MonoBehaviour
 
     public Label NodeCounter;
 
+    public Label VersionLabel;
+
     public VisualElement BottomBar;
     public VisualElement TopBar;
 
@@ -23,6 +25,9 @@ public class GameUI : MonoBehaviour
     float deltaTime = 0;
     int count = 0;
     public Button destroyBuildingButton;
+
+    public bool HideUI = false;
+
     private void Awake()
     {
         document = GetComponent<UIDocument>();
@@ -33,7 +38,7 @@ public class GameUI : MonoBehaviour
     {
         if(count == 10)
         {
-            Framerate.text = Helpers.FloatToString(1 / (deltaTime / 10));
+            Framerate.text = "Frame Rate: " + Helpers.FloatToString(1 / (deltaTime / 10));
             count = 0;
             deltaTime = 0;
         }
@@ -41,6 +46,21 @@ public class GameUI : MonoBehaviour
         {
             deltaTime += Time.deltaTime;
             count++;
+        }
+
+        if (GameController.Main.inputController.HideUI.Down())
+        {
+            if (!HideUI)
+            {
+                document.rootVisualElement.style.display = DisplayStyle.None;
+                HideUI = true;
+            }
+            else
+            {
+                document.rootVisualElement.style.display = DisplayStyle.Flex;
+                HideUI = false;
+            }
+
         }
     }
 
@@ -57,6 +77,8 @@ public class GameUI : MonoBehaviour
             destroyBuildingButton.visible = false;
             BottomBar = document.rootVisualElement.Q("BottomBar");
             TopBar = document.rootVisualElement.Q("Top");
+            VersionLabel = document.rootVisualElement.Q("VersionLabel") as Label;
+            VersionLabel.text = "Kairos-" + Application.version;
 
             destroyBuildingButton.RegisterCallback<ClickEvent>(DeleteStructure);
 

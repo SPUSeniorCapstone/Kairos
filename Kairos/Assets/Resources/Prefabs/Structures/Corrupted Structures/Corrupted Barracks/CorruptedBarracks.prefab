@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -8523066798055968881}
   - component: {fileID: 3537102922715729316}
   - component: {fileID: -3567870875806326452}
+  - component: {fileID: -4330482158514092310}
   m_Layer: 0
   m_Name: CorruptedBarracks
   m_TagString: Untagged
@@ -115,6 +116,21 @@ MonoBehaviour:
   damaging: {fileID: 0}
   structure: {fileID: 996657134919577158, guid: 9d42248c88b2fcc4f875fe9c594a5975, type: 3}
   distanceToBuild: 0
+--- !u!114 &-4330482158514092310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779162735855372867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d3b92590d31a0744bbd3f8f5e6f0cf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  model: {fileID: 8109322803649473111, guid: 69a5ed29470f6404baa106592cbaa2bd, type: 3}
+  corruptedModel: {fileID: 8109322803649473111, guid: 69a5ed29470f6404baa106592cbaa2bd, type: 3}
 --- !u!1001 &7226621757687039688
 PrefabInstance:
   m_ObjectHideFlags: 0

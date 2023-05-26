@@ -122,6 +122,7 @@ public class World : MonoBehaviour
     public void PushNext()
     {
         chunks[currUpdate.x, currUpdate.y].PushChunkMesh();
+        chunks[currUpdate.x, currUpdate.y].ReloadDecorations();
         //chunks[currUpdate.x, currUpdate.y].UpdateCorruption();
         //chunks[currUpdate.x, currUpdate.y].ReloadDecorations();
 
