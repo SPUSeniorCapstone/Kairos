@@ -78,7 +78,7 @@ public class MenuController : MonoBehaviour
     {
         defeatMenuUI.SetActive(true);
         optionsMenuUI.SetActive(false);
-        miniMap.SetActive(false);
+        //miniMap.SetActive(false);
         Time.timeScale = 0f;
         GameIsPaused = true;
 
