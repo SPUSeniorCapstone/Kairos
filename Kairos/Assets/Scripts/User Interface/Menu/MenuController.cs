@@ -1,5 +1,8 @@
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -12,28 +15,36 @@ public class MenuController : MonoBehaviour
     public GameObject defeatMenuUI;
     public GameObject miniMap;
 
+    Resolution[] resolutions;
+    public TMP_Dropdown resolutionDropdown;
 
 
     // DOESNT REALLY PAUSE THE GAME (TRUE CONTROL IS IN GAMECONTROLLER)
 
-
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    if (!((victoryMenuUI != null && victoryMenuUI.gameObject.activeSelf) || (defeatMenuUI != null && defeatMenuUI.gameObject.activeSelf)))
-        //    {
-        //        if (GameIsPaused)
-        //        {
-        //            Resume();
-        //        }
-        //        else
-        //        {
-        //            Pause();
-        //        }
-        //    }  
-        //}
+        resolutions = Screen.resolutions;
+
+        resolutionDropdown.ClearOptions();
+
+        List<string> options = new List<string>();
+
+        int currentResolutionIndex = 0;
+
+        for(int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
+            options.Add(option);
+
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
+        }
+
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
     }
 
     public void Resume()
@@ -90,7 +101,6 @@ public class MenuController : MonoBehaviour
         Resume();
     }
 
-    //Loads Option Scene
     public void LoadOptions()
     {
         SceneManager.LoadScene("OptionsMenu");
@@ -134,9 +144,10 @@ public class MenuController : MonoBehaviour
         Debug.Log(volume);
     }
 
-    public void SetBrightness(float brightness)
+    public void SetResolution(int resolutionIndex)
     {
-        Debug.Log(brightness);
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
     public void StructureMenu()
