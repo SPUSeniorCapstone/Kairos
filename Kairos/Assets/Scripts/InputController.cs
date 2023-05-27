@@ -20,6 +20,8 @@ public class InputController
     //HealthBars
     public InputType ToggleHealthBars = new InputType(KeyCode.H, KeyCode.None);
 
+    //map
+    public InputType ToggleMiniMap = new InputType(KeyCode.M, KeyCode.None);
 
     public InputType Pause = new InputType(KeyCode.Escape, KeyCode.None);
     public InputType HideUI = new InputType(KeyCode.Semicolon, KeyCode.None);
@@ -43,6 +45,10 @@ public class InputController
     // avoid corruption squares?
     public InputType Scatter = new InputType(KeyCode.X, KeyCode.None);
     public InputType SeeStronghold = new InputType(KeyCode.H, KeyCode.None);
+
+    //unit hot key
+    public InputType NearestBuilder = new InputType(KeyCode.O, KeyCode.None);
+    public InputType NearestCollector = new InputType(KeyCode.P, KeyCode.None);
 
 
     [Serializable]

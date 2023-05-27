@@ -151,11 +151,9 @@ public class SelectionController : MonoBehaviour
                         }
 
                         Selectable oneClick = GetMouseWorldPosition3D();
-                        Debug.Log("Oneclick + " + oneClick);
                         // this if detects if cliked on terrain
                         if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                         {
-                            Debug.Log("try deselect");
                             // unneccesary?
                             //if (selectable.selected == false)
                             //{
@@ -256,9 +254,15 @@ public class SelectionController : MonoBehaviour
     }
 
 
-    public void Deselect()
+    public void DeselectAll()
     {
-
+        List<Selectable> temp = new List<Selectable>(currentlySelect);
+        foreach (Selectable selectable in temp)
+        {
+            selectable.selected = false;
+            selectable.Deactivate();
+            currentlySelect.Remove(selectable);
+        }
     }
 
     // should this be in a helper class?

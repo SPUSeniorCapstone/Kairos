@@ -14,6 +14,7 @@ public class PauseMenu : MonoBehaviour
     public Button confirmationExitButton;
     public Button backButton;
     public Button startButton;
+    public Button resumeButton;
 
     private void Awake()
     {
@@ -37,6 +38,9 @@ public class PauseMenu : MonoBehaviour
         startButton = document.rootVisualElement.Q<Button>("StartButton");
         if(startButton != null)
             startButton.RegisterCallback<ClickEvent>(StartGame);
+
+        resumeButton = document.rootVisualElement.Q<Button>("ResumeButton");
+        resumeButton.RegisterCallback<ClickEvent>(ResumeCallback);
     }
 
     public void ExitToConfirmationScreen(ClickEvent click)
@@ -62,6 +66,11 @@ public class PauseMenu : MonoBehaviour
         confirmationLabel.style.display = DisplayStyle.None;
         confirmationExitButton.style.display = DisplayStyle.None;
         backButton.style.display = DisplayStyle.None;
+    }
+
+    public void ResumeCallback(ClickEvent click)
+    {
+        GameController.Main.Pause(false);
     }
 
     public void StartGame(ClickEvent click)

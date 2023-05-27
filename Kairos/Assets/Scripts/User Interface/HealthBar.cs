@@ -7,9 +7,24 @@ public class HealthBar : MonoBehaviour
     public Damageable damageble;
     [SerializeField] Image healthBarImage;
     [SerializeField] Image background;
+    public Image icon;
+    public bool UseIcon = false;
 
     float maxHealth;
 
+    private void Start()
+    {
+        if(damageble.Icon != null)
+        {
+            icon.sprite = damageble.Icon;
+            icon.gameObject.SetActive(true);
+            UseIcon = true;
+        }
+        else
+        {
+            UseIcon = false;
+        }
+    }
 
     void Update()
     {
@@ -20,31 +35,27 @@ public class HealthBar : MonoBehaviour
 
         if (GameController.Main.UIController.HealthBarController.healthBarMode == HealthBarController.HealthBarMode.SELECTED)
         {
-            healthBarImage.gameObject.SetActive(damageble.GetComponent<Selectable>().selected);
-            background.gameObject.SetActive(damageble.GetComponent<Selectable>().selected);
+            EnableBar(damageble.GetComponent<Selectable>().selected);
         }
         else if (GameController.Main.UIController.HealthBarController.healthBarMode == HealthBarController.HealthBarMode.NONE)
         {
-            healthBarImage.gameObject.SetActive(false);
-            background.gameObject.SetActive(false);
+            EnableBar(false);
         }
         else if (GameController.Main.UIController.HealthBarController.healthBarMode == HealthBarController.HealthBarMode.DAMAGED)
         {
             if (damageble.Health < damageble.MaxHealth)
             {
-                healthBarImage.gameObject.SetActive(true);
-                background.gameObject.SetActive(true);
+                EnableBar(true, damageble.GetComponent<Selectable>().selected);
+                
             }
             else
             {
-                healthBarImage.gameObject.SetActive(damageble.GetComponent<Selectable>().selected);
-                background.gameObject.SetActive(damageble.GetComponent<Selectable>().selected);
+                EnableBar(damageble.GetComponent<Selectable>().selected);
             }
         }
         else
         {
-            healthBarImage.gameObject.SetActive(true);
-            background.gameObject.SetActive(true);
+            EnableBar(true, damageble.GetComponent<Selectable>().selected);
         }
 
         if (maxHealth != damageble.MaxHealth)
@@ -67,5 +78,13 @@ public class HealthBar : MonoBehaviour
             healthBarImage.fillAmount = fillamount;
             healthBarImage.color = Color.Lerp(Color.red, Color.green, fillamount);
         }
+    }
+
+    public void EnableBar(bool enabled, bool changeicon = true)
+    {
+        healthBarImage.gameObject.SetActive(enabled);
+        background.gameObject.SetActive(enabled);
+        if(UseIcon)
+            icon.gameObject.SetActive(enabled && damageble.GetComponent<Selectable>().selected);
     }
 }

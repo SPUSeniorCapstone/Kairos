@@ -71,8 +71,6 @@ public class Unit : MonoBehaviour
             //var height = GameController.Main.UIController.gameUI.document.rootVisualElement.style.position;
             if (point.x > 0 && point.x < Camera.main.pixelWidth && point.y > GameController.Main.UIController.gameUI.BottomBar.worldBound.height && point.y < Camera.main.pixelHeight - GameController.Main.UIController.gameUI.TopBar.worldBound.height)
             {
-                
-         
                 selectable.massSelected = true;
                 //!GameController.Main.SelectionController.currentlySelect.Contains(selectable)
                 if (!selectable.selected)

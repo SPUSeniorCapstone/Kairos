@@ -16,6 +16,10 @@ public class Damageable : MonoBehaviour
     public float corruptionDamageTime = 0;
 
     public Vector3 healthBarPosition;
+
+    public AudioClip OnDamage;
+
+    public AudioSource AudioSource;
     public bool Dead
     {
         get
@@ -25,11 +29,13 @@ public class Damageable : MonoBehaviour
     }
     bool dead = false;
 
+    public Sprite Icon;
 
     private void Start()
     {
         GameController.Main.UIController.HealthBarController.CreateHealthBar(this);
         model = gameObject.GetComponentInChildren<MeshRenderer>();
+        AudioSource = gameObject.GetComponent<AudioSource>();
     }
 
     private void OnDestroy()
@@ -86,6 +92,10 @@ public class Damageable : MonoBehaviour
                 DeathTime = Time.time;
                 model.material = GameController.Main.DeathMaterial;
                 GameController.Main.MasterDestory(this.gameObject);
+            }
+            if (AudioSource != null)
+            {
+                GameController.Main.soundManager.PlayOnce(AudioSource, OnDamage);
             }
         }
         return Health;

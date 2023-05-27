@@ -124,8 +124,8 @@ public class ProductionStructure : Structure
             }
             
                 string sub = GameController.Main.UIController.gameUI.ProductionMenu.archerInfo.text;
-                sub = sub.Substring(0, sub.IndexOf("("));
-                sub += "(" + archerCount + ")";
+                sub = sub.Substring(0, sub.IndexOf("-"));
+                sub += "- " + archerCount;
                 GameController.Main.UIController.gameUI.ProductionMenu.archerInfo.text = sub;
             
         }
@@ -137,8 +137,8 @@ public class ProductionStructure : Structure
             }
             
                 string sub = GameController.Main.UIController.gameUI.ProductionMenu.infantryInfo.text;
-                sub = sub.Substring(0, sub.IndexOf("("));
-                sub += "(" + infantryCount + ")";
+                sub = sub.Substring(0, sub.IndexOf("-"));
+                sub += "- " + infantryCount;
                 GameController.Main.UIController.gameUI.ProductionMenu.infantryInfo.text = sub;
             
         }
@@ -150,8 +150,8 @@ public class ProductionStructure : Structure
             }
             
                 string sub = GameController.Main.UIController.gameUI.ProductionMenu.builderInfo.text;
-                sub = sub.Substring(0, sub.IndexOf("("));
-                sub += "(" + builderCount + ")";
+                sub = sub.Substring(0, sub.IndexOf("-"));
+                sub += "- " + builderCount;
                 GameController.Main.UIController.gameUI.ProductionMenu.builderInfo.text = sub;
             
         }
@@ -163,8 +163,8 @@ public class ProductionStructure : Structure
             }
             
                 string sub = GameController.Main.UIController.gameUI.ProductionMenu.collectorInfo.text;
-                sub = sub.Substring(0, sub.IndexOf("("));
-                sub += "(" + rcCount + ")";
+                sub = sub.Substring(0, sub.IndexOf("-"));
+                sub += "- " + rcCount;
                 GameController.Main.UIController.gameUI.ProductionMenu.collectorInfo.text = sub;
             
         }
@@ -177,29 +177,29 @@ public class ProductionStructure : Structure
     public void SetProdUI()
     {
         string sub = GameController.Main.UIController.gameUI.ProductionMenu.archerInfo.text;
-        sub = sub.Substring(0, sub.IndexOf("("));
-        sub += "(" + archerCount + ")";
+        sub = sub.Substring(0, sub.IndexOf("-"));
+        sub += "- " + archerCount;
         GameController.Main.UIController.gameUI.ProductionMenu.archerInfo.text = sub;
 
 
 
         sub = GameController.Main.UIController.gameUI.ProductionMenu.infantryInfo.text;
-        sub = sub.Substring(0, sub.IndexOf("("));
-        sub += "(" + infantryCount + ")";
+        sub = sub.Substring(0, sub.IndexOf("-"));
+        sub += "- " + infantryCount;
         GameController.Main.UIController.gameUI.ProductionMenu.infantryInfo.text = sub;
 
 
 
         sub = GameController.Main.UIController.gameUI.ProductionMenu.builderInfo.text;
-        sub = sub.Substring(0, sub.IndexOf("("));
-        sub += "(" + builderCount + ")";
+        sub = sub.Substring(0, sub.IndexOf("-"));
+        sub += "- " + builderCount;
         GameController.Main.UIController.gameUI.ProductionMenu.builderInfo.text = sub;
 
 
 
         sub = GameController.Main.UIController.gameUI.ProductionMenu.collectorInfo.text;
-        sub = sub.Substring(0, sub.IndexOf("("));
-        sub += "(" + rcCount + ")";
+        sub = sub.Substring(0, sub.IndexOf("-"));
+        sub += "- " + rcCount;
         GameController.Main.UIController.gameUI.ProductionMenu.collectorInfo.text = sub;
 
     }

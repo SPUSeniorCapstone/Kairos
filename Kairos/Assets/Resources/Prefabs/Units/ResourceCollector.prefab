@@ -184,10 +184,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selected: 0
   faction: 0
+  unHighlight: {fileID: 0}
   clickCount: 0
   clickTime: 0
   clickDelay: 0.5
   selectDoubleClick: 0
+  massSelected: 0
 --- !u!114 &4414594709870812646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,10 +205,14 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 100
   <Health>k__BackingField: 100
   <Invulnerable>k__BackingField: 0
+  model: {fileID: 0}
   deathTimer: 1.5
   DeathTime: -1
   corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
+  OnDamage: {fileID: 0}
+  AudioSource: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 4ebefd9d08f324f4292945ab7022f794, type: 3}
 --- !u!114 &7223965599939945600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AvoidEntityRadius: 3
-  AvoidWallRadius: 3
+  AvoidWallRadius: 2
   stepHeight: 1
   movementSpeed: 10
   stopFollowDistance: 2
