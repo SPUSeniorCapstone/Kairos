@@ -59,8 +59,15 @@ public class LabelAutoFit : Label
         UpdateFontSize();
     }
 
+    
+
     private void UpdateFontSize()
     {
+        if(style.display == DisplayStyle.None)
+        {
+            return;
+        }
+
         if (m_textRefreshes < MAX_FONT_REFRESHES)
         {
             Vector2 textSize = MeasureTextSize(text, float.MaxValue, MeasureMode.AtMost, float.MaxValue, MeasureMode.AtMost);

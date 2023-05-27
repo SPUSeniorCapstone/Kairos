@@ -89,6 +89,10 @@ MonoBehaviour:
   builder: {fileID: 0}
   directory: {fileID: 0}
   rallyPoint: {fileID: 1670198954209343780}
+  healTime: 0
+  originalHeal: 1
+  buildDistance: 6
+  damaging: {fileID: 0}
   unitsQueued: 0
   unitToSpawn: {fileID: 0}
   unitTypes:
@@ -139,6 +143,9 @@ MonoBehaviour:
   DeathTime: -1
   corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 0, z: 0}
+  OnDamage: {fileID: 0}
+  AudioSource: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 2150bce9c3bf6d842a248bd6cdf234ca, type: 3}
 --- !u!65 &996657134919577155
 BoxCollider:
   m_ObjectHideFlags: 0

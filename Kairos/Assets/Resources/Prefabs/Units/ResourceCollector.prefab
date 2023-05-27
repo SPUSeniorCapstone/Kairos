@@ -210,6 +210,9 @@ MonoBehaviour:
   DeathTime: -1
   corruptionDamageTime: 0
   healthBarPosition: {x: 0, y: 2, z: 0}
+  OnDamage: {fileID: 0}
+  AudioSource: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 4ebefd9d08f324f4292945ab7022f794, type: 3}
 --- !u!114 &7223965599939945600
 MonoBehaviour:
   m_ObjectHideFlags: 0

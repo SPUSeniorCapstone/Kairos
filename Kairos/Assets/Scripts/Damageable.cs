@@ -29,6 +29,7 @@ public class Damageable : MonoBehaviour
     }
     bool dead = false;
 
+    public Sprite Icon;
 
     private void Start()
     {

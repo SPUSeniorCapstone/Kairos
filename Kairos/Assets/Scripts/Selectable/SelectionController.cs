@@ -151,11 +151,9 @@ public class SelectionController : MonoBehaviour
                         }
 
                         Selectable oneClick = GetMouseWorldPosition3D();
-                        Debug.Log("Oneclick + " + oneClick);
                         // this if detects if cliked on terrain
                         if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                         {
-                            Debug.Log("try deselect");
                             // unneccesary?
                             //if (selectable.selected == false)
                             //{
