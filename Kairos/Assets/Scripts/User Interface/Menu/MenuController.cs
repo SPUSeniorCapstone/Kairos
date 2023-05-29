@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
+    public static int resolutionIndex = -1;
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
     public GameObject optionsMenuUI;
@@ -20,31 +21,44 @@ public class MenuController : MonoBehaviour
 
 
     // DOESNT REALLY PAUSE THE GAME (TRUE CONTROL IS IN GAMECONTROLLER)
-
     private void Start()
     {
         resolutions = Screen.resolutions;
 
-        resolutionDropdown.ClearOptions();
+        if (resolutionDropdown != null)
+            resolutionDropdown.ClearOptions();
 
         List<string> options = new List<string>();
 
-        int currentResolutionIndex = 0;
 
-        for(int i = 0; i < resolutions.Length; i++)
+
+
+        if (resolutionDropdown != null)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
-            options.Add(option);
-
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            for (int i = 0; i < resolutions.Length; i++)
             {
-                currentResolutionIndex = i;
+                string option = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
+                options.Add(option);
             }
-        }
 
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
+            if (resolutionIndex < 0)
+            {
+                resolutionIndex = 0;
+                for (int i = 0; i < resolutions.Length; i++)
+                {
+                    if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+                    {
+                        resolutionIndex = i;
+                    }
+                }
+            }
+            
+            
+
+            resolutionDropdown.AddOptions(options);
+            resolutionDropdown.value = resolutionIndex;
+            resolutionDropdown.RefreshShownValue();
+        }
     }
 
     public void Resume()
@@ -146,6 +160,7 @@ public class MenuController : MonoBehaviour
 
     public void SetResolution(int resolutionIndex)
     {
+        MenuController.resolutionIndex = resolutionIndex;
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
