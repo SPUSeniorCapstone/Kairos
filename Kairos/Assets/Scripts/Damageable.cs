@@ -93,7 +93,7 @@ public class Damageable : MonoBehaviour
                 model.material = GameController.Main.DeathMaterial;
                 GameController.Main.MasterDestory(this.gameObject);
             }
-            if (AudioSource != null)
+            if (AudioSource != null && OnDamage != null)
             {
                 GameController.Main.soundManager.PlayOnce(AudioSource, OnDamage);
             }
