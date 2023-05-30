@@ -46,6 +46,7 @@ public class Purifier : MonoBehaviour, IComparable<Purifier>
 
     public void OnDestroy()
     {
-        GameController.Main.CorruptionController.purifiers.Remove(this);
+        if(GameController.Main != null && GameController.Main.CorruptionController != null)
+            GameController.Main.CorruptionController.purifiers.Remove(this);
     }
 }
